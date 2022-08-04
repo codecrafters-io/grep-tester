@@ -5,14 +5,15 @@ import (
 )
 
 var testerDefinition = testerutils.TesterDefinition{
-	AntiCheatStages: []testerutils.Stage{},
+	AntiCheatStages:    []testerutils.Stage{},
 	ExecutableFileName: "your_grep.sh",
 	Stages: []testerutils.Stage{
 		{
+			Number:                  1,
 			Slug:                    "init",
-			Title:                   "Print number of tables",
+			Title:                   "Match a literal character",
 			TestFunc:                testInit,
 			ShouldRunPreviousStages: true,
 		},
-	}
+	},
 }

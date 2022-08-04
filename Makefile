@@ -9,7 +9,6 @@ release:
 
 build:
 	go build -o dist/main.out ./cmd/tester
-	go build -o dist/starter.out ./cmd/starter_tester
 
 test:
 	TESTER_DIR=$(shell pwd) go test -v ./internal/
@@ -17,9 +16,9 @@ test:
 test_and_watch:
 	onchange '**/*' -- go test -v ./internal/
 
-test_with_bash: build
+test_with_grep: build
 	CODECRAFTERS_SUBMISSION_DIR=$(shell pwd)/internal/test_helpers/pass_all \
-	CODECRAFTERS_CURRENT_STAGE_SLUG="table_scan" \
+	CODECRAFTERS_CURRENT_STAGE_SLUG="init" \
 	CODECRAFTERS_COURSE_PAGE_URL="test" \
 	dist/main.out
 
