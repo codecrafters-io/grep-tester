@@ -4,16 +4,16 @@ import (
 	tester_utils "github.com/codecrafters-io/tester-utils"
 )
 
-func testMatchDigit(stageHarness *tester_utils.StageHarness) error {
+func testEndOfStringAnchor(stageHarness *tester_utils.StageHarness) error {
 	testCases := []TestCase{
 		{
-			Pattern:          "\\d",
-			Input:            "123",
+			Pattern:          "cat$",
+			Input:            "cat",
 			ExpectedExitCode: 0,
 		},
 		{
-			Pattern:          "\\d",
-			Input:            "apple",
+			Pattern:          "cat$",
+			Input:            "cats",
 			ExpectedExitCode: 1,
 		},
 	}

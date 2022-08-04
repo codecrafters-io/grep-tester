@@ -4,16 +4,21 @@ import (
 	tester_utils "github.com/codecrafters-io/tester-utils"
 )
 
-func testMatchDigit(stageHarness *tester_utils.StageHarness) error {
+func testAlternation(stageHarness *tester_utils.StageHarness) error {
 	testCases := []TestCase{
 		{
-			Pattern:          "\\d",
-			Input:            "123",
+			Pattern:          "a (cat|dog)",
+			Input:            "a cat",
 			ExpectedExitCode: 0,
 		},
 		{
-			Pattern:          "\\d",
-			Input:            "apple",
+			Pattern:          "a (cat|dog)",
+			Input:            "a dog",
+			ExpectedExitCode: 0,
+		},
+		{
+			Pattern:          "a (cat|dog)",
+			Input:            "a cow",
 			ExpectedExitCode: 1,
 		},
 	}

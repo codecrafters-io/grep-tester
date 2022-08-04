@@ -4,16 +4,21 @@ import (
 	tester_utils "github.com/codecrafters-io/tester-utils"
 )
 
-func testMatchDigit(stageHarness *tester_utils.StageHarness) error {
+func testOneOrMoreQuantifier(stageHarness *tester_utils.StageHarness) error {
 	testCases := []TestCase{
 		{
-			Pattern:          "\\d",
-			Input:            "123",
+			Pattern:          "ca+t",
+			Input:            "caaats",
 			ExpectedExitCode: 0,
 		},
 		{
-			Pattern:          "\\d",
-			Input:            "apple",
+			Pattern:          "ca+t",
+			Input:            "cat",
+			ExpectedExitCode: 0,
+		},
+		{
+			Pattern:          "ca+t",
+			Input:            "act",
 			ExpectedExitCode: 1,
 		},
 	}
