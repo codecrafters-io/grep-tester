@@ -19,7 +19,7 @@ var testerDefinition = testerutils.TesterDefinition{
 			Number:                  2,
 			Slug:                    "match_digit",
 			Title:                   "Match a digit",
-			TestFunc:                testInit,
+			TestFunc:                testMatchDigit,
 			ShouldRunPreviousStages: true,
 		},
 		{
