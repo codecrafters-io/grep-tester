@@ -8,12 +8,12 @@ func testMatchDigit(stageHarness *tester_utils.StageHarness) error {
 	testCases := []TestCase{
 		{
 			Pattern:          "\\d",
-			Input:            "contains a number: 1",
+			Input:            "123",
 			ExpectedExitCode: 0,
 		},
 		{
 			Pattern:          "\\d",
-			Input:            "does not contain a number",
+			Input:            "apple",
 			ExpectedExitCode: 1,
 		},
 	}

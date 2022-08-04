@@ -8,12 +8,12 @@ func testInit(stageHarness *tester_utils.StageHarness) error {
 	testCases := []TestCase{
 		{
 			Pattern:          "d",
-			Input:            "this input contains the character d",
+			Input:            "dog",
 			ExpectedExitCode: 0,
 		},
 		{
 			Pattern:          "f",
-			Input:            "does not include the character",
+			Input:            "dog",
 			ExpectedExitCode: 1,
 		},
 	}
