@@ -47,7 +47,7 @@ var testerDefinition = testerutils.TesterDefinition{
 			Number:                  6,
 			Slug:                    "combining_character_classes",
 			Title:                   "Combining Character Classes",
-			TestFunc:                testNegativeCharacterGroups,
+			TestFunc:                testCombiningCharacterClasses,
 			ShouldRunPreviousStages: true,
 		},
 		{
