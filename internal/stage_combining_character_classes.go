@@ -6,12 +6,12 @@ func testCombiningCharacterClasses(stageHarness *tester_utils.StageHarness) erro
 	testCases := []TestCase{
 		{
 			Pattern:          "\\d apple",
-			Input:            "3 apples",
+			Input:            "sally has 3 apples",
 			ExpectedExitCode: 0,
 		},
 		{
 			Pattern:          "\\d apple",
-			Input:            "1 orange",
+			Input:            "sally has 1 orange",
 			ExpectedExitCode: 1,
 		},
 		{
