@@ -16,27 +16,27 @@ func testCombiningCharacterClasses(stageHarness *tester_utils.StageHarness) erro
 		},
 		{
 			Pattern:          "\\d\\d\\d apples",
-			Input:            "124 apples",
+			Input:            "sally has 124 apples",
 			ExpectedExitCode: 0,
 		},
 		{
 			Pattern:          "\\d\\d\\d apples",
-			Input:            "12 apples",
+			Input:            "sally has 12 apples",
 			ExpectedExitCode: 1,
 		},
 		{
 			Pattern:          "\\d \\w\\w\\ws",
-			Input:            "3 dogs",
+			Input:            "sally has 3 dogs",
 			ExpectedExitCode: 0,
 		},
 		{
 			Pattern:          "\\d \\w\\w\\ws",
-			Input:            "4 dogs",
+			Input:            "sally has 4 dogs",
 			ExpectedExitCode: 0,
 		},
 		{
 			Pattern:          "\\d \\w\\w\\ws",
-			Input:            "1 dog",
+			Input:            "sally has 1 dog",
 			ExpectedExitCode: 1,
 		},
 	}
