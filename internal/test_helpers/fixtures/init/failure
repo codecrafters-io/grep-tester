@@ -4,6 +4,3 @@
 [33m[stage-1] [0m[94m[94m$ echo "dog" | ./your_grep.sh -E "f"[0m[0m
 [33m[stage-1] [0m[91m[91mexpected exit code 1, got 0[0m[0m
 [33m[stage-1] [0m[91m[91mTest failed (see README.md for instructions on how to pass this stage)[0m[0m
-
-View stage instructions at: http://dummy_url
-
