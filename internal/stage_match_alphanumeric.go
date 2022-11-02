@@ -7,12 +7,12 @@ import (
 func testMatchAlphanumeric(stageHarness *tester_utils.StageHarness) error {
 	testCases := []TestCase{
 		{
-			Pattern:          "\\w",
+			Pattern:          `\w`,
 			Input:            "word",
 			ExpectedExitCode: 0,
 		},
 		{
-			Pattern:          "\\w",
+			Pattern:          `\w`,
 			Input:            "$!?",
 			ExpectedExitCode: 1,
 		},
