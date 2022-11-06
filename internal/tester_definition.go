@@ -2,6 +2,7 @@ package internal
 
 import (
 	testerutils "github.com/codecrafters-io/tester-utils"
+	"time"
 )
 
 var testerDefinition = testerutils.TesterDefinition{
@@ -49,6 +50,7 @@ var testerDefinition = testerutils.TesterDefinition{
 			Title:                   "Combining Character Classes",
 			TestFunc:                testCombiningCharacterClasses,
 			ShouldRunPreviousStages: true,
+			Timeout:                 20 * time.Second,
 		},
 		{
 			Number:                  7,
