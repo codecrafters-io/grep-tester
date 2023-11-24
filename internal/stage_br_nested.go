@@ -19,7 +19,7 @@ func testBrNested(stageHarness *tester_utils.StageHarness) error {
 		},
 		// Integration with concepts from previous stages
 		{
-			Pattern:          "((\\w\\w\\w\\w) (\\di\\d\\d)) is doing \\2 \\3 times, and again \\1 times",
+			Pattern:          "((\\w\\w\\w\\w) (\\d\\d\\d)) is doing \\2 \\3 times, and again \\1 times",
 			Input:            "grep 101 is doing grep 101 times, and again grep 101 times",
 			ExpectedExitCode: 0,
 		},

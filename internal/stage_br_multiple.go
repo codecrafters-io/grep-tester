@@ -30,7 +30,7 @@ func testBrMultiple(stageHarness *tester_utils.StageHarness) error {
 		},
 		{
 			Pattern:          "^(\\w+) (\\w+), \\1 and \\2$",
-			Input:            "apple pie, appple and pie",
+			Input:            "apple pie, apple and pie",
 			ExpectedExitCode: 0,
 		},
 		{
