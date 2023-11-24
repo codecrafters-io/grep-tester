@@ -6,6 +6,18 @@ import (
 
 func testBrBasic(stageHarness *tester_utils.StageHarness) error {
 	testCases := []TestCase{
+		// Base case
+		{
+			Pattern:          "(cat) and \1",
+			Input:            "cat and cat",
+			ExpectedExitCode: 0,
+		},
+		{
+			Pattern:          "(cat) and \1",
+			Input:            "cat and dog",
+			ExpectedExitCode: 1,
+		},
+		// Integration with concepts from previous stages
 		{
 			Pattern:          "(\w\w\w\w \d\d\d) is doing \1 times",
 			Input:            "grep 101 is doing grep 101 times",
