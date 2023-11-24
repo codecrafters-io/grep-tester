@@ -20,5 +20,6 @@ jobs:
         uses: actions/setup-python@v1
         with:
           python-version: '3.x'
+      - run: echo "123" | grep -E "\d"
       - run: echo "123" | ./internal/test_helpers/pass_all/your_grep.sh -E "\d"
       - run: make test
