@@ -85,14 +85,14 @@ func TestStages(t *testing.T) {
 			StdoutFixturePath:   "./test_helpers/fixtures/zero_or_one_quantifier/success",
 			NormalizeOutputFunc: normalizeTesterOutput,
 		},
-		"wildcard": {
+		"wildcard_pass": {
 			UntilStageSlug:      "wildcard",
 			CodePath:            "./test_helpers/pass_all",
 			ExpectedExitCode:    0,
 			StdoutFixturePath:   "./test_helpers/fixtures/wildcard/success",
 			NormalizeOutputFunc: normalizeTesterOutput,
 		},
-		"alternation": {
+		"alternation_pass": {
 			UntilStageSlug:      "alternation",
 			CodePath:            "./test_helpers/pass_all",
 			ExpectedExitCode:    0,
