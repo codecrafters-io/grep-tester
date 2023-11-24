@@ -15,7 +15,7 @@ func testBrMultiple(stageHarness *tester_utils.StageHarness) error {
 		{
 			Pattern:          "(\d+) (\w+) squares and \1 \2 circles",
 			Input:            "3 red squares and 4 red circles",
-			ExpectedExitCode: 0,
+			ExpectedExitCode: 1,
 		},
 		// Integration with concepts from previous stages
 		{
