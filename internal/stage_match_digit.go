@@ -7,12 +7,12 @@ import (
 func testMatchDigit(stageHarness *tester_utils.StageHarness) error {
 	testCases := []TestCase{
 		{
-			Pattern:          `\d`,
+			Pattern:          "\\d",
 			Input:            "123",
 			ExpectedExitCode: 0,
 		},
 		{
-			Pattern:          `\d`,
+			Pattern:          "\\d",
 			Input:            "apple",
 			ExpectedExitCode: 1,
 		},
