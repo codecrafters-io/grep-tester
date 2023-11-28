@@ -1,0 +1,111 @@
+[33m[stage-1] [0m[94mRunning tests for Stage #1: init[0m
+[33m[stage-1] [0m[94m$ echo "dog" | ./your_grep.sh -P "d"[0m
+[33m[your_program] [0mdog
+[33m[stage-1] [0m[92m✓ Received exit code 0.[0m
+[33m[stage-1] [0m[94m$ echo "dog" | ./your_grep.sh -P "f"[0m
+[33m[stage-1] [0m[92m✓ Received exit code 1.[0m
+[33m[stage-1] [0m[92mTest passed.[0m
+
+[33m[stage-2] [0m[94mRunning tests for Stage #2: match_digit[0m
+[33m[stage-2] [0m[94m$ echo "123" | ./your_grep.sh -P "\d"[0m
+[33m[your_program] [0m123
+[33m[stage-2] [0m[92m✓ Received exit code 0.[0m
+[33m[stage-2] [0m[94m$ echo "apple" | ./your_grep.sh -P "\d"[0m
+[33m[stage-2] [0m[92m✓ Received exit code 1.[0m
+[33m[stage-2] [0m[92mTest passed.[0m
+
+[33m[stage-3] [0m[94mRunning tests for Stage #3: match_alphanumeric[0m
+[33m[stage-3] [0m[94m$ echo "word" | ./your_grep.sh -P "\w"[0m
+[33m[your_program] [0mword
+[33m[stage-3] [0m[92m✓ Received exit code 0.[0m
+[33m[stage-3] [0m[94m$ echo "$!?" | ./your_grep.sh -P "\w"[0m
+[33m[stage-3] [0m[92m✓ Received exit code 1.[0m
+[33m[stage-3] [0m[92mTest passed.[0m
+
+[33m[stage-4] [0m[94mRunning tests for Stage #4: positive_character_groups[0m
+[33m[stage-4] [0m[94m$ echo "a" | ./your_grep.sh -P "[abcd]"[0m
+[33m[your_program] [0ma
+[33m[stage-4] [0m[92m✓ Received exit code 0.[0m
+[33m[stage-4] [0m[94m$ echo "efgh" | ./your_grep.sh -P "[abcd]"[0m
+[33m[stage-4] [0m[92m✓ Received exit code 1.[0m
+[33m[stage-4] [0m[92mTest passed.[0m
+
+[33m[stage-5] [0m[94mRunning tests for Stage #5: negative_character_groups[0m
+[33m[stage-5] [0m[94m$ echo "apple" | ./your_grep.sh -P "[^xyz]"[0m
+[33m[your_program] [0mapple
+[33m[stage-5] [0m[92m✓ Received exit code 0.[0m
+[33m[stage-5] [0m[94m$ echo "banana" | ./your_grep.sh -P "[^anb]"[0m
+[33m[stage-5] [0m[92m✓ Received exit code 1.[0m
+[33m[stage-5] [0m[92mTest passed.[0m
+
+[33m[stage-6] [0m[94mRunning tests for Stage #6: combining_character_classes[0m
+[33m[stage-6] [0m[94m$ echo "sally has 3 apples" | ./your_grep.sh -P "\d apple"[0m
+[33m[your_program] [0msally has 3 apples
+[33m[stage-6] [0m[92m✓ Received exit code 0.[0m
+[33m[stage-6] [0m[94m$ echo "sally has 1 orange" | ./your_grep.sh -P "\d apple"[0m
+[33m[stage-6] [0m[92m✓ Received exit code 1.[0m
+[33m[stage-6] [0m[94m$ echo "sally has 124 apples" | ./your_grep.sh -P "\d\d\d apples"[0m
+[33m[your_program] [0msally has 124 apples
+[33m[stage-6] [0m[92m✓ Received exit code 0.[0m
+[33m[stage-6] [0m[94m$ echo "sally has 12 apples" | ./your_grep.sh -P "\d\\d\\d apples"[0m
+[33m[stage-6] [0m[92m✓ Received exit code 1.[0m
+[33m[stage-6] [0m[94m$ echo "sally has 3 dogs" | ./your_grep.sh -P "\d \w\w\ws"[0m
+[33m[your_program] [0msally has 3 dogs
+[33m[stage-6] [0m[92m✓ Received exit code 0.[0m
+[33m[stage-6] [0m[94m$ echo "sally has 4 dogs" | ./your_grep.sh -P "\d \w\w\ws"[0m
+[33m[your_program] [0msally has 4 dogs
+[33m[stage-6] [0m[92m✓ Received exit code 0.[0m
+[33m[stage-6] [0m[94m$ echo "sally has 1 dog" | ./your_grep.sh -P "\d \w\w\ws"[0m
+[33m[stage-6] [0m[92m✓ Received exit code 1.[0m
+[33m[stage-6] [0m[92mTest passed.[0m
+
+[33m[stage-7] [0m[94mRunning tests for Stage #7: start_of_string_anchor[0m
+[33m[stage-7] [0m[94m$ echo "log" | ./your_grep.sh -P "^log"[0m
+[33m[your_program] [0mlog
+[33m[stage-7] [0m[92m✓ Received exit code 0.[0m
+[33m[stage-7] [0m[94m$ echo "slog" | ./your_grep.sh -P "^log"[0m
+[33m[stage-7] [0m[92m✓ Received exit code 1.[0m
+[33m[stage-7] [0m[92mTest passed.[0m
+
+[33m[stage-8] [0m[94mRunning tests for Stage #8: end_of_string_anchor[0m
+[33m[stage-8] [0m[94m$ echo "cat" | ./your_grep.sh -P "cat$"[0m
+[33m[your_program] [0mcat
+[33m[stage-8] [0m[92m✓ Received exit code 0.[0m
+[33m[stage-8] [0m[94m$ echo "cats" | ./your_grep.sh -P "cat$"[0m
+[33m[stage-8] [0m[92m✓ Received exit code 1.[0m
+[33m[stage-8] [0m[92mTest passed.[0m
+
+[33m[stage-9] [0m[94mRunning tests for Stage #9: one_or_more_quantifier[0m
+[33m[stage-9] [0m[94m$ echo "caaats" | ./your_grep.sh -P "ca+t"[0m
+[33m[your_program] [0mcaaats
+[33m[stage-9] [0m[92m✓ Received exit code 0.[0m
+[33m[stage-9] [0m[94m$ echo "cat" | ./your_grep.sh -P "ca+t"[0m
+[33m[your_program] [0mcat
+[33m[stage-9] [0m[92m✓ Received exit code 0.[0m
+[33m[stage-9] [0m[94m$ echo "act" | ./your_grep.sh -P "ca+t"[0m
+[33m[stage-9] [0m[92m✓ Received exit code 1.[0m
+[33m[stage-9] [0m[92mTest passed.[0m
+
+[33m[stage-10] [0m[94mRunning tests for Stage #10: zero_or_one_quantifier[0m
+[33m[stage-10] [0m[94m$ echo "cat" | ./your_grep.sh -P "ca?t"[0m
+[33m[your_program] [0mcat
+[33m[stage-10] [0m[92m✓ Received exit code 0.[0m
+[33m[stage-10] [0m[94m$ echo "act" | ./your_grep.sh -P "ca?t"[0m
+[33m[your_program] [0mact
+[33m[stage-10] [0m[92m✓ Received exit code 0.[0m
+[33m[stage-10] [0m[94m$ echo "dog" | ./your_grep.sh -P "ca?t"[0m
+[33m[stage-10] [0m[92m✓ Received exit code 1.[0m
+[33m[stage-10] [0m[94m$ echo "cag" | ./your_grep.sh -P "ca?t"[0m
+[33m[stage-10] [0m[92m✓ Received exit code 1.[0m
+[33m[stage-10] [0m[92mTest passed.[0m
+
+[33m[stage-11] [0m[94mRunning tests for Stage #11: wildcard[0m
+[33m[stage-11] [0m[94m$ echo "cat" | ./your_grep.sh -P "c.t"[0m
+[33m[your_program] [0mcat
+[33m[stage-11] [0m[92m✓ Received exit code 0.[0m
+[33m[stage-11] [0m[94m$ echo "cot" | ./your_grep.sh -P "c.t"[0m
+[33m[your_program] [0mcot
+[33m[stage-11] [0m[92m✓ Received exit code 0.[0m
+[33m[stage-11] [0m[94m$ echo "car" | ./your_grep.sh -P "c.t"[0m
+[33m[stage-11] [0m[92m✓ Received exit code 1.[0m
+[33m[stage-11] [0m[92mTest passed.[0m

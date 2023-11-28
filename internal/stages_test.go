@@ -98,7 +98,7 @@ func TestStages(t *testing.T) {
 			ExpectedExitCode:    0,
 			StdoutFixturePath:   "./test_helpers/fixtures/alternation/success",
 			NormalizeOutputFunc: normalizeTesterOutput,
-		}
+		},
 	}
 
 	tester_utils_testing.TestTesterOutput(t, testerDefinition, testCases)
