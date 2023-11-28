@@ -1,2 +1,3 @@
 #!/bin/sh
-exec busybox grep "$@"
+exec busybox sh
+exec grep "$@"
