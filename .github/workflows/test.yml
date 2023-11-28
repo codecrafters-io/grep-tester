@@ -21,4 +21,7 @@ jobs:
         with:
           python-version: '3.8'
 
+      - name: Set up ripgrep
+        run: apt-get install -y ripgrep
+
       - run: make test
