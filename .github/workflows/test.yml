@@ -24,6 +24,6 @@ jobs:
       - name: Set up Busybox
         run: |
           sudo apt-get update
-          sudo apt-get install -y Busybox
+          sudo apt install -y busybox
 
       - run: make test
