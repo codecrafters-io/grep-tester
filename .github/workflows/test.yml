@@ -26,7 +26,8 @@ jobs:
           sudo apt-get update
           sudo apt install -y busybox
 
-      - run: echo "123" | busybox grep -e "\d"
-      - run: echo "123" | busybox grep "\d"
-      - run: echo "123" | busybox grep -E "\d"
+      - run: busybox sh
+      - run: echo "123" | grep -e "\d"
+      - run: echo "123" | grep "\d"
+      - run: echo "123" | grep -E "\d"
       - run: make test
