@@ -21,6 +21,7 @@ jobs:
         with:
           python-version: '3.8'
 
+      # The build from installing through the package manager doesn't have support for PCRE2
       - name: Set up Ripgrep with PCRE2
         run: |
           curl -LO https://github.com/BurntSushi/ripgrep/releases/download/14.0.2/ripgrep_14.0.2-1_amd64.deb
