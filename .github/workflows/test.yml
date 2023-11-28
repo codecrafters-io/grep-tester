@@ -21,8 +21,9 @@ jobs:
         with:
           python-version: '3.8'
 
-      - name: Set up ripgrep
-        run: sudo apt-get install -y ripgrep
+      - name: Set up Ripgrep with PCRE2
+        run: |
+          curl -LO https://github.com/BurntSushi/ripgrep/releases/download/14.0.2/ripgrep_14.0.2-1_amd64.deb
+          dpkg -i ripgrep_14.0.2-1_amd64.deb
 
-      - run: rg --version
       - run: make test
