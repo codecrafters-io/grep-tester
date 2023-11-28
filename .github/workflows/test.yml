@@ -24,4 +24,5 @@ jobs:
       - name: Set up ripgrep
         run: sudo apt-get install -y ripgrep
 
+      - run: rg --version
       - run: make test
