@@ -21,9 +21,12 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Set up Busybox
+      - name: Set up BSD grep
         run: |
-          sudo apt-get update
-          sudo apt install -y busybox
+          git clone https://github.com/freebsd/freebsd-src.git
+          cd freebsd-src/usr.bin/grep
+          sudo make
+          sudo make install
+          sudo ln -sf /usr/local/bin/grep /bin/grep
 
       - run: make test
