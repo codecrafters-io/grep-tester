@@ -4,7 +4,7 @@ import (
 	tester_utils "github.com/codecrafters-io/tester-utils"
 )
 
-func testBrNested(stageHarness *tester_utils.StageHarness) error {
+func testBackreferencesNested(stageHarness *tester_utils.StageHarness) error {
 	testCases := []TestCase{
 		// Base case
 		{

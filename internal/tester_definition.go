@@ -59,16 +59,16 @@ var testerDefinition = testerutils.TesterDefinition{
 			TestFunc: testAlternation,
 		},
 		{
-			Slug:     "br-basic",
-			TestFunc: testBrBasic,
+			Slug:     "backreferences-single",
+			TestFunc: testBackreferencesSingle,
 		},
 		{
-			Slug:     "br-multiple",
-			TestFunc: testBrMultiple,
+			Slug:     "backreferences-multiple",
+			TestFunc: testBackreferencesMultiple,
 		},
 		{
-			Slug:     "br-nested",
-			TestFunc: testBrNested,
+			Slug:     "backreferences-nested",
+			TestFunc: testBackreferencesNested,
 		},
 	},
 }
