@@ -16,8 +16,8 @@ func RunTestCases(testCases []TestCase, stageHarness *tester_utils.StageHarness)
 	executable := stageHarness.Executable
 
 	for _, testCase := range testCases {
-		logger.Infof("$ echo \"%s\" | ./your_grep.sh -P \"%s\"", testCase.Input, testCase.Pattern)
-		result, err := executable.RunWithStdin([]byte(testCase.Input), "-P", testCase.Pattern)
+		logger.Infof("$ echo \"%s\" | ./your_grep.sh -E \"%s\"", testCase.Input, testCase.Pattern)
+		result, err := executable.RunWithStdin([]byte(testCase.Input), "-E", testCase.Pattern)
 		if err != nil {
 			return err
 		}
