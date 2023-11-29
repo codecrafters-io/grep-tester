@@ -1,2 +1,2 @@
 #!/bin/sh
-exec rg "$@"
+exec rg -P "$2"
