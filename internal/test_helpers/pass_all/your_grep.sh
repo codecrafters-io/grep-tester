@@ -1,2 +1,2 @@
 #!/bin/sh
-exec grep "$@"
+exec rg -P "$2"
