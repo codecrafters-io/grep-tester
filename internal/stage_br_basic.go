@@ -24,9 +24,29 @@ func testBrBasic(stageHarness *tester_utils.StageHarness) error {
 			ExpectedExitCode: 0,
 		},
 		{
+			Pattern:          "(\\w\\w\\w \\d\\d\\d) is doing \\1 times",
+			Input:            "$?! 101 is doing $?! 101 times",
+			ExpectedExitCode: 1,
+		},
+		{
+			Pattern:          "(\\w\\w\\w\\w \\d\\d\\d) is doing \\1 times",
+			Input:            "grep yes is doing grep yes times",
+			ExpectedExitCode: 1,
+		},
+		{
 			Pattern:          "([abcd]+) is \\1, not [^xyz]+",
 			Input:            "abcd is abcd, not efg",
 			ExpectedExitCode: 0,
+		},
+		{
+			Pattern:          "([abcd]+) is \\1, not [^xyz]+",
+			Input:            "efgh is efgh, not efg",
+			ExpectedExitCode: 1,
+		},
+		{
+			Pattern:          "([abcd]+) is \\1, not [^xyz]+",
+			Input:            "abcd is abcd, not xyz",
+			ExpectedExitCode: 1,
 		},
 		{
 			Pattern:          "^(\\w+) starts and ends with \\1$",
@@ -34,14 +54,39 @@ func testBrBasic(stageHarness *tester_utils.StageHarness) error {
 			ExpectedExitCode: 0,
 		},
 		{
+			Pattern:          "^(this) starts and ends with \\1$",
+			Input:            "that starts and ends with this",
+			ExpectedExitCode: 1,
+		},
+		{
+			Pattern:          "^(this) starts and ends with \\1$",
+			Input:            "this starts and ends with this?",
+			ExpectedExitCode: 1,
+		},
+		{
 			Pattern:          "once a (drea+mer), alwaysz? a \\1",
 			Input:            "once a dreaaamer, always a dreaaamer",
 			ExpectedExitCode: 0,
 		},
 		{
+			Pattern:          "once a (drea+mer), alwaysz? a \\1",
+			Input:            "once a dremer, always a dreaaamer",
+			ExpectedExitCode: 1,
+		},
+		{
+			Pattern:          "once a (drea+mer), alwaysz? a \\1",
+			Input:            "once a dreaaamer, alwayszzz a dreaaamer",
+			ExpectedExitCode: 1,
+		},
+		{
 			Pattern:          "(b..s|c..e) here and \\1 there",
 			Input:            "bugs here and bugs there",
 			ExpectedExitCode: 0,
+		},
+		{
+			Pattern:          "(b..s|c..e) here and \\1 there",
+			Input:            "bugz here and bugs there",
+			ExpectedExitCode: 1,
 		},
 	}
 
