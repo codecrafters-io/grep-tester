@@ -121,7 +121,7 @@
 [33m[stage-12] [0m[92m✓ Received exit code 1.[0m
 [33m[stage-12] [0m[92mTest passed.[0m
 
-[33m[stage-13] [0m[94mRunning tests for Stage #13: br-basic[0m
+[33m[stage-13] [0m[94mRunning tests for Stage #13: backreferences-single[0m
 [33m[stage-13] [0m[94m$ echo "cat and cat" | ./your_grep.sh -E "(cat) and \1"[0m
 [33m[your_program] [0mcat and cat
 [33m[stage-13] [0m[92m✓ Received exit code 0.[0m
@@ -162,7 +162,7 @@
 [33m[stage-13] [0m[92m✓ Received exit code 1.[0m
 [33m[stage-13] [0m[92mTest passed.[0m
 
-[33m[stage-14] [0m[94mRunning tests for Stage #14: br-multiple[0m
+[33m[stage-14] [0m[94mRunning tests for Stage #14: backreferences-multiple[0m
 [33m[stage-14] [0m[94m$ echo "3 red squares and 3 red circles" | ./your_grep.sh -E "(\d+) (\w+) squares and \1 \2 circles"[0m
 [33m[your_program] [0m3 red squares and 3 red circles
 [33m[stage-14] [0m[92m✓ Received exit code 0.[0m
@@ -203,7 +203,7 @@
 [33m[stage-14] [0m[92m✓ Received exit code 1.[0m
 [33m[stage-14] [0m[92mTest passed.[0m
 
-[33m[stage-15] [0m[94mRunning tests for Stage #15: br-nested[0m
+[33m[stage-15] [0m[94mRunning tests for Stage #15: backreferences-nested[0m
 [33m[stage-15] [0m[94m$ echo "'cat and cat' is the same as 'cat and cat'" | ./your_grep.sh -E "('(cat) and \2') is the same as \1"[0m
 [33m[your_program] [0m'cat and cat' is the same as 'cat and cat'
 [33m[stage-15] [0m[92m✓ Received exit code 0.[0m

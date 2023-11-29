@@ -121,7 +121,7 @@
 [33m[stage-12] [0m[92m✓ Received exit code 1.[0m
 [33m[stage-12] [0m[92mTest passed.[0m
 
-[33m[stage-13] [0m[94mRunning tests for Stage #13: br-basic[0m
+[33m[stage-13] [0m[94mRunning tests for Stage #13: backreferences-single[0m
 [33m[stage-13] [0m[94m$ echo "cat and cat" | ./your_grep.sh -E "(cat) and \1"[0m
 [33m[your_program] [0mcat and cat
 [33m[stage-13] [0m[92m✓ Received exit code 0.[0m
@@ -161,44 +161,3 @@
 [33m[stage-13] [0m[94m$ echo "bugz here and bugs there" | ./your_grep.sh -E "(b..s|c..e) here and \1 there"[0m
 [33m[stage-13] [0m[92m✓ Received exit code 1.[0m
 [33m[stage-13] [0m[92mTest passed.[0m
-
-[33m[stage-14] [0m[94mRunning tests for Stage #14: br-multiple[0m
-[33m[stage-14] [0m[94m$ echo "3 red squares and 3 red circles" | ./your_grep.sh -E "(\d+) (\w+) squares and \1 \2 circles"[0m
-[33m[your_program] [0m3 red squares and 3 red circles
-[33m[stage-14] [0m[92m✓ Received exit code 0.[0m
-[33m[stage-14] [0m[94m$ echo "3 red squares and 4 red circles" | ./your_grep.sh -E "(\d+) (\w+) squares and \1 \2 circles"[0m
-[33m[stage-14] [0m[92m✓ Received exit code 1.[0m
-[33m[stage-14] [0m[94m$ echo "grep 101 is doing grep 101 times" | ./your_grep.sh -E "(\w\w\w\w) (\d\d\d) is doing \1 \2 times"[0m
-[33m[your_program] [0mgrep 101 is doing grep 101 times
-[33m[stage-14] [0m[92m✓ Received exit code 0.[0m
-[33m[stage-14] [0m[94m$ echo "$?! 101 is doing $?! 101 times" | ./your_grep.sh -E "(\w\w\w) (\d\d\d) is doing \1 \2 times"[0m
-[33m[stage-14] [0m[92m✓ Received exit code 1.[0m
-[33m[stage-14] [0m[94m$ echo "grep yes is doing grep yes times" | ./your_grep.sh -E "(\w\w\w\w) (\d\d\d) is doing \1 \2 times"[0m
-[33m[stage-14] [0m[92m✓ Received exit code 1.[0m
-[33m[stage-14] [0m[94m$ echo "abc-def is abc-def, not efg" | ./your_grep.sh -E "([abc]+)-([def]+) is \1-\2, not [^xyz]+"[0m
-[33m[your_program] [0mabc-def is abc-def, not efg
-[33m[stage-14] [0m[92m✓ Received exit code 0.[0m
-[33m[stage-14] [0m[94m$ echo "efg-hij is efg-hij, not efg" | ./your_grep.sh -E "([abc]+)-([def]+) is \1-\2, not [^xyz]+"[0m
-[33m[stage-14] [0m[92m✓ Received exit code 1.[0m
-[33m[stage-14] [0m[94m$ echo "abc-def is abc-def, not xyz" | ./your_grep.sh -E "([abc]+)-([def]+) is \1-\2, not [^xyz]+"[0m
-[33m[stage-14] [0m[92m✓ Received exit code 1.[0m
-[33m[stage-14] [0m[94m$ echo "apple pie, apple and pie" | ./your_grep.sh -E "^(\w+) (\w+), \1 and \2$"[0m
-[33m[your_program] [0mapple pie, apple and pie
-[33m[stage-14] [0m[92m✓ Received exit code 0.[0m
-[33m[stage-14] [0m[94m$ echo "pineapple pie, pineapple and pie" | ./your_grep.sh -E "^(apple) (\w+), \1 and \2$"[0m
-[33m[stage-14] [0m[92m✓ Received exit code 1.[0m
-[33m[stage-14] [0m[94m$ echo "apple pie, apple and pies" | ./your_grep.sh -E "^(\w+) (pie), \1 and \2$"[0m
-[33m[stage-14] [0m[92m✓ Received exit code 1.[0m
-[33m[stage-14] [0m[94m$ echo "howwdy hey there, howwdy hey" | ./your_grep.sh -E "(how+dy) (he?y) there, \1 \2"[0m
-[33m[your_program] [0mhowwdy hey there, howwdy hey
-[33m[stage-14] [0m[92m✓ Received exit code 0.[0m
-[33m[stage-14] [0m[94m$ echo "hody hey there, howwdy hey" | ./your_grep.sh -E "(how+dy) (he?y) there, \1 \2"[0m
-[33m[stage-14] [0m[92m✓ Received exit code 1.[0m
-[33m[stage-14] [0m[94m$ echo "howwdy heeey there, howwdy heeey" | ./your_grep.sh -E "(how+dy) (he?y) there, \1 \2"[0m
-[33m[stage-14] [0m[92m✓ Received exit code 1.[0m
-[33m[stage-14] [0m[94m$ echo "cat and fish, cat with fish" | ./your_grep.sh -E "(c.t|d.g) and (f..h|b..d), \1 with \2"[0m
-[33m[your_program] [0mcat and fish, cat with fish
-[33m[stage-14] [0m[92m✓ Received exit code 0.[0m
-[33m[stage-14] [0m[94m$ echo "bat and fish, cat with fish" | ./your_grep.sh -E "(c.t|d.g) and (f..h|b..d), \1 with \2"[0m
-[33m[stage-14] [0m[92m✓ Received exit code 1.[0m
-[33m[stage-14] [0m[92mTest passed.[0m

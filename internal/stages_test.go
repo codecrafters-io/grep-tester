@@ -99,25 +99,25 @@ func TestStages(t *testing.T) {
 			StdoutFixturePath:   "./test_helpers/fixtures/alternation/success",
 			NormalizeOutputFunc: normalizeTesterOutput,
 		},
-		"br_basic_pass": {
-			UntilStageSlug:      "br-basic",
+		"backreferences_single_pass": {
+			UntilStageSlug:      "backreferences-single",
 			CodePath:            "./test_helpers/pass_all",
 			ExpectedExitCode:    0,
-			StdoutFixturePath:   "./test_helpers/fixtures/br_basic/success",
+			StdoutFixturePath:   "./test_helpers/fixtures/backreferences_single/success",
 			NormalizeOutputFunc: normalizeTesterOutput,
 		},
-		"br_multiple_pass": {
-			UntilStageSlug:      "br-multiple",
+		"backreferences_multiple_pass": {
+			UntilStageSlug:      "backreferences-multiple",
 			CodePath:            "./test_helpers/pass_all",
 			ExpectedExitCode:    0,
-			StdoutFixturePath:   "./test_helpers/fixtures/br_multiple/success",
+			StdoutFixturePath:   "./test_helpers/fixtures/backreferences_multiple/success",
 			NormalizeOutputFunc: normalizeTesterOutput,
 		},
-		"br_nested_pass": {
-			UntilStageSlug:      "br-nested",
+		"backreferences_nested_pass": {
+			UntilStageSlug:      "backreferences-nested",
 			CodePath:            "./test_helpers/pass_all",
 			ExpectedExitCode:    0,
-			StdoutFixturePath:   "./test_helpers/fixtures/br_nested/success",
+			StdoutFixturePath:   "./test_helpers/fixtures/backreferences_nested/success",
 			NormalizeOutputFunc: normalizeTesterOutput,
 		},
 	}
