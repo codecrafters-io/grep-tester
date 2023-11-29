@@ -99,6 +99,27 @@ func TestStages(t *testing.T) {
 			StdoutFixturePath:   "./test_helpers/fixtures/alternation/success",
 			NormalizeOutputFunc: normalizeTesterOutput,
 		},
+		"br_basic_pass": {
+			UntilStageSlug:      "br-basic",
+			CodePath:            "./test_helpers/pass_all",
+			ExpectedExitCode:    0,
+			StdoutFixturePath:   "./test_helpers/fixtures/br_basic/success",
+			NormalizeOutputFunc: normalizeTesterOutput,
+		},
+		"br_multiple_pass": {
+			UntilStageSlug:      "br-multiple",
+			CodePath:            "./test_helpers/pass_all",
+			ExpectedExitCode:    0,
+			StdoutFixturePath:   "./test_helpers/fixtures/br_multiple/success",
+			NormalizeOutputFunc: normalizeTesterOutput,
+		},
+		"br_nested_pass": {
+			UntilStageSlug:      "br-nested",
+			CodePath:            "./test_helpers/pass_all",
+			ExpectedExitCode:    0,
+			StdoutFixturePath:   "./test_helpers/fixtures/br_nested/success",
+			NormalizeOutputFunc: normalizeTesterOutput,
+		},
 	}
 
 	tester_utils_testing.TestTesterOutput(t, testerDefinition, testCases)

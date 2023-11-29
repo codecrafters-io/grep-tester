@@ -6,57 +6,69 @@ import (
 )
 
 var testerDefinition = testerutils.TesterDefinition{
-	AntiCheatTestCases:    []testerutils.TestCase{},
+	AntiCheatTestCases: []testerutils.TestCase{},
 	ExecutableFileName: "your_grep.sh",
 	TestCases: []testerutils.TestCase{
 		{
-			Slug:                    "init",
-			TestFunc:                testInit,
+			Slug:     "init",
+			TestFunc: testInit,
 		},
 		{
-			Slug:                    "match_digit",
-			TestFunc:                testMatchDigit,
+			Slug:     "match_digit",
+			TestFunc: testMatchDigit,
 		},
 		{
-			Slug:                    "match_alphanumeric",
-			TestFunc:                testMatchAlphanumeric,
+			Slug:     "match_alphanumeric",
+			TestFunc: testMatchAlphanumeric,
 		},
 		{
-			Slug:                    "positive_character_groups",
-			TestFunc:                testPositiveCharacterGroups,
+			Slug:     "positive_character_groups",
+			TestFunc: testPositiveCharacterGroups,
 		},
 		{
-			Slug:                    "negative_character_groups",
-			TestFunc:                testNegativeCharacterGroups,
+			Slug:     "negative_character_groups",
+			TestFunc: testNegativeCharacterGroups,
 		},
 		{
-			Slug:                    "combining_character_classes",
-			TestFunc:                testCombiningCharacterClasses,
-			Timeout:                 20 * time.Second,
+			Slug:     "combining_character_classes",
+			TestFunc: testCombiningCharacterClasses,
+			Timeout:  20 * time.Second,
 		},
 		{
-			Slug:                    "start_of_string_anchor",
-			TestFunc:                testStartOfStringAnchor,
+			Slug:     "start_of_string_anchor",
+			TestFunc: testStartOfStringAnchor,
 		},
 		{
-			Slug:                    "end_of_string_anchor",
-			TestFunc:                testEndOfStringAnchor,
+			Slug:     "end_of_string_anchor",
+			TestFunc: testEndOfStringAnchor,
 		},
 		{
-			Slug:                    "one_or_more_quantifier",
-			TestFunc:                testOneOrMoreQuantifier,
+			Slug:     "one_or_more_quantifier",
+			TestFunc: testOneOrMoreQuantifier,
 		},
 		{
-			Slug:                    "zero_or_one_quantifier",
-			TestFunc:                testZeroOrOneQuantifier,
+			Slug:     "zero_or_one_quantifier",
+			TestFunc: testZeroOrOneQuantifier,
 		},
 		{
-			Slug:                    "wildcard",
-			TestFunc:                testWildcard,
+			Slug:     "wildcard",
+			TestFunc: testWildcard,
 		},
 		{
-			Slug:                    "alternation",
-			TestFunc:                testAlternation,
+			Slug:     "alternation",
+			TestFunc: testAlternation,
+		},
+		{
+			Slug:     "br-basic",
+			TestFunc: testBrBasic,
+		},
+		{
+			Slug:     "br-multiple",
+			TestFunc: testBrMultiple,
+		},
+		{
+			Slug:     "br-nested",
+			TestFunc: testBrNested,
 		},
 	},
 }
