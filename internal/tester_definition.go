@@ -61,14 +61,17 @@ var testerDefinition = testerutils.TesterDefinition{
 		{
 			Slug:     "backreferences-single",
 			TestFunc: testBackreferencesSingle,
+			Timeout:  20 * time.Second,
 		},
 		{
 			Slug:     "backreferences-multiple",
 			TestFunc: testBackreferencesMultiple,
+			Timeout:  20 * time.Second,
 		},
 		{
 			Slug:     "backreferences-nested",
 			TestFunc: testBackreferencesNested,
+			Timeout:  20 * time.Second,
 		},
 	},
 }
