@@ -2,7 +2,7 @@ package internal
 
 import (
 	"fmt"
-	tester_utils "github.com/codecrafters-io/tester-utils"
+	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
 type TestCase struct {
@@ -11,7 +11,7 @@ type TestCase struct {
 	ExpectedExitCode int
 }
 
-func RunTestCases(testCases []TestCase, stageHarness *tester_utils.StageHarness) error {
+func RunTestCases(testCases []TestCase, stageHarness *test_case_harness.TestCaseHarness) error {
 	logger := stageHarness.Logger
 	executable := stageHarness.Executable
 

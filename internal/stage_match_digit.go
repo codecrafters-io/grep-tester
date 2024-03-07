@@ -1,10 +1,10 @@
 package internal
 
 import (
-	tester_utils "github.com/codecrafters-io/tester-utils"
+	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
-func testMatchDigit(stageHarness *tester_utils.StageHarness) error {
+func testMatchDigit(stageHarness *test_case_harness.TestCaseHarness) error {
 	testCases := []TestCase{
 		{
 			Pattern:          `\d`,
