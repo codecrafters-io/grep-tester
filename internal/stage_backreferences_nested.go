@@ -1,10 +1,10 @@
 package internal
 
 import (
-	tester_utils "github.com/codecrafters-io/tester-utils"
+	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
-func testBackreferencesNested(stageHarness *tester_utils.StageHarness) error {
+func testBackreferencesNested(stageHarness *test_case_harness.TestCaseHarness) error {
 	testCases := []TestCase{
 		// Base case
 		{

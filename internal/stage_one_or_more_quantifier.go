@@ -1,10 +1,10 @@
 package internal
 
 import (
-	tester_utils "github.com/codecrafters-io/tester-utils"
+	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
-func testOneOrMoreQuantifier(stageHarness *tester_utils.StageHarness) error {
+func testOneOrMoreQuantifier(stageHarness *test_case_harness.TestCaseHarness) error {
 	testCases := []TestCase{
 		{
 			Pattern:          "ca+t",

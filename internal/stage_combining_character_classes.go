@@ -1,8 +1,8 @@
 package internal
 
-import tester_utils "github.com/codecrafters-io/tester-utils"
+import "github.com/codecrafters-io/tester-utils/test_case_harness"
 
-func testCombiningCharacterClasses(stageHarness *tester_utils.StageHarness) error {
+func testCombiningCharacterClasses(stageHarness *test_case_harness.TestCaseHarness) error {
 	testCases := []TestCase{
 		{
 			Pattern:          `\d apple`,

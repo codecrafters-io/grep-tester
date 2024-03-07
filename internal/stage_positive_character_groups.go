@@ -1,8 +1,8 @@
 package internal
 
-import tester_utils "github.com/codecrafters-io/tester-utils"
+import "github.com/codecrafters-io/tester-utils/test_case_harness"
 
-func testPositiveCharacterGroups(stageHarness *tester_utils.StageHarness) error {
+func testPositiveCharacterGroups(stageHarness *test_case_harness.TestCaseHarness) error {
 	testCases := []TestCase{
 		{
 			Pattern:          "[abcd]",
