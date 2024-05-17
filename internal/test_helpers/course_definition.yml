@@ -58,7 +58,8 @@ extensions:
       [1]: https://learn.microsoft.com/en-us/dotnet/standard/base-types/backreference-constructs-in-regular-expressions#numbered-backreferences
 
 stages:
-  - slug: "init"
+  - legacy_slug: "init"
+    slug: "cq2"
     name: "Match a literal character"
     difficulty: very_easy
     description_md: |-
@@ -87,7 +88,8 @@ stages:
 
       `a` should match "apple", but not "dog".
 
-  - slug: "match_digit"
+  - legacy_slug: "match_digit"
+    slug: "oq2"
     name: "Match digits"
     difficulty: very_easy
     description_md: |-
@@ -119,7 +121,8 @@ stages:
 
       `\d` should match "1", but not "a".
 
-  - slug: "match_alphanumeric"
+  - legacy_slug: "match_alphanumeric"
+    slug: "mr9"
     name: "Match alphanumeric characters"
     difficulty: very_easy
     description_md: |-
@@ -151,7 +154,8 @@ stages:
 
       `\w` should match "foo101", but not "$!?".
 
-  - slug: "positive_character_groups"
+  - legacy_slug: "positive_character_groups"
+    slug: "tl6"
     name: "Positive Character Groups"
     difficulty: medium
     description_md: |-
@@ -181,7 +185,8 @@ stages:
 
       `[abc]` should match "apple", but not "dog".
 
-  - slug: "negative_character_groups"
+  - legacy_slug: "negative_character_groups"
+    slug: "rk3"
     name: "Negative Character Groups"
     difficulty: medium
     description_md: |-
@@ -211,7 +216,8 @@ stages:
 
       `[^abc]` should match "dog", but not "cab" (since all characters are either "a", "b" or "c").
 
-  - slug: "combining_character_classes"
+  - legacy_slug: "combining_character_classes"
+    slug: "sh9"
     name: "Combining Character Classes"
     difficulty: medium
     description_md: |-
@@ -254,7 +260,8 @@ stages:
       This stage is significantly harder than the previous ones. You'll likely need to rework your
       implementation to process user input character-by-character instead of the whole line at once.
 
-  - slug: "start_of_string_anchor"
+  - legacy_slug: "start_of_string_anchor"
+    slug: "rr8"
     name: "Start of string anchor"
     difficulty: medium
     description_md: |-
@@ -284,7 +291,8 @@ stages:
 
       `^log` should match "log", but not "slog".
 
-  - slug: "end_of_string_anchor"
+  - legacy_slug: "end_of_string_anchor"
+    slug: "ao7"
     name: "End of string anchor"
     difficulty: medium
     description_md: |-
@@ -314,7 +322,8 @@ stages:
 
       `dog$` should match "dog", but not "dogs".
 
-  - slug: "one_or_more_quantifier"
+  - legacy_slug: "one_or_more_quantifier"
+    slug: "fz7"
     name: "Match one or more times"
     difficulty: hard
     description_md: |-
@@ -340,7 +349,8 @@ stages:
 
       - `a+` should match "apple" and "SaaS", but not "dog".
 
-  - slug: "zero_or_one_quantifier"
+  - legacy_slug: "zero_or_one_quantifier"
+    slug: "ny8"
     name: "Match zero or one times"
     difficulty: hard
     description_md: |-
@@ -366,7 +376,8 @@ stages:
 
       - `dogs?` should match "dogs" and "dog", but not "cat".
 
-  - slug: "wildcard"
+  - legacy_slug: "wildcard"
+    slug: "zb3"
     name: "Wildcard"
     difficulty: medium
     description_md: |-
@@ -392,7 +403,8 @@ stages:
 
       - `d.g` should match "dog", but not "cog".
 
-  - slug: "alternation"
+  - legacy_slug: "alternation"
+    slug: "zm7"
     name: "Alternation"
     difficulty: hard
     description_md: |-
@@ -420,7 +432,8 @@ stages:
 
   # Backreferences
 
-  - slug: "backreferences-single"
+  - legacy_slug: "backreferences-single"
+    slug: "sb5"
     primary_extension_slug: "backreferences"
     name: "Single Backreference"
     difficulty: hard
@@ -445,8 +458,12 @@ stages:
 
       **Note:** You only need to focus on one backreference and one capturing group in this stage. We'll get to handling multiple backreferences in the next stage.
     marketing_md: |
-      In this stage, you'll add support for single backreferences. You'll implement support for `\d`.
-  - slug: "backreferences-multiple"
+      In this stage, you'll add support for single backreferences. You'll implement support for `\1`.
+
+      **Example:**
+      - `(cat) and \1` should match "cat and cat", but not "cat and dog".
+  - legacy_slug: "backreferences-multiple"
+    slug: "tg1"
     primary_extension_slug: "backreferences"
     name: "Multiple Backreferences"
     difficulty: medium
@@ -465,15 +482,19 @@ stages:
 
       Your program must exit with 0 if the input matches the given pattern, and 1 if not.
     marketing_md: |
-      In this stage, you'll add support for multiple backreferences. You'll implement support for multiple `\d` in the same line.
-  - slug: "backreferences-nested"
+      In this stage, you'll add support for multiple backreferences (`\1`, `\2` etc.) in the same pattern.
+
+      **Example:**
+      - `(\d+) (\w+) squares and \1 \2 circles` should match "3 red squares and 3 red circles" but should not match "3 red squares and 4 red circles".
+  - legacy_slug: "backreferences-nested"
+    slug: "xe5"
     primary_extension_slug: "backreferences"
     name: "Nested Backreferences"
-    difficulty: hard 
+    difficulty: hard
     description_md: |
       In this stage, we'll add support for nested backreferences. This means that a backreference is part of a larger capturing group, which itself is referenced again.
 
-      **Examples:** `('(cat) and \2') is the same as \1` should match "'cat and cat' is the same as 'cat and cat'".
+      **Example:** `('(cat) and \2') is the same as \1` should match "'cat and cat' is the same as 'cat and cat'".
 
       Your program will be executed like this:
 
@@ -483,5 +504,8 @@ stages:
 
       Your program must exit with 0 if the input matches the given pattern, and 1 if not.
     marketing_md: |
-      In this stage, you'll add support for nested backreferences. You'll implement support for multiple `\d` that references capturing groups in other capturing groups.
+      In this stage, you'll add support for nested backreferences.
+
+      **Example:**
+      - `('(cat) and \2') is the same as \1` should match "'cat and cat' is the same as 'cat and cat'".
 
