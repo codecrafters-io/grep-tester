@@ -10,66 +10,66 @@ var testerDefinition = tester_definition.TesterDefinition{
 	ExecutableFileName: "your_grep.sh",
 	TestCases: []tester_definition.TestCase{
 		{
-			Slug:     "init",
+			Slug:     "cq2",
 			TestFunc: testInit,
 		},
 		{
-			Slug:     "match_digit",
+			Slug:     "oq2",
 			TestFunc: testMatchDigit,
 		},
 		{
-			Slug:     "match_alphanumeric",
+			Slug:     "mr9",
 			TestFunc: testMatchAlphanumeric,
 		},
 		{
-			Slug:     "positive_character_groups",
+			Slug:     "tl6",
 			TestFunc: testPositiveCharacterGroups,
 		},
 		{
-			Slug:     "negative_character_groups",
+			Slug:     "rk3",
 			TestFunc: testNegativeCharacterGroups,
 		},
 		{
-			Slug:     "combining_character_classes",
+			Slug:     "sh9",
 			TestFunc: testCombiningCharacterClasses,
 			Timeout:  20 * time.Second,
 		},
 		{
-			Slug:     "start_of_string_anchor",
+			Slug:     "rr8",
 			TestFunc: testStartOfStringAnchor,
 		},
 		{
-			Slug:     "end_of_string_anchor",
+			Slug:     "ao7",
 			TestFunc: testEndOfStringAnchor,
 		},
 		{
-			Slug:     "one_or_more_quantifier",
+			Slug:     "fz7",
 			TestFunc: testOneOrMoreQuantifier,
 		},
 		{
-			Slug:     "zero_or_one_quantifier",
+			Slug:     "ny8",
 			TestFunc: testZeroOrOneQuantifier,
 		},
 		{
-			Slug:     "wildcard",
+			Slug:     "zb3",
 			TestFunc: testWildcard,
 		},
 		{
-			Slug:     "alternation",
+			Slug:     "zm7",
 			TestFunc: testAlternation,
 		},
 		{
-			Slug:     "backreferences-single",
+			Slug:     "sb5",
 			TestFunc: testBackreferencesSingle,
 			Timeout:  20 * time.Second,
 		},
 		{
-			Slug:     "backreferences-multiple",
+			Slug:     "tg1",
 			TestFunc: testBackreferencesMultiple,
 			Timeout:  20 * time.Second,
 		},
 		{
-			Slug:     "backreferences-nested",
+			Slug:     "xe5",
 			TestFunc: testBackreferencesNested,
 			Timeout:  20 * time.Second,
 		},
