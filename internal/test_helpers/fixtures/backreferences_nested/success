@@ -1,5 +1,3 @@
-Debug = true
-
 [33m[stage-15] [0m[94mRunning tests for Stage #15: xe5[0m
 [33m[stage-15] [0m[94m$ echo "'cat and cat' is the same as 'cat and cat'" | ./your_grep.sh -E "('(cat) and \2') is the same as \1"[0m
 [33m[your_program] [0m'cat and cat' is the same as 'cat and cat'

@@ -1,5 +1,3 @@
-Debug = true
-
 [33m[stage-12] [0m[94mRunning tests for Stage #12: zm7[0m
 [33m[stage-12] [0m[94m$ echo "a cat" | ./your_grep.sh -E "a (cat|dog)"[0m
 [33m[your_program] [0ma cat

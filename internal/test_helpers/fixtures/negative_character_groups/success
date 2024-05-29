@@ -1,5 +1,3 @@
-Debug = true
-
 [33m[stage-5] [0m[94mRunning tests for Stage #5: rk3[0m
 [33m[stage-5] [0m[94m$ echo "apple" | ./your_grep.sh -E "[^xyz]"[0m
 [33m[your_program] [0mapple

@@ -1,5 +1,3 @@
-Debug = true
-
 [33m[stage-4] [0m[94mRunning tests for Stage #4: tl6[0m
 [33m[stage-4] [0m[94m$ echo "a" | ./your_grep.sh -E "[abcd]"[0m
 [33m[your_program] [0ma
