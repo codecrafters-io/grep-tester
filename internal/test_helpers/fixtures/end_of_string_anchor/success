@@ -1,3 +1,5 @@
+Debug = true
+
 [33m[stage-8] [0m[94mRunning tests for Stage #8: ao7[0m
 [33m[stage-8] [0m[94m$ echo "cat" | ./your_grep.sh -E "cat$"[0m
 [33m[your_program] [0mcat

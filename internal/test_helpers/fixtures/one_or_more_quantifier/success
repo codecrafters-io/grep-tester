@@ -1,3 +1,5 @@
+Debug = true
+
 [33m[stage-9] [0m[94mRunning tests for Stage #9: fz7[0m
 [33m[stage-9] [0m[94m$ echo "caaats" | ./your_grep.sh -E "ca+t"[0m
 [33m[your_program] [0mcaaats

@@ -1,3 +1,5 @@
+Debug = true
+
 [33m[stage-11] [0m[94mRunning tests for Stage #11: zb3[0m
 [33m[stage-11] [0m[94m$ echo "cat" | ./your_grep.sh -E "c.t"[0m
 [33m[your_program] [0mcat

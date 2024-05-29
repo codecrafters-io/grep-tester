@@ -1,3 +1,5 @@
+Debug = true
+
 [33m[stage-13] [0m[94mRunning tests for Stage #13: sb5[0m
 [33m[stage-13] [0m[94m$ echo "cat and cat" | ./your_grep.sh -E "(cat) and \1"[0m
 [33m[your_program] [0mcat and cat

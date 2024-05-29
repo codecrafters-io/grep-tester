@@ -1,3 +1,5 @@
+Debug = true
+
 [33m[stage-7] [0m[94mRunning tests for Stage #7: rr8[0m
 [33m[stage-7] [0m[94m$ echo "log" | ./your_grep.sh -E "^log"[0m
 [33m[your_program] [0mlog

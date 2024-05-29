@@ -1,3 +1,5 @@
+Debug = true
+
 [33m[stage-6] [0m[94mRunning tests for Stage #6: sh9[0m
 [33m[stage-6] [0m[94m$ echo "sally has 3 apples" | ./your_grep.sh -E "\d apple"[0m
 [33m[your_program] [0msally has 3 apples

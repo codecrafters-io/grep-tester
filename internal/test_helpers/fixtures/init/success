@@ -1,3 +1,5 @@
+Debug = true
+
 [33m[stage-1] [0m[94mRunning tests for Stage #1: cq2[0m
 [33m[stage-1] [0m[94m$ echo "dog" | ./your_grep.sh -E "d"[0m
 [33m[your_program] [0mdog

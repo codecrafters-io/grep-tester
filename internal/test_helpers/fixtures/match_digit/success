@@ -1,3 +1,5 @@
+Debug = true
+
 [33m[stage-2] [0m[94mRunning tests for Stage #2: oq2[0m
 [33m[stage-2] [0m[94m$ echo "123" | ./your_grep.sh -E "\d"[0m
 [33m[your_program] [0m123
