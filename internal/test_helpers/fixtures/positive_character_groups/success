@@ -1,31 +1,31 @@
 [33m[stage-4] [0m[94mRunning tests for Stage #4: tl6[0m
-[33m[stage-4] [0m[94m$ echo "a" | ./your_grep.sh -E "[abcd]"[0m
+[33m[stage-4] [0m[94m$ echo -n "a" | ./your_grep.sh -E "[abcd]"[0m
 [33m[your_program] [0ma
 [33m[stage-4] [0m[92m✓ Received exit code 0.[0m
-[33m[stage-4] [0m[94m$ echo "efgh" | ./your_grep.sh -E "[abcd]"[0m
+[33m[stage-4] [0m[94m$ echo -n "efgh" | ./your_grep.sh -E "[abcd]"[0m
 [33m[stage-4] [0m[92m✓ Received exit code 1.[0m
 [33m[stage-4] [0m[92mTest passed.[0m
 
 [33m[stage-3] [0m[94mRunning tests for Stage #3: mr9[0m
-[33m[stage-3] [0m[94m$ echo "word" | ./your_grep.sh -E "\w"[0m
+[33m[stage-3] [0m[94m$ echo -n "word" | ./your_grep.sh -E "\w"[0m
 [33m[your_program] [0mword
 [33m[stage-3] [0m[92m✓ Received exit code 0.[0m
-[33m[stage-3] [0m[94m$ echo "$!?" | ./your_grep.sh -E "\w"[0m
+[33m[stage-3] [0m[94m$ echo -n "$!?" | ./your_grep.sh -E "\w"[0m
 [33m[stage-3] [0m[92m✓ Received exit code 1.[0m
 [33m[stage-3] [0m[92mTest passed.[0m
 
 [33m[stage-2] [0m[94mRunning tests for Stage #2: oq2[0m
-[33m[stage-2] [0m[94m$ echo "123" | ./your_grep.sh -E "\d"[0m
+[33m[stage-2] [0m[94m$ echo -n "123" | ./your_grep.sh -E "\d"[0m
 [33m[your_program] [0m123
 [33m[stage-2] [0m[92m✓ Received exit code 0.[0m
-[33m[stage-2] [0m[94m$ echo "apple" | ./your_grep.sh -E "\d"[0m
+[33m[stage-2] [0m[94m$ echo -n "apple" | ./your_grep.sh -E "\d"[0m
 [33m[stage-2] [0m[92m✓ Received exit code 1.[0m
 [33m[stage-2] [0m[92mTest passed.[0m
 
 [33m[stage-1] [0m[94mRunning tests for Stage #1: cq2[0m
-[33m[stage-1] [0m[94m$ echo "dog" | ./your_grep.sh -E "d"[0m
+[33m[stage-1] [0m[94m$ echo -n "dog" | ./your_grep.sh -E "d"[0m
 [33m[your_program] [0mdog
 [33m[stage-1] [0m[92m✓ Received exit code 0.[0m
-[33m[stage-1] [0m[94m$ echo "dog" | ./your_grep.sh -E "f"[0m
+[33m[stage-1] [0m[94m$ echo -n "dog" | ./your_grep.sh -E "f"[0m
 [33m[stage-1] [0m[92m✓ Received exit code 1.[0m
 [33m[stage-1] [0m[92mTest passed.[0m
