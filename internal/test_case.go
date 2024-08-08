@@ -18,7 +18,7 @@ func RunTestCases(testCases []TestCase, stageHarness *test_case_harness.TestCase
 	executable := stageHarness.Executable
 
 	for _, testCase := range testCases {
-		logger.Infof("$ echo \"%s\" | ./%s -E \"%s\"", testCase.Input, path.Base(executable.Path), testCase.Pattern)
+		logger.Infof("$ echo -n \"%s\" | ./%s -E \"%s\"", testCase.Input, path.Base(executable.Path), testCase.Pattern)
 		result, err := executable.RunWithStdin([]byte(testCase.Input), "-E", testCase.Pattern)
 		if err != nil {
 			return err

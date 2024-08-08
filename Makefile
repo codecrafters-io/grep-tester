@@ -7,6 +7,9 @@ release:
 	git tag v$(next_version_number)
 	git push origin main v$(next_version_number)
 
+record_fixtures:
+	CODECRAFTERS_RECORD_FIXTURES=true make test
+
 build:
 	go build -o dist/main.out ./cmd/tester
 
@@ -17,8 +20,8 @@ test_and_watch:
 	onchange '**/*' -- go test -v ./internal/
 
 test_with_grep: build
-	CODECRAFTERS_SUBMISSION_DIR=$(shell pwd)/internal/test_helpers/pass_all \
-	CODECRAFTERS_TEST_CASES_JSON="[{"slug":"cq2","tester_log_prefix":"stage-1","title":"Stage #1: Match a literal character"},{"slug":"oq2","tester_log_prefix":"stage-2","title":"Stage #2: Match digits"},{"slug":"mr9","tester_log_prefix":"stage-3","title":"Stage #3: Match alphanumeric characters"},{"slug":"tl6","tester_log_prefix":"stage-4","title":"Stage #4: Positive Character Groups"},{"slug":"rk3","tester_log_prefix":"stage-5","title":"Stage #5: Negative Character Groups"},{"slug":"sh9","tester_log_prefix":"stage-6","title":"Stage #6: Combining Character Classes"},{"slug":"rr8","tester_log_prefix":"stage-7","title":"Stage #7: Start of string anchor"},{"slug":"ao7","tester_log_prefix":"stage-8","title":"Stage #8: End of string anchor"},{"slug":"fz7","tester_log_prefix":"stage-9","title":"Stage #9: Match one or more times"},{"slug":"ny8","tester_log_prefix":"stage-10","title":"Stage #10: Match zero or one times"},{"slug":"zb3","tester_log_prefix":"stage-11","title":"Stage #11: Wildcard"},{"slug":"zm7","tester_log_prefix":"stage-12","title":"Stage #12: Alternation"}]" \
+	CODECRAFTERS_REPOSITORY_DIR=$(shell pwd)/internal/test_helpers/pass_all \
+	CODECRAFTERS_TEST_CASES_JSON="[{\"slug\":\"cq2\",\"tester_log_prefix\":\"stage-1\",\"title\":\"Stage #1: Match a literal character\"},{\"slug\":\"oq2\",\"tester_log_prefix\":\"stage-2\",\"title\":\"Stage #2: Match digits\"},{\"slug\":\"mr9\",\"tester_log_prefix\":\"stage-3\",\"title\":\"Stage #3: Match alphanumeric characters\"},{\"slug\":\"tl6\",\"tester_log_prefix\":\"stage-4\",\"title\":\"Stage #4: Positive Character Groups\"},{\"slug\":\"rk3\",\"tester_log_prefix\":\"stage-5\",\"title\":\"Stage #5: Negative Character Groups\"},{\"slug\":\"sh9\",\"tester_log_prefix\":\"stage-6\",\"title\":\"Stage #6: Combining Character Classes\"},{\"slug\":\"rr8\",\"tester_log_prefix\":\"stage-7\",\"title\":\"Stage #7: Start of string anchor\"},{\"slug\":\"ao7\",\"tester_log_prefix\":\"stage-8\",\"title\":\"Stage #8: End of string anchor\"},{\"slug\":\"fz7\",\"tester_log_prefix\":\"stage-9\",\"title\":\"Stage #9: Match one or more times\"},{\"slug\":\"ny8\",\"tester_log_prefix\":\"stage-10\",\"title\":\"Stage #10: Match zero or one times\"},{\"slug\":\"zb3\",\"tester_log_prefix\":\"stage-11\",\"title\":\"Stage #11: Wildcard\"},{\"slug\":\"zm7\",\"tester_log_prefix\":\"stage-12\",\"title\":\"Stage #12: Alternation\"}]" \
 	dist/main.out
 
 copy_course_file:
