@@ -7,7 +7,26 @@ import (
 )
 
 func TestStages(t *testing.T) {
+
+	falseVar := false
+
 	testCases := map[string]tester_utils_testing.TesterOutputTestCase{
+		"cheat_innocent": {
+			UntilStageSlug:      "cq2",
+			CodePath:            "./test_helpers/scenarios/cheat_innocent",
+			ExpectedExitCode:    0,
+			StdoutFixturePath:   "./test_helpers/fixtures/cheat/cheat_innocent",
+			NormalizeOutputFunc: normalizeTesterOutput,
+			SkipAntiCheat:       &falseVar,
+		},
+		"cheat_suspect": {
+			UntilStageSlug:      "cq2",
+			CodePath:            "./test_helpers/pass_all",
+			ExpectedExitCode:    1,
+			StdoutFixturePath:   "./test_helpers/fixtures/cheat/cheat_suspect",
+			NormalizeOutputFunc: normalizeTesterOutput,
+			SkipAntiCheat:       &falseVar,
+		},
 		"init_pass": {
 			UntilStageSlug:      "cq2",
 			CodePath:            "./test_helpers/pass_all",
