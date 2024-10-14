@@ -17,9 +17,9 @@ jobs:
           go-version: 1.21.x
 
       - name: Set up Python
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.8'
+          python-version: '3.12'
 
       # The build from installing through the package manager doesn't have support for PCRE2
       - name: Set up Ripgrep with PCRE2

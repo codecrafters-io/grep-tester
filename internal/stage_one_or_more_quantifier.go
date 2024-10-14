@@ -21,6 +21,11 @@ func testOneOrMoreQuantifier(stageHarness *test_case_harness.TestCaseHarness) er
 			Input:            "act",
 			ExpectedExitCode: 1,
 		},
+		{
+			Pattern:          "ca+t",
+			Input:            "ca",
+			ExpectedExitCode: 1,
+		},
 	}
 
 	return RunTestCases(testCases, stageHarness)
