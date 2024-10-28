@@ -21,6 +21,11 @@ func testWildcard(stageHarness *test_case_harness.TestCaseHarness) error {
 			Input:            "car",
 			ExpectedExitCode: 1,
 		},
+		{
+			Pattern:          "c.+t",
+			Input:            "coat",
+			ExpectedExitCode: 0,
+		},
 	}
 
 	return RunTestCases(testCases, stageHarness)

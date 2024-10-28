@@ -59,6 +59,9 @@
 [33m[stage-11] [0m[92m✓ Received exit code 0.[0m
 [33m[stage-11] [0m[94m$ echo -n "car" | ./your_grep.sh -E "c.t"[0m
 [33m[stage-11] [0m[92m✓ Received exit code 1.[0m
+[33m[stage-11] [0m[94m$ echo -n "coat" | ./your_grep.sh -E "c.+t"[0m
+[33m[your_program] [0mcoat
+[33m[stage-11] [0m[92m✓ Received exit code 0.[0m
 [33m[stage-11] [0m[92mTest passed.[0m
 
 [33m[stage-10] [0m[94mRunning tests for Stage #10: ny8[0m
