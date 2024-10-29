@@ -13,12 +13,17 @@ func testWildcard(stageHarness *test_case_harness.TestCaseHarness) error {
 		},
 		{
 			Pattern:          "c.t",
-			Input:            "cot",
+			Input:            "car",
+			ExpectedExitCode: 1,
+		},
+		{
+			Pattern:          "g.+gol",
+			Input:            "goøö0Ogol",
 			ExpectedExitCode: 0,
 		},
 		{
-			Pattern:          "c.t",
-			Input:            "car",
+			Pattern:          "g.+gol",
+			Input:            "gol",
 			ExpectedExitCode: 1,
 		},
 	}
