@@ -125,8 +125,8 @@
 [33m[stage-12] [0m[94m$ echo -n "a cat" | ./your_grep.sh -E "a (cat|dog)"[0m
 [33m[your_program] [0ma cat
 [33m[stage-12] [0m[92m✓ Received exit code 0.[0m
-[33m[stage-12] [0m[94m$ echo -n "a dog" | ./your_grep.sh -E "a (cat|dog)"[0m
-[33m[your_program] [0ma dog
+[33m[stage-12] [0m[94m$ echo -n "a dog and cats" | ./your_grep.sh -E "a (cat|dog) and (cat|dog)s"[0m
+[33m[your_program] [0ma dog and cats
 [33m[stage-12] [0m[92m✓ Received exit code 0.[0m
 [33m[stage-12] [0m[94m$ echo -n "a cow" | ./your_grep.sh -E "a (cat|dog)"[0m
 [33m[stage-12] [0m[92m✓ Received exit code 1.[0m
