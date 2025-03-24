@@ -14,6 +14,11 @@ func testNegativeCharacterGroups(stageHarness *test_case_harness.TestCaseHarness
 			Input:            "banana",
 			ExpectedExitCode: 1,
 		},
+		{
+			Pattern:          "[^opq]",
+			Input:            "orange",
+			ExpectedExitCode: 0,
+		},
 	}
 
 	return RunTestCases(testCases, stageHarness)
