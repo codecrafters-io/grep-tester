@@ -41,6 +41,9 @@
 [33m[stage-5] [0m[92m✓ Received exit code 0.[0m
 [33m[stage-5] [0m[94m$ echo -n "banana" | ./your_grep.sh -E "[^anb]"[0m
 [33m[stage-5] [0m[92m✓ Received exit code 1.[0m
+[33m[stage-5] [0m[94m$ echo -n "orange" | ./your_grep.sh -E "[^opq]"[0m
+[33m[your_program] [0morange
+[33m[stage-5] [0m[92m✓ Received exit code 0.[0m
 [33m[stage-5] [0m[92mTest passed.[0m
 
 [33m[stage-4] [0m[94mRunning tests for Stage #4: tl6[0m
