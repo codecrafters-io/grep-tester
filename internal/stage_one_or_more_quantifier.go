@@ -8,12 +8,12 @@ func testOneOrMoreQuantifier(stageHarness *test_case_harness.TestCaseHarness) er
 	testCases := []TestCase{
 		{
 			Pattern:          "ca+t",
-			Input:            "caaats",
+			Input:            "cat",
 			ExpectedExitCode: 0,
 		},
 		{
-			Pattern:          "ca+t",
-			Input:            "cat",
+			Pattern:          "ca+at",
+			Input:            "caaats",
 			ExpectedExitCode: 0,
 		},
 		{
