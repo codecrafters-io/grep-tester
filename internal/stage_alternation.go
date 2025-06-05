@@ -22,7 +22,7 @@ func testAlternation(stageHarness *test_case_harness.TestCaseHarness) error {
 			ExpectedExitCode: 0,
 		},
 		{
-			Pattern:          "^((W|w)ill(, | |'s )?)+$",
+			Pattern:          "^([Ww]ill(, | |'s )?)+$",
 			Input:            "Will, will Will will Will Will's will",
 			ExpectedExitCode: 0,
 		},
