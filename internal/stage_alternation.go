@@ -12,14 +12,19 @@ func testAlternation(stageHarness *test_case_harness.TestCaseHarness) error {
 			ExpectedExitCode: 0,
 		},
 		{
-			Pattern:          "a (cat|dog) and (cat|dog)s",
-			Input:            "a dog and cats",
-			ExpectedExitCode: 0,
-		},
-		{
 			Pattern:          "a (cat|dog)",
 			Input:            "a cow",
 			ExpectedExitCode: 1,
+		},
+		{
+			Pattern:          "^((Buffalo|buffalo)[ ]?)+$",
+			Input:            "Buffalo buffalo Buffalo buffalo buffalo buffalo Buffalo buffalo",
+			ExpectedExitCode: 0,
+		},
+		{
+			Pattern:          "^((W|w)ill(, | |'s )?)+$",
+			Input:            "Will, will Will will Will Will's will",
+			ExpectedExitCode: 0,
 		},
 	}
 
