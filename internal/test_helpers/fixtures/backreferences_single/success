@@ -43,11 +43,14 @@
 [33m[stage-12] [0m[94m$ echo -n "a cat" | ./your_grep.sh -E "a (cat|dog)"[0m
 [33m[your_program] [0ma cat
 [33m[stage-12] [0m[92m✓ Received exit code 0.[0m
-[33m[stage-12] [0m[94m$ echo -n "a dog and cats" | ./your_grep.sh -E "a (cat|dog) and (cat|dog)s"[0m
-[33m[your_program] [0ma dog and cats
-[33m[stage-12] [0m[92m✓ Received exit code 0.[0m
 [33m[stage-12] [0m[94m$ echo -n "a cow" | ./your_grep.sh -E "a (cat|dog)"[0m
 [33m[stage-12] [0m[92m✓ Received exit code 1.[0m
+[33m[stage-12] [0m[94m$ echo -n "Buffalo buffalo Buffalo buffalo buffalo buffalo Buffalo buffalo" | ./your_grep.sh -E "^((Buffalo|buffalo)[ ]?)+$"[0m
+[33m[your_program] [0mBuffalo buffalo Buffalo buffalo buffalo buffalo Buffalo buffalo
+[33m[stage-12] [0m[92m✓ Received exit code 0.[0m
+[33m[stage-12] [0m[94m$ echo -n "Will, will Will will Will Will's will" | ./your_grep.sh -E "^((W|w)ill(, | |'s )?)+$"[0m
+[33m[your_program] [0mWill, will Will will Will Will's will
+[33m[stage-12] [0m[92m✓ Received exit code 0.[0m
 [33m[stage-12] [0m[92mTest passed.[0m
 
 [33m[stage-11] [0m[94mRunning tests for Stage #11: zb3[0m
