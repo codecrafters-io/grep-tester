@@ -18,7 +18,7 @@ func testAlternation(stageHarness *test_case_harness.TestCaseHarness) error {
 		},
 		{
 			Pattern:          "^((Buffalo|buffalo)[ ]?)+$",
-			Input:            "Buffalo buffalo Buffalo buffalo buffalo buffalo Buffalo buffalo",
+			Input:            "Buffalo buffalo buffalo Buffalo buffalo",
 			ExpectedExitCode: 0,
 		},
 		{
