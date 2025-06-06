@@ -17,14 +17,14 @@ func testAlternation(stageHarness *test_case_harness.TestCaseHarness) error {
 			ExpectedExitCode: 1,
 		},
 		{
-			Pattern:          "^([Ww]ill(, | |'s )?)+$",
-			Input:            "Will, will Will will Will Will's will",
-			ExpectedExitCode: 0,
-		},
-		{
 			Pattern:          "^I see (\\d (cat|dog|cow)s?(, | and )?)+$",
 			Input:            "I see 1 cat, 2 dogs and 3 cows",
 			ExpectedExitCode: 0,
+		},
+		{
+			Pattern:          "^I see (\\d (cat|dog|cow)(, | and )?)+$",
+			Input:            "I see 1 cat, 2 dogs and 3 cows",
+			ExpectedExitCode: 1,
 		},
 	}
 
