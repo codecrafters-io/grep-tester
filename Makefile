@@ -37,3 +37,4 @@ update_tester_utils:
 setup:
 	curl -LO https://github.com/BurntSushi/ripgrep/releases/download/14.0.2/ripgrep_14.0.2-1_amd64.deb
 	sudo dpkg -i ripgrep_14.0.2-1_amd64.deb
+	rm ripgrep_14.0.2-1_amd64.deb
