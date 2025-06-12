@@ -33,3 +33,7 @@ copy_course_file:
 
 update_tester_utils:
 	go get -u github.com/codecrafters-io/tester-utils
+
+setup:
+	curl -LO https://github.com/BurntSushi/ripgrep/releases/download/14.0.2/ripgrep_14.0.2-1_amd64.deb
+	sudo dpkg -i ripgrep_14.0.2-1_amd64.deb
