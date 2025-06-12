@@ -7,24 +7,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           lfs: true
 
       - name: Set up Go
-        uses: actions/setup-go@v1
+        uses: actions/setup-go@v5
         with:
-          go-version: 1.21.x
+          go-version: 1.24.x
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
+          python-version: '3.13'
 
       # The build from installing through the package manager doesn't have support for PCRE2
       - name: Set up Ripgrep with PCRE2
-        run: |
-          curl -LO https://github.com/BurntSushi/ripgrep/releases/download/14.0.2/ripgrep_14.0.2-1_amd64.deb
-          sudo dpkg -i ripgrep_14.0.2-1_amd64.deb
+        run: make setup
 
       - run: make test
