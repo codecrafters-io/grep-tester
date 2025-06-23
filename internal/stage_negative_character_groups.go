@@ -10,6 +10,11 @@ func testNegativeCharacterGroups(stageHarness *test_case_harness.TestCaseHarness
 			ExpectedExitCode: 0,
 		},
 		{
+			Pattern:          "[^abc]",
+			Input:            "apple",
+			ExpectedExitCode: 0,
+		},
+		{
 			Pattern:          "[^anb]",
 			Input:            "banana",
 			ExpectedExitCode: 1,
