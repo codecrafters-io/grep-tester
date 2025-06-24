@@ -1,7 +1,21 @@
 #!/bin/sh
 echo $@
-which -a /usr/local/bin/grep
-/usr/local/bin/grep --version
-/usr/local/bin/grep --help
-whereis /usr/local/bin/grep
-exec /usr/local/bin/grep "$@"
+which -a grep
+grep --version
+grep --help
+whereis grep
+
+# Check if it's a different build/compilation
+grep --help | grep -i perl
+strings $(which grep) | grep -i pcre
+file $(which grep)
+
+# Test regex behavior differences
+echo "test123" | grep -E "test\d+"
+echo "test123" | grep -E "test[0-9]+"
+
+# Check build info
+grep --version
+ldd $(which grep) || echo "static binary"
+
+exec grep "$@"
