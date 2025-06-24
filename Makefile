@@ -43,8 +43,10 @@ setup_bsdgrep:
 	sudo apt update
 	sudo apt install -y build-essential curl git
 	git clone https://github.com/arp242/bsdgrep.git
-	cd bsdgrep/
 	pwd && ls -laH
+	cd bsdgrep
+	pwd && ls -laH
+	./update.sh
 	sed -i 's/#error.*getprogname.*/return \"grep\";/' progname.c
 	sed -i 's/warnc(/warn(/g' util.c
 	sed -i 's/warn(p->fts_errno,/warn(/g' util.c
