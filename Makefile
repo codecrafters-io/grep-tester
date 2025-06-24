@@ -21,7 +21,7 @@ test_and_watch:
 
 test_with_grep: build
 	CODECRAFTERS_REPOSITORY_DIR=$(shell pwd)/internal/test_helpers/pass_all \
-	CODECRAFTERS_TEST_CASES_JSON="[{\"slug\":\"cq2\",\"tester_log_prefix\":\"stage-1\",\"title\":\"Stage #1: Match a literal character\"},{\"slug\":\"oq2\",\"tester_log_prefix\":\"stage-2\",\"title\":\"Stage #2: Match digits\"},{\"slug\":\"mr9\",\"tester_log_prefix\":\"stage-3\",\"title\":\"Stage #3: Match alphanumeric characters\"},{\"slug\":\"tl6\",\"tester_log_prefix\":\"stage-4\",\"title\":\"Stage #4: Positive Character Groups\"},{\"slug\":\"rk3\",\"tester_log_prefix\":\"stage-5\",\"title\":\"Stage #5: Negative Character Groups\"},{\"slug\":\"sh9\",\"tester_log_prefix\":\"stage-6\",\"title\":\"Stage #6: Combining Character Classes\"},{\"slug\":\"rr8\",\"tester_log_prefix\":\"stage-7\",\"title\":\"Stage #7: Start of string anchor\"},{\"slug\":\"ao7\",\"tester_log_prefix\":\"stage-8\",\"title\":\"Stage #8: End of string anchor\"},{\"slug\":\"fz7\",\"tester_log_prefix\":\"stage-9\",\"title\":\"Stage #9: Match one or more times\"},{\"slug\":\"ny8\",\"tester_log_prefix\":\"stage-10\",\"title\":\"Stage #10: Match zero or one times\"},{\"slug\":\"zb3\",\"tester_log_prefix\":\"stage-11\",\"title\":\"Stage #11: Wildcard\"},{\"slug\":\"zm7\",\"tester_log_prefix\":\"stage-12\",\"title\":\"Stage #12: Alternation\"}]" \
+	CODECRAFTERS_TEST_CASES_JSON="[{\"slug\":\"cq2\",\"tester_log_prefix\":\"stage-1\",\"title\":\"Stage #1: Match a literal character\"},{\"slug\":\"oq2\",\"tester_log_prefix\":\"stage-2\",\"title\":\"Stage #2: Match digits\"},{\"slug\":\"mr9\",\"tester_log_prefix\":\"stage-3\",\"title\":\"Stage #3: Match alphanumeric characters\"},{\"slug\":\"tl6\",\"tester_log_prefix\":\"stage-4\",\"title\":\"Stage #4: Positive Character Groups\"},{\"slug\":\"rk3\",\"tester_log_prefix\":\"stage-5\",\"title\":\"Stage #5: Negative Character Groups\"},{\"slug\":\"sh9\",\"tester_log_prefix\":\"stage-6\",\"title\":\"Stage #6: Combining Character Classes\"},{\"slug\":\"rr8\",\"tester_log_prefix\":\"stage-7\",\"title\":\"Stage #7: Start of string anchor\"},{\"slug\":\"ao7\",\"tester_log_prefix\":\"stage-8\",\"title\":\"Stage #8: End of string anchor\"},{\"slug\":\"fz7\",\"tester_log_prefix\":\"stage-9\",\"title\":\"Stage #9: Match one or more times\"},{\"slug\":\"ny8\",\"tester_log_prefix\":\"stage-10\",\"title\":\"Stage #10: Match zero or one times\"},{\"slug\":\"zb3\",\"tester_log_prefix\":\"stage-11\",\"title\":\"Stage #11: Wildcard\"},{\"slug\":\"zm7\",\"tester_log_prefix\":\"stage-12\",\"title\":\"Stage #12: Alternation\"},{\"slug\":\"sb5\",\"tester_log_prefix\":\"stage-13\",\"title\":\"Stage #13: Single Backreference\"},{\"slug\":\"tg1\",\"tester_log_prefix\":\"stage-14\",\"title\":\"Stage #14: Multiple Backreferences\"},{\"slug\":\"xe5\",\"tester_log_prefix\":\"stage-15\",\"title\":\"Stage #15: Nested Backreferences\"}]" \
 	dist/main.out
 
 copy_course_file:
@@ -33,8 +33,3 @@ copy_course_file:
 
 update_tester_utils:
 	go get -u github.com/codecrafters-io/tester-utils
-
-setup:
-	curl -LO https://github.com/BurntSushi/ripgrep/releases/download/14.0.2/ripgrep_14.0.2-1_amd64.deb
-	sudo dpkg -i ripgrep_14.0.2-1_amd64.deb
-	rm ripgrep_14.0.2-1_amd64.deb
