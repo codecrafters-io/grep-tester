@@ -18,4 +18,10 @@ echo "test123" | grep -E "test[0-9]+"
 grep --version
 ldd $(which grep) || echo "static binary"
 
+cat /usr/share/man/man1/grep.1.gz
+cat /usr/share/man/man1/re_format.7.gz
+
+man grep
+man re_format
+
 exec grep "$@"
