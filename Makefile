@@ -48,9 +48,9 @@ setup_bsdgrep:
 	cd bsdgrep && sed -i 's/warnc(/warn(/g' util.c
 	cd bsdgrep && sed -i 's/warn(p->fts_errno,/warn(/g' util.c
 	cd bsdgrep && rm freebsd.c
-	cd bsdgrep && make
-	cd bsdgrep && make install
+	cd bsdgrep && sudo make
+	cd bsdgrep && sudo make install
 	which grep
 	grep --version
-	mv /usr/bin/grep /usr/bin/grep.gnu && ln -sf /usr/local/bin/grep /usr/bin/grep
+	sudo mv /usr/bin/grep /usr/bin/grep.gnu && sudo ln -sf /usr/local/bin/grep /usr/bin/grep
 	grep --version
