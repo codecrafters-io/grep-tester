@@ -21,7 +21,5 @@ jobs:
         with:
           python-version: '3.13'
 
-      - name: Set up BSD Grep
-        run: make setup_bsdgrep
-
+      # No setup required as we use GNU Grep.
       - run: make test
