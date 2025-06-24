@@ -78,6 +78,9 @@
 [33m[tester::#RK3] [0m[94m$ echo -n "apple" | ./your_grep.sh -E "[^xyz]"[0m
 [33m[your_program] [0mapple
 [33m[tester::#RK3] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#RK3] [0m[94m$ echo -n "apple" | ./your_grep.sh -E "[^abc]"[0m
+[33m[your_program] [0mapple
+[33m[tester::#RK3] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#RK3] [0m[94m$ echo -n "banana" | ./your_grep.sh -E "[^anb]"[0m
 [33m[tester::#RK3] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#RK3] [0m[94m$ echo -n "orange" | ./your_grep.sh -E "[^opq]"[0m
