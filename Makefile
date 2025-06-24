@@ -40,8 +40,8 @@ setup:
 	rm ripgrep_14.0.2-1_amd64.deb
 
 setup_bsdgrep:
-	apt update
-	apt install -y build-essential curl git
+	sudo apt update
+	sudo apt install -y build-essential curl git
 	git clone https://github.com/arp242/bsdgrep.git
 	cd bsdgrep/
 	./update.sh
