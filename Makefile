@@ -46,6 +46,8 @@ setup_bsdgrep:
 	pwd && ls -laH
 	cd bsdgrep
 	pwd && ls -laH
+	ls -laH bsdgrep/
+	cd bsdgrep && pwd && ls -la
 	./update.sh
 	sed -i 's/#error.*getprogname.*/return \"grep\";/' progname.c
 	sed -i 's/warnc(/warn(/g' util.c
