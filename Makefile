@@ -43,18 +43,13 @@ setup_bsdgrep:
 	sudo apt update
 	sudo apt install -y build-essential curl git
 	git clone https://github.com/arp242/bsdgrep.git
-	pwd && ls -laH
-	cd bsdgrep
-	pwd && ls -laH
-	ls -laH bsdgrep/
-	cd bsdgrep && pwd && ls -la
-	./update.sh
-	sed -i 's/#error.*getprogname.*/return \"grep\";/' progname.c
-	sed -i 's/warnc(/warn(/g' util.c
-	sed -i 's/warn(p->fts_errno,/warn(/g' util.c
-	rm freebsd.c
-	make
-	make install
+	cd bsdgrep && ./update.sh
+	cd bsdgrep && sed -i 's/#error.*getprogname.*/return \"grep\";/' progname.c
+	cd bsdgrep && sed -i 's/warnc(/warn(/g' util.c
+	cd bsdgrep && sed -i 's/warn(p->fts_errno,/warn(/g' util.c
+	cd bsdgrep && rm freebsd.c
+	cd bsdgrep && make
+	cd bsdgrep && make install
 	which grep
 	grep --version
 	mv /usr/bin/grep /usr/bin/grep.gnu && ln -sf /usr/local/bin/grep /usr/bin/grep
