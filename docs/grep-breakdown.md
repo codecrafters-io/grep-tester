@@ -1,3 +1,5 @@
+Grep / File Search
+
 # Stage 1: File Search - Non-existent file
 
 In this stage, you'll handle the case where `grep` is called on a file that doesn't exist.
@@ -213,7 +215,7 @@ In this stage, you'll implement recursive directory searching with the `-r` flag
 
 ## Recursive search
 
-The `-r` flag enables recursive searching through directories and their subdirectories. Each matching line should be prefixed with the full path to the file.
+The `-r` flag enables recursive searching through directories and their subdirectories. Each matching line should be prefixed with the relative path to the file (relative from the directory passed to `grep` as input).
 
 ## Tests
 
@@ -247,3 +249,38 @@ src/api.js:function handleRequest(req, res) {
 - Subdirectories should be searched recursively
 - Exit code follows the same pattern: 0 for matches found, 1 for no matches
 - `-r` doesn't follow recursive symlinks (we won't test for symlinks at all)
+
+
+---
+
+## Ignored.
+- Recursive search with recursive symlink following.
+- Directory action control.
+- No -include_dir or -exclude_dir.
+- -l for file names only.
+- -c for count of matches across files.
+- -H/-h for file names.
+- Binary file processing.
+- Case insensitive search.
+
+# Future Grep extensions.
+## Matching control.
+- Case insensitive matching (-i).
+- Invert matching (-v).
+- Word match (-w).
+- Line match (-x).
+
+## Output control.
+- Count matches (-c).
+- Only file names (-l).
+- Only file names without match (-L).
+- Only matching part of lines (-o).
+- No file names (-h).
+- Line numbers from origin file (-n).
+- Align actual matching content with tabs (-T).
+- Add context after, before, around the match (-A, -B, -C).
+
+## Globbing.
+- --include for inclusion patterns.
+- --exclude for exclusion patterns.
+- Files with spaces, quotes, newlines.
