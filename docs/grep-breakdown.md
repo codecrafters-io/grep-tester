@@ -1,10 +1,10 @@
 # Stage 1: File Search - Non-existent file
 
-In this stage, you'll handle the case where grep is called on a file that doesn't exist.
+In this stage, you'll handle the case where `grep` is called on a file that doesn't exist.
 
 ## File error handling
 
-The `grep` utility should properly handle missing files by printing an error message to stderr and exiting with a non-zero status code.
+`grep` should properly handle missing files by printing an error message to stderr and exiting with a non-zero status code.
 
 ## Tests
 
@@ -14,7 +14,7 @@ The tester will execute your program like this:
 ./your_program.sh
 ```
 
-It will then run a grep command on a non-existent file:
+It will then run a `grep` command on a non-existent file:
 
 ```
 $ grep "ERROR" main.go
@@ -30,11 +30,11 @@ $ echo $?
 
 # Stage 2: File Search - No match
 
-In this stage, you'll handle the case where grep searches a file but finds no matches.
+In this stage, you'll handle the case where `grep` searches a file but finds no matches.
 
 ## No match behavior
 
-When grep searches a file but the pattern is not found, it should produce no output and exit with status code 1.
+When `grep` searches a file but the pattern is not found, it should produce no output and exit with status code 1.
 
 ## Tests
 
@@ -44,7 +44,7 @@ The tester will execute your program like this:
 ./your_program.sh
 ```
 
-It will then run a grep command that finds no matches:
+It will then run a `grep` command that finds no matches:
 
 ```
 $ grep "ERROR" main.c
@@ -59,12 +59,11 @@ $ echo $?
 
 # Stage 3: Single file search
 
-In this stage, you'll implement basic pattern matching in a single file.
+In this stage, you'll implement pattern matching on the contents of a single file.
 
 ## Basic pattern matching
-TODO: this section
 
-The `grep` utility should search for a literal string pattern within a file and output matching lines.
+`grep` should search for a match within a file and output matching lines.
 
 ## Tests
 
@@ -74,49 +73,50 @@ The tester will execute your program like this:
 ./your_program.sh
 ```
 
-It will then run grep commands to find matches in a single file:
+It will then run multiple `grep` commands to find matches in a single file:
 
 ```
 $ grep "ERROR" app.log
 ERROR: Database connection failed
-$ grep -E "\d+ errors? found" debug.log
+$ grep -E "\d+ errors? found" logs/debug.log
 4 errors found
-$ grep -E "^ERROR:" system.log
+$ grep -E "^ERROR:" logs/system.log
 ERROR: Database connection failed
-$ grep -E "warning.*timeout" network.log
+$ grep -E "warning.*timeout" logs/network.log
 warning: connection timeout after 30s
 ```
 
 ## Notes
 
 - Output should contain the full line(s) that match the pattern
-- Exit code should be 0 when matches are found
-- Supports advanced regex patterns with quantifiers, anchors, and wildcards
+- Exit code should be 0 when matches are found, else 1
 
 # Stage 4: Multiple file search
 
-In this stage, you'll extend grep to search across multiple files.
+In this stage, you'll extend `grep` to search across multiple files.
 
 ## Multi-file search
 
-When grep searches multiple files, each matching line is prefixed with the filename followed by a colon. Grep processes each file independently and handles different scenarios:
+When `grep` searches multiple files, each matching line is prefixed with the filename followed by a colon. Where filename is the name of the file with the path as passed to `grep`.
+
+`grep` processes each file independently and handles different scenarios:
 
 File processing behavior:
-  - Existing files with matches: Print all matching lines with "filename:" prefix
+  - Existing files with matches: Print all matching lines with `<filename>:` prefix
   - Existing files without matches: No output (silent)
   - Non-existent files: Print error message to stderr and continue processing remaining files
 
 Exit code logic:
-  - Exit 0: At least one file had matches (regardless of missing files or files without matches)
+  - Exit 0: At least one file had matches
   - Exit 1: No matches found in any existing file
-  - Exit 2: Any specified files are missing/inaccessible (highest priority)
+  - Exit 2: Any specified files are missing/inaccessible (regardless of matches / no matches)
 
 Common scenarios:
   - file1 (match), file2 (no match) → Exit 0, show file1 matches only
-  - file1 (match), file2 (missing) → Exit 0, show file1 matches + stderr error for file2
+  - file1 (match), file2 (missing) → Exit 2, show file1 matches + stderr error for file2
   - file1 (no match), file2 (missing) → Exit 2, show only stderr error for file2
   - file1 (no match), file2 (no match) → Exit 1, no output
-  - file1 (match), file2 (no match), file3 (missing) → Exit 0, show file1 matches + stderr error for file3
+  - file1 (match), file2 (no match), file3 (missing) → Exit 2, show file1 matches + stderr error for file3
 
 ## Tests
 
@@ -126,7 +126,7 @@ The tester will execute your program like this:
 ./your_program.sh
 ```
 
-It will then run grep commands across multiple files:
+It will then run multiple `grep` commands across multiple files:
 
 ```
 $ grep "include" main.c script.py
@@ -145,17 +145,16 @@ $ echo $?
 
 ## Notes
 
-- Each matching line should be prefixed with "filename:"
+- Each matching line should be prefixed with `<filename>:`
 - Files without matches produce no output (but don't affect exit code if other files match)
-- Exit code should be 0 if any file contains matches, 1 if no files match
 
 # Stage 5: Directory not found
 
-In this stage, you'll handle the case where grep is called on a directory that doesn't exist.
+In this stage, you'll handle the case where `grep` is called on a directory that doesn't exist.
 
 ## Directory error handling
 
-Similar to missing files, grep should handle missing directories with appropriate error messages.
+Similar to missing files, `grep` should handle missing directories with appropriate error messages.
 
 ## Tests
 
@@ -165,7 +164,7 @@ The tester will execute your program like this:
 ./your_program.sh
 ```
 
-It will then run a grep command on a non-existent directory:
+It will then run multiple `grep` commands on non-existent directories:
 
 ```
 $ grep "include" foo/
@@ -182,11 +181,11 @@ grep: foo/: Not a directory
 
 # Stage 6: Directory without recursive flag
 
-In this stage, you'll handle the case where grep is called on a directory without the recursive flag.
+In this stage, you'll handle the case where `grep` is called on a directory without the recursive flag.
 
 ## Directory handling
 
-When grep is given a directory as input without the `-r` flag, it should report that the target is a directory and exit with an error.
+When `grep` is given a directory as input without the `-r` flag, it should report that the target is a directory and exit with an error.
 
 ## Tests
 
@@ -196,7 +195,7 @@ The tester will execute your program like this:
 ./your_program.sh
 ```
 
-It will then run a grep command on a directory without `-r`:
+It will then run a `grep` command on a directory without `-r`:
 
 ```
 $ grep "include" src/
@@ -230,6 +229,9 @@ It will then run multiple grep commands:
 $ grep -r "ERROR" logs/
 logs/app.log:ERROR: Database connection failed
 logs/nested/file.log:ERROR: Nested error
+$ grep -r "includeez" .
+$ echo $?
+1
 $ grep -r -E "ERROR:.*\[code:\s*\d+\]" logs/
 logs/app.log:ERROR: Database failed [code: 1001]
 logs/nested/api.log:ERROR: Timeout occurred [code: 2048]
@@ -244,4 +246,4 @@ src/api.js:function handleRequest(req, res) {
 - Each matching line should include the full relative path
 - Subdirectories should be searched recursively
 - Exit code follows the same pattern: 0 for matches found, 1 for no matches
-- -r doesn't follow recursive symlinks (we won't test for symlinks at all)
+- `-r` doesn't follow recursive symlinks (we won't test for symlinks at all)
