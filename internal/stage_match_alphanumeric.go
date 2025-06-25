@@ -8,7 +8,17 @@ func testMatchAlphanumeric(stageHarness *test_case_harness.TestCaseHarness) erro
 	testCases := []TestCase{
 		{
 			Pattern:          `\w`,
-			Input:            "word",
+			Input:            "Word",
+			ExpectedExitCode: 0,
+		},
+		{
+			Pattern:          `\w`,
+			Input:            "123 456",
+			ExpectedExitCode: 0,
+		},
+		{
+			Pattern:          `\w`,
+			Input:            "$_!_?",
 			ExpectedExitCode: 0,
 		},
 		{
