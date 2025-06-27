@@ -3,7 +3,7 @@ Grep / File Search
 # Stage 1: Single-line file search
 
 In this stage, you'll add support for pattern matching on the contents of a single file. The file will consist of a single line only.
-We will handle longer files in later stages.
+Longer files will be handled in later stages.
 
 ## Basic pattern matching
 
@@ -35,7 +35,7 @@ $ echo $?
 
 ## Notes
 
-- The file is guaranteed to exist and be of a single line
+- The file is guaranteed to exist and contain a single line
 - Output should contain the full line that matches the pattern
 
 # Stage 2: Multiple-line file search
@@ -44,7 +44,7 @@ In this stage, you'll add support for pattern matching on the contents of a sing
 
 ## Basic pattern matching
 
-`grep` should search for matches within a file. If matches are found, `grep` should print all matching lines to stdout and exit with status code 0. `grep` should process the file line by line and should not error out on the first line that doesn't match the pattern. If no match is found in the entire file, `grep` should print nothing to stdout and exit with status code 1.
+`grep` should search for matches within a file. If matches are found, `grep` should print all matching lines to stdout and exit with status code 0. `grep` should process all lines in the file. If no match is found in the entire file, `grep` should print nothing to stdout and exit with status code 1.
 
 ## Tests
 
@@ -75,7 +75,7 @@ $ echo $?
 
 ## Notes
 
-- The file is guaranteed to exist and be of multiple lines
+- The file is guaranteed to exist and contain multiple lines
 - Output should contain the full lines that match the pattern
 
 # Stage 3: Multiple-file search
@@ -88,9 +88,9 @@ In this stage, you'll add support for pattern matching on the contents of multip
 
 The behavior follows these rules:
 
-**File processing**: Files with matches will output all matching lines in their entirety to stdout with a `<filename>:` prefix. Files without matches produce no output but do not affect the exit code if other files contain matches. The filename used in the prefix includes the path as passed to `grep`.
+**File processing** - Files with matches will output all matching lines in their entirety to stdout with a `<filename>:` prefix. Files without matches produce no output but do not affect the exit code if other files contain matches. The filename used in the prefix includes the path as passed to `grep`.
 
-**Exit code behavior**: The exit code is determined by the overall operation result. Exit code 0 indicates at least one file contained matches. Exit code 1 indicates no matches were found in any existing file.
+**Exit code behavior** - The exit code is determined by the overall operation result. Exit code 0 indicates at least one file contained matches. Exit code 1 indicates no matches were found in any existing file.
 
 ## Tests
 
@@ -141,7 +141,7 @@ In this stage, you'll add support for searching through files in a given directo
 
 ## Recursive search
 
-The `-r` flag enables recursive searching through directories and their subdirectories. `grep` should search for matches in each file it finds, and process the file line by line. Each matching line should be prefixed with the relative path to the file `<filename>:` (the filepath is relative to the directory passed to `grep` as input).
+The `-r` flag enables recursive searching through directories and their subdirectories. `grep` should search for matches in each file it finds, and process the file line by line. Each matching line should be prefixed with the relative path to the file `<filename>:` (the filepath is relative to the search root directory specified).
 
 ## Tests
 
@@ -184,9 +184,9 @@ $ echo $?
 
 ## Notes
 
-- `-r` doesn't follow recursive symlinks (we won't test for symlinks at all)
-- GNU Grep doesn't guarantee the sorting order of the output, it processes the files in the order the underlying filesystem returns them. For your `grep`, you can print the matching lines to stdout in any order you want. We won't test for the order.
-- If no directory is provided with `-r`, `grep` runs the search in the current working directory.
+- The `-r` flag doesn't follow recursive symlinks (symlinks will not be tested)
+- GNU grep doesn't guarantee the sorting order of output; it processes files in filesystem order. Your `grep` can output matching lines in any order
+- If no directory is provided with `-r`, `grep` searches the current working directory
 
 # Stage 5: Multiple-directory recursive search
 
@@ -194,7 +194,7 @@ In this stage, you'll add support for searching through files in multiple direct
 
 ## Multiple-directory recursive search
 
-The `-r` flag enables recursive searching through multiple directories and their subdirectories. `grep` should search for matches in each directory and file it finds across all specified directories, processing each file line by line. Each matching line should be prefixed with the relative path to the file `<filename>:` (the filepath is relative to each directory passed to `grep` as input). `grep` handles each directory independently, and the output is not sorted.
+The `-r` flag enables recursive searching through multiple directories and their subdirectories. `grep` should search for matches in each directory and file it finds across all specified directories, processing each file line by line. Each matching line should be prefixed with the relative path to the file `<filename>:` (the filepath is relative to each search root directory specified). `grep` handles each directory independently. The output is not sorted.
 
 ## Tests
 
@@ -237,7 +237,7 @@ app/auth.log:ERROR: Authentication failed
 
 - Each directory maintains its own relative path context
 - When the same file is accessible through multiple paths, it may be processed multiple times and appear multiple times in the output
-- GNU Grep doesn't guarantee the sorting order of the output, it processes the files in the order the underlying filesystem returns them. For your `grep`, you can print the matching lines to stdout in any order you want. We won't test for the order.
+- GNU grep doesn't guarantee the sorting order of output; it processes files in filesystem order. Your `grep` can output matching lines in any order
 
 ---
 
