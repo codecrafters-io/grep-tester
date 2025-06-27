@@ -124,9 +124,9 @@ It will then run multiple `grep` commands to find matches across multiple files.
 $ grep "include" main.c main.cpp
 main.c:#include <stdio.h>
 main.cpp:#include <iostream>
-$ grep -E ".* main[\(\)]+" main.c main.c main.cpp script.py
+$ grep -E ".* main[\(\)]+" main.c ./main.c main.cpp script.py
 main.c:int main() {
-main.c:int main() {
+./main.c:int main() {
 main.cpp:int main() {
 script.py:def main():
 script.py:    main()
@@ -135,72 +135,13 @@ $ echo $?
 1
 ```
 
-# Stage 5: Directory not found
+# Stage 4: Single-directory recursive search
 
-In this stage, you'll handle the case where `grep` is called on a directory that doesn't exist.
-
-## Directory error handling
-
-Similar to missing files, `grep` should handle missing directories with appropriate error messages.
-
-## Tests
-
-The tester will execute your program like this:
-
-```bash
-./your_program.sh
-```
-
-It will then run multiple `grep` commands on non-existent directories:
-
-```
-$ grep "include" foo/
-grep: foo/: No such file or directory
-$ touch foo
-$ grep "include" foo/
-grep: foo/: Not a directory
-```
-
-## Notes
-
-- The error message should be printed to stderr
-- Exit code should be 2 (error condition)
-
-# Stage 6: Directory without recursive flag
-
-In this stage, you'll handle the case where `grep` is called on a directory without the recursive flag.
-
-## Directory handling
-
-When `grep` is given a directory as input without the `-r` flag, it should report that the target is a directory and exit with an error.
-
-## Tests
-
-The tester will execute your program like this:
-
-```bash
-./your_program.sh
-```
-
-It will then run a `grep` command on a directory without `-r`:
-
-```
-$ grep "include" src/
-grep: src/: Is a directory
-```
-
-## Notes
-
-- The error message should clearly indicate the path is a directory
-- Exit code should be 2 (error condition)
-
-# Stage 7: Recursive search
-
-In this stage, you'll implement recursive directory searching with the `-r` flag.
+In this stage, you'll add support for searching through files in a given directory and its subdirectories recursively with the `-r` flag.
 
 ## Recursive search
 
-The `-r` flag enables recursive searching through directories and their subdirectories. Each matching line should be prefixed with the relative path to the file (relative from the directory passed to `grep` as input).
+The `-r` flag enables recursive searching through directories and their subdirectories. `grep` should search for matches in each file it finds, and process the file line by line. Each matching line should be prefixed with the relative path to the file `<filename>:` (the filepath is relative from the directory passed to `grep` as input).
 
 ## Tests
 
@@ -210,30 +151,45 @@ The tester will execute your program like this:
 ./your_program.sh
 ```
 
-It will then run multiple grep commands:
+It will then run multiple `grep` commands to find matches in a single directory. The tester will then verify that all matching lines are printed to stdout. It'll also verify that the exit code is 0 if there are matching lines and 1 if not.
 
 ```
+[setup] $ rm -rf logs/
+[setup] $ mkdir -p logs/deeply/nested
+[setup] $ echo "ERROR: Database connection failed" > logs/app.log
+[setup] $ echo "ERROR: Nested error" > logs/deeply/file.log
+[setup] $ echo "WARN: Might be a warning" >> logs/deeply/file.log
+[setup] $ echo "INFO: This is alright!" >> logs/deeply/file.log
+[setup] $ echo "2024-01-01 ERROR: Database connection failed" > logs/deeply/nested/app.log
+[setup] $ echo "2024-01-01 INFO: Server started successfully" >> logs/deeply/nested/app.log
+[setup] $ echo "2024-01-01 DEBUG: Processing user request" >> logs/deeply/nested/app.log
+[setup] $ echo "2024-01-01 ERROR: SQL syntax error in query" >> logs/deeply/nested/app.log
 $ grep -r "ERROR" logs/
+logs/deeply/file.log:ERROR: Nested error
+logs/deeply/nested/app.log:2024-01-01 ERROR: Database connection failed
+logs/deeply/nested/app.log:2024-01-01 ERROR: SQL syntax error in query
 logs/app.log:ERROR: Database connection failed
-logs/nested/file.log:ERROR: Nested error
-$ grep -r "includeez" .
+$ cd logs
+$ grep -r -E "^\d{4}-\d{2}-\d{2} ERROR:" .
+logs/deeply/nested/app.log:2024-01-01 ERROR: Database connection failed
+logs/deeply/nested/app.log:2024-01-01 ERROR: SQL syntax error in query
+$ cd logs
+$ grep -r -E "Database.*connection.*failed?"
+logs/deeply/nested/app.log:2024-01-01 ERROR: Database connection failed
+logs/app.log:ERROR: Database connection failed
+$ cd ..
+$ grep -r -E "(success|info)$" .
 $ echo $?
 1
-$ grep -r -E "ERROR:.*\[code:\s*\d+\]" logs/
-logs/app.log:ERROR: Database failed [code: 1001]
-logs/nested/api.log:ERROR: Timeout occurred [code: 2048]
-$ grep -r -E "function\s+\w+\([^)]*\)\s*{" src/
-src/utils.js:function parseData(input, options) {
-src/api.js:function handleRequest(req, res) {
 ```
 
 ## Notes
 
-- The `-r` flag enables recursive directory traversal
-- Each matching line should include the full relative path
-- Subdirectories should be searched recursively
-- Exit code follows the same pattern: 0 for matches found, 1 for no matches
 - `-r` doesn't follow recursive symlinks (we won't test for symlinks at all)
+- GNU Grep doesn't guarantee the sorting order of the output, it processes the files in the order the underlying filesystem returns them. You can return the output in chronological order if you want. We won't test for this.
+- If no directory is provided with `-r`, `grep` runs the search in the current working directory.
+
+# Stage 5: Multiple-directory recursive search
 
 
 ---
