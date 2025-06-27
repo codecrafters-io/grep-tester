@@ -7,7 +7,7 @@ We will handle longer files in later stages.
 
 ## Basic pattern matching
 
-`grep` should search for a match within a file. If a match is found, `grep` should print the line to stdout. If no match is found, `grep` should print nothing to stdout and exit with status code 1.
+`grep` should search for a match within a file. If a match is found, `grep` should print the line to stdout and exit with status code 0. If no match is found, `grep` should print nothing to stdout and exit with status code 1.
 
 ## Tests
 
@@ -44,7 +44,7 @@ In this stage, you'll add support for pattern matching on the contents of a sing
 
 ## Basic pattern matching
 
-`grep` should search for matches within a file. If a match is found, `grep` should print the line to stdout. `grep` should process the file line by line and should not error out on the first line that doesn't match the pattern. If no match is found in the entire file, `grep` should print nothing to stdout and exit with status code 1.
+`grep` should search for matches within a file. If matches are found, `grep` should print all matching lines to stdout and exit with status code 0. `grep` should process the file line by line and should not error out on the first line that doesn't match the pattern. If no match is found in the entire file, `grep` should print nothing to stdout and exit with status code 1.
 
 ## Tests
 
@@ -236,6 +236,7 @@ app/auth.log:ERROR: Authentication failed
 ## Notes
 
 - Each directory maintains its own relative path context
+- When the same file is accessible through multiple paths, it may be processed multiple times and appear multiple times in the output
 - GNU Grep doesn't guarantee the sorting order of the output, it processes the files in the order the underlying filesystem returns them. For your `grep`, you can print the matching lines to stdout in any order you want. We won't test for the order.
 
 ---
