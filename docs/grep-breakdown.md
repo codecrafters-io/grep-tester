@@ -78,32 +78,19 @@ $ echo $?
 - The file is guaranteed to exist and be of multiple lines
 - Output should contain the full lines that match the pattern
 
-# Stage 4: Multiple file search
+# Stage 3: Multiple-file search
 
-In this stage, you'll extend `grep` to search across multiple files.
+In this stage, you'll add support for pattern matching on the contents of multiple files.
 
 ## Multi-file search
 
-When `grep` searches multiple files, each matching line is prefixed with the filename followed by a colon. Where filename is the name of the file with the path as passed to `grep`.
+`grep` processes each file independently and handles results on a per-file basis.
 
-`grep` processes each file independently and handles different scenarios:
+The behavior follows these rules:
 
-File processing behavior:
-  - Existing files with matches: Print all matching lines with `<filename>:` prefix
-  - Existing files without matches: No output (silent)
-  - Non-existent files: Print error message to stderr and continue processing remaining files
+**File processing**: Files with matches will output all matching lines in their entirety to stdout with a `<filename>:` prefix. Files without matches produce no output but do not affect the exit code if other files contain matches. The filename used in the prefix included the path as passed to `grep`.
 
-Exit code logic:
-  - Exit 0: At least one file had matches
-  - Exit 1: No matches found in any existing file
-  - Exit 2: Any specified files are missing/inaccessible (regardless of matches / no matches)
-
-Common scenarios:
-  - file1 (match), file2 (no match) → Exit 0, show file1 matches only
-  - file1 (match), file2 (missing) → Exit 2, show file1 matches + stderr error for file2
-  - file1 (no match), file2 (missing) → Exit 2, show only stderr error for file2
-  - file1 (no match), file2 (no match) → Exit 1, no output
-  - file1 (match), file2 (no match), file3 (missing) → Exit 2, show file1 matches + stderr error for file3
+**Exit code behavior**: The exit code is determined by the overall operation result. Exit code 0 indicates at least one file contained matches. Exit code 1 indicates no matches were found in any existing file.
 
 ## Tests
 
@@ -113,27 +100,40 @@ The tester will execute your program like this:
 ./your_program.sh
 ```
 
-It will then run multiple `grep` commands across multiple files:
+It will then run multiple `grep` commands to find matches across multiple files. The tester will then verify that all matching lines are printed to stdout. It'll also verify that the exit code is 0 if there are matching lines and 1 if not.
 
 ```
-$ grep "include" main.c script.py
+[setup] $ echo "#include <stdio.h>" > main.c
+[setup] $ echo "int main() {" >> main.c
+[setup] $ echo "    printf(\"Hello World!\");" >> main.c
+[setup] $ echo "    return 0;" >> main.c
+[setup] $ echo "}" >> main.c
+[setup] $ echo "#include <iostream>" > main.cpp
+[setup] $ echo "using namespace std;" >> main.cpp
+[setup] $ echo "int main() {" >> main.cpp
+[setup] $ echo "    cout << \"C++ Program\" << endl;" >> main.cpp
+[setup] $ echo "    return 0;" >> main.cpp
+[setup] $ echo "}" >> main.cpp
+[setup] $ echo "def main():" > script.py
+[setup] $ echo "    database_host = \"localhost\"" >> script.py
+[setup] $ echo "    database_user = \"admin\"" >> script.py
+[setup] $ echo "    database_password = \"secret123\"" >> script.py
+[setup] $ echo "" >> script.py
+[setup] $ echo "if __name__ == \"__main__\":" >> script.py
+[setup] $ echo "    main()" >> script.py
+$ grep "include" main.c main.cpp
 main.c:#include <stdio.h>
-$ grep -E "#include\s+<\w+\.h>" main.c utils.c network.c
-main.c:#include <stdio.h>
-utils.c:#include <string.h>
-network.c:#include <sys/socket.h>
-$ grep -E "class\s+\w+.*{" app.cpp model.cpp main.go
-app.cpp:class Application {
-model.cpp:class UserModel {
-grep: main.go: No such file or directory
+main.cpp:#include <iostream>
+$ grep -E ".* main[\(\)]+" main.c main.c main.cpp script.py
+main.c:int main() {
+main.c:int main() {
+main.cpp:int main() {
+script.py:def main():
+script.py:    main()
+$ grep -E "class.*"  main.c main.cpp script.py
 $ echo $?
-2
+1
 ```
-
-## Notes
-
-- Each matching line should be prefixed with `<filename>:`
-- Files without matches produce no output (but don't affect exit code if other files match)
 
 # Stage 5: Directory not found
 
