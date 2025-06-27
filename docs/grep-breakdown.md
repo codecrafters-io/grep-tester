@@ -191,6 +191,52 @@ $ echo $?
 
 # Stage 5: Multiple-directory recursive search
 
+In this stage, you'll add support for searching through files in multiple directories and their subdirectories recursively with the `-r` flag.
+
+## Multiple-directory recursive search
+
+The `-r` flag enables recursive searching through multiple directories and their subdirectories. `grep` should search for matches in each directory and file it finds across all specified directories, processing each file line by line. Each matching line should be prefixed with the relative path to the file `<filename>:` (the filepath is relative from each directory passed to `grep` as input). `grep` handles each directory independently, and the output is not sorted.
+
+## Tests
+
+The tester will execute your program like this:
+
+```bash
+./your_program.sh
+```
+
+It will then run multiple `grep` commands to find matches across multiple directories. The tester will then verify that all matching lines are printed to stdout. It'll also verify that the exit code is 0 if there are matching lines and 1 if not.
+
+```
+[setup] $ rm -rf logs/ src/
+[setup] $ mkdir -p logs/app src/utils
+[setup] $ echo "ERROR: Database connection failed" > logs/app.log
+[setup] $ echo "INFO: Server started" >> logs/app.log
+[setup] $ echo "ERROR: Authentication failed" > logs/app/auth.log
+[setup] $ echo "function validateUser(id)" > src/auth.js
+[setup] $ echo "function processData(input)" > src/utils/helper.js
+[setup] $ echo "ERROR: Processing failed" >> src/utils/helper.js
+$ grep -r "ERROR" logs/ src/
+logs/app/auth.log:ERROR: Authentication failed
+logs/app.log:ERROR: Database connection failed
+src/utils/helper.js:ERROR: Processing failed
+$ grep -r -E "function\s+\w+" logs/ src/
+src/auth.js:function validateUser(id)
+src/utils/helper.js:function processData(input)
+$ grep -r "nonexistent" logs/ src/
+$ echo $?
+1
+$ cd logs
+$ grep -r -E "ERROR: \w+ failed" . app ../logs/app/auth.log
+./app/auth.log:ERROR: Authentication failed
+./app.log:ERROR: Database connection failed
+app/auth.log:ERROR: Authentication failed
+../logs/app/auth.log:ERROR: Authentication failed
+```
+
+## Notes
+
+- Each directory maintains its own relative path context
 
 ---
 
