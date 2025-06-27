@@ -7,7 +7,7 @@ We will handle longer files in later stages.
 
 ## Basic pattern matching
 
-`grep` should search for a match within a file, if a match is found, `grep` should print the line to stdout. If no match is found, `grep` should print nothing to stdout and exit with status code 1.
+`grep` should search for a match within a file. If a match is found, `grep` should print the line to stdout. If no match is found, `grep` should print nothing to stdout and exit with status code 1.
 
 ## Tests
 
@@ -17,7 +17,7 @@ The tester will execute your program like this:
 ./your_program.sh
 ```
 
-It will then run multiple `grep` commands to find matches in a single file. The tester will then verify that all matching lines are printed to stdout. It'll also verify that the exit code is 0 if there are matching lines and 1 if not.
+It will then run multiple `grep` commands to find matches in a single file. The tester will then verify that all matching lines are printed to stdout. It'll also verify that the exit code is 0 if there are matching lines, and 1 if there are not.
 
 ```
 [setup] $ echo "2024-01-01 ERROR: Database connection failed" > app.log
@@ -44,7 +44,7 @@ In this stage, you'll add support for pattern matching on the contents of a sing
 
 ## Basic pattern matching
 
-`grep` should search for matches within a file, if a match is found, `grep` should print the line to stdout. `grep` should process the file line by line, and not error out on the first line that doesn't match the pattern. If no match is found in the entire file, `grep` should print nothing to stdout and exit with status code 1.
+`grep` should search for matches within a file. If a match is found, `grep` should print the line to stdout. `grep` should process the file line by line and should not error out on the first line that doesn't match the pattern. If no match is found in the entire file, `grep` should print nothing to stdout and exit with status code 1.
 
 ## Tests
 
@@ -54,7 +54,7 @@ The tester will execute your program like this:
 ./your_program.sh
 ```
 
-It will then run multiple `grep` commands to find matches in a single file. The tester will then verify that all matching lines are printed to stdout. It'll also verify that the exit code is 0 if there are matching lines and 1 if not.
+It will then run multiple `grep` commands to find matches in a single file. The tester will then verify that all matching lines are printed to stdout. It'll also verify that the exit code is 0 if there are matching lines, and 1 if there are not.
 
 ```
 [setup] $ rm app.log
@@ -88,7 +88,7 @@ In this stage, you'll add support for pattern matching on the contents of multip
 
 The behavior follows these rules:
 
-**File processing**: Files with matches will output all matching lines in their entirety to stdout with a `<filename>:` prefix. Files without matches produce no output but do not affect the exit code if other files contain matches. The filename used in the prefix included the path as passed to `grep`.
+**File processing**: Files with matches will output all matching lines in their entirety to stdout with a `<filename>:` prefix. Files without matches produce no output but do not affect the exit code if other files contain matches. The filename used in the prefix includes the path as passed to `grep`.
 
 **Exit code behavior**: The exit code is determined by the overall operation result. Exit code 0 indicates at least one file contained matches. Exit code 1 indicates no matches were found in any existing file.
 
@@ -100,7 +100,7 @@ The tester will execute your program like this:
 ./your_program.sh
 ```
 
-It will then run multiple `grep` commands to find matches across multiple files. The tester will then verify that all matching lines are printed to stdout. It'll also verify that the exit code is 0 if there are matching lines and 1 if not.
+It will then run multiple `grep` commands to find matches across multiple files. The tester will then verify that all matching lines are printed to stdout. It'll also verify that the exit code is 0 if there are matching lines, and 1 if there are not.
 
 ```
 [setup] $ echo "#include <stdio.h>" > main.c
@@ -141,7 +141,7 @@ In this stage, you'll add support for searching through files in a given directo
 
 ## Recursive search
 
-The `-r` flag enables recursive searching through directories and their subdirectories. `grep` should search for matches in each file it finds, and process the file line by line. Each matching line should be prefixed with the relative path to the file `<filename>:` (the filepath is relative from the directory passed to `grep` as input).
+The `-r` flag enables recursive searching through directories and their subdirectories. `grep` should search for matches in each file it finds, and process the file line by line. Each matching line should be prefixed with the relative path to the file `<filename>:` (the filepath is relative to the directory passed to `grep` as input).
 
 ## Tests
 
@@ -151,7 +151,7 @@ The tester will execute your program like this:
 ./your_program.sh
 ```
 
-It will then run multiple `grep` commands to find matches in a single directory. The tester will then verify that all matching lines are printed to stdout. It'll also verify that the exit code is 0 if there are matching lines and 1 if not.
+It will then run multiple `grep` commands to find matches in a single directory. The tester will then verify that all matching lines are printed to stdout. It'll also verify that the exit code is 0 if there are matching lines, and 1 if there are not.
 
 ```
 [setup] $ rm -rf logs/
@@ -185,7 +185,7 @@ $ echo $?
 ## Notes
 
 - `-r` doesn't follow recursive symlinks (we won't test for symlinks at all)
-- GNU Grep doesn't guarantee the sorting order of the output, it processes the files in the order the underlying filesystem returns them. For your `grep`, you can print the matching lines to stdout in any order you want. We won't assert for the order.
+- GNU Grep doesn't guarantee the sorting order of the output, it processes the files in the order the underlying filesystem returns them. For your `grep`, you can print the matching lines to stdout in any order you want. We won't test for the order.
 - If no directory is provided with `-r`, `grep` runs the search in the current working directory.
 
 # Stage 5: Multiple-directory recursive search
@@ -194,7 +194,7 @@ In this stage, you'll add support for searching through files in multiple direct
 
 ## Multiple-directory recursive search
 
-The `-r` flag enables recursive searching through multiple directories and their subdirectories. `grep` should search for matches in each directory and file it finds across all specified directories, processing each file line by line. Each matching line should be prefixed with the relative path to the file `<filename>:` (the filepath is relative from each directory passed to `grep` as input). `grep` handles each directory independently, and the output is not sorted.
+The `-r` flag enables recursive searching through multiple directories and their subdirectories. `grep` should search for matches in each directory and file it finds across all specified directories, processing each file line by line. Each matching line should be prefixed with the relative path to the file `<filename>:` (the filepath is relative to each directory passed to `grep` as input). `grep` handles each directory independently, and the output is not sorted.
 
 ## Tests
 
@@ -204,7 +204,7 @@ The tester will execute your program like this:
 ./your_program.sh
 ```
 
-It will then run multiple `grep` commands to find matches across multiple directories. The tester will then verify that all matching lines are printed to stdout. It'll also verify that the exit code is 0 if there are matching lines and 1 if not.
+It will then run multiple `grep` commands to find matches across multiple directories. The tester will then verify that all matching lines are printed to stdout. It'll also verify that the exit code is 0 if there are matching lines, and 1 if there are not.
 
 ```
 [setup] $ rm -rf logs/ src/
@@ -236,7 +236,7 @@ app/auth.log:ERROR: Authentication failed
 ## Notes
 
 - Each directory maintains its own relative path context
-- GNU Grep doesn't guarantee the sorting order of the output, it processes the files in the order the underlying filesystem returns them. For your `grep`, you can print the matching lines to stdout in any order you want. We won't assert for the order.
+- GNU Grep doesn't guarantee the sorting order of the output, it processes the files in the order the underlying filesystem returns them. For your `grep`, you can print the matching lines to stdout in any order you want. We won't test for the order.
 
 ---
 
