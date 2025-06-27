@@ -1,42 +1,13 @@
 Grep / File Search
 
-# Stage 1: File Search - Non-existent file
+# Stage 1: Single-line file search
 
-In this stage, you'll handle the case where `grep` is called on a file that doesn't exist.
+In this stage, you'll add support for pattern matching on the contents of a single file. The file will consist of a single line only.
+We will handle longer files in later stages.
 
-## File error handling
+## Basic pattern matching
 
-`grep` should properly handle missing files by printing an error message to stderr and exiting with a non-zero status code.
-
-## Tests
-
-The tester will execute your program like this:
-
-```bash
-./your_program.sh
-```
-
-It will then run a `grep` command on a non-existent file:
-
-```
-$ grep "ERROR" main.go
-grep: main.go: No such file or directory
-$ echo $?
-2
-```
-
-## Notes
-
-- The error message should be printed to stderr
-- The exit code should be 2 (error condition)
-
-# Stage 2: File Search - No match
-
-In this stage, you'll handle the case where `grep` searches a file but finds no matches.
-
-## No match behavior
-
-When `grep` searches a file but the pattern is not found, it should produce no output and exit with status code 1.
+`grep` should search for a match within a file, if a match is found, `grep` should print the line to stdout. If no match is found, `grep` should print nothing to stdout and exit with status code 1.
 
 ## Tests
 
@@ -46,26 +17,34 @@ The tester will execute your program like this:
 ./your_program.sh
 ```
 
-It will then run a `grep` command that finds no matches:
+It will then run multiple `grep` commands to find matches in a single file. The tester will then verify that all matching lines are printed to stdout. It'll also verify that the exit code is 0 if there are matching lines and 1 if not.
 
 ```
-$ grep "ERROR" main.c
+[setup] $ echo "2024-01-01 ERROR: Database connection failed" > app.log
+[setup] $ echo "[DEBUG] 4 errors found" > debug.log
+$ grep "ERROR" app.log
+2024-01-01 ERROR: Database connection failed
+$ grep -E "\d+ errors? found" debug.log
+[DEBUG] 4 errors found
+$ grep -E "^\d{4}-\d{2}-\d{2} ERROR:" app.log
+2024-01-01 ERROR: Database connection failed
+$ grep -E ".* EROR" app.log
 $ echo $?
 1
 ```
 
 ## Notes
 
-- No output should be produced when no matches are found
-- Exit code should be 1 (no matches found)
+- The file is guaranteed to exist and be of a single line
+- Output should contain the full line that matches the pattern
 
-# Stage 3: Single file search
+# Stage 2: Multiple-line file search
 
-In this stage, you'll implement pattern matching on the contents of a single file.
+In this stage, you'll add support for pattern matching on the contents of a single file, which will consist of multiple lines.
 
 ## Basic pattern matching
 
-`grep` should search for a match within a file and output matching lines.
+`grep` should search for matches within a file, if a match is found, `grep` should print the line to stdout. `grep` should process the file line by line, and not error out on the first line that doesn't match the pattern. If no match is found in the entire file, `grep` should print nothing to stdout and exit with status code 1.
 
 ## Tests
 
@@ -75,23 +54,29 @@ The tester will execute your program like this:
 ./your_program.sh
 ```
 
-It will then run multiple `grep` commands to find matches in a single file:
+It will then run multiple `grep` commands to find matches in a single file. The tester will then verify that all matching lines are printed to stdout. It'll also verify that the exit code is 0 if there are matching lines and 1 if not.
 
 ```
-$ grep "ERROR" app.log
-ERROR: Database connection failed
-$ grep -E "\d+ errors? found" logs/debug.log
-4 errors found
-$ grep -E "^ERROR:" logs/system.log
-ERROR: Database connection failed
-$ grep -E "warning.*timeout" logs/network.log
-warning: connection timeout after 30s
+[setup] $ rm app.log
+[setup] $ echo "2024-01-01 ERROR: Database connection failed" > app.log
+[setup] $ echo "2024-01-01 DEBUG: Query executed" >> app.log
+[setup] $ echo "2024-01-01 ERROR: SQL syntax error" >> app.log
+$ grep "DEBUG" app.log
+2024-01-01 DEBUG: Query executed
+$ grep -E "^\d{4}-\d{2}-\d{2} DEBUG:" app.log
+2024-01-01 DEBUG: Query executed
+$ grep -E ".* ERROR: .*" app.log
+2024-01-01 ERROR: Database connection failed
+2024-01-01 ERROR: SQL syntax error
+$ grep -E ".* DEBUG: .* error" app.log
+$ echo $?
+1
 ```
 
 ## Notes
 
-- Output should contain the full line(s) that match the pattern
-- Exit code should be 0 when matches are found, else 1
+- The file is guaranteed to exist and be of multiple lines
+- Output should contain the full lines that match the pattern
 
 # Stage 4: Multiple file search
 
