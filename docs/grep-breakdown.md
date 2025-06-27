@@ -185,7 +185,7 @@ $ echo $?
 ## Notes
 
 - `-r` doesn't follow recursive symlinks (we won't test for symlinks at all)
-- GNU Grep doesn't guarantee the sorting order of the output, it processes the files in the order the underlying filesystem returns them. You can return the output in chronological order if you want. We won't test for this.
+- GNU Grep doesn't guarantee the sorting order of the output, it processes the files in the order the underlying filesystem returns them. For your `grep`, you can print the matching lines to stdout in any order you want. We won't assert for the order.
 - If no directory is provided with `-r`, `grep` runs the search in the current working directory.
 
 # Stage 5: Multiple-directory recursive search
@@ -236,6 +236,7 @@ app/auth.log:ERROR: Authentication failed
 ## Notes
 
 - Each directory maintains its own relative path context
+- GNU Grep doesn't guarantee the sorting order of the output, it processes the files in the order the underlying filesystem returns them. For your `grep`, you can print the matching lines to stdout in any order you want. We won't assert for the order.
 
 ---
 
