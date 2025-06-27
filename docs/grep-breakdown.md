@@ -159,7 +159,7 @@ It will then run multiple `grep` commands to find matches in a single directory.
 [setup] $ echo "ERROR: Database connection failed" > logs/app.log
 [setup] $ echo "ERROR: Nested error" > logs/deeply/file.log
 [setup] $ echo "WARN: Might be a warning" >> logs/deeply/file.log
-[setup] $ echo "INFO: This is alright!" >> logs/deeply/file.log
+[setup] $ echo "INFO: This is alright" >> logs/deeply/file.log
 [setup] $ echo "2024-01-01 ERROR: Database connection failed" > logs/deeply/nested/app.log
 [setup] $ echo "2024-01-01 INFO: Server started successfully" >> logs/deeply/nested/app.log
 [setup] $ echo "2024-01-01 DEBUG: Processing user request" >> logs/deeply/nested/app.log
@@ -171,9 +171,8 @@ logs/deeply/nested/app.log:2024-01-01 ERROR: SQL syntax error in query
 logs/app.log:ERROR: Database connection failed
 $ cd logs
 $ grep -r -E "^\d{4}-\d{2}-\d{2} ERROR:" .
-logs/deeply/nested/app.log:2024-01-01 ERROR: Database connection failed
-logs/deeply/nested/app.log:2024-01-01 ERROR: SQL syntax error in query
-$ cd logs
+./deeply/nested/app.log:2024-01-01 ERROR: Database connection failed
+./deeply/nested/app.log:2024-01-01 ERROR: SQL syntax error in query
 $ grep -r -E "Database.*connection.*failed?"
 logs/deeply/nested/app.log:2024-01-01 ERROR: Database connection failed
 logs/app.log:ERROR: Database connection failed
