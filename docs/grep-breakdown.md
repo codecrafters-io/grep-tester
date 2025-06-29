@@ -2,12 +2,12 @@ Grep / File Search
 
 # Stage 1: Single-line file search
 
-In this stage, you'll add support for pattern matching on the contents of a single file. The file will consist of a single line only.
-Longer files will be handled in later stages.
+In this stage, you'll add support for pattern matching on the contents of a single file.
 
-## Basic pattern matching
+## File Search
 
-`grep` should search for a match within a file. If a match is found, `grep` should print the line to stdout and exit with status code 0. If no match is found, `grep` should print nothing to stdout and exit with status code 1.
+`grep` can accept a file as an argument and will search for a match within that file. If a match is found, `grep` should print the matching line to stdout and exit with status code 0. If no match is found, `grep` should print nothing to stdout and exit with status code 1.
+In this stage, the input file will consist of a single line only. Longer files will be handled in later stages.
 
 ## Tests
 
@@ -20,17 +20,20 @@ The tester will execute your program like this:
 It will then run multiple `grep` commands to find matches in a single file. The tester will then verify that all matching lines are printed to stdout. It'll also verify that the exit code is 0 if there are matching lines, and 1 if there are not.
 
 ```
-[setup] $ echo "2024-01-01 ERROR: Database connection failed" > app.log
-[setup] $ echo "[DEBUG] 4 errors found" > debug.log
-$ grep "ERROR" app.log
+# Create test files
+$ echo "2024-01-01 ERROR: Database connection failed" > app.log
+$ echo "DEBUG: 4 errors found" > debug.log
+
+# This must print the matched line to stdout and exit with code 0
+$ grep -E "ERROR" app.log
 2024-01-01 ERROR: Database connection failed
 $ grep -E "\d+ errors? found" debug.log
-[DEBUG] 4 errors found
+DEBUG: 4 errors found
 $ grep -E "^\d{4}-\d{2}-\d{2} ERROR:" app.log
 2024-01-01 ERROR: Database connection failed
-$ grep -E ".* EROR" app.log
-$ echo $?
-1
+
+# This must print no output since no matches exist and exit with code 1
+$ grep -E ".* CRITICAL" app.log
 ```
 
 ## Notes
@@ -42,7 +45,7 @@ $ echo $?
 
 In this stage, you'll add support for pattern matching on the contents of a single file, which will consist of multiple lines.
 
-## Basic pattern matching
+## Pattern Matching
 
 `grep` should search for matches within a file. If matches are found, `grep` should print all matching lines to stdout and exit with status code 0. `grep` should process all lines in the file. If no match is found in the entire file, `grep` should print nothing to stdout and exit with status code 1.
 
