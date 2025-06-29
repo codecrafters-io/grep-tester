@@ -150,10 +150,10 @@ app.log:ERROR: Database connection failed
 # This must print no output since no matches exist and exit with code 1
 $ grep "CRITICAL" app.log server.log debug.log
 
-# This must print the matched line to stdout and exit with code 0
+# This must print the matched lines to stdout and exit with code 0
 $ grep "ERROR" app.log server.log debug.log
 app.log:ERROR: Database connection failed
-server.log:ERROR: Authentication failed
+server.log:ERROR: Authentication denied
 ```
 
 # Stage 4: Recursive search
@@ -191,8 +191,8 @@ logs/app.log:ERROR: Database connection failed
 $ cd logs
 # This must print the matched line to stdout and exit with code 0
 $ grep -r -E ".*connection.*failed" .
-logs/nested/app.log:ERROR: Database connection failed
-logs/app.log:ERROR: Database connection failed
+./nested/app.log:ERROR: Database connection failed
+./app.log:ERROR: Database connection failed
 
 $ cd ..
 # This must print no output since no matches exist and exit with code 1
@@ -203,42 +203,37 @@ $ grep -r -E "(success|info)$" .
 
 - GNU grep doesn't guarantee the sorting order of output; it processes files in filesystem order. Your `grep` can output matching lines in any order
 
-## Notes
-
-- Each directory maintains its own relative path context
-- When the same file is accessible through multiple paths, it may be processed multiple times and appear multiple times in the output
-- GNU grep doesn't guarantee the sorting order of output; it processes files in filesystem order. Your `grep` can output matching lines in any order
-
 ---
 
-## Ignored.
-- Recursive search with recursive symlink following.
-- Directory action control.
-- No -include_dir or -exclude_dir.
-- -l for file names only.
-- -c for count of matches across files.
-- -H/-h for file names.
-- Binary file processing.
-- Case insensitive search.
+## Ignored Features
+- Recursive search with recursive symlink following
+- Directory action control
+- No -include_dir or -exclude_dir
+- -l for file names only
+- -c for count of matches across files
+- -H/-h for file names
+- Binary file processing
+- Case insensitive search
 
-# Future Grep extensions.
-## Matching control.
-- Case insensitive matching (-i).
-- Invert matching (-v).
-- Word match (-w).
-- Line match (-x).
+# Future Grep Extensions
 
-## Output control.
-- Count matches (-c).
-- Only file names (-l).
-- Only file names without match (-L).
-- Only matching part of lines (-o).
-- No file names (-h).
-- Line numbers from origin file (-n).
-- Align actual matching content with tabs (-T).
-- Add context after, before, around the match (-A, -B, -C).
+## Matching Control
+- Case insensitive matching (-i)
+- Invert matching (-v)
+- Word match (-w)
+- Line match (-x)
 
-## Globbing.
-- --include for inclusion patterns.
-- --exclude for exclusion patterns.
-- Files with spaces, quotes, newlines.
+## Output Control
+- Count matches (-c)
+- Only file names (-l)
+- Only file names without match (-L)
+- Only matching part of lines (-o)
+- No file names (-h)
+- Line numbers from origin file (-n)
+- Align actual matching content with tabs (-T)
+- Add context after, before, around the match (-A, -B, -C)
+
+## Globbing
+- --include for inclusion patterns
+- --exclude for exclusion patterns
+- Files with spaces, quotes, newlines
