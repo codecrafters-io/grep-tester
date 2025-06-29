@@ -2,7 +2,7 @@ Grep / File Search
 
 # Stage 1: Single-line file search
 
-In this stage, you'll add support for pattern matching on the contents of a single file.
+In this stage, you'll add support for searching the contents of a single file.
 
 ## File Search
 
@@ -43,7 +43,7 @@ $ grep -E ".* CRITICAL" app.log
 
 # Stage 2: Multi-line file search
 
-In this stage, you'll add support for pattern matching on the contents of a single file, which will consist of multiple lines.
+In this stage, you'll add support for searching the contents of a single file, which will consist of multiple lines.
 
 ## Single File Search
 
@@ -85,17 +85,44 @@ $ grep -E ".* DEBUG: .* error" app.log
 
 # Stage 3: Multi-file search
 
-In this stage, you'll add support for pattern matching on the contents of multiple files.
+In this stage, you'll add support for searching the contents of multiple files.
 
 ## Multi-file search
 
-`grep` processes each file independently and handles results on a per-file basis.
+When searching multiple files, `grep` outputs matching lines with a `<filename>:` prefix and exits with code 0 if any file contains matches, or code 1 if no files contain matches.
 
-The behavior follows these rules:
+## Example Usage
 
-**File processing** - Files with matches will output all matching lines in their entirety to stdout with a `<filename>:` prefix. Files without matches produce no output but do not affect the exit code if other files contain matches. The filename used in the prefix includes the path as passed to `grep`.
+The multi-file search behavior is explained below:
 
-**Exit code behavior** - The exit code is determined by the overall operation result. Exit code 0 indicates at least one file contained matches. Exit code 1 indicates no matches were found in any existing file.
+```bash
+# Create test files
+$ echo "2024-01-01 ERROR: Database connection failed" > app.log
+$ echo "2024-01-01 INFO: Server started successfully" > server.log
+$ echo "2024-01-01 DEBUG: Processing user request" > debug.log
+
+# Files with matches output each matching line with filename prefix
+$ grep "ERROR" app.log server.log debug.log
+app.log:2024-01-01 ERROR: Database connection failed
+# Files without matches produce no output (server.log and debug.log are silent)
+# When at least one file contains matches, exit code is 0
+$ echo $? # this is the exit code of the last executed command
+0
+
+# When no files contain matches, exit code is 1
+$ grep "CRITICAL" app.log server.log debug.log
+$ echo $? # this is the exit code of the last executed command
+1
+
+# When multiple files contain matches, show all lines with their
+# respective prefixes, and exit with code 0
+$ echo "2024-01-01 ERROR: Authentication failed" >> server.log
+$ grep "ERROR" app.log server.log debug.log
+app.log:2024-01-01 ERROR: Database connection failed
+server.log:2024-01-01 ERROR: Authentication failed
+$ echo $? # this is the exit code of the last executed command
+0
+```
 
 ## Tests
 
