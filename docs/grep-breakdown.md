@@ -6,7 +6,7 @@ In this stage, you'll add support for searching the contents of a single file.
 
 ## File Search
 
-`grep` can accept a file as an argument and will search for a match within that file. If a match is found, `grep` should print the matching line to stdout and exit with status code 0. If no match is found, `grep` should print nothing to stdout and exit with status code 1.
+`grep` should accept a file as an argument and search for matches within that file. If a match is found, `grep` should print the matching line to stdout and exit with status code 0. If no match is found, `grep` should print nothing to stdout and exit with status code 1.
 In this stage, the input file will consist of a single line only. Longer files will be handled in later stages.
 
 ## Tests
@@ -21,16 +21,16 @@ It will then run multiple `grep` commands to find matches in a single file. The 
 
 ```
 # Create test files
-$ echo "2024-01-01 ERROR: Database connection failed" > app.log
+$ echo "2024-01-01 ERROR: connection failed" > app.log
 $ echo "DEBUG: 4 errors found" > debug.log
 
 # This must print the matched line to stdout and exit with code 0
 $ grep -E "ERROR" app.log
-2024-01-01 ERROR: Database connection failed
+2024-01-01 ERROR: connection failed
 $ grep -E "\d+ errors? found" debug.log
 DEBUG: 4 errors found
 $ grep -E "^\d{4}-\d{2}-\d{2} ERROR:" app.log
-2024-01-01 ERROR: Database connection failed
+2024-01-01 ERROR: connection failed
 
 # This must print no output since no matches exist and exit with code 1
 $ grep -E ".* CRITICAL" app.log
@@ -61,7 +61,7 @@ It will then run multiple `grep` commands to find matches in a single file. The 
 
 ```
 # Create test files
-$ echo "2024-01-01 ERROR: Database connection failed" > app.log
+$ echo "2024-01-01 ERROR: Connection failed" > app.log
 $ echo "2024-01-01 DEBUG: Query executed" >> app.log
 $ echo "2024-01-01 ERROR: SQL syntax error" >> app.log
 
@@ -71,7 +71,7 @@ $ grep "DEBUG" app.log
 $ grep -E "^\d{4}-\d{2}-\d{2} DEBUG:" app.log
 2024-01-01 DEBUG: Query executed
 $ grep -E ".* ERROR: .*" app.log
-2024-01-01 ERROR: Database connection failed
+2024-01-01 ERROR: Connection failed
 2024-01-01 ERROR: SQL syntax error
 
 # This must print no output since no matches exist and exit with code 1
@@ -93,18 +93,18 @@ When searching multiple files, `grep` outputs matching lines with a `<filename>:
 
 ## Example Usage
 
-The multi-file search behavior is explained below:
+The multi-file search behavior of `grep` is explained below:
 
 ```bash
 # Create test files
-$ echo "2024-01-01 ERROR: Database connection failed" > app.log
-$ echo "2024-01-01 INFO: Server started successfully" > server.log
-$ echo "2024-01-01 DEBUG: Processing user request" > debug.log
+$ echo "2024-01-01 ERROR: log" > app.log
+$ echo "2024-01-01 INFO: log" > server.log
+$ echo "2024-01-01 DEBUG: log" > debug.log
 
-# Files with matches output each matching line with filename prefix
+# Files with matches output each matching line with a filename prefix
 $ grep "ERROR" app.log server.log debug.log
-app.log:2024-01-01 ERROR: Database connection failed
-# Files without matches produce no output (server.log and debug.log are silent)
+app.log:2024-01-01 ERROR: log
+# Files without matches produce no output (server.log and debug.log have no output)
 # When at least one file contains matches, exit code is 0
 $ echo $? # this is the exit code of the last executed command
 0
@@ -114,12 +114,14 @@ $ grep "CRITICAL" app.log server.log debug.log
 $ echo $? # this is the exit code of the last executed command
 1
 
-# When multiple files contain matches, show all lines with their
-# respective prefixes, and exit with code 0
-$ echo "2024-01-01 ERROR: Authentication failed" >> server.log
+# When multiple files contain matches, all lines are shown with their
+# respective prefixes, and exit code is 0
+$ echo "2024-01-01 ERROR: log" >> server.log
+$ echo "2024-01-01 ERROR: log" >> debug.log
 $ grep "ERROR" app.log server.log debug.log
-app.log:2024-01-01 ERROR: Database connection failed
-server.log:2024-01-01 ERROR: Authentication failed
+app.log:2024-01-01 ERROR: log
+server.log:2024-01-01 ERROR: log
+debug.log:2024-01-01 ERROR: log
 $ echo $? # this is the exit code of the last executed command
 0
 ```
@@ -136,22 +138,22 @@ It will then run multiple `grep` commands to find matches across multiple files.
 
 ```bash
 # Create test files
-$ echo "2024-01-01 ERROR: Database connection failed" > app.log
-$ echo "2024-01-01 INFO: Server started successfully" > server.log
-$ echo "2024-01-01 ERROR: Authentication denied" >> server.log
-$ echo "2024-01-01 DEBUG: Processing user request" > debug.log
+$ echo "ERROR: Database connection failed" > app.log
+$ echo "INFO: Server started successfully" > server.log
+$ echo "ERROR: Authentication denied" >> server.log
+$ echo "DEBUG: Processing user request" > debug.log
 
 # This must print the matched line to stdout and exit with code 0
 $ grep -E "ERROR: .* fail.*" app.log server.log debug.log
-app.log:2024-01-01 ERROR: Database connection failed
+app.log:ERROR: Database connection failed
 
 # This must print no output since no matches exist and exit with code 1
 $ grep "CRITICAL" app.log server.log debug.log
 
 # This must print the matched line to stdout and exit with code 0
 $ grep "ERROR" app.log server.log debug.log
-app.log:2024-01-01 ERROR: Database connection failed
-server.log:2024-01-01 ERROR: Authentication failed
+app.log:ERROR: Database connection failed
+server.log:ERROR: Authentication failed
 ```
 
 # Stage 4: Recursive search
@@ -174,28 +176,26 @@ It will then run multiple `grep` commands to find matches in a single directory.
 
 ```
 # Create test files
-$ mkdir -p logs/deeply/nested
+$ mkdir -p logs/nested
 $ echo "ERROR: Database connection failed" > logs/app.log
-$ echo "ERROR: Nested error" > logs/deeply/file.log
-$ echo "INFO: This is alright" >> logs/deeply/file.log
-$ echo "2024-01-01 ERROR: Database connection failed" > logs/deeply/nested/app.log
-$ echo "2024-01-01 INFO: Server started successfully" >> logs/deeply/nested/app.log
-$ echo "2024-01-01 DEBUG: Processing user request" >> logs/deeply/nested/app.log
+$ echo "INFO: This is alright" >> logs/file.log
+$ echo "ERROR: Database connection failed" > logs/nested/app.log
+$ echo "INFO: Server started successfully" >> logs/nested/app.log
+$ echo "DEBUG: Processing user request" >> logs/nested/app.log
 
 # This must print the matched line to stdout and exit with code 0
 $ grep -r "ERROR" logs/
-logs/deeply/file.log:ERROR: Nested error
-logs/deeply/nested/app.log:2024-01-01 ERROR: Database connection failed
-logs/app.log:ERROR: Database connection failed
-$ cd logs
-$ grep -r -E "^\d{4}-\d{2}-\d{2} ERROR:" .
-./deeply/nested/app.log:2024-01-01 ERROR: Database connection failed
-$ grep -r -E ".*connection.*failed?"
-logs/deeply/nested/app.log:2024-01-01 ERROR: Database connection failed
+logs/nested/app.log:ERROR: Database connection failed
 logs/app.log:ERROR: Database connection failed
 
-# This must print no output since no matches exist and exit with code 1
+$ cd logs
+# This must print the matched line to stdout and exit with code 0
+$ grep -r -E ".*connection.*failed" .
+logs/nested/app.log:ERROR: Database connection failed
+logs/app.log:ERROR: Database connection failed
+
 $ cd ..
+# This must print no output since no matches exist and exit with code 1
 $ grep -r -E "(success|info)$" .
 ```
 
