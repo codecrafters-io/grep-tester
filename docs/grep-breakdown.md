@@ -41,11 +41,11 @@ $ grep -E ".* CRITICAL" app.log
 - The file is guaranteed to exist and contain a single line
 - Output should contain the full line that matches the pattern
 
-# Stage 2: Multiple-line file search
+# Stage 2: Multi-line file search
 
 In this stage, you'll add support for pattern matching on the contents of a single file, which will consist of multiple lines.
 
-## Pattern Matching
+## Single File Search
 
 `grep` should search for matches within a file. If matches are found, `grep` should print all matching lines to stdout and exit with status code 0. `grep` should process all lines in the file. If no match is found in the entire file, `grep` should print nothing to stdout and exit with status code 1.
 
@@ -60,10 +60,12 @@ The tester will execute your program like this:
 It will then run multiple `grep` commands to find matches in a single file. The tester will then verify that all matching lines are printed to stdout. It'll also verify that the exit code is 0 if there are matching lines, and 1 if there are not.
 
 ```
-[setup] $ rm app.log
-[setup] $ echo "2024-01-01 ERROR: Database connection failed" > app.log
-[setup] $ echo "2024-01-01 DEBUG: Query executed" >> app.log
-[setup] $ echo "2024-01-01 ERROR: SQL syntax error" >> app.log
+# Create test files
+$ echo "2024-01-01 ERROR: Database connection failed" > app.log
+$ echo "2024-01-01 DEBUG: Query executed" >> app.log
+$ echo "2024-01-01 ERROR: SQL syntax error" >> app.log
+
+# This must print the matched line to stdout and exit with code 0
 $ grep "DEBUG" app.log
 2024-01-01 DEBUG: Query executed
 $ grep -E "^\d{4}-\d{2}-\d{2} DEBUG:" app.log
@@ -71,9 +73,9 @@ $ grep -E "^\d{4}-\d{2}-\d{2} DEBUG:" app.log
 $ grep -E ".* ERROR: .*" app.log
 2024-01-01 ERROR: Database connection failed
 2024-01-01 ERROR: SQL syntax error
+
+# This must print no output since no matches exist and exit with code 1
 $ grep -E ".* DEBUG: .* error" app.log
-$ echo $?
-1
 ```
 
 ## Notes
@@ -81,7 +83,7 @@ $ echo $?
 - The file is guaranteed to exist and contain multiple lines
 - Output should contain the full lines that match the pattern
 
-# Stage 3: Multiple-file search
+# Stage 3: Multi-file search
 
 In this stage, you'll add support for pattern matching on the contents of multiple files.
 
@@ -105,40 +107,27 @@ The tester will execute your program like this:
 
 It will then run multiple `grep` commands to find matches across multiple files. The tester will then verify that all matching lines are printed to stdout. It'll also verify that the exit code is 0 if there are matching lines, and 1 if there are not.
 
-```
-[setup] $ echo "#include <stdio.h>" > main.c
-[setup] $ echo "int main() {" >> main.c
-[setup] $ echo "    printf(\"Hello World!\");" >> main.c
-[setup] $ echo "    return 0;" >> main.c
-[setup] $ echo "}" >> main.c
-[setup] $ echo "#include <iostream>" > main.cpp
-[setup] $ echo "using namespace std;" >> main.cpp
-[setup] $ echo "int main() {" >> main.cpp
-[setup] $ echo "    cout << \"C++ Program\" << endl;" >> main.cpp
-[setup] $ echo "    return 0;" >> main.cpp
-[setup] $ echo "}" >> main.cpp
-[setup] $ echo "def main():" > script.py
-[setup] $ echo "    database_host = \"localhost\"" >> script.py
-[setup] $ echo "    database_user = \"admin\"" >> script.py
-[setup] $ echo "    database_password = \"secret123\"" >> script.py
-[setup] $ echo "" >> script.py
-[setup] $ echo "if __name__ == \"__main__\":" >> script.py
-[setup] $ echo "    main()" >> script.py
-$ grep "include" main.c main.cpp
-main.c:#include <stdio.h>
-main.cpp:#include <iostream>
-$ grep -E ".* main[\(\)]+" main.c ./main.c main.cpp script.py
-main.c:int main() {
-./main.c:int main() {
-main.cpp:int main() {
-script.py:def main():
-script.py:    main()
-$ grep -E "class.*"  main.c main.cpp script.py
-$ echo $?
-1
+```bash
+# Create test files
+$ echo "2024-01-01 ERROR: Database connection failed" > app.log
+$ echo "2024-01-01 INFO: Server started successfully" > server.log
+$ echo "2024-01-01 ERROR: Authentication denied" >> server.log
+$ echo "2024-01-01 DEBUG: Processing user request" > debug.log
+
+# This must print the matched line to stdout and exit with code 0
+$ grep -E "ERROR: .* fail.*" app.log server.log debug.log
+app.log:2024-01-01 ERROR: Database connection failed
+
+# This must print no output since no matches exist and exit with code 1
+$ grep "CRITICAL" app.log server.log debug.log
+
+# This must print the matched line to stdout and exit with code 0
+$ grep "ERROR" app.log server.log debug.log
+app.log:2024-01-01 ERROR: Database connection failed
+server.log:2024-01-01 ERROR: Authentication failed
 ```
 
-# Stage 4: Single-directory recursive search
+# Stage 4: Recursive search
 
 In this stage, you'll add support for searching through files in a given directory and its subdirectories recursively with the `-r` flag.
 
@@ -157,84 +146,35 @@ The tester will execute your program like this:
 It will then run multiple `grep` commands to find matches in a single directory. The tester will then verify that all matching lines are printed to stdout. It'll also verify that the exit code is 0 if there are matching lines, and 1 if there are not.
 
 ```
-[setup] $ rm -rf logs/
-[setup] $ mkdir -p logs/deeply/nested
-[setup] $ echo "ERROR: Database connection failed" > logs/app.log
-[setup] $ echo "ERROR: Nested error" > logs/deeply/file.log
-[setup] $ echo "WARN: Might be a warning" >> logs/deeply/file.log
-[setup] $ echo "INFO: This is alright" >> logs/deeply/file.log
-[setup] $ echo "2024-01-01 ERROR: Database connection failed" > logs/deeply/nested/app.log
-[setup] $ echo "2024-01-01 INFO: Server started successfully" >> logs/deeply/nested/app.log
-[setup] $ echo "2024-01-01 DEBUG: Processing user request" >> logs/deeply/nested/app.log
-[setup] $ echo "2024-01-01 ERROR: SQL syntax error in query" >> logs/deeply/nested/app.log
+# Create test files
+$ mkdir -p logs/deeply/nested
+$ echo "ERROR: Database connection failed" > logs/app.log
+$ echo "ERROR: Nested error" > logs/deeply/file.log
+$ echo "INFO: This is alright" >> logs/deeply/file.log
+$ echo "2024-01-01 ERROR: Database connection failed" > logs/deeply/nested/app.log
+$ echo "2024-01-01 INFO: Server started successfully" >> logs/deeply/nested/app.log
+$ echo "2024-01-01 DEBUG: Processing user request" >> logs/deeply/nested/app.log
+
+# This must print the matched line to stdout and exit with code 0
 $ grep -r "ERROR" logs/
 logs/deeply/file.log:ERROR: Nested error
 logs/deeply/nested/app.log:2024-01-01 ERROR: Database connection failed
-logs/deeply/nested/app.log:2024-01-01 ERROR: SQL syntax error in query
 logs/app.log:ERROR: Database connection failed
 $ cd logs
 $ grep -r -E "^\d{4}-\d{2}-\d{2} ERROR:" .
 ./deeply/nested/app.log:2024-01-01 ERROR: Database connection failed
-./deeply/nested/app.log:2024-01-01 ERROR: SQL syntax error in query
-$ grep -r -E "Database.*connection.*failed?"
+$ grep -r -E ".*connection.*failed?"
 logs/deeply/nested/app.log:2024-01-01 ERROR: Database connection failed
 logs/app.log:ERROR: Database connection failed
+
+# This must print no output since no matches exist and exit with code 1
 $ cd ..
 $ grep -r -E "(success|info)$" .
-$ echo $?
-1
 ```
 
 ## Notes
 
-- The `-r` flag doesn't follow recursive symlinks (symlinks will not be tested)
 - GNU grep doesn't guarantee the sorting order of output; it processes files in filesystem order. Your `grep` can output matching lines in any order
-- If no directory is provided with `-r`, `grep` searches the current working directory
-
-# Stage 5: Multiple-directory recursive search
-
-In this stage, you'll add support for searching through files in multiple directories and their subdirectories recursively with the `-r` flag.
-
-## Multiple-directory recursive search
-
-The `-r` flag enables recursive searching through multiple directories and their subdirectories. `grep` should search for matches in each directory and file it finds across all specified directories, processing each file line by line. Each matching line should be prefixed with the relative path to the file `<filename>:` (the filepath is relative to each search root directory specified). `grep` handles each directory independently. The output is not sorted.
-
-## Tests
-
-The tester will execute your program like this:
-
-```bash
-./your_program.sh
-```
-
-It will then run multiple `grep` commands to find matches across multiple directories. The tester will then verify that all matching lines are printed to stdout. It'll also verify that the exit code is 0 if there are matching lines, and 1 if there are not.
-
-```
-[setup] $ rm -rf logs/ src/
-[setup] $ mkdir -p logs/app src/utils
-[setup] $ echo "ERROR: Database connection failed" > logs/app.log
-[setup] $ echo "INFO: Server started" >> logs/app.log
-[setup] $ echo "ERROR: Authentication failed" > logs/app/auth.log
-[setup] $ echo "function validateUser(id)" > src/auth.js
-[setup] $ echo "function processData(input)" > src/utils/helper.js
-[setup] $ echo "ERROR: Processing failed" >> src/utils/helper.js
-$ grep -r "ERROR" logs/ src/
-logs/app/auth.log:ERROR: Authentication failed
-logs/app.log:ERROR: Database connection failed
-src/utils/helper.js:ERROR: Processing failed
-$ grep -r -E "function\s+\w+" logs/ src/
-src/auth.js:function validateUser(id)
-src/utils/helper.js:function processData(input)
-$ grep -r "nonexistent" logs/ src/
-$ echo $?
-1
-$ cd logs
-$ grep -r -E "ERROR: \w+ failed" . app ../logs/app/auth.log
-./app/auth.log:ERROR: Authentication failed
-./app.log:ERROR: Database connection failed
-app/auth.log:ERROR: Authentication failed
-../logs/app/auth.log:ERROR: Authentication failed
-```
 
 ## Notes
 
