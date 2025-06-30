@@ -14,6 +14,11 @@ func testPositiveCharacterGroups(stageHarness *test_case_harness.TestCaseHarness
 			Input:            "efgh",
 			ExpectedExitCode: 1,
 		},
+		{
+			Pattern:          "[abcd]",
+			Input:            "[]",
+			ExpectedExitCode: 1,
+		},
 	}
 
 	return RunTestCases(testCases, stageHarness)
