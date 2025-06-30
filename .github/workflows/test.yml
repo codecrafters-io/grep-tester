@@ -21,8 +21,5 @@ jobs:
         with:
           python-version: '3.13'
 
-      # The build from installing through the package manager doesn't have support for PCRE2
-      - name: Set up Ripgrep with PCRE2
-        run: make setup
-
+      # No setup required as we use GNU Grep.
       - run: make test
