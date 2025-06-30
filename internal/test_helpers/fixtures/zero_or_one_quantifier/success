@@ -81,6 +81,8 @@
 [33m[tester::#TL6] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#TL6] [0m[94m$ echo -n "efgh" | ./your_grep.sh -E "[abcd]"[0m
 [33m[tester::#TL6] [0m[92m✓ Received exit code 1.[0m
+[33m[tester::#TL6] [0m[94m$ echo -n "[]" | ./your_grep.sh -E "[abcd]"[0m
+[33m[tester::#TL6] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#TL6] [0m[92mTest passed.[0m
 
 [33m[tester::#MR9] [0m[94mRunning tests for Stage #MR9 (mr9)[0m
