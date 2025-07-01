@@ -1,49 +1,52 @@
 Grep / File Search
 
-# Stage 1: Single-line file search
+# Stage 1: Search a single-line file
 
-In this stage, you'll add support for searching the contents of a single file.
+In this stage, you'll add support for searching the contents of a file with a single line.
 
 ## File Search
 
-`grep` should accept a file as an argument and search for matches within that file. If a match is found, `grep` should print the matching line to stdout and exit with status code 0. If no match is found, `grep` should print nothing to stdout and exit with status code 1.
-In this stage, the input file will consist of a single line only. Longer files will be handled in later stages.
+When `grep` is given a file as an argument, it searches through the lines in the file and prints out matching lines. Example usage:
+
+```bash
+# This prints any lines that match search_pattern
+$ grep -E "search_pattern" any_file.txt
+This is a line that matches search_pattern
+This is another line that matches search_pattern
+```
+
+Matching lines are printed to stdout.
+
+If any matching lines were found, grep exits with status code 0 (i.e. "success"). If no matching lines were found, grep exits with status code 1.
+
+In this stage, we'll test searching through a file that contains a single line. We'll get to handling multi-line files in later stages.
 
 ## Tests
 
-The tester will execute your program like this:
+The tester will create some test files and then multiple commands to find matches in those files. For example:
 
 ```bash
-./your_program.sh
-```
-
-It will then run multiple `grep` commands to find matches in a single file. The tester will then verify that all matching lines are printed to stdout. It'll also verify that the exit code is 0 if there are matching lines, and 1 if there are not.
-
-```
-# Create test files
-$ echo "2024-01-01 ERROR: connection failed" > app.log
-$ echo "DEBUG: 4 errors found" > debug.log
+# Create test file
+$ echo "apple" > fruits.txt
 
 # This must print the matched line to stdout and exit with code 0
-$ grep -E "ERROR" app.log
-2024-01-01 ERROR: connection failed
-$ grep -E "\d+ errors? found" debug.log
-DEBUG: 4 errors found
-$ grep -E "^\d{4}-\d{2}-\d{2} ERROR:" app.log
-2024-01-01 ERROR: connection failed
+$ ./your_program.sh -E "appl.*" fruits.txt
+apple
 
-# This must print no output since no matches exist and exit with code 1
-$ grep -E ".* CRITICAL" app.log
+# This must print nothing to stdout and exit with code 1
+$ ./your_program.sh -E "carrot" fruits.txt
 ```
+
+The tester will verify that all matching lines are printed to stdout. It'll also verify that the exit code is 0 if there are matching lines, and 1 if there aren't.
 
 ## Notes
 
 - The file is guaranteed to exist and contain a single line
 - Output should contain the full line that matches the pattern
 
-# Stage 2: Multi-line file search
+# Stage 2: Search a multi-line file
 
-In this stage, you'll add support for searching the contents of a single file, which will consist of multiple lines.
+In this stage, you'll add support for searching the contents of a file with multiple lines.
 
 ## Single File Search
 
@@ -59,7 +62,7 @@ The tester will execute your program like this:
 
 It will then run multiple `grep` commands to find matches in a single file. The tester will then verify that all matching lines are printed to stdout. It'll also verify that the exit code is 0 if there are matching lines, and 1 if there are not.
 
-```
+```bash
 # Create test files
 $ echo "2024-01-01 ERROR: Connection failed" > app.log
 $ echo "2024-01-01 DEBUG: Query executed" >> app.log
@@ -83,11 +86,11 @@ $ grep -E ".* DEBUG: .* error" app.log
 - The file is guaranteed to exist and contain multiple lines
 - Output should contain the full lines that match the pattern
 
-# Stage 3: Multi-file search
+# Stage 3: Search multiple files
 
 In this stage, you'll add support for searching the contents of multiple files.
 
-## Multi-file search
+## Searching multiple files
 
 When searching multiple files, `grep` outputs matching lines with a `<filename>:` prefix and exits with code 0 if any file contains matches, or code 1 if no files contain matches.
 
@@ -174,7 +177,7 @@ The tester will execute your program like this:
 
 It will then run multiple `grep` commands to find matches in a single directory. The tester will then verify that all matching lines are printed to stdout. It'll also verify that the exit code is 0 if there are matching lines, and 1 if there are not.
 
-```
+```bash
 # Create test files
 $ mkdir -p logs/nested
 $ echo "ERROR: Database connection failed" > logs/app.log
@@ -204,36 +207,3 @@ $ grep -r -E "(success|info)$" .
 - GNU grep doesn't guarantee the sorting order of output; it processes files in filesystem order. Your `grep` can output matching lines in any order
 
 ---
-
-## Ignored Features
-- Recursive search with recursive symlink following
-- Directory action control
-- No -include_dir or -exclude_dir
-- -l for file names only
-- -c for count of matches across files
-- -H/-h for file names
-- Binary file processing
-- Case insensitive search
-
-# Future Grep Extensions
-
-## Matching Control
-- Case insensitive matching (-i)
-- Invert matching (-v)
-- Word match (-w)
-- Line match (-x)
-
-## Output Control
-- Count matches (-c)
-- Only file names (-l)
-- Only file names without match (-L)
-- Only matching part of lines (-o)
-- No file names (-h)
-- Line numbers from origin file (-n)
-- Align actual matching content with tabs (-T)
-- Add context after, before, around the match (-A, -B, -C)
-
-## Globbing
-- --include for inclusion patterns
-- --exclude for exclusion patterns
-- Files with spaces, quotes, newlines
