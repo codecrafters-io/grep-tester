@@ -49,7 +49,7 @@ In this stage, you'll add support for searching the contents of a file with mult
 
 ## Multiple matches within a file
 
-When searching through a multi-line file, `grep` processes each line individually and prints out all matching lines to stdout on their own line. Example usage:
+When searching through a multi-line file, `grep` processes each line individually and prints all matching lines to stdout, each on its own line. Example usage:
 
 ```bash
 # This prints any lines that match search_pattern
@@ -95,7 +95,7 @@ In this stage, you'll add support for searching the contents of multiple files.
 
 ## Searching multiple files
 
-When searching multiple files, `grep` processes each file individually and prints out all matching lines to stdout with a `<filename>:` prefix. Example usage:
+When searching multiple files, `grep` processes each file individually and prints all matching lines to stdout with a `<filename>:` prefix. Example usage:
 
 ```bash
 # This prints any lines that match search_pattern from multiple files
@@ -114,7 +114,7 @@ The tester will create some test files and then execute multiple commands to fin
 
 ```bash
 # Create test files
-$ echo "cherry" >> fruits.txt
+$ echo "cherry" > fruits.txt
 $ echo "blueberry" >> fruits.txt
 $ echo "celery" > vegetables.txt
 $ echo "carrot" >> vegetables.txt
@@ -137,7 +137,7 @@ In this stage, you'll add support for searching through files in a given directo
 
 ## Recursive search
 
-When `grep` is passed the `-r` flag, it searches through the given directory and its subdirectories recursively. It processes each file line by line and prints out all matching lines to stdout with a `<filename>:` prefix. Example usage:
+When `grep` is passed the `-r` flag, it searches through the given directory and its subdirectories recursively. It processes each file line by line and prints all matching lines to stdout with a `<filename>:` prefix. Example usage:
 
 ```bash
 # This prints any lines that match search_pattern from multiple files
@@ -156,13 +156,13 @@ The tester will create some test files and then multiple commands to find matche
 
 ```bash
 # Create test files
-mkdir -p dir/subdir
-echo "pear" > dir/fruits.txt
-echo "strawberry" >> dir/fruits.txt
-echo "celery" > dir/subdir/vegetables.txt
-echo "carrot" >> dir/subdir/vegetables.txt
-echo "cucumber" > dir/vegetables.txt
-echo "corn" >> dir/vegetables.txt
+$ mkdir -p dir/subdir
+$ echo "pear" > dir/fruits.txt
+$ echo "strawberry" >> dir/fruits.txt
+$ echo "celery" > dir/subdir/vegetables.txt
+$ echo "carrot" >> dir/subdir/vegetables.txt
+$ echo "cucumber" > dir/vegetables.txt
+$ echo "corn" >> dir/vegetables.txt
 
 # This must print the matched lines to stdout and exit with code 0
 $ ./your_program.sh -r -E ".*er" dir/
@@ -183,6 +183,6 @@ The tester will verify that all matching lines are printed to stdout. It'll also
 
 ## Notes
 
-- GNU grep doesn't guarantee the sorting order of output; it processes files in filesystem order. Your `grep` can output matching lines in any order
+- GNU grep doesn't guarantee the sorting order of output; it processes files in filesystem order. Your `grep` can output matching lines in any order.
 - The filepath prefix is relative to the directory passed as an argument to the `-r` flag
 ---
