@@ -60,14 +60,14 @@
 [33m[tester::#YX6] [setup] [0m[94mecho -n "cucumber" > "dir/vegetables.txt"[0m
 [33m[tester::#YX6] [setup] [0m[94mecho -n "corn" >> "dir/vegetables.txt"[0m
 [33m[tester::#YX6] [0m[94m$ ./your_grep.sh -r -E .*er dir/[0m
-[33m[your_program] [0mdir/fruits.txt:strawberry
 [33m[your_program] [0mdir/subdir/vegetables.txt:celery
 [33m[your_program] [0mdir/vegetables.txt:cucumber
+[33m[your_program] [0mdir/fruits.txt:strawberry
 [33m[tester::#YX6] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#YX6] [0m[92m✓ Received correct output.[0m
 [33m[tester::#YX6] [0m[94m$ ./your_grep.sh -r -E .*ar dir/[0m
-[33m[your_program] [0mdir/fruits.txt:pear
 [33m[your_program] [0mdir/subdir/vegetables.txt:carrot
+[33m[your_program] [0mdir/fruits.txt:pear
 [33m[tester::#YX6] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#YX6] [0m[92m✓ Received correct output.[0m
 [33m[tester::#YX6] [0m[94m$ ./your_grep.sh -r -E missing_fruit dir/[0m
