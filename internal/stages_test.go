@@ -1,12 +1,14 @@
 package internal
 
 import (
+	"os"
 	"testing"
 
 	tester_utils_testing "github.com/codecrafters-io/tester-utils/testing"
 )
 
 func TestStages(t *testing.T) {
+	os.Setenv("CODECRAFTERS_RANDOM_SEED", "1234567890")
 
 	falseVar := false
 

@@ -42,19 +42,19 @@
 [33m[tester::#TL6] [0m[92mTest passed.[0m
 
 [33m[tester::#MR9] [0m[94mRunning tests for Stage #MR9 (mr9)[0m
-[33m[tester::#MR9] [0m[94m$ echo -n "grape" | ./your_grep.sh -E "\w"[0m
-[33m[your_program] [0mgrape
+[33m[tester::#MR9] [0m[94m$ echo -n "apple" | ./your_grep.sh -E "\w"[0m
+[33m[your_program] [0mapple
 [33m[tester::#MR9] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#MR9] [0m[94m$ echo -n "BANANA" | ./your_grep.sh -E "\w"[0m
-[33m[your_program] [0mBANANA
+[33m[tester::#MR9] [0m[94m$ echo -n "BLUEBERRY" | ./your_grep.sh -E "\w"[0m
+[33m[your_program] [0mBLUEBERRY
 [33m[tester::#MR9] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#MR9] [0m[94m$ echo -n "700" | ./your_grep.sh -E "\w"[0m
-[33m[your_program] [0m700
+[33m[tester::#MR9] [0m[94m$ echo -n "234" | ./your_grep.sh -E "\w"[0m
+[33m[your_program] [0m234
 [33m[tester::#MR9] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#MR9] [0m[94m$ echo -n "∑÷¥_₹×÷" | ./your_grep.sh -E "\w"[0m
-[33m[your_program] [0m∑÷¥_₹×÷
+[33m[tester::#MR9] [0m[94m$ echo -n "€≤∞_÷€∞" | ./your_grep.sh -E "\w"[0m
+[33m[your_program] [0m€≤∞_÷€∞
 [33m[tester::#MR9] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#MR9] [0m[94m$ echo -n "$≠≥≤¥₹" | ./your_grep.sh -E "\w"[0m
+[33m[tester::#MR9] [0m[94m$ echo -n "≤€∑×₹+" | ./your_grep.sh -E "\w"[0m
 [33m[tester::#MR9] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#MR9] [0m[92mTest passed.[0m
 
