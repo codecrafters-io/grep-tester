@@ -59,7 +59,7 @@ func RunFileSearchTestCases(testCases []FileSearchTestCase, stageHarness *test_c
 
 			for i, expectedLine := range testCase.ExpectedOutput {
 				if actualOutputLines[i] != expectedLine {
-					return fmt.Errorf("expected line %d to be %q, got %q", i+1, expectedLine, actualOutputLines[i])
+					return fmt.Errorf("Expected line %d to be %q, got %q", i+1, expectedLine, actualOutputLines[i])
 				}
 			}
 		}

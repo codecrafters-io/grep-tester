@@ -21,14 +21,14 @@ func testRecursiveFileSearch(stageHarness *test_case_harness.TestCaseHarness) er
 			Pattern:          ".*er",
 			FilePaths:        []string{"dir/"},
 			ExpectedExitCode: 0,
-			ExpectedOutput:   []string{"dir/fruits.txt:strawberry", "dir/subdir/vegetables.txt:celery", "dir/vegetables.txt:cucumber"},
+			ExpectedOutput:   []string{"dir/subdir/vegetables.txt:celery", "dir/vegetables.txt:cucumber", "dir/fruits.txt:strawberry"},
 			Recursive:        true,
 		},
 		{
 			Pattern:          ".*ar",
 			FilePaths:        []string{"dir/"},
 			ExpectedExitCode: 0,
-			ExpectedOutput:   []string{"dir/fruits.txt:pear", "dir/subdir/vegetables.txt:carrot"},
+			ExpectedOutput:   []string{"dir/subdir/vegetables.txt:carrot", "dir/fruits.txt:pear"},
 			Recursive:        true,
 		},
 		{
