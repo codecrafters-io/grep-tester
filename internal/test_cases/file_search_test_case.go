@@ -1,4 +1,4 @@
-package internal
+package test_cases
 
 import (
 	"fmt"

@@ -1,4 +1,4 @@
-package internal
+package test_cases
 
 import (
 	"fmt"
@@ -7,13 +7,13 @@ import (
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
-type TestCase struct {
+type StdinTestCase struct {
 	Pattern          string
 	Input            string
 	ExpectedExitCode int
 }
 
-func RunTestCases(testCases []TestCase, stageHarness *test_case_harness.TestCaseHarness) error {
+func RunStdinTestCases(testCases []StdinTestCase, stageHarness *test_case_harness.TestCaseHarness) error {
 	logger := stageHarness.Logger
 	executable := stageHarness.Executable
 
