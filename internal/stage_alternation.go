@@ -6,6 +6,8 @@ import (
 )
 
 func testAlternation(stageHarness *test_case_harness.TestCaseHarness) error {
+	MoveGrepToTemp(stageHarness, stageHarness.Logger)
+
 	testCases := []test_cases.StdinTestCase{
 		{
 			Pattern:          "a (cat|dog)",
