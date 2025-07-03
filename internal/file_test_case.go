@@ -3,6 +3,7 @@ package internal
 import (
 	"fmt"
 	"path"
+	"sort"
 	"strings"
 
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
@@ -36,25 +37,29 @@ func RunFileSearchTestCases(testCases []FileSearchTestCase, stageHarness *test_c
 		}
 
 		if result.ExitCode != testCase.ExpectedExitCode {
-			return fmt.Errorf("expected exit code %v, got %v", testCase.ExpectedExitCode, result.ExitCode)
+			return fmt.Errorf("Expected exit code %v, got %v", testCase.ExpectedExitCode, result.ExitCode)
 		}
 		logger.Successf("✓ Received exit code %d.", testCase.ExpectedExitCode)
 
 		actualOutput := strings.TrimSpace(string(result.Stdout))
 		if len(testCase.ExpectedOutput) == 0 {
 			if actualOutput != "" {
-				return fmt.Errorf("expected empty output, got: %q", actualOutput)
+				return fmt.Errorf("Expected empty output, got: %q", actualOutput)
 			}
 		} else {
-			actualLines := strings.Split(actualOutput, "\n")
-			if len(actualLines) != len(testCase.ExpectedOutput) {
-				return fmt.Errorf("expected %d output lines, got %d\nExpected: %v\nActual: %v",
-					len(testCase.ExpectedOutput), len(actualLines), testCase.ExpectedOutput, actualLines)
+			actualOutputLines := strings.Split(actualOutput, "\n")
+			if len(actualOutputLines) != len(testCase.ExpectedOutput) {
+				return fmt.Errorf("Expected %d output lines, got %d\nExpected: %v\nActual: %v",
+					len(testCase.ExpectedOutput), len(actualOutputLines), testCase.ExpectedOutput, actualOutputLines)
 			}
 
+			// We have no expectations on the order of the output lines
+			sort.Strings(actualOutputLines)
+			sort.Strings(testCase.ExpectedOutput)
+
 			for i, expectedLine := range testCase.ExpectedOutput {
-				if actualLines[i] != expectedLine {
-					return fmt.Errorf("expected line %d to be %q, got %q", i+1, expectedLine, actualLines[i])
+				if actualOutputLines[i] != expectedLine {
+					return fmt.Errorf("expected line %d to be %q, got %q", i+1, expectedLine, actualOutputLines[i])
 				}
 			}
 		}
