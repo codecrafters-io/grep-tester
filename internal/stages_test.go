@@ -62,7 +62,8 @@ func TestStages(t *testing.T) {
 
 func normalizeTesterOutput(testerOutput []byte) []byte {
 	replacements := map[string][]*regexp.Regexp{
-		"[your_program] grep_output": {regexp.MustCompile(`\[your_program\] dir/.*`)},
+		// We can't be sure about the order of the output lines here
+		"grep_output_with_dir_prefix": {regexp.MustCompile(`dir/.*`)},
 	}
 
 	for replacement, regexes := range replacements {

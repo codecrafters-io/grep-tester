@@ -12,4 +12,4 @@ docker build -t local-grep-tester -f local_testing/Dockerfile .
 # Generate fixtures
 # docker run --rm -it -e CODECRAFTERS_RECORD_FIXTURES=true -v $(pwd):/app local-git-tester make test
 # Run test_with_grep
-docker run --rm -it -v $(pwd):/app local-grep-tester make test_file_search_with_grep
+docker run --rm -it -v $(pwd):/app local-grep-tester make test
