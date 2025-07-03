@@ -154,16 +154,16 @@
 [33m[tester::#MR9] [0m[94m$ echo -n "pear" | ./your_grep.sh -E "\w"[0m
 [33m[your_program] [0mpear
 [33m[tester::#MR9] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#MR9] [0m[94m$ echo -n "APPLE" | ./your_grep.sh -E "\w"[0m
-[33m[your_program] [0mAPPLE
+[33m[tester::#MR9] [0m[94m$ echo -n "ORANGE" | ./your_grep.sh -E "\w"[0m
+[33m[your_program] [0mORANGE
 [33m[tester::#MR9] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#MR9] [0m[94m$ echo -n "117" | ./your_grep.sh -E "\w"[0m
-[33m[your_program] [0m117
+[33m[tester::#MR9] [0m[94m$ echo -n "779" | ./your_grep.sh -E "\w"[0m
+[33m[your_program] [0m779
 [33m[tester::#MR9] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#MR9] [0m[94m$ echo -n "+×≠_+¥≤" | ./your_grep.sh -E "\w"[0m
-[33m[your_program] [0m+×≠_+¥≤
+[33m[tester::#MR9] [0m[94m$ echo -n "≥€≤_≠÷∑" | ./your_grep.sh -E "\w"[0m
+[33m[your_program] [0m≥€≤_≠÷∑
 [33m[tester::#MR9] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#MR9] [0m[94m$ echo -n "-∑£≤€$" | ./your_grep.sh -E "\w"[0m
+[33m[tester::#MR9] [0m[94m$ echo -n "≥₹+¥÷≤" | ./your_grep.sh -E "\w"[0m
 [33m[tester::#MR9] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#MR9] [0m[92mTest passed.[0m
 
