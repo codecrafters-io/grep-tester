@@ -7,7 +7,6 @@ import (
 )
 
 func TestStages(t *testing.T) {
-
 	falseVar := false
 
 	testCases := map[string]tester_utils_testing.TesterOutputTestCase{
@@ -42,10 +41,17 @@ func TestStages(t *testing.T) {
 			NormalizeOutputFunc: normalizeTesterOutput,
 		},
 		"backreferences_pass": {
-			UntilStageSlug:      "xe5",
+			StageSlugs:          []string{"sb5", "tg1", "xe5"},
 			CodePath:            "./test_helpers/pass_all",
 			ExpectedExitCode:    0,
 			StdoutFixturePath:   "./test_helpers/fixtures/backreferences/success",
+			NormalizeOutputFunc: normalizeTesterOutput,
+		},
+		"file_search_pass": {
+			StageSlugs:          []string{"dr5", "ol9", "is6", "yx6"},
+			CodePath:            "./test_helpers/pass_all",
+			ExpectedExitCode:    0,
+			StdoutFixturePath:   "./test_helpers/fixtures/file_search/success",
 			NormalizeOutputFunc: normalizeTesterOutput,
 		},
 	}
