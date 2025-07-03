@@ -7,6 +7,7 @@ else
     if [ "$(uname)" = "Darwin" ]; then
         exec ggrep "$@"  # GNU grep from brew on macOS
     else
-        exec grep "$@"   # GNU grep from apt on Linux
+        # GNU grep from apt on Linux
+        exec "$(dirname "$0")/../../pass_all/find_grep_linux.sh" "$@"
     fi
 fi
