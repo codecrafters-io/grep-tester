@@ -25,7 +25,7 @@ func RunTestCases(testCases []TestCase, stageHarness *test_case_harness.TestCase
 		}
 
 		if result.ExitCode != testCase.ExpectedExitCode {
-			return fmt.Errorf("expected exit code %v, got %v", testCase.ExpectedExitCode, result.ExitCode)
+			return fmt.Errorf("Expected exit code %v, got %v", testCase.ExpectedExitCode, result.ExitCode)
 		}
 
 		logger.Successf("✓ Received exit code %d.", testCase.ExpectedExitCode)

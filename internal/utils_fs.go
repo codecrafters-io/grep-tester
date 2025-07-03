@@ -42,6 +42,9 @@ func CreateTestFiles(testFiles []TestFile, logger *logger.Logger, stageHarness *
 // is very small, this should not be used without cleanup
 func GetShortRandomDirectory(stageHarness *test_case_harness.TestCaseHarness) (string, error) {
 	randomDir := path.Join("/tmp", random.RandomElementFromArray(SMALL_WORDS))
+	if err := os.MkdirAll(randomDir, 0755); err != nil {
+		return "", fmt.Errorf("Failed to create directory %s: %v", randomDir, err)
+	}
 	// Automatically cleanup the directory when the test is completed
 	stageHarness.RegisterTeardownFunc(func() {
 		cleanupDirectories([]string{randomDir})
