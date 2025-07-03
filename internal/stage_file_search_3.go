@@ -3,6 +3,7 @@ package internal
 import (
 	"fmt"
 
+	"github.com/codecrafters-io/grep-tester/internal/test_cases"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
@@ -15,7 +16,7 @@ func testMultiFileSearch(stageHarness *test_case_harness.TestCaseHarness) error 
 		return fmt.Errorf("Failed to create test files: %v", err)
 	}
 
-	testCases := []FileSearchTestCase{
+	testCases := []test_cases.FileSearchTestCase{
 		{
 			Pattern:          "b.*$",
 			FilePaths:        []string{"fruits.txt", "vegetables.txt"},
@@ -36,5 +37,5 @@ func testMultiFileSearch(stageHarness *test_case_harness.TestCaseHarness) error 
 		},
 	}
 
-	return RunFileSearchTestCases(testCases, stageHarness)
+	return test_cases.RunFileSearchTestCases(testCases, stageHarness)
 }

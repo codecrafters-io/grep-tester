@@ -1,9 +1,12 @@
 package internal
 
-import "github.com/codecrafters-io/tester-utils/test_case_harness"
+import (
+	"github.com/codecrafters-io/grep-tester/internal/test_cases"
+	"github.com/codecrafters-io/tester-utils/test_case_harness"
+)
 
 func testPositiveCharacterGroups(stageHarness *test_case_harness.TestCaseHarness) error {
-	testCases := []TestCase{
+	testCases := []test_cases.StdinTestCase{
 		{
 			Pattern:          "[abcd]",
 			Input:            "a",
@@ -16,5 +19,5 @@ func testPositiveCharacterGroups(stageHarness *test_case_harness.TestCaseHarness
 		},
 	}
 
-	return RunTestCases(testCases, stageHarness)
+	return test_cases.RunStdinTestCases(testCases, stageHarness)
 }

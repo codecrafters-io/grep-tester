@@ -3,6 +3,7 @@ package internal
 import (
 	"fmt"
 
+	"github.com/codecrafters-io/grep-tester/internal/test_cases"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
@@ -16,7 +17,7 @@ func testRecursiveFileSearch(stageHarness *test_case_harness.TestCaseHarness) er
 		return fmt.Errorf("Failed to create test files: %v", err)
 	}
 
-	testCases := []FileSearchTestCase{
+	testCases := []test_cases.FileSearchTestCase{
 		{
 			Pattern:          ".*er",
 			FilePaths:        []string{"dir/"},
@@ -40,5 +41,5 @@ func testRecursiveFileSearch(stageHarness *test_case_harness.TestCaseHarness) er
 		},
 	}
 
-	return RunFileSearchTestCases(testCases, stageHarness)
+	return test_cases.RunFileSearchTestCases(testCases, stageHarness)
 }

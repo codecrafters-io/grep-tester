@@ -1,11 +1,12 @@
 package internal
 
 import (
+	"github.com/codecrafters-io/grep-tester/internal/test_cases"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
 func testOneOrMoreQuantifier(stageHarness *test_case_harness.TestCaseHarness) error {
-	testCases := []TestCase{
+	testCases := []test_cases.StdinTestCase{
 		{
 			Pattern:          "ca+t",
 			Input:            "cat",
@@ -28,5 +29,5 @@ func testOneOrMoreQuantifier(stageHarness *test_case_harness.TestCaseHarness) er
 		},
 	}
 
-	return RunTestCases(testCases, stageHarness)
+	return test_cases.RunStdinTestCases(testCases, stageHarness)
 }
