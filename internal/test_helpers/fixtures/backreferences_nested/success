@@ -233,16 +233,19 @@
 [33m[tester::#TL6] [0m[92mTest passed.[0m
 
 [33m[tester::#MR9] [0m[94mRunning tests for Stage #MR9 (mr9)[0m
-[33m[tester::#MR9] [0m[94m$ echo -n "Word" | ./your_grep.sh -E "\w"[0m
-[33m[your_program] [0mWord
+[33m[tester::#MR9] [0m[94m$ echo -n "mango" | ./your_grep.sh -E "\w"[0m
+[33m[your_program] [0mmango
 [33m[tester::#MR9] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#MR9] [0m[94m$ echo -n "123 456" | ./your_grep.sh -E "\w"[0m
-[33m[your_program] [0m123 456
+[33m[tester::#MR9] [0m[94m$ echo -n "STRAWBERRY" | ./your_grep.sh -E "\w"[0m
+[33m[your_program] [0mSTRAWBERRY
 [33m[tester::#MR9] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#MR9] [0m[94m$ echo -n "$_!_?" | ./your_grep.sh -E "\w"[0m
-[33m[your_program] [0m$_!_?
+[33m[tester::#MR9] [0m[94m$ echo -n "595" | ./your_grep.sh -E "\w"[0m
+[33m[your_program] [0m595
 [33m[tester::#MR9] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#MR9] [0m[94m$ echo -n "$!?" | ./your_grep.sh -E "\w"[0m
+[33m[tester::#MR9] [0m[94m$ echo -n "+₹¥_∑+£" | ./your_grep.sh -E "\w"[0m
+[33m[your_program] [0m+₹¥_∑+£
+[33m[tester::#MR9] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#MR9] [0m[94m$ echo -n "≤+₹÷$£" | ./your_grep.sh -E "\w"[0m
 [33m[tester::#MR9] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#MR9] [0m[92mTest passed.[0m
 
