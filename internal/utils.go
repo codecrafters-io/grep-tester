@@ -17,7 +17,6 @@ func MoveGrepToTemp(harness *test_case_harness.TestCaseHarness, logger *logger.L
 	if err != nil {
 		panic(fmt.Sprintf("CodeCrafters Internal Error: grep executable not found: %v", err))
 	}
-	oldGrepDir := path.Dir(oldGrepPath)
 
 	tmpGrepDir, err := os.MkdirTemp("/tmp", "grep-*")
 	if err != nil {
@@ -25,22 +24,22 @@ func MoveGrepToTemp(harness *test_case_harness.TestCaseHarness, logger *logger.L
 	}
 	tmpGrepPath := path.Join(tmpGrepDir, "grep")
 
-	command := fmt.Sprintf("sudo mv %s %s", oldGrepPath, tmpGrepDir)
+	command := fmt.Sprintf("mv %s %s", oldGrepPath, tmpGrepPath)
 	moveCmd := exec.Command("sh", "-c", command)
-	moveCmd.Stdout = os.Stdout
-	moveCmd.Stderr = os.Stderr
+	moveCmd.Stdout = io.Discard
+	moveCmd.Stderr = io.Discard
 	if err := moveCmd.Run(); err != nil {
 		os.RemoveAll(tmpGrepDir)
 		panic(fmt.Sprintf("CodeCrafters Internal Error: mv grep to tmp directory failed: %v", err))
 	}
 
 	// Register teardown function to automatically restore grep
-	harness.RegisterTeardownFunc(func() { restoreGrep(tmpGrepPath, oldGrepDir) })
+	harness.RegisterTeardownFunc(func() { restoreGrep(tmpGrepPath, oldGrepPath) })
 }
 
 // RestoreGrep moves the grep binary back to its original location and cleans up
 func restoreGrep(newPath string, originalPath string) error {
-	command := fmt.Sprintf("sudo mv %s %s", newPath, originalPath)
+	command := fmt.Sprintf("mv %s %s", newPath, originalPath)
 	moveCmd := exec.Command("sh", "-c", command)
 	moveCmd.Stdout = io.Discard
 	moveCmd.Stderr = io.Discard
@@ -48,8 +47,8 @@ func restoreGrep(newPath string, originalPath string) error {
 		panic(fmt.Sprintf("CodeCrafters Internal Error: mv restore for grep failed: %v", err))
 	}
 
-	if err := os.RemoveAll(newPath); err != nil {
-		panic(fmt.Sprintf("CodeCrafters Internal Error: delete tmp grep directory failed: %s", newPath))
+	if err := os.RemoveAll(path.Dir(newPath)); err != nil {
+		panic(fmt.Sprintf("CodeCrafters Internal Error: delete tmp grep directory failed: %s", path.Dir(newPath)))
 	}
 
 	return nil
