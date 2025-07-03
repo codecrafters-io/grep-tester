@@ -19,15 +19,23 @@ type TestFile struct {
 }
 
 func CreateTestFiles(testFiles []TestFile, logger *logger.Logger, stageHarness *test_case_harness.TestCaseHarness) error {
-	randomDir, err := GetShortRandomDirectory(stageHarness)
-	if err != nil {
-		return fmt.Errorf("Failed to create random directory: %v", err)
+	for _, testFile := range testFiles {
+		dir := path.Dir(testFile.Path)
+		if dir != "." {
+			if err := os.MkdirAll(dir, 0755); err != nil {
+				return fmt.Errorf("Failed to create directory %s: %v", dir, err)
+			}
+			stageHarness.RegisterTeardownFunc(func() {
+				cleanupDirectories([]string{dir})
+			})
+		} else {
+			stageHarness.RegisterTeardownFunc(func() {
+				cleanupFiles([]string{testFile.Path})
+			})
+		}
 	}
 
-	for i, file := range testFiles {
-		testFiles[i].Path = path.Join(randomDir, file.Path)
-	}
-
+	// TODO: Use a random root directory for test files ?
 	if err := writeFiles(testFiles, logger); err != nil {
 		return fmt.Errorf("Failed to write files: %v", err)
 	}
@@ -82,6 +90,14 @@ func cleanupDirectories(dirs []string) {
 	for _, dir := range dirs {
 		if err := os.RemoveAll(dir); err != nil {
 			panic(fmt.Sprintf("CodeCrafters internal error: Failed to cleanup directories: %s", err))
+		}
+	}
+}
+
+func cleanupFiles(files []string) {
+	for _, file := range files {
+		if err := os.Remove(file); err != nil {
+			panic(fmt.Sprintf("CodeCrafters internal error: Failed to cleanup files: %s", err))
 		}
 	}
 }
