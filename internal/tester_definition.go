@@ -80,5 +80,21 @@ var testerDefinition = tester_definition.TesterDefinition{
 			TestFunc: testBackreferencesNested,
 			Timeout:  20 * time.Second,
 		},
+		{
+			Slug:     "dr5",
+			TestFunc: testSingleLineFileSearch,
+		},
+		{
+			Slug:     "ol9",
+			TestFunc: testMultiLineFileSearch,
+		},
+		{
+			Slug:     "is6",
+			TestFunc: testMultiFileSearch,
+		},
+		{
+			Slug:     "yx6",
+			TestFunc: testRecursiveFileSearch,
+		},
 	},
 }

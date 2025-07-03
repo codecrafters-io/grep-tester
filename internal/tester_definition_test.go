@@ -2,7 +2,7 @@ package internal
 
 import (
 	"testing"
-	
+
 	tester_utils_testing "github.com/codecrafters-io/tester-utils/testing"
 )
 
