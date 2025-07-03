@@ -8,10 +8,13 @@ import (
 )
 
 func testMultiLineFileSearch(stageHarness *test_case_harness.TestCaseHarness) error {
+	logger := stageHarness.Logger
+	MoveGrepToTemp(stageHarness, logger)
+
 	testFiles := []TestFile{
 		{Path: "fruits.txt", Content: "banana\ngrape\nblackberry\nblueberry"},
 	}
-	if err := CreateTestFiles(testFiles, stageHarness.Logger, stageHarness); err != nil {
+	if err := CreateTestFiles(testFiles, logger, stageHarness); err != nil {
 		return fmt.Errorf("Failed to create test files: %v", err)
 	}
 
