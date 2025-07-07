@@ -1,7 +1,7 @@
 #!/bin/sh
 # Find and execute grep on Linux systems
 
-# Check if grep is working in PATH first
+# Check if grep from PATH is working first
 if command -v grep >/dev/null 2>&1; then
     exec grep "$@"
 fi
