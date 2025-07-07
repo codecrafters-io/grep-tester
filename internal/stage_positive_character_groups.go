@@ -21,8 +21,8 @@ func testPositiveCharacterGroups(stageHarness *test_case_harness.TestCaseHarness
 			ExpectedExitCode: 0,
 		},
 		{
-			Pattern:          fmt.Sprintf("[%s]", words[1]),
-			Input:            lettersOutsideWord1,
+			Pattern:          fmt.Sprintf("[%s]", lettersOutsideWord1),
+			Input:            words[1],
 			ExpectedExitCode: 1,
 		},
 		{
