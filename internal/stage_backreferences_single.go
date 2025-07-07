@@ -8,7 +8,7 @@ import (
 func testBackreferencesSingle(stageHarness *test_case_harness.TestCaseHarness) error {
 	MoveGrepToTemp(stageHarness, stageHarness.Logger)
 
-	testCases := []test_cases.StdinTestCase{
+	testCases := test_cases.StdinTestCases{
 		// Base case
 		{
 			Pattern:          "(cat) and \\1",
@@ -93,5 +93,5 @@ func testBackreferencesSingle(stageHarness *test_case_harness.TestCaseHarness) e
 		},
 	}
 
-	return test_cases.RunStdinTestCases(testCases, stageHarness)
+	return testCases.Run(stageHarness)
 }

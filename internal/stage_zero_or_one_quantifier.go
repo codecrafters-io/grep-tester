@@ -8,7 +8,7 @@ import (
 func testZeroOrOneQuantifier(stageHarness *test_case_harness.TestCaseHarness) error {
 	MoveGrepToTemp(stageHarness, stageHarness.Logger)
 
-	testCases := []test_cases.StdinTestCase{
+	testCases := test_cases.StdinTestCases{
 		{
 			Pattern:          "ca?t",
 			Input:            "cat",
@@ -31,5 +31,5 @@ func testZeroOrOneQuantifier(stageHarness *test_case_harness.TestCaseHarness) er
 		},
 	}
 
-	return test_cases.RunStdinTestCases(testCases, stageHarness)
+	return testCases.Run(stageHarness)
 }

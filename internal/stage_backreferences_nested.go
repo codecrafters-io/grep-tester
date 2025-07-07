@@ -8,7 +8,7 @@ import (
 func testBackreferencesNested(stageHarness *test_case_harness.TestCaseHarness) error {
 	MoveGrepToTemp(stageHarness, stageHarness.Logger)
 
-	testCases := []test_cases.StdinTestCase{
+	testCases := test_cases.StdinTestCases{
 		// Base case
 		{
 			Pattern:          "('(cat) and \\2') is the same as \\1",
@@ -93,5 +93,5 @@ func testBackreferencesNested(stageHarness *test_case_harness.TestCaseHarness) e
 		},
 	}
 
-	return test_cases.RunStdinTestCases(testCases, stageHarness)
+	return testCases.Run(stageHarness)
 }

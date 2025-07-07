@@ -8,7 +8,7 @@ import (
 func testNegativeCharacterGroups(stageHarness *test_case_harness.TestCaseHarness) error {
 	MoveGrepToTemp(stageHarness, stageHarness.Logger)
 
-	testCases := []test_cases.StdinTestCase{
+	testCases := test_cases.StdinTestCases{
 		{
 			Pattern:          "[^xyz]",
 			Input:            "apple",
@@ -31,5 +31,5 @@ func testNegativeCharacterGroups(stageHarness *test_case_harness.TestCaseHarness
 		},
 	}
 
-	return test_cases.RunStdinTestCases(testCases, stageHarness)
+	return testCases.Run(stageHarness)
 }

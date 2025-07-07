@@ -8,7 +8,7 @@ import (
 func testCombiningCharacterClasses(stageHarness *test_case_harness.TestCaseHarness) error {
 	MoveGrepToTemp(stageHarness, stageHarness.Logger)
 
-	testCases := []test_cases.StdinTestCase{
+	testCases := test_cases.StdinTestCases{
 		{
 			Pattern:          `\d apple`,
 			Input:            "sally has 3 apples",
@@ -46,5 +46,5 @@ func testCombiningCharacterClasses(stageHarness *test_case_harness.TestCaseHarne
 		},
 	}
 
-	return test_cases.RunStdinTestCases(testCases, stageHarness)
+	return testCases.Run(stageHarness)
 }

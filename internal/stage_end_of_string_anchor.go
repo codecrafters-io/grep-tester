@@ -8,7 +8,7 @@ import (
 func testEndOfStringAnchor(stageHarness *test_case_harness.TestCaseHarness) error {
 	MoveGrepToTemp(stageHarness, stageHarness.Logger)
 
-	testCases := []test_cases.StdinTestCase{
+	testCases := test_cases.StdinTestCases{
 		{
 			Pattern:          "cat$",
 			Input:            "cat",
@@ -21,5 +21,5 @@ func testEndOfStringAnchor(stageHarness *test_case_harness.TestCaseHarness) erro
 		},
 	}
 
-	return test_cases.RunStdinTestCases(testCases, stageHarness)
+	return testCases.Run(stageHarness)
 }

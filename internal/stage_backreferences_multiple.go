@@ -8,7 +8,7 @@ import (
 func testBackreferencesMultiple(stageHarness *test_case_harness.TestCaseHarness) error {
 	MoveGrepToTemp(stageHarness, stageHarness.Logger)
 
-	testCases := []test_cases.StdinTestCase{
+	testCases := test_cases.StdinTestCases{
 		// Base case
 		{
 			Pattern:          "(\\d+) (\\w+) squares and \\1 \\2 circles",
@@ -93,5 +93,5 @@ func testBackreferencesMultiple(stageHarness *test_case_harness.TestCaseHarness)
 		},
 	}
 
-	return test_cases.RunStdinTestCases(testCases, stageHarness)
+	return testCases.Run(stageHarness)
 }

@@ -8,7 +8,7 @@ import (
 func testMatchAlphanumeric(stageHarness *test_case_harness.TestCaseHarness) error {
 	MoveGrepToTemp(stageHarness, stageHarness.Logger)
 
-	testCases := []test_cases.StdinTestCase{
+	testCases := test_cases.StdinTestCases{
 		{
 			Pattern:          `\w`,
 			Input:            "word",
@@ -21,5 +21,5 @@ func testMatchAlphanumeric(stageHarness *test_case_harness.TestCaseHarness) erro
 		},
 	}
 
-	return test_cases.RunStdinTestCases(testCases, stageHarness)
+	return testCases.Run(stageHarness)
 }
