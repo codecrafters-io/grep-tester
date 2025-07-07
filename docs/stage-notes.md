@@ -52,24 +52,29 @@ logs/app.log:ERROR: Database connection failed
 logs/nested/file.log:ERROR: Nested
 ```
 
-## On the fence about these.
+## ~On the fence about these.~
 
-5. --include for inclusion patterns.
+## Globbing extension.
+
+8. --include for inclusion patterns.
 ```
 > grep -r --include="*.c" "include" src
 src/c/main.c:#include <stdio.h>
 ```
 
-6. --exclude for exclusion patterns.
+9. --exclude for exclusion patterns.
 ```
 > grep -r --exclude="*.log" "ERROR" docs
 docs/readme.txt:Some lines have ERRORS.
 ```
 
-7. Files with spaces, quotes, newlines.
+10. Files with spaces, quotes, newlines.
 ```
 > ggrep "PATTERN" docs/file\ with\ spaces.txt
 PATTERN
+> grep -E "Error:\s*\w+Exception.*at\s+line\s+\d+" "error'log'file.txt"
+Error: NullPointerException at line 42
+Error: FileNotFoundException at line 156
 > ggrep "PATTERN" docs/file$'\n'with$'\n'newlines.txt
 PATTERN
 ```
@@ -100,3 +105,8 @@ PATTERN
 - Line numbers from origin file (-n).
 - Align actual matching content with tabs (-T).
 - Add context after, before, around the match (-A, -B, -C).
+
+## Globbing.
+- --include for inclusion patterns.
+- --exclude for exclusion patterns.
+- Files with spaces, quotes, newlines.
