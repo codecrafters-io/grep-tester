@@ -54,7 +54,7 @@ func runFileSearchTestCases(testCases []FileSearchTestCase, stageHarness *test_c
 		actualOutput := strings.TrimSpace(string(result.Stdout))
 		if len(testCase.ExpectedOutput) == 0 {
 			if actualOutput != "" {
-				return fmt.Errorf("Expected empty output, got: %q", actualOutput)
+				return fmt.Errorf("Expected no output, got: %q", actualOutput)
 			}
 		} else {
 			actualOutputLines := strings.Split(actualOutput, "\n")
