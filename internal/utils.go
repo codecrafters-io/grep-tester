@@ -7,12 +7,12 @@ import (
 	"os/exec"
 	"path"
 
-	"github.com/codecrafters-io/tester-utils/logger"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
-// MoveGrepToTemp moves the system grep binary to a temporary directory
-func MoveGrepToTemp(harness *test_case_harness.TestCaseHarness, logger *logger.Logger) {
+// RelocateSystemGrep moves the system grep binary to a temporary directory
+// And registers a teardown function to restore the original system grep binary
+func RelocateSystemGrep(harness *test_case_harness.TestCaseHarness) {
 	oldGrepPath, err := exec.LookPath("grep")
 	if err != nil {
 		panic(fmt.Sprintf("CodeCrafters Internal Error: grep executable not found: %v", err))
@@ -33,12 +33,12 @@ func MoveGrepToTemp(harness *test_case_harness.TestCaseHarness, logger *logger.L
 		panic(fmt.Sprintf("CodeCrafters Internal Error: mv grep to tmp directory failed: %v", err))
 	}
 
-	// Register teardown function to automatically restore grep
-	harness.RegisterTeardownFunc(func() { restoreGrep(tmpGrepPath, oldGrepPath) })
+	// Register teardown function to automatically restore system grep
+	harness.RegisterTeardownFunc(func() { restoreSystemGrep(tmpGrepPath, oldGrepPath) })
 }
 
-// RestoreGrep moves the grep binary back to its original location and cleans up
-func restoreGrep(newPath string, originalPath string) error {
+// RestoreSystemGrep moves the system grep binary back to its original location and cleans up
+func restoreSystemGrep(newPath string, originalPath string) error {
 	command := fmt.Sprintf("mv %s %s", newPath, originalPath)
 	moveCmd := exec.Command("sh", "-c", command)
 	moveCmd.Stdout = io.Discard
