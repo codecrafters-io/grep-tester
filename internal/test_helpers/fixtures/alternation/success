@@ -116,13 +116,13 @@
 [33m[tester::#MR9] [0m[94m$ echo -n "BLUEBERRY" | ./your_grep.sh -E "\w"[0m
 [33m[your_program] [0mBLUEBERRY
 [33m[tester::#MR9] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#MR9] [0m[94m$ echo -n "234" | ./your_grep.sh -E "\w"[0m
-[33m[your_program] [0m234
+[33m[tester::#MR9] [0m[94m$ echo -n "503" | ./your_grep.sh -E "\w"[0m
+[33m[your_program] [0m503
 [33m[tester::#MR9] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#MR9] [0m[94m$ echo -n "€≤∞_÷€∞" | ./your_grep.sh -E "\w"[0m
-[33m[your_program] [0m€≤∞_÷€∞
+[33m[tester::#MR9] [0m[94m$ echo -n "-÷€_×÷+" | ./your_grep.sh -E "\w"[0m
+[33m[your_program] [0m-÷€_×÷+
 [33m[tester::#MR9] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#MR9] [0m[94m$ echo -n "≤€∑×₹+" | ./your_grep.sh -E "\w"[0m
+[33m[tester::#MR9] [0m[94m$ echo -n "×$€-+÷" | ./your_grep.sh -E "\w"[0m
 [33m[tester::#MR9] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#MR9] [0m[92mTest passed.[0m
 
