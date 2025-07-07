@@ -8,13 +8,13 @@ import (
 )
 
 func testSingleLineFileSearch(stageHarness *test_case_harness.TestCaseHarness) error {
-	logger := stageHarness.Logger
-	MoveGrepToTemp(stageHarness, logger)
+	stageLogger := stageHarness.Logger
+	RelocateSystemGrep(stageHarness)
 
 	testFiles := []TestFile{
 		{Path: "fruits.txt", Content: "apple"},
 	}
-	if err := CreateTestFiles(testFiles, logger, stageHarness); err != nil {
+	if err := CreateTestFiles(testFiles, stageLogger, stageHarness); err != nil {
 		return fmt.Errorf("Failed to create test files: %v", err)
 	}
 

@@ -6,7 +6,7 @@ import (
 )
 
 func testBackreferencesNested(stageHarness *test_case_harness.TestCaseHarness) error {
-	MoveGrepToTemp(stageHarness, stageHarness.Logger)
+	RelocateSystemGrep(stageHarness)
 
 	testCases := test_cases.StdinTestCases{
 		// Base case
