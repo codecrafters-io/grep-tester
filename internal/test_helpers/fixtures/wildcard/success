@@ -89,10 +89,12 @@
 [33m[tester::#RK3] [0m[92mTest passed.[0m
 
 [33m[tester::#TL6] [0m[94mRunning tests for Stage #TL6 (tl6)[0m
-[33m[tester::#TL6] [0m[94m$ echo -n "a" | ./your_grep.sh -E "[abcd]"[0m
-[33m[your_program] [0ma
+[33m[tester::#TL6] [0m[94m$ echo -n "p" | ./your_grep.sh -E "[apple]"[0m
+[33m[your_program] [0mp
 [33m[tester::#TL6] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#TL6] [0m[94m$ echo -n "efgh" | ./your_grep.sh -E "[abcd]"[0m
+[33m[tester::#TL6] [0m[94m$ echo -n "blueberry" | ./your_grep.sh -E "[acdfghijk]"[0m
+[33m[tester::#TL6] [0m[92m✓ Received exit code 1.[0m
+[33m[tester::#TL6] [0m[94m$ echo -n "[]" | ./your_grep.sh -E "[strawberry]"[0m
 [33m[tester::#TL6] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#TL6] [0m[92mTest passed.[0m
 
