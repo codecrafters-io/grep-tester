@@ -13,7 +13,17 @@ type StdinTestCase struct {
 	ExpectedExitCode int
 }
 
-func RunStdinTestCases(testCases []StdinTestCase, stageHarness *test_case_harness.TestCaseHarness) error {
+func (testCase StdinTestCase) Run(stageHarness *test_case_harness.TestCaseHarness) error {
+	return runStdinTestCases([]StdinTestCase{testCase}, stageHarness)
+}
+
+type StdinTestCases []StdinTestCase
+
+func (testCases StdinTestCases) Run(stageHarness *test_case_harness.TestCaseHarness) error {
+	return runStdinTestCases(testCases, stageHarness)
+}
+
+func runStdinTestCases(testCases []StdinTestCase, stageHarness *test_case_harness.TestCaseHarness) error {
 	logger := stageHarness.Logger
 	executable := stageHarness.Executable
 
