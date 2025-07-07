@@ -1,5 +1,5 @@
 [33m[tester::#DR5] [0m[94mRunning tests for Stage #DR5 (dr5)[0m
-[33m[tester::#DR5] [setup] [0m[94mecho -n "apple" > "fruits.txt"[0m
+[33m[tester::#DR5] [setup] [0m[94mecho "apple" > "fruits.txt"[0m
 [33m[tester::#DR5] [0m[94m$ ./your_grep.sh -E appl.* fruits.txt[0m
 [33m[your_program] [0mapple
 [33m[tester::#DR5] [0m[92m✓ Received exit code 0.[0m
@@ -14,10 +14,10 @@
 [33m[tester::#DR5] [0m[92mTest passed.[0m
 
 [33m[tester::#OL9] [0m[94mRunning tests for Stage #OL9 (ol9)[0m
-[33m[tester::#OL9] [setup] [0m[94mecho -n "banana" > "fruits.txt"[0m
-[33m[tester::#OL9] [setup] [0m[94mecho -n "grape" >> "fruits.txt"[0m
-[33m[tester::#OL9] [setup] [0m[94mecho -n "blackberry" >> "fruits.txt"[0m
-[33m[tester::#OL9] [setup] [0m[94mecho -n "blueberry" >> "fruits.txt"[0m
+[33m[tester::#OL9] [setup] [0m[94mecho "banana" > "fruits.txt"[0m
+[33m[tester::#OL9] [setup] [0m[94mecho "grape" >> "fruits.txt"[0m
+[33m[tester::#OL9] [setup] [0m[94mecho "blackberry" >> "fruits.txt"[0m
+[33m[tester::#OL9] [setup] [0m[94mecho "blueberry" >> "fruits.txt"[0m
 [33m[tester::#OL9] [0m[94m$ ./your_grep.sh -E .*berry fruits.txt[0m
 [33m[your_program] [0mblackberry
 [33m[your_program] [0mblueberry
@@ -33,10 +33,10 @@
 [33m[tester::#OL9] [0m[92mTest passed.[0m
 
 [33m[tester::#IS6] [0m[94mRunning tests for Stage #IS6 (is6)[0m
-[33m[tester::#IS6] [setup] [0m[94mecho -n "banana" > "fruits.txt"[0m
-[33m[tester::#IS6] [setup] [0m[94mecho -n "blueberry" >> "fruits.txt"[0m
-[33m[tester::#IS6] [setup] [0m[94mecho -n "broccoli" > "vegetables.txt"[0m
-[33m[tester::#IS6] [setup] [0m[94mecho -n "carrot" >> "vegetables.txt"[0m
+[33m[tester::#IS6] [setup] [0m[94mecho "banana" > "fruits.txt"[0m
+[33m[tester::#IS6] [setup] [0m[94mecho "blueberry" >> "fruits.txt"[0m
+[33m[tester::#IS6] [setup] [0m[94mecho "broccoli" > "vegetables.txt"[0m
+[33m[tester::#IS6] [setup] [0m[94mecho "carrot" >> "vegetables.txt"[0m
 [33m[tester::#IS6] [0m[94m$ ./your_grep.sh -E b.*$ fruits.txt vegetables.txt[0m
 [33m[your_program] [0mfruits.txt:banana
 [33m[your_program] [0mfruits.txt:blueberry
@@ -53,21 +53,21 @@
 [33m[tester::#IS6] [0m[92mTest passed.[0m
 
 [33m[tester::#YX6] [0m[94mRunning tests for Stage #YX6 (yx6)[0m
-[33m[tester::#YX6] [setup] [0m[94mecho -n "pear" > "dir/fruits.txt"[0m
-[33m[tester::#YX6] [setup] [0m[94mecho -n "strawberry" >> "dir/fruits.txt"[0m
-[33m[tester::#YX6] [setup] [0m[94mecho -n "celery" > "dir/subdir/vegetables.txt"[0m
-[33m[tester::#YX6] [setup] [0m[94mecho -n "carrot" >> "dir/subdir/vegetables.txt"[0m
-[33m[tester::#YX6] [setup] [0m[94mecho -n "cucumber" > "dir/vegetables.txt"[0m
-[33m[tester::#YX6] [setup] [0m[94mecho -n "corn" >> "dir/vegetables.txt"[0m
+[33m[tester::#YX6] [setup] [0m[94mecho "pear" > "dir/fruits.txt"[0m
+[33m[tester::#YX6] [setup] [0m[94mecho "strawberry" >> "dir/fruits.txt"[0m
+[33m[tester::#YX6] [setup] [0m[94mecho "celery" > "dir/subdir/vegetables.txt"[0m
+[33m[tester::#YX6] [setup] [0m[94mecho "carrot" >> "dir/subdir/vegetables.txt"[0m
+[33m[tester::#YX6] [setup] [0m[94mecho "cucumber" > "dir/vegetables.txt"[0m
+[33m[tester::#YX6] [setup] [0m[94mecho "corn" >> "dir/vegetables.txt"[0m
 [33m[tester::#YX6] [0m[94m$ ./your_grep.sh -r -E .*er dir/[0m
+[33m[your_program] [0mdir/fruits.txt:strawberry
 [33m[your_program] [0mdir/subdir/vegetables.txt:celery
 [33m[your_program] [0mdir/vegetables.txt:cucumber
-[33m[your_program] [0mdir/fruits.txt:strawberry
 [33m[tester::#YX6] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#YX6] [0m[92m✓ Received correct output.[0m
 [33m[tester::#YX6] [0m[94m$ ./your_grep.sh -r -E .*ar dir/[0m
-[33m[your_program] [0mdir/subdir/vegetables.txt:carrot
 [33m[your_program] [0mdir/fruits.txt:pear
+[33m[your_program] [0mdir/subdir/vegetables.txt:carrot
 [33m[tester::#YX6] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#YX6] [0m[92m✓ Received correct output.[0m
 [33m[tester::#YX6] [0m[94m$ ./your_grep.sh -r -E missing_fruit dir/[0m

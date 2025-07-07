@@ -51,10 +51,10 @@ func writeFiles(testFiles []TestFile, logger *logger.Logger) error {
 	for _, testFile := range testFiles {
 		logger.UpdateSecondaryPrefix("setup")
 		lines := strings.Split(strings.TrimRight(testFile.Content, "\n"), "\n")
-		logger.Infof("echo -n %q > %q", lines[0], testFile.Path)
+		logger.Infof("echo %q > %q", lines[0], testFile.Path)
 		if len(lines) > 1 {
 			for _, line := range lines[1:] {
-				logger.Infof("echo -n %q >> %q", line, testFile.Path)
+				logger.Infof("echo %q >> %q", line, testFile.Path)
 			}
 		}
 		logger.ResetSecondaryPrefix()
