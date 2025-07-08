@@ -6,6 +6,7 @@ import (
 	"os"
 	"os/exec"
 	"path"
+	"runtime"
 
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
@@ -16,6 +17,9 @@ var VEGETABLES = []string{"carrot", "onion", "potato", "tomato", "broccoli", "ca
 // RelocateSystemGrep moves the system grep binary to a temporary directory
 // And registers a teardown function to restore the original system grep binary
 func RelocateSystemGrep(harness *test_case_harness.TestCaseHarness) {
+	if runtime.GOOS == "darwin" {
+		return
+	}
 	oldGrepPath, err := exec.LookPath("grep")
 	if err != nil {
 		panic(fmt.Sprintf("CodeCrafters Internal Error: grep executable not found: %v", err))
