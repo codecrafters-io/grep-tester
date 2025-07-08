@@ -3,7 +3,6 @@ package grep
 import (
 	"os"
 	"path/filepath"
-	"strings"
 	"testing"
 )
 
@@ -34,6 +33,28 @@ func runStdinTests(t *testing.T, tests []StdinTestCase) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			result := SearchStdin(tt.pattern, tt.input, tt.options)
+
+			if result.ExitCode != tt.expected.ExitCode {
+				t.Errorf("Expected exit code %d, got %d", tt.expected.ExitCode, result.ExitCode)
+			}
+
+			if len(result.Stdout) != len(tt.expected.Stdout) {
+				t.Errorf("Expected %d stdout lines, got %d", len(tt.expected.Stdout), len(result.Stdout))
+			}
+
+			for i, expectedLine := range tt.expected.Stdout {
+				if i >= len(result.Stdout) || result.Stdout[i] != expectedLine {
+					t.Errorf("Expected stdout line %d to be %q, got %q", i, expectedLine, result.Stdout[i])
+				}
+			}
+		})
+	}
+}
+
+func runFileTests(t *testing.T, tests []FileTestCase) {
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			result := SearchFiles(tt.pattern, tt.files, tt.options)
 
 			if result.ExitCode != tt.expected.ExitCode {
 				t.Errorf("Expected exit code %d, got %d", tt.expected.ExitCode, result.ExitCode)
@@ -439,13 +460,17 @@ func TestSearchFiles(t *testing.T) {
 			expected: Result{ExitCode: 1, Stdout: []string{}},
 		},
 
-		// Multiple files (need special handling for path normalization)
+		// Multiple files
 		{
-			name:     "multiple files match",
-			pattern:  "b.*$",
-			files:    []string{fruitsFile, vegetablesFile},
-			options:  Options{ExtendedRegex: true},
-			expected: Result{ExitCode: 0, Stdout: []string{"fruits.txt:banana", "fruits.txt:blueberry", "vegetables.txt:broccoli"}},
+			name:    "multiple files match",
+			pattern: "b.*$",
+			files:   []string{fruitsFile, vegetablesFile},
+			options: Options{ExtendedRegex: true},
+			expected: Result{ExitCode: 0, Stdout: []string{
+				fruitsFile + ":banana",
+				fruitsFile + ":blueberry",
+				vegetablesFile + ":broccoli",
+			}},
 		},
 		{
 			name:     "multiple files no match",
@@ -459,16 +484,20 @@ func TestSearchFiles(t *testing.T) {
 			pattern:  "carrot",
 			files:    []string{fruitsFile, vegetablesFile},
 			options:  Options{ExtendedRegex: true},
-			expected: Result{ExitCode: 0, Stdout: []string{"vegetables.txt:carrot"}},
+			expected: Result{ExitCode: 0, Stdout: []string{vegetablesFile + ":carrot"}},
 		},
 
 		// Recursive search
 		{
-			name:     "recursive search match",
-			pattern:  ".*er",
-			files:    []string{dirPath},
-			options:  Options{ExtendedRegex: true, Recursive: true},
-			expected: Result{ExitCode: 0, Stdout: []string{"dir/fruits.txt:strawberry", "dir/subdir/vegetables.txt:celery", "dir/vegetables.txt:cucumber"}},
+			name:    "recursive search match",
+			pattern: ".*er",
+			files:   []string{dirPath},
+			options: Options{ExtendedRegex: true, Recursive: true},
+			expected: Result{ExitCode: 0, Stdout: []string{
+				dirFruitsFile + ":strawberry",
+				subdirVegetablesFile + ":celery",
+				dirVegetablesFile + ":cucumber",
+			}},
 		},
 		{
 			name:     "recursive search no match",
@@ -479,87 +508,7 @@ func TestSearchFiles(t *testing.T) {
 		},
 	}
 
-	// Run tests with custom handling for multiple files and recursive search
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			result := SearchFiles(tt.pattern, tt.files, tt.options)
-
-			if result.ExitCode != tt.expected.ExitCode {
-				t.Errorf("Expected exit code %d, got %d", tt.expected.ExitCode, result.ExitCode)
-			}
-
-			if len(result.Stdout) != len(tt.expected.Stdout) {
-				t.Errorf("Expected %d stdout lines, got %d", len(tt.expected.Stdout), len(result.Stdout))
-			}
-
-			// Handle path normalization for multiple files and recursive search
-			if len(tt.files) > 1 || tt.options.Recursive {
-				expectedMap := make(map[string]bool)
-				for _, line := range tt.expected.Stdout {
-					expectedMap[line] = true
-				}
-
-				actualMap := make(map[string]bool)
-				for _, line := range result.Stdout {
-					var relativePath string
-					if tt.options.Recursive {
-						// For recursive search, normalize to relative path from tempDir
-						rel, err := filepath.Rel(tempDir, line)
-						if err != nil {
-							if strings.Contains(line, "/dir/") {
-								parts := strings.Split(line, "/dir/")
-								if len(parts) > 1 {
-									relativePath = "dir/" + parts[1]
-								} else {
-									relativePath = line
-								}
-							} else {
-								relativePath = line
-							}
-						} else {
-							relativePath = rel
-						}
-					} else {
-						// For multiple files, extract filename:content part
-						parts := strings.Split(line, "/")
-						if len(parts) > 0 {
-							lastPart := parts[len(parts)-1]
-							if len(parts) > 1 {
-								secondLastPart := parts[len(parts)-2]
-								if strings.Contains(lastPart, ":") {
-									relativePath = lastPart
-								} else {
-									relativePath = secondLastPart + ":" + lastPart
-								}
-							} else {
-								relativePath = lastPart
-							}
-						}
-					}
-					actualMap[relativePath] = true
-				}
-
-				for expectedLine := range expectedMap {
-					if !actualMap[expectedLine] {
-						t.Errorf("Expected stdout line %q not found in actual output", expectedLine)
-					}
-				}
-
-				for actualLine := range actualMap {
-					if !expectedMap[actualLine] {
-						t.Errorf("Unexpected stdout line: %q", actualLine)
-					}
-				}
-			} else {
-				// Single file - direct comparison
-				for i, expectedLine := range tt.expected.Stdout {
-					if i >= len(result.Stdout) || result.Stdout[i] != expectedLine {
-						t.Errorf("Expected stdout line %d to be %q, got %q", i, expectedLine, result.Stdout[i])
-					}
-				}
-			}
-		})
-	}
+	runFileTests(t, tests)
 }
 
 func TestBackrefMatcher(t *testing.T) {
