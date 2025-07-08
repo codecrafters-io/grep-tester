@@ -3,3 +3,4 @@
 
 dist/
 internal-docs/
+cmd/mygrep
