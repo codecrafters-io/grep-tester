@@ -15,30 +15,20 @@ type Matcher interface {
 }
 
 type RegexMatcher struct {
-	regex      *regexp.Regexp
-	invertMatch bool
+	regex *regexp.Regexp
 }
 
 func (m *RegexMatcher) Match(text string) bool {
-	matches := m.regex.MatchString(text)
-	if m.invertMatch {
-		return !matches
-	}
-	return matches
+	return m.regex.MatchString(text)
 }
 
 type BackrefMatcher struct {
-	pattern     string
-	ignoreCase  bool
-	invertMatch bool
+	pattern    string
+	ignoreCase bool
 }
 
 func (m *BackrefMatcher) Match(text string) bool {
-	matches := matchWithBackreferences(m.pattern, text, m.ignoreCase)
-	if m.invertMatch {
-		return !matches
-	}
-	return matches
+	return matchWithBackreferences(m.pattern, text, m.ignoreCase)
 }
 
 type Config struct {
@@ -84,9 +74,8 @@ func hasBackreferences(pattern string) bool {
 func createMatcher(pattern string, config Config) Matcher {
 	if hasBackreferences(pattern) {
 		return &BackrefMatcher{
-			pattern:     pattern,
-			ignoreCase:  config.IgnoreCase,
-			invertMatch: config.InvertMatch,
+			pattern:    pattern,
+			ignoreCase: config.IgnoreCase,
 		}
 	}
 
@@ -105,8 +94,7 @@ func createMatcher(pattern string, config Config) Matcher {
 	}
 
 	return &RegexMatcher{
-		regex:       regex,
-		invertMatch: config.InvertMatch,
+		regex: regex,
 	}
 }
 
@@ -136,25 +124,7 @@ func parseArgs() Config {
 
 func searchStdin(matcher Matcher, config Config) {
 	scanner := bufio.NewScanner(os.Stdin)
-	lineNum := 0
-	matchCount := 0
-
-	for scanner.Scan() {
-		lineNum++
-		line := scanner.Text()
-
-		if matcher.Match(line) {
-			matchCount++
-			if config.Count {
-				continue
-			}
-			if config.Quiet {
-				os.Exit(0)
-			}
-
-			printMatch("", line, lineNum, config, false)
-		}
-	}
+	matchCount := processScanner(matcher, scanner, config, "", false)
 
 	if config.Count {
 		fmt.Println(matchCount)
@@ -212,29 +182,7 @@ func searchFile(matcher Matcher, filename string, config Config, hasMultipleFile
 	defer file.Close()
 
 	scanner := bufio.NewScanner(file)
-	lineNum := 0
-	matchCount := 0
-
-	for scanner.Scan() {
-		lineNum++
-		line := scanner.Text()
-
-		if matcher.Match(line) {
-			matchCount++
-			if config.Count {
-				continue
-			}
-			if config.FilesWithMatch {
-				fmt.Println(filename)
-				break
-			}
-			if config.Quiet {
-				os.Exit(0)
-			}
-
-			printMatch(filename, line, lineNum, config, hasMultipleFiles)
-		}
-	}
+	matchCount := processScanner(matcher, scanner, config, filename, hasMultipleFiles)
 
 	if config.Count {
 		if hasMultipleFiles {
@@ -244,6 +192,37 @@ func searchFile(matcher Matcher, filename string, config Config, hasMultipleFile
 		}
 	}
 
+	return matchCount
+}
+
+func processScanner(matcher Matcher, scanner *bufio.Scanner, config Config, filename string, hasMultipleFiles bool) int {
+	lineNum := 0
+	matchCount := 0
+
+	for scanner.Scan() {
+		lineNum++
+		line := scanner.Text()
+
+		isMatch := matcher.Match(line)
+		if config.InvertMatch {
+			isMatch = !isMatch
+		}
+
+		if isMatch {
+			matchCount++
+			if config.Count {
+				continue
+			}
+			if config.FilesWithMatch {
+				fmt.Println(filename)
+				return matchCount
+			}
+			if config.Quiet {
+				os.Exit(0)
+			}
+			printMatch(filename, line, lineNum, config, hasMultipleFiles)
+		}
+	}
 	return matchCount
 }
 
@@ -273,11 +252,10 @@ func isDirectory(path string) bool {
 	return info.IsDir()
 }
 
-
 func matchWithBackreferences(pattern, text string, ignoreCase bool) bool {
 	// First, create a version of the pattern where backreferences are replaced with (.*)
 	// This allows us to use Go's regex engine to find potential matches
-	regexPattern := regexp.MustCompile(`\\(\d+)`).ReplaceAllString(pattern, `(.*)`)
+	regexPattern := regexp.MustCompile(`\\[1-9]`).ReplaceAllString(pattern, `(.*)`)
 
 	var regex *regexp.Regexp
 	var err error
