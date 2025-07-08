@@ -10,6 +10,9 @@ import (
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
+var FRUITS = []string{"apple", "banana", "blackberry", "blueberry", "cherry", "grape", "lemon", "mango", "orange", "pear", "pineapple", "plum", "raspberry", "strawberry", "watermelon"}
+var VEGETABLES = []string{"carrot", "onion", "potato", "tomato", "broccoli", "cauliflower", "cabbage", "lettuce", "spinach", "asparagus", "peas", "corn", "zucchini", "pumpkin"}
+
 // RelocateSystemGrep moves the system grep binary to a temporary directory
 // And registers a teardown function to restore the original system grep binary
 func RelocateSystemGrep(harness *test_case_harness.TestCaseHarness) {
