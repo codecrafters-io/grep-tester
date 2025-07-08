@@ -22,26 +22,22 @@ func (m *RegexMatcher) Match(text string) bool {
 	return m.regex.MatchString(text)
 }
 
+// BackrefMatcher handles patterns with backreferences (\1, \2, etc.).
+// Go regexp uses the RE2 engine, which doesn't support backreferences out of the box.
+// This matcher implements backreferences using pattern expansion and validation.
 type BackrefMatcher struct {
-	pattern    string
-	ignoreCase bool
+	pattern string
 }
 
 func (m *BackrefMatcher) Match(text string) bool {
-	return matchWithBackreferences(m.pattern, text, m.ignoreCase)
+	return matchWithBackreferences(m.pattern, text)
 }
 
 type Config struct {
 	Pattern        string
 	Files          []string
-	IgnoreCase     bool
-	LineNumber     bool
 	Recursive      bool
-	InvertMatch    bool
-	WholeWord      bool
-	Count          bool
 	FilesWithMatch bool
-	Quiet          bool
 	ExtendedRegex  bool
 }
 
@@ -54,11 +50,8 @@ func main() {
 	}
 
 	pattern := config.Pattern
-	if config.WholeWord {
-		pattern = `\b` + pattern + `\b`
-	}
 
-	matcher := createMatcher(pattern, config)
+	matcher := createMatcher(pattern)
 
 	if len(config.Files) == 0 {
 		searchStdin(matcher, config)
@@ -71,22 +64,17 @@ func hasBackreferences(pattern string) bool {
 	return regexp.MustCompile(`\\[1-9]`).MatchString(pattern)
 }
 
-func createMatcher(pattern string, config Config) Matcher {
+func createMatcher(pattern string) Matcher {
 	if hasBackreferences(pattern) {
 		return &BackrefMatcher{
-			pattern:    pattern,
-			ignoreCase: config.IgnoreCase,
+			pattern: pattern,
 		}
 	}
 
 	var regex *regexp.Regexp
 	var err error
 
-	if config.IgnoreCase {
-		regex, err = regexp.Compile("(?i)" + pattern)
-	} else {
-		regex, err = regexp.Compile(pattern)
-	}
+	regex, err = regexp.Compile(pattern)
 
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Invalid regex pattern: %v\n", err)
@@ -101,14 +89,8 @@ func createMatcher(pattern string, config Config) Matcher {
 func parseArgs() Config {
 	var config Config
 
-	flag.BoolVar(&config.IgnoreCase, "i", false, "Ignore case")
-	flag.BoolVar(&config.LineNumber, "n", false, "Show line numbers")
 	flag.BoolVar(&config.Recursive, "r", false, "Recursive search")
-	flag.BoolVar(&config.InvertMatch, "v", false, "Invert match")
-	flag.BoolVar(&config.WholeWord, "w", false, "Match whole words")
-	flag.BoolVar(&config.Count, "c", false, "Count matches")
 	flag.BoolVar(&config.FilesWithMatch, "l", false, "Show files with matches")
-	flag.BoolVar(&config.Quiet, "q", false, "Quiet mode")
 	flag.BoolVar(&config.ExtendedRegex, "E", false, "Extended regex")
 
 	flag.Parse()
@@ -125,10 +107,6 @@ func parseArgs() Config {
 func searchStdin(matcher Matcher, config Config) {
 	scanner := bufio.NewScanner(os.Stdin)
 	matchCount := processScanner(matcher, scanner, config, "", false)
-
-	if config.Count {
-		fmt.Println(matchCount)
-	}
 
 	if matchCount == 0 {
 		os.Exit(1)
@@ -184,57 +162,34 @@ func searchFile(matcher Matcher, filename string, config Config, hasMultipleFile
 	scanner := bufio.NewScanner(file)
 	matchCount := processScanner(matcher, scanner, config, filename, hasMultipleFiles)
 
-	if config.Count {
-		if hasMultipleFiles {
-			fmt.Printf("%s:%d\n", filename, matchCount)
-		} else {
-			fmt.Println(matchCount)
-		}
-	}
-
 	return matchCount
 }
 
 func processScanner(matcher Matcher, scanner *bufio.Scanner, config Config, filename string, hasMultipleFiles bool) int {
-	lineNum := 0
 	matchCount := 0
 
 	for scanner.Scan() {
-		lineNum++
 		line := scanner.Text()
 
 		isMatch := matcher.Match(line)
-		if config.InvertMatch {
-			isMatch = !isMatch
-		}
 
 		if isMatch {
 			matchCount++
-			if config.Count {
-				continue
-			}
 			if config.FilesWithMatch {
 				fmt.Println(filename)
 				return matchCount
 			}
-			if config.Quiet {
-				os.Exit(0)
-			}
-			printMatch(filename, line, lineNum, config, hasMultipleFiles)
+			printMatch(filename, line, hasMultipleFiles)
 		}
 	}
 	return matchCount
 }
 
-func printMatch(filename, line string, lineNum int, config Config, hasMultipleFiles bool) {
+func printMatch(filename, line string, hasMultipleFiles bool) {
 	var parts []string
 
 	if filename != "" && hasMultipleFiles {
 		parts = append(parts, filename)
-	}
-
-	if config.LineNumber {
-		parts = append(parts, fmt.Sprintf("%d", lineNum))
 	}
 
 	if len(parts) > 0 {
@@ -252,7 +207,7 @@ func isDirectory(path string) bool {
 	return info.IsDir()
 }
 
-func matchWithBackreferences(pattern, text string, ignoreCase bool) bool {
+func matchWithBackreferences(pattern, text string) bool {
 	// First, create a version of the pattern where backreferences are replaced with (.*)
 	// This allows us to use Go's regex engine to find potential matches
 	regexPattern := regexp.MustCompile(`\\[1-9]`).ReplaceAllString(pattern, `(.*)`)
@@ -260,11 +215,7 @@ func matchWithBackreferences(pattern, text string, ignoreCase bool) bool {
 	var regex *regexp.Regexp
 	var err error
 
-	if ignoreCase {
-		regex, err = regexp.Compile("(?i)" + regexPattern)
-	} else {
-		regex, err = regexp.Compile(regexPattern)
-	}
+	regex, err = regexp.Compile(regexPattern)
 
 	if err != nil {
 		return false
@@ -275,7 +226,7 @@ func matchWithBackreferences(pattern, text string, ignoreCase bool) bool {
 
 	// For each potential match, check if backreferences are satisfied
 	for _, match := range allMatches {
-		if validateBackreferencesNew(pattern, match, ignoreCase) {
+		if validateBackreferences(pattern, match) {
 			return true
 		}
 	}
@@ -283,7 +234,7 @@ func matchWithBackreferences(pattern, text string, ignoreCase bool) bool {
 	return false
 }
 
-func validateBackreferencesNew(pattern string, match []string, ignoreCase bool) bool {
+func validateBackreferences(pattern string, match []string) bool {
 	if len(match) < 2 {
 		return false
 	}
@@ -303,11 +254,7 @@ func validateBackreferencesNew(pattern string, match []string, ignoreCase bool) 
 	var regex *regexp.Regexp
 	var err error
 
-	if ignoreCase {
-		regex, err = regexp.Compile("(?i)^" + expandedPattern + "$")
-	} else {
-		regex, err = regexp.Compile("^" + expandedPattern + "$")
-	}
+	regex, err = regexp.Compile("^" + expandedPattern + "$")
 
 	if err != nil {
 		return false
