@@ -10,6 +10,37 @@ import (
 	"strings"
 )
 
+type Matcher interface {
+	Match(text string) bool
+}
+
+type RegexMatcher struct {
+	regex      *regexp.Regexp
+	invertMatch bool
+}
+
+func (m *RegexMatcher) Match(text string) bool {
+	matches := m.regex.MatchString(text)
+	if m.invertMatch {
+		return !matches
+	}
+	return matches
+}
+
+type BackrefMatcher struct {
+	pattern     string
+	ignoreCase  bool
+	invertMatch bool
+}
+
+func (m *BackrefMatcher) Match(text string) bool {
+	matches := matchWithBackreferences(m.pattern, text, m.ignoreCase)
+	if m.invertMatch {
+		return !matches
+	}
+	return matches
+}
+
 type Config struct {
 	Pattern        string
 	Files          []string
@@ -37,15 +68,26 @@ func main() {
 		pattern = `\b` + pattern + `\b`
 	}
 
-	hasBackreferences := strings.Contains(pattern, `\1`) || strings.Contains(pattern, `\2`) || strings.Contains(pattern, `\3`)
+	matcher := createMatcher(pattern, config)
 
-	if hasBackreferences {
-		if len(config.Files) == 0 {
-			searchStdinWithBackreferences(pattern, config)
-		} else {
-			searchFilesWithBackreferences(pattern, config)
+	if len(config.Files) == 0 {
+		searchStdin(matcher, config)
+	} else {
+		searchFiles(matcher, config)
+	}
+}
+
+func hasBackreferences(pattern string) bool {
+	return regexp.MustCompile(`\\[1-9]`).MatchString(pattern)
+}
+
+func createMatcher(pattern string, config Config) Matcher {
+	if hasBackreferences(pattern) {
+		return &BackrefMatcher{
+			pattern:     pattern,
+			ignoreCase:  config.IgnoreCase,
+			invertMatch: config.InvertMatch,
 		}
-		return
 	}
 
 	var regex *regexp.Regexp
@@ -62,10 +104,9 @@ func main() {
 		os.Exit(1)
 	}
 
-	if len(config.Files) == 0 {
-		searchStdin(regex, config)
-	} else {
-		searchFiles(regex, config)
+	return &RegexMatcher{
+		regex:       regex,
+		invertMatch: config.InvertMatch,
 	}
 }
 
@@ -93,7 +134,7 @@ func parseArgs() Config {
 	return config
 }
 
-func searchStdin(regex *regexp.Regexp, config Config) {
+func searchStdin(matcher Matcher, config Config) {
 	scanner := bufio.NewScanner(os.Stdin)
 	lineNum := 0
 	matchCount := 0
@@ -102,12 +143,7 @@ func searchStdin(regex *regexp.Regexp, config Config) {
 		lineNum++
 		line := scanner.Text()
 
-		matches := regex.MatchString(line)
-		if config.InvertMatch {
-			matches = !matches
-		}
-
-		if matches {
+		if matcher.Match(line) {
 			matchCount++
 			if config.Count {
 				continue
@@ -129,15 +165,15 @@ func searchStdin(regex *regexp.Regexp, config Config) {
 	}
 }
 
-func searchFiles(regex *regexp.Regexp, config Config) {
+func searchFiles(matcher Matcher, config Config) {
 	totalMatches := 0
 	hasMultipleFiles := len(config.Files) > 1
 
 	for _, filename := range config.Files {
 		if config.Recursive && isDirectory(filename) {
-			totalMatches += searchDirectory(regex, filename, config, true)
+			totalMatches += searchDirectory(matcher, filename, config, true)
 		} else {
-			totalMatches += searchFile(regex, filename, config, hasMultipleFiles)
+			totalMatches += searchFile(matcher, filename, config, hasMultipleFiles)
 		}
 	}
 
@@ -146,7 +182,7 @@ func searchFiles(regex *regexp.Regexp, config Config) {
 	}
 }
 
-func searchDirectory(regex *regexp.Regexp, dirname string, config Config, hasMultipleFiles bool) int {
+func searchDirectory(matcher Matcher, dirname string, config Config, hasMultipleFiles bool) int {
 	totalMatches := 0
 
 	err := filepath.Walk(dirname, func(path string, info os.FileInfo, err error) error {
@@ -155,7 +191,7 @@ func searchDirectory(regex *regexp.Regexp, dirname string, config Config, hasMul
 		}
 
 		if !info.IsDir() {
-			totalMatches += searchFile(regex, path, config, hasMultipleFiles)
+			totalMatches += searchFile(matcher, path, config, hasMultipleFiles)
 		}
 		return nil
 	})
@@ -167,7 +203,7 @@ func searchDirectory(regex *regexp.Regexp, dirname string, config Config, hasMul
 	return totalMatches
 }
 
-func searchFile(regex *regexp.Regexp, filename string, config Config, hasMultipleFiles bool) int {
+func searchFile(matcher Matcher, filename string, config Config, hasMultipleFiles bool) int {
 	file, err := os.Open(filename)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error opening file %s: %v\n", filename, err)
@@ -183,12 +219,7 @@ func searchFile(regex *regexp.Regexp, filename string, config Config, hasMultipl
 		lineNum++
 		line := scanner.Text()
 
-		matches := regex.MatchString(line)
-		if config.InvertMatch {
-			matches = !matches
-		}
-
-		if matches {
+		if matcher.Match(line) {
 			matchCount++
 			if config.Count {
 				continue
@@ -242,128 +273,6 @@ func isDirectory(path string) bool {
 	return info.IsDir()
 }
 
-func searchStdinWithBackreferences(pattern string, config Config) {
-	scanner := bufio.NewScanner(os.Stdin)
-	lineNum := 0
-	matchCount := 0
-
-	for scanner.Scan() {
-		lineNum++
-		line := scanner.Text()
-
-		matches := matchWithBackreferences(pattern, line, config.IgnoreCase)
-		if config.InvertMatch {
-			matches = !matches
-		}
-
-		if matches {
-			matchCount++
-			if config.Count {
-				continue
-			}
-			if config.Quiet {
-				os.Exit(0)
-			}
-
-			printMatch("", line, lineNum, config, false)
-		}
-	}
-
-	if config.Count {
-		fmt.Println(matchCount)
-	}
-
-	if matchCount == 0 {
-		os.Exit(1)
-	}
-}
-
-func searchFilesWithBackreferences(pattern string, config Config) {
-	totalMatches := 0
-	hasMultipleFiles := len(config.Files) > 1
-
-	for _, filename := range config.Files {
-		if config.Recursive && isDirectory(filename) {
-			totalMatches += searchDirectoryWithBackreferences(pattern, filename, config, true)
-		} else {
-			totalMatches += searchFileWithBackreferences(pattern, filename, config, hasMultipleFiles)
-		}
-	}
-
-	if totalMatches == 0 {
-		os.Exit(1)
-	}
-}
-
-func searchDirectoryWithBackreferences(pattern, dirname string, config Config, hasMultipleFiles bool) int {
-	totalMatches := 0
-
-	err := filepath.Walk(dirname, func(path string, info os.FileInfo, err error) error {
-		if err != nil {
-			return nil
-		}
-
-		if !info.IsDir() {
-			totalMatches += searchFileWithBackreferences(pattern, path, config, hasMultipleFiles)
-		}
-		return nil
-	})
-
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error walking directory %s: %v\n", dirname, err)
-	}
-
-	return totalMatches
-}
-
-func searchFileWithBackreferences(pattern, filename string, config Config, hasMultipleFiles bool) int {
-	file, err := os.Open(filename)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error opening file %s: %v\n", filename, err)
-		return 0
-	}
-	defer file.Close()
-
-	scanner := bufio.NewScanner(file)
-	lineNum := 0
-	matchCount := 0
-
-	for scanner.Scan() {
-		lineNum++
-		line := scanner.Text()
-
-		matches := matchWithBackreferences(pattern, line, config.IgnoreCase)
-		if config.InvertMatch {
-			matches = !matches
-		}
-
-		if matches {
-			matchCount++
-			if config.Count {
-				continue
-			}
-			if config.FilesWithMatch {
-				fmt.Println(filename)
-				break
-			}
-			if config.Quiet {
-				os.Exit(0)
-			}
-
-			printMatch(filename, line, lineNum, config, hasMultipleFiles)
-		}
-	}
-
-	if config.Count {
-		if hasMultipleFiles {
-			fmt.Printf("%s:%d\n", filename, matchCount)
-		} else {
-			fmt.Println(matchCount)
-		}
-	}
-
-	return matchCount
-}
 
 func matchWithBackreferences(pattern, text string, ignoreCase bool) bool {
 	// First, create a version of the pattern where backreferences are replaced with (.*)
