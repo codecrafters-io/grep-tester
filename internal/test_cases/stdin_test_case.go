@@ -4,13 +4,13 @@ import (
 	"fmt"
 	"path"
 
+	"github.com/codecrafters-io/grep-tester/internal/grep"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
 type StdinTestCase struct {
-	Pattern          string
-	Input            string
-	ExpectedExitCode int
+	Pattern string
+	Input   string
 }
 
 type StdinTestCaseCollection []StdinTestCase
@@ -21,16 +21,24 @@ func (testCases StdinTestCaseCollection) Run(stageHarness *test_case_harness.Tes
 
 	for _, testCase := range testCases {
 		logger.Infof("$ echo -n \"%s\" | ./%s -E \"%s\"", testCase.Input, path.Base(executable.Path), testCase.Pattern)
-		result, err := executable.RunWithStdin([]byte(testCase.Input), "-E", testCase.Pattern)
+
+		// Get expected results from internal grep implementation
+		expectedResult := grep.SearchStdin(testCase.Pattern, testCase.Input, grep.Options{
+			ExtendedRegex: true,
+		})
+
+		// Run the actual executable
+		actualResult, err := executable.RunWithStdin([]byte(testCase.Input), "-E", testCase.Pattern)
 		if err != nil {
 			return err
 		}
 
-		if result.ExitCode != testCase.ExpectedExitCode {
-			return fmt.Errorf("Expected exit code %v, got %v", testCase.ExpectedExitCode, result.ExitCode)
+		// Compare exit codes
+		if actualResult.ExitCode != expectedResult.ExitCode {
+			return fmt.Errorf("Expected exit code %v, got %v", expectedResult.ExitCode, actualResult.ExitCode)
 		}
 
-		logger.Successf("✓ Received exit code %d.", testCase.ExpectedExitCode)
+		logger.Successf("✓ Received exit code %d.", expectedResult.ExitCode)
 	}
 
 	return nil
