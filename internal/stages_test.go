@@ -1,6 +1,7 @@
 package internal
 
 import (
+	"os"
 	"regexp"
 	"testing"
 
@@ -8,6 +9,7 @@ import (
 )
 
 func TestStages(t *testing.T) {
+	os.Setenv("CODECRAFTERS_RANDOM_SEED", "1234567890")
 	falseVar := false
 
 	testCases := map[string]tester_utils_testing.TesterOutputTestCase{
