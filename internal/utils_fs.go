@@ -34,7 +34,6 @@ func CreateTestFiles(testFiles []TestFile, stageHarness *test_case_harness.TestC
 		}
 	}
 
-	// TODO: Use a random root directory for test files ?
 	if err := writeFiles(testFiles, stageHarness.Logger); err != nil {
 		return fmt.Errorf("Failed to write files: %v", err)
 	}

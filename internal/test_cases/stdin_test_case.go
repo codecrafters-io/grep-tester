@@ -22,18 +22,14 @@ func (testCases StdinTestCaseCollection) Run(stageHarness *test_case_harness.Tes
 	for _, testCase := range testCases {
 		logger.Infof("$ echo -n \"%s\" | ./%s -E \"%s\"", testCase.Input, path.Base(executable.Path), testCase.Pattern)
 
-		// Get expected results from internal grep implementation
 		expectedResult := grep.SearchStdin(testCase.Pattern, testCase.Input, grep.Options{
 			ExtendedRegex: true,
 		})
-
-		// Run the actual executable
 		actualResult, err := executable.RunWithStdin([]byte(testCase.Input), "-E", testCase.Pattern)
 		if err != nil {
 			return err
 		}
 
-		// Compare exit codes
 		if actualResult.ExitCode != expectedResult.ExitCode {
 			return fmt.Errorf("Expected exit code %v, got %v", expectedResult.ExitCode, actualResult.ExitCode)
 		}

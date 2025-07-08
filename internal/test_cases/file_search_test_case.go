@@ -32,27 +32,20 @@ func (testCases FileSearchTestCaseCollection) Run(stageHarness *test_case_harnes
 
 		logger.Infof("$ ./%s %s", path.Base(executable.Path), strings.Join(args, " "))
 
-		// Get expected results from internal grep implementation
 		expectedResult := grep.SearchFiles(testCase.Pattern, testCase.FilePaths, grep.Options{
 			ExtendedRegex: true,
 			Recursive:     testCase.ShouldEnableRecursiveFlag,
 		})
-
-		// Run the actual executable
 		actualResult, err := executable.Run(args...)
 		if err != nil {
 			return err
 		}
-
-		// Compare exit codes
 		if actualResult.ExitCode != expectedResult.ExitCode {
 			return fmt.Errorf("Expected exit code %v, got %v", expectedResult.ExitCode, actualResult.ExitCode)
 		}
 		logger.Successf("✓ Received exit code %d.", expectedResult.ExitCode)
 
-		// Compare output
 		actualOutput := strings.TrimSpace(string(actualResult.Stdout))
-
 		if len(expectedResult.Stdout) == 0 {
 			if actualOutput != "" {
 				return fmt.Errorf("Expected no output, got: %q", actualOutput)
