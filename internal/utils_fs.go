@@ -17,6 +17,8 @@ type TestFile struct {
 	Content string
 }
 
+// CreateTestFiles creates the given test files and registers a
+// teardown function to cleanup the files and directories
 func CreateTestFiles(testFiles []TestFile, stageHarness *test_case_harness.TestCaseHarness) error {
 	for _, testFile := range testFiles {
 		dir := path.Dir(testFile.Path)
@@ -46,6 +48,8 @@ func writeFile(filePath string, content string) error {
 	return os.WriteFile(filePath, []byte(content), 0644)
 }
 
+// writeFiles writes the given test files to the filesystem
+// and logs the file creation process to the logger
 func writeFiles(testFiles []TestFile, logger *logger.Logger) error {
 	for _, testFile := range testFiles {
 		logger.UpdateSecondaryPrefix("setup")
