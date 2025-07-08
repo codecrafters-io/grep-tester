@@ -4,16 +4,8 @@ FROM golang:1.24
 RUN apt-get update && apt-get install -y \
     # Required for make test
     make \
-    # Required to run bash tests
-    bash \
-    # Required for fixtures
-    python3 \
     # Required for testing
     git \
-    # Required for wget
-    wget \
-    # Required for mv operations
-    sudo \
     && rm -rf /var/lib/apt/lists/*
 
 # Set working directory
