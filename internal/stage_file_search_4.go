@@ -22,25 +22,25 @@ func testRecursiveFileSearch(stageHarness *test_case_harness.TestCaseHarness) er
 
 	testCases := test_cases.FileSearchTestCaseCollection{
 		{
-			Pattern:          ".*er",
-			FilePaths:        []string{"dir/"},
-			ExpectedExitCode: 0,
-			ExpectedOutput:   []string{"dir/subdir/vegetables.txt:celery", "dir/vegetables.txt:cucumber", "dir/fruits.txt:strawberry"},
-			Recursive:        true,
+			Pattern:                   ".*er",
+			FilePaths:                 []string{"dir/"},
+			ExpectedExitCode:          0,
+			ExpectedOutput:            []string{"dir/subdir/vegetables.txt:celery", "dir/vegetables.txt:cucumber", "dir/fruits.txt:strawberry"},
+			ShouldEnableRecursiveFlag: true,
 		},
 		{
-			Pattern:          ".*ar",
-			FilePaths:        []string{"dir/"},
-			ExpectedExitCode: 0,
-			ExpectedOutput:   []string{"dir/subdir/vegetables.txt:carrot", "dir/fruits.txt:pear"},
-			Recursive:        true,
+			Pattern:                   ".*ar",
+			FilePaths:                 []string{"dir/"},
+			ExpectedExitCode:          0,
+			ExpectedOutput:            []string{"dir/subdir/vegetables.txt:carrot", "dir/fruits.txt:pear"},
+			ShouldEnableRecursiveFlag: true,
 		},
 		{
-			Pattern:          "missing_fruit",
-			FilePaths:        []string{"dir/"},
-			ExpectedExitCode: 1,
-			ExpectedOutput:   []string{},
-			Recursive:        true,
+			Pattern:                   "missing_fruit",
+			FilePaths:                 []string{"dir/"},
+			ExpectedExitCode:          1,
+			ExpectedOutput:            []string{},
+			ShouldEnableRecursiveFlag: true,
 		},
 	}
 

@@ -17,7 +17,7 @@ type TestFile struct {
 	Content string
 }
 
-func CreateTestFiles(testFiles []TestFile, logger *logger.Logger, stageHarness *test_case_harness.TestCaseHarness) error {
+func CreateTestFiles(testFiles []TestFile, stageHarness *test_case_harness.TestCaseHarness) error {
 	for _, testFile := range testFiles {
 		dir := path.Dir(testFile.Path)
 		if dir != "." {
@@ -35,7 +35,7 @@ func CreateTestFiles(testFiles []TestFile, logger *logger.Logger, stageHarness *
 	}
 
 	// TODO: Use a random root directory for test files ?
-	if err := writeFiles(testFiles, logger); err != nil {
+	if err := writeFiles(testFiles, stageHarness.Logger); err != nil {
 		return fmt.Errorf("Failed to write files: %v", err)
 	}
 

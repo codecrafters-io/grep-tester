@@ -10,11 +10,11 @@ import (
 )
 
 type FileSearchTestCase struct {
-	Pattern          string
-	FilePaths        []string
-	ExpectedExitCode int
-	ExpectedOutput   []string
-	Recursive        bool
+	Pattern                   string
+	FilePaths                 []string
+	ExpectedExitCode          int
+	ExpectedOutput            []string
+	ShouldEnableRecursiveFlag bool
 }
 
 type FileSearchTestCaseCollection []FileSearchTestCase
@@ -25,7 +25,7 @@ func (testCases FileSearchTestCaseCollection) Run(stageHarness *test_case_harnes
 
 	for _, testCase := range testCases {
 		args := []string{}
-		if testCase.Recursive {
+		if testCase.ShouldEnableRecursiveFlag {
 			args = append(args, "-r")
 		}
 		args = append(args, "-E", testCase.Pattern)
