@@ -354,36 +354,6 @@ func TestSearchStdin(t *testing.T) {
 			options:  Options{ExtendedRegex: true},
 			expected: Result{ExitCode: 1, Stdout: []string{}},
 		},
-
-		// Options
-		{
-			name:     "count option",
-			pattern:  "a",
-			input:    "apple\nbanana\navocado",
-			options:  Options{ExtendedRegex: true, Count: true},
-			expected: Result{ExitCode: 0, Stdout: []string{"3"}},
-		},
-		{
-			name:     "count option no matches",
-			pattern:  "xyz",
-			input:    "apple\nbanana\navocado",
-			options:  Options{ExtendedRegex: true, Count: true},
-			expected: Result{ExitCode: 1, Stdout: []string{"0"}},
-		},
-		{
-			name:     "quiet option with match",
-			pattern:  "apple",
-			input:    "apple\nbanana",
-			options:  Options{ExtendedRegex: true, Quiet: true},
-			expected: Result{ExitCode: 0, Stdout: []string{}},
-		},
-		{
-			name:     "invert match",
-			pattern:  "apple",
-			input:    "banana",
-			options:  Options{ExtendedRegex: true, InvertMatch: true},
-			expected: Result{ExitCode: 0, Stdout: []string{"banana"}},
-		},
 	}
 
 	runStdinTests(t, tests)

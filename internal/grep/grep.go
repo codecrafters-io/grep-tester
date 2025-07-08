@@ -16,15 +16,8 @@ type Result struct {
 }
 
 type Options struct {
-	IgnoreCase     bool
-	LineNumber     bool
-	Recursive      bool
-	InvertMatch    bool
-	WholeWord      bool
-	Count          bool
-	FilesWithMatch bool
-	Quiet          bool
-	ExtendedRegex  bool
+	Recursive     bool
+	ExtendedRegex bool
 }
 
 type Matcher interface {
@@ -55,11 +48,6 @@ func SearchStdin(pattern string, input string, opts Options) Result {
 	var stderr []string
 	exitCode := 0
 
-	// Apply whole word wrapping
-	if opts.WholeWord {
-		pattern = `\b` + pattern + `\b`
-	}
-
 	matcher := createMatcher(pattern)
 	if matcher == nil {
 		return Result{
@@ -73,27 +61,11 @@ func SearchStdin(pattern string, input string, opts Options) Result {
 
 	for _, line := range lines {
 		isMatch := matcher.Match(line)
-		if opts.InvertMatch {
-			isMatch = !isMatch
-		}
 
 		if isMatch {
 			matchCount++
-			if opts.Count {
-				continue
-			}
-			if opts.Quiet {
-				// In quiet mode, we exit immediately on first match
-				return Result{ExitCode: 0, Stdout: stdout, Stderr: stderr}
-			}
-
-			// For stdin, we don't include filename
 			stdout = append(stdout, line)
 		}
-	}
-
-	if opts.Count {
-		stdout = append(stdout, fmt.Sprintf("%d", matchCount))
 	}
 
 	if matchCount == 0 {
@@ -111,11 +83,6 @@ func SearchFiles(pattern string, files []string, opts Options) Result {
 	var stdout []string
 	var stderr []string
 	exitCode := 0
-
-	// Apply whole word wrapping
-	if opts.WholeWord {
-		pattern = `\b` + pattern + `\b`
-	}
 
 	matcher := createMatcher(pattern)
 	if matcher == nil {
@@ -218,25 +185,9 @@ func searchFile(matcher Matcher, filename string, opts Options, hasMultipleFiles
 		line := scanner.Text()
 
 		isMatch := matcher.Match(line)
-		if opts.InvertMatch {
-			isMatch = !isMatch
-		}
 
 		if isMatch {
 			matchCount++
-			if opts.Count {
-				continue
-			}
-			if opts.FilesWithMatch {
-				stdout = append(stdout, filename)
-				break
-			}
-			if opts.Quiet {
-				// In quiet mode, we exit immediately on first match
-				return matchCount, stdout, stderr
-			}
-
-			// Format output line
 			var parts []string
 			if filename != "" && hasMultipleFiles {
 				parts = append(parts, filename)
@@ -247,14 +198,6 @@ func searchFile(matcher Matcher, filename string, opts Options, hasMultipleFiles
 			} else {
 				stdout = append(stdout, line)
 			}
-		}
-	}
-
-	if opts.Count {
-		if hasMultipleFiles {
-			stdout = append(stdout, fmt.Sprintf("%s:%d", filename, matchCount))
-		} else {
-			stdout = append(stdout, fmt.Sprintf("%d", matchCount))
 		}
 	}
 
