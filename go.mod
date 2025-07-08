@@ -4,7 +4,7 @@ go 1.24
 
 toolchain go1.24.2
 
-require github.com/codecrafters-io/tester-utils v0.4.2
+require github.com/codecrafters-io/tester-utils v0.4.3
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
