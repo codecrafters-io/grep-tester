@@ -10,14 +10,12 @@ func testMatchDigit(stageHarness *test_case_harness.TestCaseHarness) error {
 
 	testCases := test_cases.StdinTestCaseCollection{
 		{
-			Pattern:          `\d`,
-			Input:            "123",
-			ExpectedExitCode: 0,
+			Pattern: `\d`,
+			Input:   "123",
 		},
 		{
-			Pattern:          `\d`,
-			Input:            "apple",
-			ExpectedExitCode: 1,
+			Pattern: `\d`,
+			Input:   "apple",
 		},
 	}
 

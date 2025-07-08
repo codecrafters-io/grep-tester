@@ -20,22 +20,16 @@ func testMultiFileSearch(stageHarness *test_case_harness.TestCaseHarness) error 
 
 	testCases := test_cases.FileSearchTestCaseCollection{
 		{
-			Pattern:          "b.*$",
-			FilePaths:        []string{"fruits.txt", "vegetables.txt"},
-			ExpectedExitCode: 0,
-			ExpectedOutput:   []string{"fruits.txt:banana", "fruits.txt:blueberry", "vegetables.txt:broccoli"},
+			Pattern:   "b.*$",
+			FilePaths: []string{"fruits.txt", "vegetables.txt"},
 		},
 		{
-			Pattern:          "missing_fruit",
-			FilePaths:        []string{"fruits.txt", "vegetables.txt"},
-			ExpectedExitCode: 1,
-			ExpectedOutput:   []string{},
+			Pattern:   "missing_fruit",
+			FilePaths: []string{"fruits.txt", "vegetables.txt"},
 		},
 		{
-			Pattern:          "carrot",
-			FilePaths:        []string{"fruits.txt", "vegetables.txt"},
-			ExpectedExitCode: 0,
-			ExpectedOutput:   []string{"vegetables.txt:carrot"},
+			Pattern:   "carrot",
+			FilePaths: []string{"fruits.txt", "vegetables.txt"},
 		},
 	}
 

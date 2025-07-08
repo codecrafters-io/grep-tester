@@ -10,24 +10,20 @@ func testZeroOrOneQuantifier(stageHarness *test_case_harness.TestCaseHarness) er
 
 	testCases := test_cases.StdinTestCaseCollection{
 		{
-			Pattern:          "ca?t",
-			Input:            "cat",
-			ExpectedExitCode: 0,
+			Pattern: "ca?t",
+			Input:   "cat",
 		},
 		{
-			Pattern:          "ca?t",
-			Input:            "act",
-			ExpectedExitCode: 0,
+			Pattern: "ca?t",
+			Input:   "act",
 		},
 		{
-			Pattern:          "ca?t",
-			Input:            "dog",
-			ExpectedExitCode: 1,
+			Pattern: "ca?t",
+			Input:   "dog",
 		},
 		{
-			Pattern:          "ca?t",
-			Input:            "cag",
-			ExpectedExitCode: 1,
+			Pattern: "ca?t",
+			Input:   "cag",
 		},
 	}
 

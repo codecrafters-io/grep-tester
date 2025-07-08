@@ -10,24 +10,20 @@ func testWildcard(stageHarness *test_case_harness.TestCaseHarness) error {
 
 	testCases := test_cases.StdinTestCaseCollection{
 		{
-			Pattern:          "c.t",
-			Input:            "cat",
-			ExpectedExitCode: 0,
+			Pattern: "c.t",
+			Input:   "cat",
 		},
 		{
-			Pattern:          "c.t",
-			Input:            "car",
-			ExpectedExitCode: 1,
+			Pattern: "c.t",
+			Input:   "car",
 		},
 		{
-			Pattern:          "g.+gol",
-			Input:            "goøö0Ogol",
-			ExpectedExitCode: 0,
+			Pattern: "g.+gol",
+			Input:   "goøö0Ogol",
 		},
 		{
-			Pattern:          "g.+gol",
-			Input:            "gol",
-			ExpectedExitCode: 1,
+			Pattern: "g.+gol",
+			Input:   "gol",
 		},
 	}
 

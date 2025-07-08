@@ -22,30 +22,25 @@ func testMatchAlphanumeric(stageHarness *test_case_harness.TestCaseHarness) erro
 
 	testCases := test_cases.StdinTestCaseCollection{
 		{
-			Pattern:          `\w`,
-			Input:            words[0],
-			ExpectedExitCode: 0,
+			Pattern: `\w`,
+			Input:   words[0],
 		},
 		{
-			Pattern:          `\w`,
-			Input:            strings.ToUpper(words[1]),
-			ExpectedExitCode: 0,
+			Pattern: `\w`,
+			Input:   strings.ToUpper(words[1]),
 		},
 
 		{
-			Pattern:          `\w`,
-			Input:            fmt.Sprintf("%d", random.RandomInt(100, 1000)),
-			ExpectedExitCode: 0,
+			Pattern: `\w`,
+			Input:   fmt.Sprintf("%d", random.RandomInt(100, 1000)),
 		},
 		{
-			Pattern:          `\w`,
-			Input:            nonWord1 + "_" + nonWord2,
-			ExpectedExitCode: 0,
+			Pattern: `\w`,
+			Input:   nonWord1 + "_" + nonWord2,
 		},
 		{
-			Pattern:          `\w`,
-			Input:            nonWord3,
-			ExpectedExitCode: 1,
+			Pattern: `\w`,
+			Input:   nonWord3,
 		},
 	}
 

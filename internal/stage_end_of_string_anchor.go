@@ -10,14 +10,12 @@ func testEndOfStringAnchor(stageHarness *test_case_harness.TestCaseHarness) erro
 
 	testCases := test_cases.StdinTestCaseCollection{
 		{
-			Pattern:          "cat$",
-			Input:            "cat",
-			ExpectedExitCode: 0,
+			Pattern: "cat$",
+			Input:   "cat",
 		},
 		{
-			Pattern:          "cat$",
-			Input:            "cats",
-			ExpectedExitCode: 1,
+			Pattern: "cat$",
+			Input:   "cats",
 		},
 	}
 
