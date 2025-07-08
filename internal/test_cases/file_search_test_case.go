@@ -17,17 +17,9 @@ type FileSearchTestCase struct {
 	Recursive        bool
 }
 
-func (testCase FileSearchTestCase) Run(stageHarness *test_case_harness.TestCaseHarness) error {
-	return runFileSearchTestCases([]FileSearchTestCase{testCase}, stageHarness)
-}
+type FileSearchTestCaseCollection []FileSearchTestCase
 
-type FileSearchTestCases []FileSearchTestCase
-
-func (testCases FileSearchTestCases) Run(stageHarness *test_case_harness.TestCaseHarness) error {
-	return runFileSearchTestCases(testCases, stageHarness)
-}
-
-func runFileSearchTestCases(testCases []FileSearchTestCase, stageHarness *test_case_harness.TestCaseHarness) error {
+func (testCases FileSearchTestCaseCollection) Run(stageHarness *test_case_harness.TestCaseHarness) error {
 	logger := stageHarness.Logger
 	executable := stageHarness.Executable
 
