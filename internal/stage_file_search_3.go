@@ -2,7 +2,6 @@ package internal
 
 import (
 	"fmt"
-	"strconv"
 	"strings"
 
 	"github.com/codecrafters-io/grep-tester/internal/test_cases"
@@ -13,8 +12,8 @@ import (
 func testMultiFileSearch(stageHarness *test_case_harness.TestCaseHarness) error {
 	RelocateSystemGrep(stageHarness)
 
-	file_name_1 := "fruits-" + strconv.Itoa(random.RandomInt(1000, 10000)) + ".txt"
-	file_name_2 := "vegetables-" + strconv.Itoa(random.RandomInt(1000, 10000)) + ".txt"
+	file_name_1 := "fruits-" + randomFilePrefix() + ".txt"
+	file_name_2 := "vegetables-" + randomFilePrefix() + ".txt"
 	fruits := random.RandomElementsFromArray(FRUITS, 2)
 	vegetables := random.RandomElementsFromArray(VEGETABLES, 2)
 	testFiles := []TestFile{

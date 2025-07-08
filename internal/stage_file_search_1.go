@@ -2,7 +2,6 @@ package internal
 
 import (
 	"fmt"
-	"strconv"
 
 	"github.com/codecrafters-io/grep-tester/internal/test_cases"
 	"github.com/codecrafters-io/tester-utils/random"
@@ -12,7 +11,7 @@ import (
 func testSingleLineFileSearch(stageHarness *test_case_harness.TestCaseHarness) error {
 	RelocateSystemGrep(stageHarness)
 
-	file_name := "fruits-" + strconv.Itoa(random.RandomInt(1000, 10000)) + ".txt"
+	file_name := "fruits-" + randomFilePrefix() + ".txt"
 	fruit_1 := random.RandomElementFromArray(FRUITS)
 	vegetable_1 := random.RandomElementFromArray(VEGETABLES)
 	testFiles := []TestFile{

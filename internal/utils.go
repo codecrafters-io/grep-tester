@@ -7,7 +7,9 @@ import (
 	"os/exec"
 	"path"
 	"runtime"
+	"strconv"
 
+	"github.com/codecrafters-io/tester-utils/random"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
@@ -59,4 +61,8 @@ func restoreSystemGrep(newPath string, originalPath string) error {
 	}
 
 	return nil
+}
+
+func randomFilePrefix() string {
+	return strconv.Itoa(random.RandomInt(1000, 10000))
 }
