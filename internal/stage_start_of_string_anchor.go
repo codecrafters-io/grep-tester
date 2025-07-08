@@ -8,7 +8,7 @@ import (
 func testStartOfStringAnchor(stageHarness *test_case_harness.TestCaseHarness) error {
 	RelocateSystemGrep(stageHarness)
 
-	testCases := test_cases.StdinTestCases{
+	testCases := test_cases.StdinTestCaseCollection{
 		{
 			Pattern:          "^log",
 			Input:            "log",

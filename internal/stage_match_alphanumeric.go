@@ -8,7 +8,7 @@ import (
 func testMatchAlphanumeric(stageHarness *test_case_harness.TestCaseHarness) error {
 	RelocateSystemGrep(stageHarness)
 
-	testCases := test_cases.StdinTestCases{
+	testCases := test_cases.StdinTestCaseCollection{
 		{
 			Pattern:          `\w`,
 			Input:            "word",

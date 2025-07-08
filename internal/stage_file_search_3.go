@@ -19,7 +19,7 @@ func testMultiFileSearch(stageHarness *test_case_harness.TestCaseHarness) error 
 		return fmt.Errorf("Failed to create test files: %v", err)
 	}
 
-	testCases := test_cases.FileSearchTestCases{
+	testCases := test_cases.FileSearchTestCaseCollection{
 		{
 			Pattern:          "b.*$",
 			FilePaths:        []string{"fruits.txt", "vegetables.txt"},

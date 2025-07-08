@@ -8,7 +8,7 @@ import (
 func testBackreferencesMultiple(stageHarness *test_case_harness.TestCaseHarness) error {
 	RelocateSystemGrep(stageHarness)
 
-	testCases := test_cases.StdinTestCases{
+	testCases := test_cases.StdinTestCaseCollection{
 		// Base case
 		{
 			Pattern:          "(\\d+) (\\w+) squares and \\1 \\2 circles",

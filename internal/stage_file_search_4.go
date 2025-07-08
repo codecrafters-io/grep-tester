@@ -20,7 +20,7 @@ func testRecursiveFileSearch(stageHarness *test_case_harness.TestCaseHarness) er
 		return fmt.Errorf("Failed to create test files: %v", err)
 	}
 
-	testCases := test_cases.FileSearchTestCases{
+	testCases := test_cases.FileSearchTestCaseCollection{
 		{
 			Pattern:          ".*er",
 			FilePaths:        []string{"dir/"},
