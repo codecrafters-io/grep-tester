@@ -48,15 +48,15 @@ func (testCases FileSearchTestCaseCollection) Run(stageHarness *test_case_harnes
 		actualOutput := strings.TrimSpace(string(actualResult.Stdout))
 		if len(expectedResult.Stdout) == 0 {
 			if actualOutput != "" {
-				return fmt.Errorf("Expected no output, got: %q", actualOutput)
+				return fmt.Errorf("Expected no output, got: %v", actualOutput)
 			}
 		} else {
 			actualOutputLines := strings.Split(actualOutput, "\n")
 			expectedOutputLines := expectedResult.Stdout
 
 			if len(actualOutputLines) != len(expectedOutputLines) {
-				return fmt.Errorf("Expected %d output lines, got %d\nExpected: %v\nActual: %v",
-					len(expectedOutputLines), len(actualOutputLines), expectedOutputLines, actualOutputLines)
+				return fmt.Errorf("Expected %d output lines, got %d\nExpected: [%s]\nActual: [%s]",
+					len(expectedOutputLines), len(actualOutputLines), strings.Join(expectedOutputLines, ", "), strings.Join(actualOutputLines, ", "))
 			}
 
 			// We have no expectations on the order of the output lines
@@ -65,7 +65,7 @@ func (testCases FileSearchTestCaseCollection) Run(stageHarness *test_case_harnes
 
 			for i, expectedLine := range expectedOutputLines {
 				if actualOutputLines[i] != expectedLine {
-					return fmt.Errorf("Expected line %d to be %q, got %q", i+1, expectedLine, actualOutputLines[i])
+					return fmt.Errorf("Expected: [%s] (in any order), got [%s]", strings.Join(expectedOutputLines, ", "), strings.Join(actualOutputLines, ", "))
 				}
 			}
 		}
