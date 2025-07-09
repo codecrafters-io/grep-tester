@@ -18,11 +18,11 @@ type FileSearchTestCase struct {
 
 type FileSearchTestCaseCollection []FileSearchTestCase
 
-func (testCases FileSearchTestCaseCollection) Run(stageHarness *test_case_harness.TestCaseHarness) error {
+func (c FileSearchTestCaseCollection) Run(stageHarness *test_case_harness.TestCaseHarness) error {
 	logger := stageHarness.Logger
 	executable := stageHarness.Executable
 
-	for _, testCase := range testCases {
+	for _, testCase := range c {
 		args := []string{}
 		if testCase.ShouldEnableRecursiveFlag {
 			args = append(args, "-r")

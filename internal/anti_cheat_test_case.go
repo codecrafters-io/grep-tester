@@ -14,10 +14,10 @@ type AntiCheatTestCase struct {
 
 type AntiCheatTestCaseCollection []AntiCheatTestCase
 
-func (testCases AntiCheatTestCaseCollection) Run(stageHarness *test_case_harness.TestCaseHarness) error {
+func (c AntiCheatTestCaseCollection) Run(stageHarness *test_case_harness.TestCaseHarness) error {
 	logger := stageHarness.Logger
 
-	for _, testCase := range testCases {
+	for _, testCase := range c {
 		executable := stageHarness.Executable.Clone()
 		executable.TimeoutInMilliseconds = 1000
 
