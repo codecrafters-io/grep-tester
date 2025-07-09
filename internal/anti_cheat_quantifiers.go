@@ -7,12 +7,14 @@ import (
 func testQuantifiersAsAntiCheat(stageHarness *test_case_harness.TestCaseHarness) error {
 	testCaseCollection := AntiCheatTestCaseCollection{
 		{
-			Pattern: "a{1,2}bc",
-			Input:   "abc",
+			Pattern:          "a{1,2}bc",
+			Input:            "abc",
+			ExpectedExitCode: 0,
 		},
 		{
-			Pattern: "a{2,3}bc",
-			Input:   "abc",
+			Pattern:          "a{2,3}bc",
+			Input:            "abc",
+			ExpectedExitCode: 1,
 		},
 	}
 

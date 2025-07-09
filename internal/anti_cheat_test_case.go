@@ -8,8 +8,9 @@ import (
 )
 
 type AntiCheatTestCase struct {
-	Pattern string
-	Input   string
+	Pattern          string
+	Input            string
+	ExpectedExitCode int
 }
 
 type AntiCheatTestCaseCollection []AntiCheatTestCase
@@ -26,7 +27,10 @@ func (c AntiCheatTestCaseCollection) Run(stageHarness *test_case_harness.TestCas
 		if err != nil && err.Error() == "execution timed out" {
 			continue
 		}
-		if actualResult.ExitCode == expectedResult.ExitCode {
+		if expectedResult.ExitCode != testCase.ExpectedExitCode {
+			panic(fmt.Sprintf("CodeCrafters Internal Error: Expected exit code %v, grep returned %v", testCase.ExpectedExitCode, expectedResult.ExitCode))
+		}
+		if actualResult.ExitCode != testCase.ExpectedExitCode {
 			logger.Criticalf("anti-cheat (ac1) failed.")
 			logger.Criticalf("Please contact us at hello@codecrafters.io if you think this is a mistake.")
 			return fmt.Errorf("anti-cheat (ac1) failed")
