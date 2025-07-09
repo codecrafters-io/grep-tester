@@ -127,7 +127,7 @@ func searchFiles(pattern string, files []string, opts options) Result {
 
 	for _, filename := range files {
 		if opts.recursive && isDirectory(filename) {
-			matches, out, err := searchDirectory(matcher, filename, opts, true)
+			matches, out, err := searchDirectory(matcher, filename, true)
 			totalMatches += matches
 			stdout = append(stdout, out...)
 			stderr = append(stderr, err...)
@@ -156,7 +156,7 @@ func createMatcher(pattern string) matcher {
 	}
 }
 
-func searchDirectory(matcher matcher, dirname string, opts options, hasMultipleFiles bool) (int, []string, []string) {
+func searchDirectory(matcher matcher, dirname string, hasMultipleFiles bool) (int, []string, []string) {
 	var stdout []string
 	var stderr []string
 	totalMatches := 0
