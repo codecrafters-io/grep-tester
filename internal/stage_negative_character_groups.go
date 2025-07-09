@@ -10,20 +10,24 @@ func testNegativeCharacterGroups(stageHarness *test_case_harness.TestCaseHarness
 
 	testCaseCollection := test_cases.StdinTestCaseCollection{
 		{
-			Pattern: "[^xyz]",
-			Input:   "apple",
+			Pattern:          "[^xyz]",
+			Input:            "apple",
+			ExpectedExitCode: 0,
 		},
 		{
-			Pattern: "[^abc]",
-			Input:   "apple",
+			Pattern:          "[^abc]",
+			Input:            "apple",
+			ExpectedExitCode: 0,
 		},
 		{
-			Pattern: "[^anb]",
-			Input:   "banana",
+			Pattern:          "[^anb]",
+			Input:            "banana",
+			ExpectedExitCode: 1,
 		},
 		{
-			Pattern: "[^opq]",
-			Input:   "orange",
+			Pattern:          "[^opq]",
+			Input:            "orange",
+			ExpectedExitCode: 0,
 		},
 	}
 

@@ -10,12 +10,14 @@ func testInit(stageHarness *test_case_harness.TestCaseHarness) error {
 
 	testCaseCollection := test_cases.StdinTestCaseCollection{
 		{
-			Pattern: "d",
-			Input:   "dog",
+			Pattern:          "d",
+			Input:            "dog",
+			ExpectedExitCode: 0,
 		},
 		{
-			Pattern: "f",
-			Input:   "dog",
+			Pattern:          "f",
+			Input:            "dog",
+			ExpectedExitCode: 1,
 		},
 	}
 

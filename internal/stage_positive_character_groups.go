@@ -18,16 +18,19 @@ func testPositiveCharacterGroups(stageHarness *test_case_harness.TestCaseHarness
 
 	testCaseCollection := test_cases.StdinTestCaseCollection{
 		{
-			Pattern: fmt.Sprintf("[%s]", words[0]),
-			Input:   letterInsideWord0,
+			Pattern:          fmt.Sprintf("[%s]", words[0]),
+			Input:            letterInsideWord0,
+			ExpectedExitCode: 0,
 		},
 		{
-			Pattern: fmt.Sprintf("[%s]", lettersOutsideWord1),
-			Input:   words[1],
+			Pattern:          fmt.Sprintf("[%s]", lettersOutsideWord1),
+			Input:            words[1],
+			ExpectedExitCode: 1,
 		},
 		{
-			Pattern: fmt.Sprintf("[%s]", words[2]),
-			Input:   "[]",
+			Pattern:          fmt.Sprintf("[%s]", words[2]),
+			Input:            "[]",
+			ExpectedExitCode: 1,
 		},
 	}
 

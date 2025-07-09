@@ -10,12 +10,14 @@ func testStartOfStringAnchor(stageHarness *test_case_harness.TestCaseHarness) er
 
 	testCaseCollection := test_cases.StdinTestCaseCollection{
 		{
-			Pattern: "^log",
-			Input:   "log",
+			Pattern:          "^log",
+			Input:            "log",
+			ExpectedExitCode: 0,
 		},
 		{
-			Pattern: "^log",
-			Input:   "slog",
+			Pattern:          "^log",
+			Input:            "slog",
+			ExpectedExitCode: 1,
 		},
 	}
 
