@@ -23,16 +23,19 @@ func testSingleLineFileSearch(stageHarness *test_case_harness.TestCaseHarness) e
 
 	testCaseCollection := test_cases.FileSearchTestCaseCollection{
 		{
-			Pattern:   fruit_1[:len(fruit_1)/2] + ".*",
-			FilePaths: []string{file_name},
+			Pattern:          fruit_1[:len(fruit_1)/2] + ".*",
+			FilePaths:        []string{file_name},
+			ExpectedExitCode: 0,
 		},
 		{
-			Pattern:   vegetable_1,
-			FilePaths: []string{file_name},
+			Pattern:          vegetable_1,
+			FilePaths:        []string{file_name},
+			ExpectedExitCode: 1,
 		},
 		{
-			Pattern:   ".*" + fruit_1[len(fruit_1)/2:],
-			FilePaths: []string{file_name},
+			Pattern:          ".*" + fruit_1[len(fruit_1)/2:],
+			FilePaths:        []string{file_name},
+			ExpectedExitCode: 0,
 		},
 	}
 

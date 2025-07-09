@@ -33,16 +33,19 @@ func testRecursiveFileSearch(stageHarness *test_case_harness.TestCaseHarness) er
 			Pattern:                   ".*er",
 			FilePaths:                 []string{"dir/"},
 			ShouldEnableRecursiveFlag: true,
+			ExpectedExitCode:          0,
 		},
 		{
 			Pattern:                   ".*ar",
 			FilePaths:                 []string{"dir/"},
 			ShouldEnableRecursiveFlag: true,
+			ExpectedExitCode:          0,
 		},
 		{
 			Pattern:                   "missing_fruit",
 			FilePaths:                 []string{"dir/"},
 			ShouldEnableRecursiveFlag: true,
+			ExpectedExitCode:          1,
 		},
 	}
 

@@ -14,8 +14,8 @@ func testMultiFileSearch(stageHarness *test_case_harness.TestCaseHarness) error 
 
 	file_name_1 := "fruits-" + randomFilePrefix() + ".txt"
 	file_name_2 := "vegetables-" + randomFilePrefix() + ".txt"
-	fruits := random.RandomElementsFromArray(FRUITS, 2)
-	vegetables := random.RandomElementsFromArray(VEGETABLES, 2)
+	fruits := random.RandomElementsFromArray(FRUITS, random.RandomInt(2, 5))
+	vegetables := random.RandomElementsFromArray(VEGETABLES, random.RandomInt(2, 5))
 	testFiles := []TestFile{
 		{Path: file_name_1, Content: strings.Join(fruits, "\n")},
 		{Path: file_name_2, Content: strings.Join(vegetables, "\n")},
@@ -26,16 +26,19 @@ func testMultiFileSearch(stageHarness *test_case_harness.TestCaseHarness) error 
 
 	testCaseCollection := test_cases.FileSearchTestCaseCollection{
 		{
-			Pattern:   fruits[0][:2] + ".*$",
-			FilePaths: []string{file_name_1, file_name_2},
+			Pattern:          fruits[0][:2] + ".*$",
+			FilePaths:        []string{file_name_1, file_name_2},
+			ExpectedExitCode: 0,
 		},
 		{
-			Pattern:   "missing_fruit",
-			FilePaths: []string{file_name_1, file_name_2},
+			Pattern:          "missing_fruit",
+			FilePaths:        []string{file_name_1, file_name_2},
+			ExpectedExitCode: 1,
 		},
 		{
-			Pattern:   vegetables[0],
-			FilePaths: []string{file_name_1, file_name_2},
+			Pattern:          vegetables[0],
+			FilePaths:        []string{file_name_1, file_name_2},
+			ExpectedExitCode: 0,
 		},
 	}
 

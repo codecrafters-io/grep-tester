@@ -24,16 +24,19 @@ func testMultiLineFileSearch(stageHarness *test_case_harness.TestCaseHarness) er
 
 	testCaseCollection := test_cases.FileSearchTestCaseCollection{
 		{
-			Pattern:   ".*berry",
-			FilePaths: []string{file_name},
+			Pattern:          ".*berry",
+			FilePaths:        []string{file_name},
+			ExpectedExitCode: 0,
 		},
 		{
-			Pattern:   vegetable_1,
-			FilePaths: []string{file_name},
+			Pattern:          vegetable_1,
+			FilePaths:        []string{file_name},
+			ExpectedExitCode: 1,
 		},
 		{
-			Pattern:   fruits[0],
-			FilePaths: []string{file_name},
+			Pattern:          fruits[0],
+			FilePaths:        []string{file_name},
+			ExpectedExitCode: 0,
 		},
 	}
 
