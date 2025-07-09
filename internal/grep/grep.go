@@ -10,14 +10,13 @@ import (
 )
 
 type Result struct {
-	ExitCode int
-	Stdout   []string
-	Stderr   []string
+	ExitCode    int
+	StdoutLines []string
+	StderrLines []string
 }
 
 type Options struct {
-	Recursive     bool
-	ExtendedRegex bool
+	Recursive bool
 }
 
 type Matcher interface {
@@ -51,8 +50,8 @@ func SearchStdin(pattern string, input string, opts Options) Result {
 	matcher := createMatcher(pattern)
 	if matcher == nil {
 		return Result{
-			ExitCode: 2,
-			Stderr:   []string{fmt.Sprintf("Invalid regex pattern: %s", pattern)},
+			ExitCode:    2,
+			StderrLines: []string{fmt.Sprintf("Invalid regex pattern: %s", pattern)},
 		}
 	}
 
@@ -73,9 +72,9 @@ func SearchStdin(pattern string, input string, opts Options) Result {
 	}
 
 	return Result{
-		ExitCode: exitCode,
-		Stdout:   stdout,
-		Stderr:   stderr,
+		ExitCode:    exitCode,
+		StdoutLines: stdout,
+		StderrLines: stderr,
 	}
 }
 
@@ -87,8 +86,8 @@ func SearchFiles(pattern string, files []string, opts Options) Result {
 	matcher := createMatcher(pattern)
 	if matcher == nil {
 		return Result{
-			ExitCode: 2,
-			Stderr:   []string{fmt.Sprintf("Invalid regex pattern: %s", pattern)},
+			ExitCode:    2,
+			StderrLines: []string{fmt.Sprintf("Invalid regex pattern: %s", pattern)},
 		}
 	}
 
@@ -114,9 +113,9 @@ func SearchFiles(pattern string, files []string, opts Options) Result {
 	}
 
 	return Result{
-		ExitCode: exitCode,
-		Stdout:   stdout,
-		Stderr:   stderr,
+		ExitCode:    exitCode,
+		StdoutLines: stdout,
+		StderrLines: stderr,
 	}
 }
 

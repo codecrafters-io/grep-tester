@@ -22,9 +22,7 @@ func (c StdinTestCaseCollection) Run(stageHarness *test_case_harness.TestCaseHar
 	for _, testCase := range c {
 		logger.Infof("$ echo -n \"%s\" | ./%s -E \"%s\"", testCase.Input, path.Base(executable.Path), testCase.Pattern)
 
-		expectedResult := grep.SearchStdin(testCase.Pattern, testCase.Input, grep.Options{
-			ExtendedRegex: true,
-		})
+		expectedResult := grep.SearchStdin(testCase.Pattern, testCase.Input, grep.Options{})
 		actualResult, err := executable.RunWithStdin([]byte(testCase.Input), "-E", testCase.Pattern)
 		if err != nil {
 			return err

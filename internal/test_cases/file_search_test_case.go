@@ -33,8 +33,7 @@ func (c FileSearchTestCaseCollection) Run(stageHarness *test_case_harness.TestCa
 		logger.Infof("$ ./%s %s", path.Base(executable.Path), strings.Join(args, " "))
 
 		expectedResult := grep.SearchFiles(testCase.Pattern, testCase.FilePaths, grep.Options{
-			ExtendedRegex: true,
-			Recursive:     testCase.ShouldEnableRecursiveFlag,
+			Recursive: testCase.ShouldEnableRecursiveFlag,
 		})
 		actualResult, err := executable.Run(args...)
 		if err != nil {
@@ -46,13 +45,13 @@ func (c FileSearchTestCaseCollection) Run(stageHarness *test_case_harness.TestCa
 		logger.Successf("✓ Received exit code %d.", expectedResult.ExitCode)
 
 		actualOutput := strings.TrimSpace(string(actualResult.Stdout))
-		if len(expectedResult.Stdout) == 0 {
+		if len(expectedResult.StdoutLines) == 0 {
 			if actualOutput != "" {
 				return fmt.Errorf("Expected no output, got: %v", actualOutput)
 			}
 		} else {
 			actualOutputLines := strings.Split(actualOutput, "\n")
-			expectedOutputLines := expectedResult.Stdout
+			expectedOutputLines := expectedResult.StdoutLines
 
 			if len(actualOutputLines) != len(expectedOutputLines) {
 				return fmt.Errorf("Expected %d output lines, got %d\nExpected: [%s]\nActual: [%s]",
