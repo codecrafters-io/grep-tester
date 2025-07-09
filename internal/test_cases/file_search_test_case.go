@@ -13,6 +13,7 @@ import (
 type FileSearchTestCase struct {
 	Pattern                   string
 	FilePaths                 []string
+	ExpectedExitCode          int
 	ShouldEnableRecursiveFlag bool
 }
 
@@ -38,20 +39,24 @@ func (c FileSearchTestCaseCollection) Run(stageHarness *test_case_harness.TestCa
 		}
 		grepArgs = append(grepArgs, "-E", testCase.Pattern)
 		grepArgs = append(grepArgs, testCase.FilePaths...)
-		
+
 		expectedResult := grep.EmulateGrep(grepArgs, []byte{})
 		actualResult, err := executable.Run(args...)
 		if err != nil {
 			return err
 		}
-		if actualResult.ExitCode != expectedResult.ExitCode {
-			return fmt.Errorf("Expected exit code %v, got %v", expectedResult.ExitCode, actualResult.ExitCode)
+
+		if testCase.ExpectedExitCode != expectedResult.ExitCode {
+			panic(fmt.Sprintf("CodeCrafters Internal Error: Expected exit code %v, grep returned %v", testCase.ExpectedExitCode, expectedResult.ExitCode))
 		}
-		logger.Successf("✓ Received exit code %d.", expectedResult.ExitCode)
+		if actualResult.ExitCode != testCase.ExpectedExitCode {
+			return fmt.Errorf("Expected exit code %v, got %v", testCase.ExpectedExitCode, actualResult.ExitCode)
+		}
+		logger.Successf("✓ Received exit code %d.", actualResult.ExitCode)
 
 		actualOutput := strings.TrimSpace(string(actualResult.Stdout))
 		expectedOutput := strings.TrimSpace(string(expectedResult.Stdout))
-		
+
 		if expectedOutput == "" {
 			if actualOutput != "" {
 				return fmt.Errorf("Expected no output, got: %v", actualOutput)
