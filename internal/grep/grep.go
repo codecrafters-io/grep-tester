@@ -9,57 +9,94 @@ import (
 	"strings"
 )
 
+// Result represents the result of a grep operation
 type Result struct {
-	ExitCode    int
-	StdoutLines []string
-	StderrLines []string
+	ExitCode int
+	Stdout   []byte
+	Stderr   []byte
 }
 
-type Options struct {
-	Recursive bool
+// EmulateGrep provides a simplified interface that mimics grep command behavior
+func EmulateGrep(args []string, stdin []byte) Result {
+	if len(args) == 0 {
+		return Result{
+			ExitCode: 2,
+			Stderr:   []byte("Usage: grep [options] pattern [files...]\n"),
+		}
+	}
+
+	// Parse arguments
+	var recursive bool
+	var pattern string
+	var files []string
+	var useStdin = true
+
+	for i := 0; i < len(args); i++ {
+		arg := args[i]
+		switch arg {
+		case "-r":
+			recursive = true
+		case "-E":
+			// Extended regex flag - ignore for now as we always use extended
+			if i+1 < len(args) {
+				i++
+				pattern = args[i]
+			}
+		default:
+			if pattern == "" {
+				pattern = arg
+			} else {
+				files = append(files, arg)
+				useStdin = false
+			}
+		}
+	}
+
+	if pattern == "" {
+		return Result{
+			ExitCode: 2,
+			Stderr:   []byte("No pattern specified\n"),
+		}
+	}
+
+	if useStdin {
+		return searchStdin(pattern, string(stdin))
+	} else {
+		return searchFiles(pattern, files, options{recursive: recursive})
+	}
 }
 
-type Matcher interface {
-	Match(text string) bool
+type options struct {
+	recursive bool
 }
 
-type RegexMatcher struct {
-	regex *regexp.Regexp
-}
-
-func (m *RegexMatcher) Match(text string) bool {
-	return m.regex.MatchString(text)
+type matcher interface {
+	match(text string) bool
 }
 
 // BackrefMatcher handles patterns with backreferences (\1, \2, etc.).
 // Go regexp uses the RE2 engine, which doesn't support backreferences out of the box.
 // This matcher implements backreferences using pattern expansion and validation.
-type BackrefMatcher struct {
+type backrefMatcher struct {
 	pattern string
 }
 
-func (m *BackrefMatcher) Match(text string) bool {
+func (m *backrefMatcher) match(text string) bool {
 	return matchWithBackreferences(m.pattern, text)
 }
 
-func SearchStdin(pattern string, input string, opts Options) Result {
+func searchStdin(pattern string, input string) Result {
 	var stdout []string
 	var stderr []string
 	exitCode := 0
 
 	matcher := createMatcher(pattern)
-	if matcher == nil {
-		return Result{
-			ExitCode:    2,
-			StderrLines: []string{fmt.Sprintf("Invalid regex pattern: %s", pattern)},
-		}
-	}
 
 	lines := strings.Split(input, "\n")
 	matchCount := 0
 
 	for _, line := range lines {
-		isMatch := matcher.Match(line)
+		isMatch := matcher.match(line)
 
 		if isMatch {
 			matchCount++
@@ -72,36 +109,30 @@ func SearchStdin(pattern string, input string, opts Options) Result {
 	}
 
 	return Result{
-		ExitCode:    exitCode,
-		StdoutLines: stdout,
-		StderrLines: stderr,
+		ExitCode: exitCode,
+		Stdout:   []byte(strings.Join(stdout, "\n")),
+		Stderr:   []byte(strings.Join(stderr, "\n")),
 	}
 }
 
-func SearchFiles(pattern string, files []string, opts Options) Result {
+func searchFiles(pattern string, files []string, opts options) Result {
 	var stdout []string
 	var stderr []string
 	exitCode := 0
 
 	matcher := createMatcher(pattern)
-	if matcher == nil {
-		return Result{
-			ExitCode:    2,
-			StderrLines: []string{fmt.Sprintf("Invalid regex pattern: %s", pattern)},
-		}
-	}
 
 	totalMatches := 0
 	hasMultipleFiles := len(files) > 1
 
 	for _, filename := range files {
-		if opts.Recursive && isDirectory(filename) {
+		if opts.recursive && isDirectory(filename) {
 			matches, out, err := searchDirectory(matcher, filename, opts, true)
 			totalMatches += matches
 			stdout = append(stdout, out...)
 			stderr = append(stderr, err...)
 		} else {
-			matches, out, err := searchFile(matcher, filename, opts, hasMultipleFiles)
+			matches, out, err := searchFile(matcher, filename, hasMultipleFiles)
 			totalMatches += matches
 			stdout = append(stdout, out...)
 			stderr = append(stderr, err...)
@@ -113,34 +144,19 @@ func SearchFiles(pattern string, files []string, opts Options) Result {
 	}
 
 	return Result{
-		ExitCode:    exitCode,
-		StdoutLines: stdout,
-		StderrLines: stderr,
+		ExitCode: exitCode,
+		Stdout:   []byte(strings.Join(stdout, "\n")),
+		Stderr:   []byte(strings.Join(stderr, "\n")),
 	}
 }
 
-func hasBackreferences(pattern string) bool {
-	return regexp.MustCompile(`\\[1-9]`).MatchString(pattern)
-}
-
-func createMatcher(pattern string) Matcher {
-	if hasBackreferences(pattern) {
-		return &BackrefMatcher{
-			pattern: pattern,
-		}
-	}
-
-	regex, err := regexp.Compile(pattern)
-	if err != nil {
-		return nil
-	}
-
-	return &RegexMatcher{
-		regex: regex,
+func createMatcher(pattern string) matcher {
+	return &backrefMatcher{
+		pattern: pattern,
 	}
 }
 
-func searchDirectory(matcher Matcher, dirname string, opts Options, hasMultipleFiles bool) (int, []string, []string) {
+func searchDirectory(matcher matcher, dirname string, opts options, hasMultipleFiles bool) (int, []string, []string) {
 	var stdout []string
 	var stderr []string
 	totalMatches := 0
@@ -151,7 +167,7 @@ func searchDirectory(matcher Matcher, dirname string, opts Options, hasMultipleF
 		}
 
 		if !info.IsDir() {
-			matches, out, errOut := searchFile(matcher, path, opts, hasMultipleFiles)
+			matches, out, errOut := searchFile(matcher, path, hasMultipleFiles)
 			totalMatches += matches
 			stdout = append(stdout, out...)
 			stderr = append(stderr, errOut...)
@@ -166,7 +182,7 @@ func searchDirectory(matcher Matcher, dirname string, opts Options, hasMultipleF
 	return totalMatches, stdout, stderr
 }
 
-func searchFile(matcher Matcher, filename string, opts Options, hasMultipleFiles bool) (int, []string, []string) {
+func searchFile(matcher matcher, filename string, hasMultipleFiles bool) (int, []string, []string) {
 	var stdout []string
 	var stderr []string
 
@@ -183,7 +199,7 @@ func searchFile(matcher Matcher, filename string, opts Options, hasMultipleFiles
 	for scanner.Scan() {
 		line := scanner.Text()
 
-		isMatch := matcher.Match(line)
+		isMatch := matcher.match(line)
 
 		if isMatch {
 			matchCount++
@@ -212,16 +228,17 @@ func isDirectory(path string) bool {
 }
 
 func matchWithBackreferences(pattern, text string) bool {
+	// Handle patterns without backreferences first
+	if !regexp.MustCompile(`\\[1-9]`).MatchString(pattern) {
+		regex := regexp.MustCompile(pattern)
+		return regex.MatchString(text)
+	}
+
 	// First, create a version of the pattern where backreferences are replaced with (.*)
 	// This allows us to use Go's regex engine to find potential matches
 	regexPattern := regexp.MustCompile(`\\[1-9]`).ReplaceAllString(pattern, `(.*)`)
+	regex := regexp.MustCompile(regexPattern)
 
-	regex, err := regexp.Compile(regexPattern)
-	if err != nil {
-		return false
-	}
-
-	// Find all potential matches
 	allMatches := regex.FindAllStringSubmatch(text, -1)
 
 	// For each potential match, check if backreferences are satisfied
@@ -251,10 +268,7 @@ func validateBackreferences(pattern string, match []string) bool {
 	}
 
 	// Now check if this expanded pattern matches the full match
-	regex, err := regexp.Compile("^" + expandedPattern + "$")
-	if err != nil {
-		return false
-	}
+	regex := regexp.MustCompile("^" + expandedPattern + "$")
 
 	return regex.MatchString(fullMatch)
 }
