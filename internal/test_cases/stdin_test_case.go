@@ -9,8 +9,9 @@ import (
 )
 
 type StdinTestCase struct {
-	Pattern string
-	Input   string
+	Pattern          string
+	Input            string
+	ExpectedExitCode int
 }
 
 type StdinTestCaseCollection []StdinTestCase
@@ -28,11 +29,14 @@ func (c StdinTestCaseCollection) Run(stageHarness *test_case_harness.TestCaseHar
 			return err
 		}
 
-		if actualResult.ExitCode != expectedResult.ExitCode {
-			return fmt.Errorf("Expected exit code %v, got %v", expectedResult.ExitCode, actualResult.ExitCode)
+		if testCase.ExpectedExitCode != expectedResult.ExitCode {
+			panic(fmt.Sprintf("CodeCrafters Internal Error: Expected exit code %v, grep returned %v", testCase.ExpectedExitCode, expectedResult.ExitCode))
+		}
+		if actualResult.ExitCode != testCase.ExpectedExitCode {
+			return fmt.Errorf("Expected exit code %v, got %v", testCase.ExpectedExitCode, actualResult.ExitCode)
 		}
 
-		logger.Successf("✓ Received exit code %d.", expectedResult.ExitCode)
+		logger.Successf("✓ Received exit code %d.", actualResult.ExitCode)
 	}
 
 	return nil
