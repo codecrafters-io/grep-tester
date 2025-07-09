@@ -16,7 +16,7 @@ func testPositiveCharacterGroups(stageHarness *test_case_harness.TestCaseHarness
 	letterInsideWord0 := random.RandomElementFromArray(strings.Split(words[0], ""))
 	lettersOutsideWord1 := pickLettersOutsideWord(words[1], len(words[1]))
 
-	testCases := test_cases.StdinTestCaseCollection{
+	testCaseCollection := test_cases.StdinTestCaseCollection{
 		{
 			Pattern: fmt.Sprintf("[%s]", words[0]),
 			Input:   letterInsideWord0,
@@ -31,7 +31,7 @@ func testPositiveCharacterGroups(stageHarness *test_case_harness.TestCaseHarness
 		},
 	}
 
-	return testCases.Run(stageHarness)
+	return testCaseCollection.Run(stageHarness)
 }
 
 func pickLettersOutsideWord(word string, n int) string {

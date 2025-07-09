@@ -8,7 +8,7 @@ import (
 func testAlternation(stageHarness *test_case_harness.TestCaseHarness) error {
 	RelocateSystemGrep(stageHarness)
 
-	testCases := test_cases.StdinTestCaseCollection{
+	testCaseCollection := test_cases.StdinTestCaseCollection{
 		{
 			Pattern: "a (cat|dog)",
 			Input:   "a cat",
@@ -27,5 +27,5 @@ func testAlternation(stageHarness *test_case_harness.TestCaseHarness) error {
 		},
 	}
 
-	return testCases.Run(stageHarness)
+	return testCaseCollection.Run(stageHarness)
 }

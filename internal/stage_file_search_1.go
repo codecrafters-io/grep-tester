@@ -21,7 +21,7 @@ func testSingleLineFileSearch(stageHarness *test_case_harness.TestCaseHarness) e
 		return fmt.Errorf("Failed to create test files: %v", err)
 	}
 
-	testCases := test_cases.FileSearchTestCaseCollection{
+	testCaseCollection := test_cases.FileSearchTestCaseCollection{
 		{
 			Pattern:   fruit_1[:len(fruit_1)/2] + ".*",
 			FilePaths: []string{file_name},
@@ -36,5 +36,5 @@ func testSingleLineFileSearch(stageHarness *test_case_harness.TestCaseHarness) e
 		},
 	}
 
-	return testCases.Run(stageHarness)
+	return testCaseCollection.Run(stageHarness)
 }

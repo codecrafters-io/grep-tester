@@ -8,7 +8,7 @@ import (
 func testMatchDigit(stageHarness *test_case_harness.TestCaseHarness) error {
 	RelocateSystemGrep(stageHarness)
 
-	testCases := test_cases.StdinTestCaseCollection{
+	testCaseCollection := test_cases.StdinTestCaseCollection{
 		{
 			Pattern: `\d`,
 			Input:   "123",
@@ -19,5 +19,5 @@ func testMatchDigit(stageHarness *test_case_harness.TestCaseHarness) error {
 		},
 	}
 
-	return testCases.Run(stageHarness)
+	return testCaseCollection.Run(stageHarness)
 }

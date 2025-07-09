@@ -20,7 +20,7 @@ func testMatchAlphanumeric(stageHarness *test_case_harness.TestCaseHarness) erro
 	nonWord2 := strings.Join(random.RandomElementsFromArray(specialCharacters, 3), "")
 	nonWord3 := strings.Join(random.RandomElementsFromArray(specialCharacters, 6), "")
 
-	testCases := test_cases.StdinTestCaseCollection{
+	testCaseCollection := test_cases.StdinTestCaseCollection{
 		{
 			Pattern: `\w`,
 			Input:   words[0],
@@ -44,5 +44,5 @@ func testMatchAlphanumeric(stageHarness *test_case_harness.TestCaseHarness) erro
 		},
 	}
 
-	return testCases.Run(stageHarness)
+	return testCaseCollection.Run(stageHarness)
 }

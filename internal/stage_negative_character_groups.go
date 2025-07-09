@@ -8,7 +8,7 @@ import (
 func testNegativeCharacterGroups(stageHarness *test_case_harness.TestCaseHarness) error {
 	RelocateSystemGrep(stageHarness)
 
-	testCases := test_cases.StdinTestCaseCollection{
+	testCaseCollection := test_cases.StdinTestCaseCollection{
 		{
 			Pattern: "[^xyz]",
 			Input:   "apple",
@@ -27,5 +27,5 @@ func testNegativeCharacterGroups(stageHarness *test_case_harness.TestCaseHarness
 		},
 	}
 
-	return testCases.Run(stageHarness)
+	return testCaseCollection.Run(stageHarness)
 }

@@ -8,7 +8,7 @@ import (
 func testOneOrMoreQuantifier(stageHarness *test_case_harness.TestCaseHarness) error {
 	RelocateSystemGrep(stageHarness)
 
-	testCases := test_cases.StdinTestCaseCollection{
+	testCaseCollection := test_cases.StdinTestCaseCollection{
 		{
 			Pattern: "ca+t",
 			Input:   "cat",
@@ -27,5 +27,5 @@ func testOneOrMoreQuantifier(stageHarness *test_case_harness.TestCaseHarness) er
 		},
 	}
 
-	return testCases.Run(stageHarness)
+	return testCaseCollection.Run(stageHarness)
 }
