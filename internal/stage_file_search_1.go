@@ -18,7 +18,7 @@ func testSingleLineFileSearch(stageHarness *test_case_harness.TestCaseHarness) e
 		{Path: file_name, Content: fruit_1},
 	}
 	if err := CreateTestFiles(testFiles, stageHarness); err != nil {
-		return fmt.Errorf("Failed to create test files: %v", err)
+		panic(fmt.Sprintf("CodeCrafters Internal Error: Failed to create test files: %v", err))
 	}
 
 	testCaseCollection := test_cases.FileSearchTestCaseCollection{

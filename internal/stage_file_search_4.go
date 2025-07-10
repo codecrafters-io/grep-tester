@@ -25,7 +25,7 @@ func testRecursiveFileSearch(stageHarness *test_case_harness.TestCaseHarness) er
 		{Path: file_path_3, Content: strings.Join(vegetables_2, "\n")},
 	}
 	if err := CreateTestFiles(testFiles, stageHarness); err != nil {
-		return fmt.Errorf("Failed to create test files: %v", err)
+		panic(fmt.Sprintf("CodeCrafters Internal Error: Failed to create test files: %v", err))
 	}
 
 	testCaseCollection := test_cases.FileSearchTestCaseCollection{

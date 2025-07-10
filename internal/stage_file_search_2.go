@@ -19,7 +19,7 @@ func testMultiLineFileSearch(stageHarness *test_case_harness.TestCaseHarness) er
 		{Path: file_name, Content: strings.Join(fruits, "\n")},
 	}
 	if err := CreateTestFiles(testFiles, stageHarness); err != nil {
-		return fmt.Errorf("Failed to create test files: %v", err)
+		panic(fmt.Sprintf("CodeCrafters Internal Error: Failed to create test files: %v", err))
 	}
 
 	testCaseCollection := test_cases.FileSearchTestCaseCollection{
