@@ -79,28 +79,30 @@ func (c FileSearchTestCaseCollection) Run(stageHarness *test_case_harness.TestCa
 		}
 
 		if len(missingLines) == 0 && len(extraLines) == 0 && len(foundLines) == len(expectedOutputLines) {
-			logger.Successf("✔︎ Stdout contains %d expected lines", len(expectedOutputLines))
+			logger.Successf("✔︎ Stdout contains %d expected line(s)", len(expectedOutputLines))
 		} else {
 			for _, line := range foundLines {
 				logger.Successf("✔︎ Found line '%s'", line)
 			}
 
 			if len(missingLines) > 0 {
-				logger.Infof("Expected %d lines in output, only found %d. Missing lines:", len(expectedOutputLines), len(foundLines))
+				logger.Infof("Expected %d line(s) in output, only found %d. Missing line(s):", len(expectedOutputLines), len(foundLines))
+				errorMessage := ""
 				for _, line := range missingLines {
-					logger.Errorf("⨯ Line not found: \"%s\"", line)
+					errorMessage += fmt.Sprintf("⨯ Line not found: \"%s\"\n", line)
 				}
+				return fmt.Errorf("%s", errorMessage)
 			}
 
 			if len(extraLines) > 0 {
-				logger.Infof("Expected %d lines in output, found %d unexpected lines in output:", len(expectedOutputLines), len(extraLines))
+				logger.Infof("Expected %d line(s) in output, found %d. Unexpected line(s):", len(expectedOutputLines), len(actualOutputLines))
+				errorMessage := ""
 				for _, line := range extraLines {
-					logger.Errorf("⨯ Extra line found: \"%s\"", line)
+					errorMessage += fmt.Sprintf("⨯ Extra line found: \"%s\"\n", line)
 				}
+				return fmt.Errorf("%s", errorMessage)
 			}
 		}
-
-		logger.Successf("✓ Stdout contains %d expected lines", len(expectedOutputLines))
 	}
 
 	return nil
