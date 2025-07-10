@@ -1,9 +1,14 @@
 package internal
 
-import "github.com/codecrafters-io/tester-utils/test_case_harness"
+import (
+	"github.com/codecrafters-io/grep-tester/internal/test_cases"
+	"github.com/codecrafters-io/tester-utils/test_case_harness"
+)
 
 func testCombiningCharacterClasses(stageHarness *test_case_harness.TestCaseHarness) error {
-	testCases := []TestCase{
+	RelocateSystemGrep(stageHarness)
+
+	testCaseCollection := test_cases.StdinTestCaseCollection{
 		{
 			Pattern:          `\d apple`,
 			Input:            "sally has 3 apples",
@@ -41,5 +46,5 @@ func testCombiningCharacterClasses(stageHarness *test_case_harness.TestCaseHarne
 		},
 	}
 
-	return RunTestCases(testCases, stageHarness)
+	return testCaseCollection.Run(stageHarness)
 }

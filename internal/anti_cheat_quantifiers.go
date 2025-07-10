@@ -5,7 +5,7 @@ import (
 )
 
 func testQuantifiersAsAntiCheat(stageHarness *test_case_harness.TestCaseHarness) error {
-	testCases := []AntiCheatTestCase{
+	testCaseCollection := AntiCheatTestCaseCollection{
 		{
 			Pattern:          "a{1,2}bc",
 			Input:            "abc",
@@ -18,5 +18,5 @@ func testQuantifiersAsAntiCheat(stageHarness *test_case_harness.TestCaseHarness)
 		},
 	}
 
-	return RunAntiCheatTestCases(testCases, stageHarness)
+	return testCaseCollection.Run(stageHarness)
 }

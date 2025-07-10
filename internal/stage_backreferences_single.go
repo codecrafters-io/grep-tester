@@ -1,11 +1,14 @@
 package internal
 
 import (
+	"github.com/codecrafters-io/grep-tester/internal/test_cases"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
 func testBackreferencesSingle(stageHarness *test_case_harness.TestCaseHarness) error {
-	testCases := []TestCase{
+	RelocateSystemGrep(stageHarness)
+
+	testCaseCollection := test_cases.StdinTestCaseCollection{
 		// Base case
 		{
 			Pattern:          "(cat) and \\1",
@@ -90,5 +93,5 @@ func testBackreferencesSingle(stageHarness *test_case_harness.TestCaseHarness) e
 		},
 	}
 
-	return RunTestCases(testCases, stageHarness)
+	return testCaseCollection.Run(stageHarness)
 }

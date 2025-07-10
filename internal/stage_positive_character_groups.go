@@ -4,17 +4,19 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/codecrafters-io/grep-tester/internal/test_cases"
 	"github.com/codecrafters-io/tester-utils/random"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
 func testPositiveCharacterGroups(stageHarness *test_case_harness.TestCaseHarness) error {
-	words := random.RandomWords(3)
+	RelocateSystemGrep(stageHarness)
 
+	words := random.RandomWords(3)
 	letterInsideWord0 := random.RandomElementFromArray(strings.Split(words[0], ""))
 	lettersOutsideWord1 := pickLettersOutsideWord(words[1], len(words[1]))
 
-	testCases := []TestCase{
+	testCaseCollection := test_cases.StdinTestCaseCollection{
 		{
 			Pattern:          fmt.Sprintf("[%s]", words[0]),
 			Input:            letterInsideWord0,
@@ -32,7 +34,7 @@ func testPositiveCharacterGroups(stageHarness *test_case_harness.TestCaseHarness
 		},
 	}
 
-	return RunTestCases(testCases, stageHarness)
+	return testCaseCollection.Run(stageHarness)
 }
 
 func pickLettersOutsideWord(word string, n int) string {

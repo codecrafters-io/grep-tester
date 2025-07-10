@@ -2,6 +2,7 @@ package internal
 
 import (
 	"os"
+	"regexp"
 	"testing"
 
 	tester_utils_testing "github.com/codecrafters-io/tester-utils/testing"
@@ -9,12 +10,11 @@ import (
 
 func TestStages(t *testing.T) {
 	os.Setenv("CODECRAFTERS_RANDOM_SEED", "1234567890")
-
 	falseVar := false
 
 	testCases := map[string]tester_utils_testing.TesterOutputTestCase{
 		"cheat_innocent": {
-			UntilStageSlug:      "cq2",
+			StageSlugs:          []string{"cq2"},
 			CodePath:            "./test_helpers/scenarios/cheat_innocent",
 			ExpectedExitCode:    0,
 			StdoutFixturePath:   "./test_helpers/fixtures/cheat/cheat_innocent",
@@ -22,123 +22,53 @@ func TestStages(t *testing.T) {
 			SkipAntiCheat:       &falseVar,
 		},
 		"cheat_suspect": {
-			UntilStageSlug:      "cq2",
+			StageSlugs:          []string{"cq2"},
 			CodePath:            "./test_helpers/pass_all",
 			ExpectedExitCode:    1,
 			StdoutFixturePath:   "./test_helpers/fixtures/cheat/cheat_suspect",
 			NormalizeOutputFunc: normalizeTesterOutput,
 			SkipAntiCheat:       &falseVar,
 		},
-		"init_pass": {
-			UntilStageSlug:      "cq2",
-			CodePath:            "./test_helpers/pass_all",
-			ExpectedExitCode:    0,
-			StdoutFixturePath:   "./test_helpers/fixtures/init/success",
-			NormalizeOutputFunc: normalizeTesterOutput,
-		},
 		"init_fail": {
-			UntilStageSlug:      "cq2",
+			StageSlugs:          []string{"cq2"},
 			CodePath:            "./test_helpers/scenarios/init/failure",
 			ExpectedExitCode:    1,
 			StdoutFixturePath:   "./test_helpers/fixtures/init/failure",
 			NormalizeOutputFunc: normalizeTesterOutput,
 		},
-		"match_digit_pass": {
-			UntilStageSlug:      "oq2",
-			CodePath:            "./test_helpers/pass_all",
-			ExpectedExitCode:    0,
-			StdoutFixturePath:   "./test_helpers/fixtures/match_digit/success",
+		"extra_logs": {
+			StageSlugs:          []string{"yx6"},
+			CodePath:            "./test_helpers/scenarios/extra_logs",
+			ExpectedExitCode:    1,
+			StdoutFixturePath:   "./test_helpers/fixtures/extra_logs/failure",
 			NormalizeOutputFunc: normalizeTesterOutput,
 		},
-		"match_alphanumeric_pass": {
-			UntilStageSlug:      "mr9",
-			CodePath:            "./test_helpers/pass_all",
-			ExpectedExitCode:    0,
-			StdoutFixturePath:   "./test_helpers/fixtures/match_alphanumeric/success",
+		"missing_and_extra_logs": {
+			StageSlugs:          []string{"yx6"},
+			CodePath:            "./test_helpers/scenarios/missing_and_extra_logs",
+			ExpectedExitCode:    1,
+			StdoutFixturePath:   "./test_helpers/fixtures/missing_and_extra_logs/failure",
 			NormalizeOutputFunc: normalizeTesterOutput,
 		},
-		"positive_character_groups_pass": {
-			UntilStageSlug:      "tl6",
-			CodePath:            "./test_helpers/pass_all",
-			ExpectedExitCode:    0,
-			StdoutFixturePath:   "./test_helpers/fixtures/positive_character_groups/success",
-			NormalizeOutputFunc: normalizeTesterOutput,
-		},
-		"negative_character_groups_pass": {
-			UntilStageSlug:      "rk3",
-			CodePath:            "./test_helpers/pass_all",
-			ExpectedExitCode:    0,
-			StdoutFixturePath:   "./test_helpers/fixtures/negative_character_groups/success",
-			NormalizeOutputFunc: normalizeTesterOutput,
-		},
-		"combining_character_classes_pass": {
-			UntilStageSlug:      "sh9",
-			CodePath:            "./test_helpers/pass_all",
-			ExpectedExitCode:    0,
-			StdoutFixturePath:   "./test_helpers/fixtures/combining_character_classes/success",
-			NormalizeOutputFunc: normalizeTesterOutput,
-		},
-		"start_of_string_anchor_pass": {
-			UntilStageSlug:      "rr8",
-			CodePath:            "./test_helpers/pass_all",
-			ExpectedExitCode:    0,
-			StdoutFixturePath:   "./test_helpers/fixtures/start_of_string_anchor/success",
-			NormalizeOutputFunc: normalizeTesterOutput,
-		},
-		"end_of_string_anchor_pass": {
-			UntilStageSlug:      "ao7",
-			CodePath:            "./test_helpers/pass_all",
-			ExpectedExitCode:    0,
-			StdoutFixturePath:   "./test_helpers/fixtures/end_of_string_anchor/success",
-			NormalizeOutputFunc: normalizeTesterOutput,
-		},
-		"one_or_more_quantifier_pass": {
-			UntilStageSlug:      "fz7",
-			CodePath:            "./test_helpers/pass_all",
-			ExpectedExitCode:    0,
-			StdoutFixturePath:   "./test_helpers/fixtures/one_or_more_quantifier/success",
-			NormalizeOutputFunc: normalizeTesterOutput,
-		},
-		"zero_or_one_quantifier_pass": {
-			UntilStageSlug:      "ny8",
-			CodePath:            "./test_helpers/pass_all",
-			ExpectedExitCode:    0,
-			StdoutFixturePath:   "./test_helpers/fixtures/zero_or_one_quantifier/success",
-			NormalizeOutputFunc: normalizeTesterOutput,
-		},
-		"wildcard_pass": {
-			UntilStageSlug:      "zb3",
-			CodePath:            "./test_helpers/pass_all",
-			ExpectedExitCode:    0,
-			StdoutFixturePath:   "./test_helpers/fixtures/wildcard/success",
-			NormalizeOutputFunc: normalizeTesterOutput,
-		},
-		"alternation_pass": {
+		"base_stages_pass": {
 			UntilStageSlug:      "zm7",
 			CodePath:            "./test_helpers/pass_all",
 			ExpectedExitCode:    0,
-			StdoutFixturePath:   "./test_helpers/fixtures/alternation/success",
+			StdoutFixturePath:   "./test_helpers/fixtures/base_stages/success",
 			NormalizeOutputFunc: normalizeTesterOutput,
 		},
-		"backreferences_single_pass": {
-			UntilStageSlug:      "sb5",
+		"backreferences_pass": {
+			StageSlugs:          []string{"sb5", "tg1", "xe5"},
 			CodePath:            "./test_helpers/pass_all",
 			ExpectedExitCode:    0,
-			StdoutFixturePath:   "./test_helpers/fixtures/backreferences_single/success",
+			StdoutFixturePath:   "./test_helpers/fixtures/backreferences/success",
 			NormalizeOutputFunc: normalizeTesterOutput,
 		},
-		"backreferences_multiple_pass": {
-			UntilStageSlug:      "tg1",
+		"file_search_pass": {
+			StageSlugs:          []string{"dr5", "ol9", "is6", "yx6"},
 			CodePath:            "./test_helpers/pass_all",
 			ExpectedExitCode:    0,
-			StdoutFixturePath:   "./test_helpers/fixtures/backreferences_multiple/success",
-			NormalizeOutputFunc: normalizeTesterOutput,
-		},
-		"backreferences_nested_pass": {
-			UntilStageSlug:      "xe5",
-			CodePath:            "./test_helpers/pass_all",
-			ExpectedExitCode:    0,
-			StdoutFixturePath:   "./test_helpers/fixtures/backreferences_nested/success",
+			StdoutFixturePath:   "./test_helpers/fixtures/file_search/success",
 			NormalizeOutputFunc: normalizeTesterOutput,
 		},
 	}
@@ -147,5 +77,18 @@ func TestStages(t *testing.T) {
 }
 
 func normalizeTesterOutput(testerOutput []byte) []byte {
+	replacements := map[string][]*regexp.Regexp{
+		// We can't be sure about the order of the output lines here
+		"grep_output_with_dir_prefix":   {regexp.MustCompile(`.{5}\[your_program\].{5}dir/.*`)},
+		"grep_output_with_dir_prefix_2": {regexp.MustCompile(`.*\[tester::#YX6\].*✓ Found line 'dir/.*`)},
+		"grep_output_with_dir_prefix_3": {regexp.MustCompile(`.*\[tester::#YX6\].*⨯ Line not found: "dir/.*`)},
+	}
+
+	for replacement, regexes := range replacements {
+		for _, regex := range regexes {
+			testerOutput = regex.ReplaceAll(testerOutput, []byte(replacement))
+		}
+	}
+
 	return testerOutput
 }

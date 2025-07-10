@@ -12,29 +12,25 @@ type AntiCheatTestCase struct {
 	ExpectedExitCode int
 }
 
-func (t *AntiCheatTestCase) Run(stageHarness *test_case_harness.TestCaseHarness) error {
-	executable := stageHarness.Executable.Clone()
-	executable.TimeoutInMilliseconds = 1000
+type AntiCheatTestCaseCollection []AntiCheatTestCase
 
-	result, err := executable.RunWithStdin([]byte(t.Input), "-E", t.Pattern)
-	if err != nil && err.Error() == "execution timed out" {
-		return nil
-	}
-	if result.ExitCode == t.ExpectedExitCode {
-		return fmt.Errorf("anti-cheat (ac1) failed")
-	}
-	return nil
-}
-
-func RunAntiCheatTestCases(testCases []AntiCheatTestCase, stageHarness *test_case_harness.TestCaseHarness) error {
+func (c AntiCheatTestCaseCollection) Run(stageHarness *test_case_harness.TestCaseHarness) error {
 	logger := stageHarness.Logger
 
-	for _, testCase := range testCases {
-		if testCase.Run(stageHarness) == nil {
-			return nil
+	for _, testCase := range c {
+		executable := stageHarness.Executable.Clone()
+		executable.TimeoutInMilliseconds = 1000
+
+		actualResult, err := executable.RunWithStdin([]byte(testCase.Input), "-E", testCase.Pattern)
+		if err != nil && err.Error() == "execution timed out" {
+			continue
+		}
+		if actualResult.ExitCode == testCase.ExpectedExitCode {
+			logger.Criticalf("anti-cheat (ac1) failed.")
+			logger.Criticalf("Please contact us at hello@codecrafters.io if you think this is a mistake.")
+			return fmt.Errorf("anti-cheat (ac1) failed")
 		}
 	}
-	logger.Criticalf("anti-cheat (ac1) failed.")
-	logger.Criticalf("Please contact us at hello@codecrafters.io if you think this is a mistake.")
-	return fmt.Errorf("anti-cheat (ac1) failed")
+
+	return nil
 }
