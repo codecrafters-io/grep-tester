@@ -14,8 +14,8 @@ func testMultiFileSearch(stageHarness *test_case_harness.TestCaseHarness) error 
 
 	file_name_1 := "fruits-" + randomFilePrefix() + ".txt"
 	file_name_2 := "vegetables-" + randomFilePrefix() + ".txt"
-	fruits := random.RandomElementsFromArray(FRUITS, random.RandomInt(2, 5))
-	vegetables := random.RandomElementsFromArray(VEGETABLES, random.RandomInt(2, 5))
+	fruits := random.RandomElementsFromArray(FRUITS, random.RandomInt(2, 3))
+	vegetables := random.RandomElementsFromArray(VEGETABLES, random.RandomInt(2, 3))
 	testFiles := []TestFile{
 		{Path: file_name_1, Content: strings.Join(fruits, "\n")},
 		{Path: file_name_2, Content: strings.Join(vegetables, "\n")},

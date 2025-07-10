@@ -36,7 +36,6 @@
 [33m[tester::#IS6] [setup] [0m[94mecho "plum" >> "fruits-3770.txt"[0m
 [33m[tester::#IS6] [setup] [0m[94mecho "cabbage" > "vegetables-4789.txt"[0m
 [33m[tester::#IS6] [setup] [0m[94mecho "peas" >> "vegetables-4789.txt"[0m
-[33m[tester::#IS6] [setup] [0m[94mecho "asparagus" >> "vegetables-4789.txt"[0m
 [33m[tester::#IS6] [0m[94m$ ./your_grep.sh -E pe.*$ fruits-3770.txt vegetables-4789.txt[0m
 [33m[your_program] [0mfruits-3770.txt:pear
 [33m[your_program] [0mvegetables-4789.txt:peas
