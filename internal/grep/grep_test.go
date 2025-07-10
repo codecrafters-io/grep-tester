@@ -23,7 +23,7 @@ type FileTestCase struct {
 func runStdinTests(t *testing.T, tests []StdinTestCase) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			result := SearchStdin(tt.pattern, tt.input)
+			result := EmulateGrep([]string{tt.pattern}, []byte(tt.input))
 
 			if result.ExitCode != tt.expected.ExitCode {
 				t.Errorf("Expected exit code %d, got %d", tt.expected.ExitCode, result.ExitCode)
@@ -45,7 +45,9 @@ func runStdinTests(t *testing.T, tests []StdinTestCase) {
 func runFileTests(t *testing.T, tests []FileTestCase) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			result := SearchFiles(tt.pattern, tt.files)
+			args := []string{tt.pattern}
+			args = append(args, tt.files...)
+			result := EmulateGrep(args, []byte{})
 
 			if result.ExitCode != tt.expected.ExitCode {
 				t.Errorf("Expected exit code %d, got %d", tt.expected.ExitCode, result.ExitCode)
