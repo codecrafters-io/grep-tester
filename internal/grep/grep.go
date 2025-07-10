@@ -70,10 +70,6 @@ type options struct {
 	recursive bool
 }
 
-type matcher interface {
-	match(text string) bool
-}
-
 // BackrefMatcher handles patterns with backreferences (\1, \2, etc.).
 // Go regexp uses the RE2 engine, which doesn't support backreferences out of the box.
 // This matcher implements backreferences using pattern expansion and validation.
@@ -150,13 +146,13 @@ func searchFiles(pattern string, files []string, opts options) Result {
 	}
 }
 
-func createMatcher(pattern string) matcher {
+func createMatcher(pattern string) *backrefMatcher {
 	return &backrefMatcher{
 		pattern: pattern,
 	}
 }
 
-func searchDirectory(matcher matcher, dirname string, hasMultipleFiles bool) (int, []string, []string) {
+func searchDirectory(matcher *backrefMatcher, dirname string, hasMultipleFiles bool) (int, []string, []string) {
 	var stdout []string
 	var stderr []string
 	totalMatches := 0
@@ -182,7 +178,7 @@ func searchDirectory(matcher matcher, dirname string, hasMultipleFiles bool) (in
 	return totalMatches, stdout, stderr
 }
 
-func searchFile(matcher matcher, filename string, hasMultipleFiles bool) (int, []string, []string) {
+func searchFile(matcher *backrefMatcher, filename string, hasMultipleFiles bool) (int, []string, []string) {
 	var stdout []string
 	var stderr []string
 
