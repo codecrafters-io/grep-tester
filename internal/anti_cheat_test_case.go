@@ -3,7 +3,6 @@ package internal
 import (
 	"fmt"
 
-	"github.com/codecrafters-io/grep-tester/internal/grep"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
@@ -22,15 +21,11 @@ func (c AntiCheatTestCaseCollection) Run(stageHarness *test_case_harness.TestCas
 		executable := stageHarness.Executable.Clone()
 		executable.TimeoutInMilliseconds = 1000
 
-		expectedResult := grep.EmulateGrep([]string{"-E", testCase.Pattern}, []byte(testCase.Input))
 		actualResult, err := executable.RunWithStdin([]byte(testCase.Input), "-E", testCase.Pattern)
 		if err != nil && err.Error() == "execution timed out" {
 			continue
 		}
-		if expectedResult.ExitCode != testCase.ExpectedExitCode {
-			panic(fmt.Sprintf("CodeCrafters Internal Error: Expected exit code %v, grep returned %v", testCase.ExpectedExitCode, expectedResult.ExitCode))
-		}
-		if actualResult.ExitCode != testCase.ExpectedExitCode {
+		if actualResult.ExitCode == testCase.ExpectedExitCode {
 			logger.Criticalf("anti-cheat (ac1) failed.")
 			logger.Criticalf("Please contact us at hello@codecrafters.io if you think this is a mistake.")
 			return fmt.Errorf("anti-cheat (ac1) failed")
