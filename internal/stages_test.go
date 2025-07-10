@@ -36,6 +36,20 @@ func TestStages(t *testing.T) {
 			StdoutFixturePath:   "./test_helpers/fixtures/init/failure",
 			NormalizeOutputFunc: normalizeTesterOutput,
 		},
+		"extra_logs": {
+			StageSlugs:          []string{"yx6"},
+			CodePath:            "./test_helpers/scenarios/extra_logs",
+			ExpectedExitCode:    1,
+			StdoutFixturePath:   "./test_helpers/fixtures/extra_logs/failure",
+			NormalizeOutputFunc: normalizeTesterOutput,
+		},
+		"missing_and_extra_logs": {
+			StageSlugs:          []string{"yx6"},
+			CodePath:            "./test_helpers/scenarios/missing_and_extra_logs",
+			ExpectedExitCode:    1,
+			StdoutFixturePath:   "./test_helpers/fixtures/missing_and_extra_logs/failure",
+			NormalizeOutputFunc: normalizeTesterOutput,
+		},
 		"base_stages_pass": {
 			UntilStageSlug:      "zm7",
 			CodePath:            "./test_helpers/pass_all",
