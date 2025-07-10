@@ -14,10 +14,11 @@ type StdinTestCase struct {
 }
 
 type FileTestCase struct {
-	name     string
-	pattern  string
-	files    []string
-	expected Result
+	name      string
+	pattern   string
+	files     []string
+	expected  Result
+	recursive bool
 }
 
 func runStdinTests(t *testing.T, tests []StdinTestCase) {
@@ -42,7 +43,11 @@ func runStdinTests(t *testing.T, tests []StdinTestCase) {
 func runFileTests(t *testing.T, tests []FileTestCase) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			args := []string{tt.pattern}
+			args := []string{}
+			if tt.recursive {
+				args = append(args, "-r")
+			}
+			args = append(args, tt.pattern)
 			args = append(args, tt.files...)
 			result := EmulateGrep(args, []byte{})
 
@@ -395,8 +400,9 @@ func TestSearchFiles(t *testing.T) {
 			expected: Result{ExitCode: 0, Stdout: []byte(
 				dirFruitsFile + ":strawberry" + "\n" +
 					subdirVegetablesFile + ":celery" + "\n" +
-					dirVegetablesFile + ":cucumber" + "\n",
+					dirVegetablesFile + ":cucumber",
 			)},
+			recursive: true,
 		},
 		{
 			name:     "recursive search no match",
