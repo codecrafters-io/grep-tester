@@ -3,14 +3,14 @@
 [33m[tester::#DR5] [0m[94m$ ./your_grep.sh -E ban.* fruits-8623.txt[0m
 [33m[your_program] [0mbanana
 [33m[tester::#DR5] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#DR5] [0m[92m✓ Received correct output.[0m
+[33m[tester::#DR5] [0m[92m✔︎ Stdout contains 1 expected line(s)[0m
 [33m[tester::#DR5] [0m[94m$ ./your_grep.sh -E asparagus fruits-8623.txt[0m
 [33m[tester::#DR5] [0m[92m✓ Received exit code 1.[0m
-[33m[tester::#DR5] [0m[92m✓ Received correct output.[0m
+[33m[tester::#DR5] [0m[92m✔︎ Stdout contains 1 expected line(s)[0m
 [33m[tester::#DR5] [0m[94m$ ./your_grep.sh -E .*ana fruits-8623.txt[0m
 [33m[your_program] [0mbanana
 [33m[tester::#DR5] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#DR5] [0m[92m✓ Received correct output.[0m
+[33m[tester::#DR5] [0m[92m✔︎ Stdout contains 1 expected line(s)[0m
 [33m[tester::#DR5] [0m[92mTest passed.[0m
 
 [33m[tester::#OL9] [0m[94mRunning tests for Stage #OL9 (ol9)[0m
@@ -21,51 +21,53 @@
 [33m[tester::#OL9] [0m[94m$ ./your_grep.sh -E .*berry fruits-9289.txt[0m
 [33m[your_program] [0mblueberry
 [33m[tester::#OL9] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#OL9] [0m[92m✓ Received correct output.[0m
+[33m[tester::#OL9] [0m[92m✔︎ Stdout contains 1 expected line(s)[0m
 [33m[tester::#OL9] [0m[94m$ ./your_grep.sh -E broccoli fruits-9289.txt[0m
 [33m[tester::#OL9] [0m[92m✓ Received exit code 1.[0m
-[33m[tester::#OL9] [0m[92m✓ Received correct output.[0m
+[33m[tester::#OL9] [0m[92m✔︎ Stdout contains 1 expected line(s)[0m
 [33m[tester::#OL9] [0m[94m$ ./your_grep.sh -E pineapple fruits-9289.txt[0m
 [33m[your_program] [0mpineapple
 [33m[tester::#OL9] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#OL9] [0m[92m✓ Received correct output.[0m
+[33m[tester::#OL9] [0m[92m✔︎ Stdout contains 1 expected line(s)[0m
 [33m[tester::#OL9] [0m[92mTest passed.[0m
 
 [33m[tester::#IS6] [0m[94mRunning tests for Stage #IS6 (is6)[0m
-[33m[tester::#IS6] [setup] [0m[94mecho "cherry" > "fruits-3770.txt"[0m
+[33m[tester::#IS6] [setup] [0m[94mecho "pear" > "fruits-3770.txt"[0m
 [33m[tester::#IS6] [setup] [0m[94mecho "plum" >> "fruits-3770.txt"[0m
-[33m[tester::#IS6] [setup] [0m[94mecho "potato" > "vegetables-4789.txt"[0m
+[33m[tester::#IS6] [setup] [0m[94mecho "cabbage" > "vegetables-4789.txt"[0m
+[33m[tester::#IS6] [setup] [0m[94mecho "peas" >> "vegetables-4789.txt"[0m
 [33m[tester::#IS6] [setup] [0m[94mecho "asparagus" >> "vegetables-4789.txt"[0m
-[33m[tester::#IS6] [0m[94m$ ./your_grep.sh -E ch.*$ fruits-3770.txt vegetables-4789.txt[0m
-[33m[your_program] [0mfruits-3770.txt:cherry
+[33m[tester::#IS6] [0m[94m$ ./your_grep.sh -E pe.*$ fruits-3770.txt vegetables-4789.txt[0m
+[33m[your_program] [0mfruits-3770.txt:pear
+[33m[your_program] [0mvegetables-4789.txt:peas
 [33m[tester::#IS6] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#IS6] [0m[92m✓ Received correct output.[0m
+[33m[tester::#IS6] [0m[92m✔︎ Stdout contains 2 expected line(s)[0m
 [33m[tester::#IS6] [0m[94m$ ./your_grep.sh -E missing_fruit fruits-3770.txt vegetables-4789.txt[0m
 [33m[tester::#IS6] [0m[92m✓ Received exit code 1.[0m
-[33m[tester::#IS6] [0m[92m✓ Received correct output.[0m
-[33m[tester::#IS6] [0m[94m$ ./your_grep.sh -E potato fruits-3770.txt vegetables-4789.txt[0m
-[33m[your_program] [0mvegetables-4789.txt:potato
+[33m[tester::#IS6] [0m[92m✔︎ Stdout contains 1 expected line(s)[0m
+[33m[tester::#IS6] [0m[94m$ ./your_grep.sh -E cabbage fruits-3770.txt vegetables-4789.txt[0m
+[33m[your_program] [0mvegetables-4789.txt:cabbage
 [33m[tester::#IS6] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#IS6] [0m[92m✓ Received correct output.[0m
+[33m[tester::#IS6] [0m[92m✔︎ Stdout contains 1 expected line(s)[0m
 [33m[tester::#IS6] [0m[92mTest passed.[0m
 
 [33m[tester::#YX6] [0m[94mRunning tests for Stage #YX6 (yx6)[0m
-[33m[tester::#YX6] [setup] [0m[94mecho "mango" > "dir/fruits-7030.txt"[0m
-[33m[tester::#YX6] [setup] [0m[94mecho "pear" >> "dir/fruits-7030.txt"[0m
-[33m[tester::#YX6] [setup] [0m[94mecho "cabbage" > "dir/subdir/vegetables-9020.txt"[0m
-[33m[tester::#YX6] [setup] [0m[94mecho "celery" >> "dir/subdir/vegetables-9020.txt"[0m
-[33m[tester::#YX6] [setup] [0m[94mecho "peas" > "dir/vegetables-5329.txt"[0m
-[33m[tester::#YX6] [setup] [0m[94mecho "cucumber" >> "dir/vegetables-5329.txt"[0m
+[33m[tester::#YX6] [setup] [0m[94mecho "banana" > "dir/fruits-5329.txt"[0m
+[33m[tester::#YX6] [setup] [0m[94mecho "pear" >> "dir/fruits-5329.txt"[0m
+[33m[tester::#YX6] [setup] [0m[94mecho "onion" > "dir/subdir/vegetables-9582.txt"[0m
+[33m[tester::#YX6] [setup] [0m[94mecho "celery" >> "dir/subdir/vegetables-9582.txt"[0m
+[33m[tester::#YX6] [setup] [0m[94mecho "pumpkin" > "dir/vegetables-2199.txt"[0m
+[33m[tester::#YX6] [setup] [0m[94mecho "cucumber" >> "dir/vegetables-2199.txt"[0m
 [33m[tester::#YX6] [0m[94m$ ./your_grep.sh -r -E .*er dir/[0m
-[33m[your_program] [0mdir/subdir/vegetables-9020.txt:celery
-[33m[your_program] [0mdir/vegetables-5329.txt:cucumber
+[33m[your_program] [0mdir/subdir/vegetables-9582.txt:celery
+[33m[your_program] [0mdir/vegetables-2199.txt:cucumber
 [33m[tester::#YX6] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#YX6] [0m[92m✓ Received correct output.[0m
+[33m[tester::#YX6] [0m[92m✔︎ Stdout contains 2 expected line(s)[0m
 [33m[tester::#YX6] [0m[94m$ ./your_grep.sh -r -E .*ar dir/[0m
-[33m[your_program] [0mdir/fruits-7030.txt:pear
+[33m[your_program] [0mdir/fruits-5329.txt:pear
 [33m[tester::#YX6] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#YX6] [0m[92m✓ Received correct output.[0m
+[33m[tester::#YX6] [0m[92m✔︎ Stdout contains 1 expected line(s)[0m
 [33m[tester::#YX6] [0m[94m$ ./your_grep.sh -r -E missing_fruit dir/[0m
 [33m[tester::#YX6] [0m[92m✓ Received exit code 1.[0m
-[33m[tester::#YX6] [0m[92m✓ Received correct output.[0m
+[33m[tester::#YX6] [0m[92m✔︎ Stdout contains 1 expected line(s)[0m
 [33m[tester::#YX6] [0m[92mTest passed.[0m
