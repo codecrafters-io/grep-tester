@@ -34,6 +34,11 @@ test_file_search_with_grep: build
 	CODECRAFTERS_TEST_CASES_JSON="[{\"slug\":\"dr5\",\"tester_log_prefix\":\"stage-16\",\"title\":\"Stage #16: Single Line File Search\"},{\"slug\":\"ol9\",\"tester_log_prefix\":\"stage-17\",\"title\":\"Stage #17: Multi Line File Search\"},{\"slug\":\"is6\",\"tester_log_prefix\":\"stage-18\",\"title\":\"Stage #18: Multiple Files Search\"},{\"slug\":\"yx6\",\"tester_log_prefix\":\"stage-19\",\"title\":\"Stage #19: Recursive File Search\"}]" \
 	dist/main.out
 
+test_all: build
+	make test_base_with_grep || true
+	make test_backreferences_with_grep || true
+	make test_file_search_with_grep || true
+
 copy_course_file:
 	hub api \
 		repos/codecrafters-io/core/contents/data/courses/grep.yml \
