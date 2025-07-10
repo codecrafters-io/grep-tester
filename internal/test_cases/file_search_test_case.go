@@ -52,7 +52,7 @@ func (c FileSearchTestCaseCollection) Run(stageHarness *test_case_harness.TestCa
 		if actualResult.ExitCode != testCase.ExpectedExitCode {
 			return fmt.Errorf("Expected exit code %v, got %v", testCase.ExpectedExitCode, actualResult.ExitCode)
 		}
-		logger.Successf("✔︎ Received exit code %d.", actualResult.ExitCode)
+		logger.Successf("✓ Received exit code %d.", actualResult.ExitCode)
 
 		actualOutput := strings.TrimSpace(string(actualResult.Stdout))
 		expectedOutput := strings.TrimSpace(string(expectedResult.Stdout))
@@ -79,10 +79,10 @@ func (c FileSearchTestCaseCollection) Run(stageHarness *test_case_harness.TestCa
 		}
 
 		if len(missingLines) == 0 && len(extraLines) == 0 && len(foundLines) == len(expectedOutputLines) {
-			logger.Successf("✔︎ Stdout contains %d expected line(s)", len(expectedOutputLines))
+			logger.Successf("✓ Stdout contains %d expected line(s)", len(expectedOutputLines))
 		} else {
 			for _, line := range foundLines {
-				logger.Successf("✔︎ Found line '%s'", line)
+				logger.Successf("✓ Found line '%s'", line)
 			}
 
 			if len(missingLines) > 0 {

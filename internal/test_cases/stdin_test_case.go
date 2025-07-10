@@ -36,7 +36,7 @@ func (c StdinTestCaseCollection) Run(stageHarness *test_case_harness.TestCaseHar
 			return fmt.Errorf("Expected exit code %v, got %v", testCase.ExpectedExitCode, actualResult.ExitCode)
 		}
 
-		logger.Successf("✔︎ Received exit code %d.", actualResult.ExitCode)
+		logger.Successf("✓ Received exit code %d.", actualResult.ExitCode)
 	}
 
 	return nil
