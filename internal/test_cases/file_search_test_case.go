@@ -52,7 +52,7 @@ func (c FileSearchTestCaseCollection) Run(stageHarness *test_case_harness.TestCa
 		if actualResult.ExitCode != testCase.ExpectedExitCode {
 			return fmt.Errorf("Expected exit code %v, got %v", testCase.ExpectedExitCode, actualResult.ExitCode)
 		}
-		logger.Successf("✓ Received exit code %d.", actualResult.ExitCode)
+		logger.Successf("✔︎ Received exit code %d.", actualResult.ExitCode)
 
 		actualOutput := strings.TrimSpace(string(actualResult.Stdout))
 		expectedOutput := strings.TrimSpace(string(expectedResult.Stdout))
