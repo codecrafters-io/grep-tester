@@ -80,8 +80,8 @@ func normalizeTesterOutput(testerOutput []byte) []byte {
 	replacements := map[string][]*regexp.Regexp{
 		// We can't be sure about the order of the output lines here
 		"grep_output_with_dir_prefix":   {regexp.MustCompile(`.{5}\[your_program\].{5}dir/.*`)},
-		"grep_output_with_dir_prefix_2": {regexp.MustCompile(`.{10}\[tester::#YX6\].{5}✓ Found line 'dir/.*`)},
-		"grep_output_with_dir_prefix_3": {regexp.MustCompile(`.{10}\[tester::#YX6\].{5}⨯ Line not found: "dir/.*`)},
+		"grep_output_with_dir_prefix_2": {regexp.MustCompile(`.*\[tester::#YX6\].{5}✓ Found line 'dir/.*`)},
+		"grep_output_with_dir_prefix_3": {regexp.MustCompile(`.*\[tester::#YX6\].{5}⨯ Line not found: "dir/.*`)},
 	}
 
 	for replacement, regexes := range replacements {
