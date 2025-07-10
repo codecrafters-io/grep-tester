@@ -13,7 +13,7 @@ func testMultiLineFileSearch(stageHarness *test_case_harness.TestCaseHarness) er
 	RelocateSystemGrep(stageHarness)
 
 	file_name := "fruits-" + randomFilePrefix() + ".txt"
-	fruits := append(random.RandomElementsFromArray(FRUITS, 3), "blueberry")
+	fruits := append(random.RandomElementsFromArray(FRUITS, 2), "blueberry", "strawberry")
 	vegetable_1 := random.RandomElementFromArray(VEGETABLES)
 	testFiles := []TestFile{
 		{Path: file_name, Content: strings.Join(fruits, "\n")},
