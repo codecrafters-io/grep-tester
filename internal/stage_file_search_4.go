@@ -16,8 +16,8 @@ func testRecursiveFileSearch(stageHarness *test_case_harness.TestCaseHarness) er
 	file_path_2 := "dir/subdir/vegetables-" + randomFilePrefix() + ".txt"
 	file_path_3 := "dir/vegetables-" + randomFilePrefix() + ".txt"
 	fruits_1 := append(random.RandomElementsFromArray(FRUITS, 1), "pear")
-	vegetables_1 := append(random.RandomElementsFromArray(VEGETABLES, 1), "celery")
-	vegetables_2 := append(random.RandomElementsFromArray(VEGETABLES, 1), "cucumber")
+	vegetables_1 := append(random.RandomElementsFromArray(VEGETABLES, 1), "celery", "cauliflower")
+	vegetables_2 := append(random.RandomElementsFromArray(VEGETABLES, 2), "cucumber")
 
 	testFiles := []TestFile{
 		{Path: file_path_1, Content: strings.Join(fruits_1, "\n")},
