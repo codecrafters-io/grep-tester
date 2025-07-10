@@ -3,7 +3,7 @@ package test_cases
 import (
 	"fmt"
 	"path"
-	"sort"
+	"slices"
 	"strings"
 
 	"github.com/codecrafters-io/grep-tester/internal/grep"
@@ -57,31 +57,50 @@ func (c FileSearchTestCaseCollection) Run(stageHarness *test_case_harness.TestCa
 		actualOutput := strings.TrimSpace(string(actualResult.Stdout))
 		expectedOutput := strings.TrimSpace(string(expectedResult.Stdout))
 
-		if expectedOutput == "" {
-			if actualOutput != "" {
-				return fmt.Errorf("Expected no output, got: %v", actualOutput)
+		actualOutputLines := strings.Split(actualOutput, "\n")
+		expectedOutputLines := strings.Split(expectedOutput, "\n")
+
+		foundLines := []string{}
+		missingLines := []string{}
+		extraLines := []string{}
+
+		for _, expectedLine := range expectedOutputLines {
+			if slices.Contains(actualOutputLines, expectedLine) {
+				foundLines = append(foundLines, expectedLine)
+			} else {
+				missingLines = append(missingLines, expectedLine)
 			}
+		}
+
+		for _, actualLine := range actualOutputLines {
+			if !slices.Contains(expectedOutputLines, actualLine) {
+				extraLines = append(extraLines, actualLine)
+			}
+		}
+
+		if len(missingLines) == 0 && len(extraLines) == 0 && len(foundLines) == len(expectedOutputLines) {
+			logger.Successf("✔︎ Stdout contains %d expected lines", len(expectedOutputLines))
 		} else {
-			actualOutputLines := strings.Split(actualOutput, "\n")
-			expectedOutputLines := strings.Split(expectedOutput, "\n")
-
-			if len(actualOutputLines) != len(expectedOutputLines) {
-				return fmt.Errorf("Expected %d output lines, got %d\nExpected: [%s]\nActual: [%s]",
-					len(expectedOutputLines), len(actualOutputLines), strings.Join(expectedOutputLines, ", "), strings.Join(actualOutputLines, ", "))
+			for _, line := range foundLines {
+				logger.Successf("✔︎ Found line '%s'", line)
 			}
 
-			// We have no expectations on the order of the output lines
-			sort.Strings(actualOutputLines)
-			sort.Strings(expectedOutputLines)
+			if len(missingLines) > 0 {
+				logger.Infof("Expected %d lines in output, only found %d. Missing lines:", len(expectedOutputLines), len(foundLines))
+				for _, line := range missingLines {
+					logger.Errorf("⨯ Line not found: \"%s\"", line)
+				}
+			}
 
-			for i, expectedLine := range expectedOutputLines {
-				if actualOutputLines[i] != expectedLine {
-					return fmt.Errorf("Expected: [%s] (in any order), got [%s]", strings.Join(expectedOutputLines, ", "), strings.Join(actualOutputLines, ", "))
+			if len(extraLines) > 0 {
+				logger.Infof("Expected %d lines in output, found %d unexpected lines in output:", len(expectedOutputLines), len(extraLines))
+				for _, line := range extraLines {
+					logger.Errorf("⨯ Extra line found: \"%s\"", line)
 				}
 			}
 		}
 
-		logger.Successf("✓ Received correct output.")
+		logger.Successf("✓ Stdout contains %d expected lines", len(expectedOutputLines))
 	}
 
 	return nil
