@@ -33,14 +33,7 @@ func (c FileSearchTestCaseCollection) Run(stageHarness *test_case_harness.TestCa
 
 		logger.Infof("$ ./%s %s", path.Base(executable.Path), strings.Join(args, " "))
 
-		grepArgs := []string{}
-		if testCase.ShouldEnableRecursiveFlag {
-			grepArgs = append(grepArgs, "-r")
-		}
-		grepArgs = append(grepArgs, "-E", testCase.Pattern)
-		grepArgs = append(grepArgs, testCase.FilePaths...)
-
-		expectedResult := grep.EmulateGrep(grepArgs, []byte{})
+		expectedResult := grep.EmulateGrep(args, []byte{})
 		actualResult, err := executable.Run(args...)
 		if err != nil {
 			return err
