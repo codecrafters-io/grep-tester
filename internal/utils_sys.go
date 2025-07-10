@@ -24,7 +24,7 @@ func RelocateSystemGrep(harness *test_case_harness.TestCaseHarness) {
 	}
 	tmpGrepPath := path.Join(tmpGrepDir, "grep")
 
-	command := fmt.Sprintf("sudo mv %s %s", oldGrepPath, tmpGrepPath)
+	command := fmt.Sprintf("mv %s %s", oldGrepPath, tmpGrepPath)
 	moveCmd := exec.Command("sh", "-c", command)
 	moveCmd.Stdout = io.Discard
 	moveCmd.Stderr = io.Discard
@@ -39,7 +39,7 @@ func RelocateSystemGrep(harness *test_case_harness.TestCaseHarness) {
 
 // RestoreSystemGrep moves the system grep binary back to its original location and cleans up
 func restoreSystemGrep(newPath string, originalPath string) error {
-	command := fmt.Sprintf("sudo mv %s %s", newPath, originalPath)
+	command := fmt.Sprintf("mv %s %s", newPath, originalPath)
 	moveCmd := exec.Command("sh", "-c", command)
 	moveCmd.Stdout = io.Discard
 	moveCmd.Stderr = io.Discard
