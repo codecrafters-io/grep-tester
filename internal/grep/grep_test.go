@@ -29,14 +29,11 @@ func runStdinTests(t *testing.T, tests []StdinTestCase) {
 				t.Errorf("Expected exit code %d, got %d", tt.expected.ExitCode, result.ExitCode)
 			}
 
-			if len(result.Stdout) != len(tt.expected.Stdout) {
-				t.Errorf("Expected %d stdout lines, got %d", len(tt.expected.Stdout), len(result.Stdout))
-			}
+			expectedStr := string(tt.expected.Stdout)
+			actualStr := string(result.Stdout)
 
-			for i, expectedLine := range tt.expected.Stdout {
-				if i >= len(result.Stdout) || result.Stdout[i] != expectedLine {
-					t.Errorf("Expected stdout line %d to be %q, got %q", i, expectedLine, result.Stdout[i])
-				}
+			if actualStr != expectedStr {
+				t.Errorf("Expected stdout %q, got %q", expectedStr, actualStr)
 			}
 		})
 	}
@@ -53,14 +50,11 @@ func runFileTests(t *testing.T, tests []FileTestCase) {
 				t.Errorf("Expected exit code %d, got %d", tt.expected.ExitCode, result.ExitCode)
 			}
 
-			if len(result.Stdout) != len(tt.expected.Stdout) {
-				t.Errorf("Expected %d stdout lines, got %d", len(tt.expected.Stdout), len(result.Stdout))
-			}
+			expectedStr := string(tt.expected.Stdout)
+			actualStr := string(result.Stdout)
 
-			for i, expectedLine := range tt.expected.Stdout {
-				if i >= len(result.Stdout) || result.Stdout[i] != expectedLine {
-					t.Errorf("Expected stdout line %d to be %q, got %q", i, expectedLine, result.Stdout[i])
-				}
+			if actualStr != expectedStr {
+				t.Errorf("Expected stdout %q, got %q", expectedStr, actualStr)
 			}
 		})
 	}
@@ -377,7 +371,7 @@ func TestSearchFiles(t *testing.T) {
 			expected: Result{ExitCode: 0, Stdout: []byte(
 				fruitsFile + ":banana" + "\n" +
 					fruitsFile + ":blueberry" + "\n" +
-					vegetablesFile + ":broccoli" + "\n",
+					vegetablesFile + ":broccoli",
 			)},
 		},
 		{
