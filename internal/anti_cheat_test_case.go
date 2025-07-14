@@ -21,7 +21,7 @@ func (c AntiCheatTestCaseCollection) Run(stageHarness *test_case_harness.TestCas
 		executable := stageHarness.Executable.Clone()
 		executable.TimeoutInMilliseconds = 1000
 
-		actualResult, err := executable.RunWithStdin([]byte(testCase.Input), "-E", testCase.Pattern)
+		actualResult, err := executable.RunWithStdin([]byte(testCase.Input), "-P", testCase.Pattern)
 		if err != nil && err.Error() == "execution timed out" {
 			continue
 		}
