@@ -17,6 +17,7 @@ type AntiCheatTestCaseCollection []AntiCheatTestCase
 func (c AntiCheatTestCaseCollection) Run(stageHarness *test_case_harness.TestCaseHarness) error {
 	logger := stageHarness.Logger
 
+	matchCount := 0
 	for _, testCase := range c {
 		executable := stageHarness.Executable.Clone()
 		executable.TimeoutInMilliseconds = 1000
@@ -26,10 +27,15 @@ func (c AntiCheatTestCaseCollection) Run(stageHarness *test_case_harness.TestCas
 			continue
 		}
 		if actualResult.ExitCode == testCase.ExpectedExitCode {
-			logger.Criticalf("anti-cheat (ac1) failed.")
-			logger.Criticalf("Please contact us at hello@codecrafters.io if you think this is a mistake.")
-			return fmt.Errorf("anti-cheat (ac1) failed")
+			matchCount++
 		}
+	}
+
+	// Only if all anti-cheat test cases "fail", we fail the test
+	if matchCount == len(c) {
+		logger.Criticalf("anti-cheat (ac1) failed.")
+		logger.Criticalf("Please contact us at hello@codecrafters.io if you think this is a mistake.")
+		return fmt.Errorf("anti-cheat (ac1) failed")
 	}
 
 	return nil
