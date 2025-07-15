@@ -52,7 +52,7 @@ func writeFile(filePath string, content string) error {
 // and logs the file creation process to the logger
 func writeFiles(testFiles []TestFile, logger *logger.Logger) error {
 	for _, testFile := range testFiles {
-		logger.UpdateSecondaryPrefix("setup")
+		logger.UpdateLastSecondaryPrefix("setup")
 		lines := strings.Split(strings.TrimRight(testFile.Content, "\n"), "\n")
 		logger.Infof("echo %q > %q", lines[0], testFile.Path)
 		if len(lines) > 1 {
@@ -60,7 +60,7 @@ func writeFiles(testFiles []TestFile, logger *logger.Logger) error {
 				logger.Infof("echo %q >> %q", line, testFile.Path)
 			}
 		}
-		logger.ResetSecondaryPrefix()
+		logger.ResetSecondaryPrefixes()
 
 		if err := writeFile(testFile.Path, testFile.Content); err != nil {
 			logger.Errorf("Error writing file %s: %v", testFile.Path, err)
