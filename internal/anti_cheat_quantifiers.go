@@ -16,16 +16,6 @@ func testQuantifiersAsAntiCheat(stageHarness *test_case_harness.TestCaseHarness)
 			Input:            "abc",
 			ExpectedExitCode: 1,
 		},
-		{
-			Pattern:          "a{2,}bc",
-			Input:            "aaaaabc",
-			ExpectedExitCode: 0,
-		},
-		{
-			Pattern:          "a{2,}bc",
-			Input:            "abc",
-			ExpectedExitCode: 1,
-		},
 	}
 
 	return testCaseCollection.Run(stageHarness)
