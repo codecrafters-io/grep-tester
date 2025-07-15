@@ -12,6 +12,20 @@ type AntiCheatTestCase struct {
 	ExpectedExitCode int
 }
 
+func (t AntiCheatTestCase) Run(stageHarness *test_case_harness.TestCaseHarness) error {
+	executable := stageHarness.Executable.Clone()
+	executable.TimeoutInMilliseconds = 1000
+
+	result, err := executable.RunWithStdin([]byte(t.Input), "-E", t.Pattern)
+	if err != nil && err.Error() == "execution timed out" {
+		return nil
+	}
+	if result.ExitCode == t.ExpectedExitCode {
+		return fmt.Errorf("anti-cheat (ac1) failed")
+	}
+	return nil
+}
+
 type AntiCheatTestCaseCollection []AntiCheatTestCase
 
 func (c AntiCheatTestCaseCollection) Run(stageHarness *test_case_harness.TestCaseHarness) error {
@@ -22,7 +36,7 @@ func (c AntiCheatTestCaseCollection) Run(stageHarness *test_case_harness.TestCas
 		executable := stageHarness.Executable.Clone()
 		executable.TimeoutInMilliseconds = 1000
 
-		actualResult, err := executable.RunWithStdin([]byte(testCase.Input), "-P", testCase.Pattern)
+		actualResult, err := executable.RunWithStdin([]byte(testCase.Input), "-E", testCase.Pattern)
 		if err != nil && err.Error() == "execution timed out" {
 			continue
 		}
