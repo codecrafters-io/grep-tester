@@ -79,7 +79,7 @@ func (c FileSearchTestCaseCollection) Run(stageHarness *test_case_harness.TestCa
 			}
 
 			if len(missingLines) > 0 {
-				logger.Infof("Expected %d line(s) in output, only found %d. Missing line(s):", len(expectedOutputLines), len(foundLines))
+				logger.Infof("Expected %d line(s) in output, only found %d matching line(s). Missing match(es):", len(expectedOutputLines), len(foundLines))
 				errorMessage := []string{}
 				for _, line := range missingLines {
 					errorMessage = append(errorMessage, fmt.Sprintf("⨯ Line not found: \"%s\"", line))
