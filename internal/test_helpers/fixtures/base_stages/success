@@ -118,13 +118,13 @@
 [33m[tester::#MR9] [0m[94m$ echo -n "BANANA" | ./your_grep.sh -E "\w"[0m
 [33m[your_program] [0mBANANA
 [33m[tester::#MR9] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#MR9] [0m[94m$ echo -n "650" | ./your_grep.sh -E "\w"[0m
-[33m[your_program] [0m650
+[33m[tester::#MR9] [0m[94m$ echo -n "784" | ./your_grep.sh -E "\w"[0m
+[33m[your_program] [0m784
 [33m[tester::#MR9] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#MR9] [0m[94m$ echo -n "$+÷_-÷+" | ./your_grep.sh -E "\w"[0m
-[33m[your_program] [0m$+÷_-÷+
+[33m[tester::#MR9] [0m[94m$ echo -n "=+÷_#-+" | ./your_grep.sh -E "\w"[0m
+[33m[your_program] [0m=+÷_#-+
 [33m[tester::#MR9] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#MR9] [0m[94m$ echo -n "€-×+$÷" | ./your_grep.sh -E "\w"[0m
+[33m[tester::#MR9] [0m[94m$ echo -n "=%×÷-+" | ./your_grep.sh -E "\w"[0m
 [33m[tester::#MR9] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#MR9] [0m[92mTest passed.[0m
 

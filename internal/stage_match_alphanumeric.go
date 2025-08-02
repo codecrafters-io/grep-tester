@@ -14,7 +14,7 @@ func testMatchAlphanumeric(stageHarness *test_case_harness.TestCaseHarness) erro
 	RelocateSystemGrep(stageHarness)
 
 	words := random.RandomWords(2)
-	specialCharacters := []string{"+", "-", "÷", "×", "$", "€"}
+	specialCharacters := []string{"+", "-", "÷", "×", "=", "#", "%"}
 
 	nonWord1 := strings.Join(random.RandomElementsFromArray(specialCharacters, 3), "")
 	nonWord2 := strings.Join(random.RandomElementsFromArray(specialCharacters, 3), "")
