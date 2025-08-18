@@ -51,10 +51,15 @@
 [33m[tester::#FZ7] [0m[92mTest passed.[0m
 
 [33m[tester::#AO7] [0m[94mRunning tests for Stage #AO7 (ao7)[0m
-[33m[tester::#AO7] [0m[94m$ echo -n "cat" | ./your_grep.sh -E "cat$"[0m
-[33m[your_program] [0mcat
+[33m[tester::#AO7] [0m[94m$ echo -n "apple" | ./your_grep.sh -E "apple$"[0m
+[33m[your_program] [0mapple
 [33m[tester::#AO7] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#AO7] [0m[94m$ echo -n "cats" | ./your_grep.sh -E "cat$"[0m
+[33m[tester::#AO7] [0m[94m$ echo -n "apple123" | ./your_grep.sh -E "apple$"[0m
+[33m[tester::#AO7] [0m[92m✓ Received exit code 1.[0m
+[33m[tester::#AO7] [0m[94m$ echo -n "blueberry" | ./your_grep.sh -E "^blueberry$"[0m
+[33m[your_program] [0mblueberry
+[33m[tester::#AO7] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#AO7] [0m[94m$ echo -n "blueberry456" | ./your_grep.sh -E "^blueberry$"[0m
 [33m[tester::#AO7] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#AO7] [0m[92mTest passed.[0m
 
@@ -102,29 +107,29 @@
 [33m[tester::#RK3] [0m[92mTest passed.[0m
 
 [33m[tester::#TL6] [0m[94mRunning tests for Stage #TL6 (tl6)[0m
-[33m[tester::#TL6] [0m[94m$ echo -n "p" | ./your_grep.sh -E "[apple]"[0m
-[33m[your_program] [0mp
+[33m[tester::#TL6] [0m[94m$ echo -n "b" | ./your_grep.sh -E "[blueberry]"[0m
+[33m[your_program] [0mb
 [33m[tester::#TL6] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#TL6] [0m[94m$ echo -n "blueberry" | ./your_grep.sh -E "[acdfghijk]"[0m
+[33m[tester::#TL6] [0m[94m$ echo -n "raspberry" | ./your_grep.sh -E "[cdfghijkl]"[0m
 [33m[tester::#TL6] [0m[92m✓ Received exit code 1.[0m
-[33m[tester::#TL6] [0m[94m$ echo -n "[]" | ./your_grep.sh -E "[strawberry]"[0m
+[33m[tester::#TL6] [0m[94m$ echo -n "[]" | ./your_grep.sh -E "[pineapple]"[0m
 [33m[tester::#TL6] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#TL6] [0m[92mTest passed.[0m
 
 [33m[tester::#MR9] [0m[94mRunning tests for Stage #MR9 (mr9)[0m
-[33m[tester::#MR9] [0m[94m$ echo -n "blueberry" | ./your_grep.sh -E "\w"[0m
-[33m[your_program] [0mblueberry
+[33m[tester::#MR9] [0m[94m$ echo -n "apple" | ./your_grep.sh -E "\w"[0m
+[33m[your_program] [0mapple
 [33m[tester::#MR9] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#MR9] [0m[94m$ echo -n "BANANA" | ./your_grep.sh -E "\w"[0m
-[33m[your_program] [0mBANANA
+[33m[tester::#MR9] [0m[94m$ echo -n "ORANGE" | ./your_grep.sh -E "\w"[0m
+[33m[your_program] [0mORANGE
 [33m[tester::#MR9] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#MR9] [0m[94m$ echo -n "784" | ./your_grep.sh -E "\w"[0m
-[33m[your_program] [0m784
+[33m[tester::#MR9] [0m[94m$ echo -n "170" | ./your_grep.sh -E "\w"[0m
+[33m[your_program] [0m170
 [33m[tester::#MR9] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#MR9] [0m[94m$ echo -n "=+÷_#-+" | ./your_grep.sh -E "\w"[0m
-[33m[your_program] [0m=+÷_#-+
+[33m[tester::#MR9] [0m[94m$ echo -n "=%×_=×+" | ./your_grep.sh -E "\w"[0m
+[33m[your_program] [0m=%×_=×+
 [33m[tester::#MR9] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#MR9] [0m[94m$ echo -n "=%×÷-+" | ./your_grep.sh -E "\w"[0m
+[33m[tester::#MR9] [0m[94m$ echo -n "÷-×=#+" | ./your_grep.sh -E "\w"[0m
 [33m[tester::#MR9] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#MR9] [0m[92mTest passed.[0m
 
