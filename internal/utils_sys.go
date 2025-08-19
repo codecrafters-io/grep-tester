@@ -29,7 +29,7 @@ func RelocateSystemGrep(harness *test_case_harness.TestCaseHarness) {
 	moveCmd.Stdout = io.Discard
 	moveCmd.Stderr = io.Discard
 	if err := moveCmd.Run(); err != nil {
-		// Try again with sudo if the first attempt fails
+		// On CI we don't run as a root user so need to use sudo
 		sudoCommand := fmt.Sprintf("sudo %s", command)
 		sudoMoveCmd := exec.Command("sh", "-c", sudoCommand)
 		sudoMoveCmd.Stdout = io.Discard
@@ -51,7 +51,7 @@ func restoreSystemGrep(newPath string, originalPath string) error {
 	moveCmd.Stdout = io.Discard
 	moveCmd.Stderr = io.Discard
 	if err := moveCmd.Run(); err != nil {
-		// Try again with sudo if the first attempt fails
+		// On CI we don't run as a root user so need to use sudo
 		sudoCommand := fmt.Sprintf("sudo %s", command)
 		sudoMoveCmd := exec.Command("sh", "-c", sudoCommand)
 		sudoMoveCmd.Stdout = io.Discard
