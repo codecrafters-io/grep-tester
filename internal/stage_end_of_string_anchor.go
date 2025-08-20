@@ -1,22 +1,37 @@
 package internal
 
 import (
+	"fmt"
+
 	"github.com/codecrafters-io/grep-tester/internal/test_cases"
+	"github.com/codecrafters-io/tester-utils/random"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
 func testEndOfStringAnchor(stageHarness *test_case_harness.TestCaseHarness) error {
 	RelocateSystemGrep(stageHarness)
 
+	words := random.RandomWords(2)
+
 	testCaseCollection := test_cases.StdinTestCaseCollection{
 		{
-			Pattern:          "cat$",
-			Input:            "cat",
+			Pattern:          fmt.Sprintf("%s$", words[0]),
+			Input:            words[0],
 			ExpectedExitCode: 0,
 		},
 		{
-			Pattern:          "cat$",
-			Input:            "cats",
+			Pattern:          fmt.Sprintf("%s$", words[0]),
+			Input:            words[0] + "123",
+			ExpectedExitCode: 1,
+		},
+		{
+			Pattern:          fmt.Sprintf("^%s$", words[1]),
+			Input:            words[1],
+			ExpectedExitCode: 0,
+		},
+		{
+			Pattern:          fmt.Sprintf("^%s$", words[1]),
+			Input:            words[1] + "456",
 			ExpectedExitCode: 1,
 		},
 	}
