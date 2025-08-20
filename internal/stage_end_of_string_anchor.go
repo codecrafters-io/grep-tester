@@ -16,12 +16,12 @@ func testEndOfStringAnchor(stageHarness *test_case_harness.TestCaseHarness) erro
 	testCaseCollection := test_cases.StdinTestCaseCollection{
 		{
 			Pattern:          fmt.Sprintf("%s$", words[1]),
-			Input:            words[0] + words[1],
+			Input:            words[0] + "_" + words[1],
 			ExpectedExitCode: 0,
 		},
 		{
 			Pattern:          fmt.Sprintf("%s$", words[1]),
-			Input:            words[1] + words[0],
+			Input:            words[1] + "_" + words[0],
 			ExpectedExitCode: 1,
 		},
 		{
@@ -31,7 +31,7 @@ func testEndOfStringAnchor(stageHarness *test_case_harness.TestCaseHarness) erro
 		},
 		{
 			Pattern:          fmt.Sprintf("^%s$", words[2]),
-			Input:            words[1] + words[2] + words[0],
+			Input:            words[1] + "_" + words[2] + "_" + words[0],
 			ExpectedExitCode: 1,
 		},
 	}
