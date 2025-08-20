@@ -51,15 +51,15 @@
 [33m[tester::#FZ7] [0m[92mTest passed.[0m
 
 [33m[tester::#AO7] [0m[94mRunning tests for Stage #AO7 (ao7)[0m
-[33m[tester::#AO7] [0m[94m$ echo -n "apple" | ./your_grep.sh -E "apple$"[0m
-[33m[your_program] [0mapple
+[33m[tester::#AO7] [0m[94m$ echo -n "appleblueberry" | ./your_grep.sh -E "blueberry$"[0m
+[33m[your_program] [0mappleblueberry
 [33m[tester::#AO7] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#AO7] [0m[94m$ echo -n "apple123" | ./your_grep.sh -E "apple$"[0m
+[33m[tester::#AO7] [0m[94m$ echo -n "blueberryapple" | ./your_grep.sh -E "blueberry$"[0m
 [33m[tester::#AO7] [0m[92m✓ Received exit code 1.[0m
-[33m[tester::#AO7] [0m[94m$ echo -n "blueberry" | ./your_grep.sh -E "^blueberry$"[0m
-[33m[your_program] [0mblueberry
+[33m[tester::#AO7] [0m[94m$ echo -n "strawberry" | ./your_grep.sh -E "^strawberry$"[0m
+[33m[your_program] [0mstrawberry
 [33m[tester::#AO7] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#AO7] [0m[94m$ echo -n "blueberry456" | ./your_grep.sh -E "^blueberry$"[0m
+[33m[tester::#AO7] [0m[94m$ echo -n "blueberrystrawberryapple" | ./your_grep.sh -E "^strawberry$"[0m
 [33m[tester::#AO7] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#AO7] [0m[92mTest passed.[0m
 
