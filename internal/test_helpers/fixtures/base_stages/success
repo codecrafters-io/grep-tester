@@ -110,6 +110,9 @@
 [33m[tester::#TL6] [0m[94m$ echo -n "b" | ./your_grep.sh -E "[blueberry]"[0m
 [33m[your_program] [0mb
 [33m[tester::#TL6] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#TL6] [0m[94m$ echo -n "bac" | ./your_grep.sh -E "[blueberry]"[0m
+[33m[your_program] [0mbac
+[33m[tester::#TL6] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#TL6] [0m[94m$ echo -n "raspberry" | ./your_grep.sh -E "[cdfghijkl]"[0m
 [33m[tester::#TL6] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#TL6] [0m[94m$ echo -n "[]" | ./your_grep.sh -E "[pineapple]"[0m
