@@ -31,7 +31,7 @@ func testEndOfStringAnchor(stageHarness *test_case_harness.TestCaseHarness) erro
 		},
 		{
 			Pattern:          fmt.Sprintf("^%s$", words[2]),
-			Input:            words[1] + "_" + words[2] + "_" + words[0],
+			Input:            words[2] + "_" + words[2],
 			ExpectedExitCode: 1,
 		},
 	}
