@@ -29,8 +29,15 @@ func RelocateSystemGrep(harness *test_case_harness.TestCaseHarness) {
 	moveCmd.Stdout = io.Discard
 	moveCmd.Stderr = io.Discard
 	if err := moveCmd.Run(); err != nil {
-		os.RemoveAll(tmpGrepDir)
-		panic(fmt.Sprintf("CodeCrafters Internal Error: mv grep to tmp directory failed: %v", err))
+		// On CI we don't run as a root user so need to use sudo
+		sudoCommand := fmt.Sprintf("sudo %s", command)
+		sudoMoveCmd := exec.Command("sh", "-c", sudoCommand)
+		sudoMoveCmd.Stdout = io.Discard
+		sudoMoveCmd.Stderr = io.Discard
+		if sudoErr := sudoMoveCmd.Run(); sudoErr != nil {
+			os.RemoveAll(tmpGrepDir)
+			panic(fmt.Sprintf("CodeCrafters Internal Error: mv grep to tmp directory failed: %v", err))
+		}
 	}
 
 	// Register teardown function to automatically restore system grep
@@ -44,7 +51,14 @@ func restoreSystemGrep(newPath string, originalPath string) error {
 	moveCmd.Stdout = io.Discard
 	moveCmd.Stderr = io.Discard
 	if err := moveCmd.Run(); err != nil {
-		panic(fmt.Sprintf("CodeCrafters Internal Error: mv restore for grep failed: %v", err))
+		// On CI we don't run as a root user so need to use sudo
+		sudoCommand := fmt.Sprintf("sudo %s", command)
+		sudoMoveCmd := exec.Command("sh", "-c", sudoCommand)
+		sudoMoveCmd.Stdout = io.Discard
+		sudoMoveCmd.Stderr = io.Discard
+		if sudoErr := sudoMoveCmd.Run(); sudoErr != nil {
+			panic(fmt.Sprintf("CodeCrafters Internal Error: mv restore for grep failed: %v", err))
+		}
 	}
 
 	if err := os.RemoveAll(path.Dir(newPath)); err != nil {
