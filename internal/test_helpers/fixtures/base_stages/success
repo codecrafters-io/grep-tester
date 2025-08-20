@@ -107,11 +107,11 @@
 [33m[tester::#RK3] [0m[92mTest passed.[0m
 
 [33m[tester::#TL6] [0m[94mRunning tests for Stage #TL6 (tl6)[0m
-[33m[tester::#TL6] [0m[94m$ echo -n "p" | ./your_grep.sh -E "[apple]"[0m
-[33m[your_program] [0mp
+[33m[tester::#TL6] [0m[94m$ echo -n "b" | ./your_grep.sh -E "[blueberry]"[0m
+[33m[your_program] [0mb
 [33m[tester::#TL6] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#TL6] [0m[94m$ echo -n "pbc" | ./your_grep.sh -E "[apple]"[0m
-[33m[your_program] [0mpbc
+[33m[tester::#TL6] [0m[94m$ echo -n "bac" | ./your_grep.sh -E "[blueberry]"[0m
+[33m[your_program] [0mbac
 [33m[tester::#TL6] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#TL6] [0m[94m$ echo -n "raspberry" | ./your_grep.sh -E "[cdfghijkl]"[0m
 [33m[tester::#TL6] [0m[92m✓ Received exit code 1.[0m
