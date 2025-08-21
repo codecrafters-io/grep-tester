@@ -11,27 +11,27 @@ import (
 func testEndOfStringAnchor(stageHarness *test_case_harness.TestCaseHarness) error {
 	RelocateSystemGrep(stageHarness)
 
-	words := random.RandomWords(2)
+	words := random.RandomWords(3)
 
 	testCaseCollection := test_cases.StdinTestCaseCollection{
 		{
-			Pattern:          fmt.Sprintf("%s$", words[0]),
-			Input:            words[0],
+			Pattern:          fmt.Sprintf("%s$", words[1]),
+			Input:            words[0] + "_" + words[1],
 			ExpectedExitCode: 0,
 		},
 		{
-			Pattern:          fmt.Sprintf("%s$", words[0]),
-			Input:            words[0] + "123",
+			Pattern:          fmt.Sprintf("%s$", words[1]),
+			Input:            words[1] + "_" + words[0],
 			ExpectedExitCode: 1,
 		},
 		{
-			Pattern:          fmt.Sprintf("^%s$", words[1]),
-			Input:            words[1],
+			Pattern:          fmt.Sprintf("^%s$", words[2]),
+			Input:            words[2],
 			ExpectedExitCode: 0,
 		},
 		{
-			Pattern:          fmt.Sprintf("^%s$", words[1]),
-			Input:            words[1] + "456",
+			Pattern:          fmt.Sprintf("^%s$", words[2]),
+			Input:            words[2] + "_" + words[2],
 			ExpectedExitCode: 1,
 		},
 	}
