@@ -54,7 +54,7 @@
 [33m[tester::#AO7] [0m[94m$ echo -n "apple_blueberry" | ./your_grep.sh -E "blueberry$"[0m
 [33m[your_program] [0mapple_blueberry
 [33m[tester::#AO7] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#AO7] [0m[94m$ echo -n "blueberry_apple" | ./your_grep.sh -E "blueberry$"[0m
+[33m[tester::#AO7] [0m[94m$ echo -n "test generate fixture" | ./your_grep.sh -E "blueberry$"[0m
 [33m[tester::#AO7] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#AO7] [0m[94m$ echo -n "strawberry" | ./your_grep.sh -E "^strawberry$"[0m
 [33m[your_program] [0mstrawberry
