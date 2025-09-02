@@ -4,14 +4,13 @@ import (
 	"fmt"
 
 	"github.com/codecrafters-io/grep-tester/internal/test_cases"
-	"github.com/codecrafters-io/tester-utils/random"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
 func testStartOfStringAnchor(stageHarness *test_case_harness.TestCaseHarness) error {
 	RelocateSystemGrep(stageHarness)
 
-	words := random.RandomWords(2)
+	words := randomWordsNoSubstrings(2)
 
 	testCaseCollection := test_cases.StdinTestCaseCollection{
 		{
