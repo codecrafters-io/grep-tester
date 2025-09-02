@@ -16,7 +16,7 @@ func randomFilePrefix() string {
 	return strconv.Itoa(random.RandomInt(1000, 10000))
 }
 
-func randomWordsNoSubstrings(n int) []string {
+func randomWordsWithoutSubstrings(n int) []string {
 loop:
 	for {
 		words := random.RandomWords(n)

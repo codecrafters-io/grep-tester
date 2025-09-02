@@ -13,7 +13,7 @@ import (
 func testMatchAlphanumeric(stageHarness *test_case_harness.TestCaseHarness) error {
 	RelocateSystemGrep(stageHarness)
 
-	words := randomWordsNoSubstrings(2)
+	words := randomWordsWithoutSubstrings(2)
 	specialCharacters := []string{"+", "-", "÷", "×", "=", "#", "%"}
 
 	nonWord1 := strings.Join(random.RandomElementsFromArray(specialCharacters, 3), "")

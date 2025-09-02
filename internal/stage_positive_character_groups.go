@@ -12,7 +12,7 @@ import (
 func testPositiveCharacterGroups(stageHarness *test_case_harness.TestCaseHarness) error {
 	RelocateSystemGrep(stageHarness)
 
-	words := randomWordsNoSubstrings(3)
+	words := randomWordsWithoutSubstrings(3)
 	letterInsideWord0 := random.RandomElementFromArray(strings.Split(words[0], ""))
 	lettersOutsideWord0 := pickLettersOutsideWord(words[0], 2)
 	lettersOutsideWord1 := pickLettersOutsideWord(words[1], len(words[1]))

@@ -10,7 +10,7 @@ import (
 func testStartOfStringAnchor(stageHarness *test_case_harness.TestCaseHarness) error {
 	RelocateSystemGrep(stageHarness)
 
-	words := randomWordsNoSubstrings(2)
+	words := randomWordsWithoutSubstrings(2)
 
 	testCaseCollection := test_cases.StdinTestCaseCollection{
 		{

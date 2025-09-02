@@ -10,7 +10,7 @@ import (
 func testEndOfStringAnchor(stageHarness *test_case_harness.TestCaseHarness) error {
 	RelocateSystemGrep(stageHarness)
 
-	words := randomWordsNoSubstrings(3)
+	words := randomWordsWithoutSubstrings(3)
 
 	testCaseCollection := test_cases.StdinTestCaseCollection{
 		{
