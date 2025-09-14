@@ -20,6 +20,11 @@ func testZeroOrOneQuantifier(stageHarness *test_case_harness.TestCaseHarness) er
 			ExpectedExitCode: 0,
 		},
 		{
+			Pattern:          "ca?a?t",
+			Input:            "cat",
+			ExpectedExitCode: 0,
+		},
+		{
 			Pattern:          "ca?t",
 			Input:            "dog",
 			ExpectedExitCode: 1,

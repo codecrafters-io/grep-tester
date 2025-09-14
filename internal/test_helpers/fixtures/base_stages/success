@@ -31,6 +31,9 @@
 [33m[tester::#NY8] [0m[94m$ echo -n "act" | ./your_grep.sh -E "ca?t"[0m
 [33m[your_program] [0mact
 [33m[tester::#NY8] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#NY8] [0m[94m$ echo -n "cat" | ./your_grep.sh -E "ca?a?t"[0m
+[33m[your_program] [0mcat
+[33m[tester::#NY8] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#NY8] [0m[94m$ echo -n "dog" | ./your_grep.sh -E "ca?t"[0m
 [33m[tester::#NY8] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#NY8] [0m[94m$ echo -n "cag" | ./your_grep.sh -E "ca?t"[0m
