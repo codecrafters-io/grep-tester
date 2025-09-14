@@ -4,11 +4,6 @@
 [33m[tester::#ZM7] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#ZM7] [0m[94m$ echo -n "a cow" | ./your_grep.sh -E "a (cat|dog)"[0m
 [33m[tester::#ZM7] [0m[92m✓ Received exit code 1.[0m
-[33m[tester::#ZM7] [0m[94m$ echo -n "I see 1 cat, 2 dogs and 3 cows" | ./your_grep.sh -E "^I see (\d (cat|dog|cow)s?(, | and )?)+$"[0m
-[33m[your_program] [0mI see 1 cat, 2 dogs and 3 cows
-[33m[tester::#ZM7] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#ZM7] [0m[94m$ echo -n "I see 1 cat, 2 dogs and 3 cows" | ./your_grep.sh -E "^I see (\d (cat|dog|cow)(, | and )?)+$"[0m
-[33m[tester::#ZM7] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#ZM7] [0m[92mTest passed.[0m
 
 [33m[tester::#ZB3] [0m[94mRunning tests for Stage #ZB3 (zb3)[0m
