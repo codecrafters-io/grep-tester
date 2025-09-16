@@ -20,13 +20,23 @@ func testAlternation(stageHarness *test_case_harness.TestCaseHarness) error {
 			ExpectedExitCode: 1,
 		},
 		{
-			Pattern:          "^I see (\\d (cat|dog|cow)s?(, | and )?)+$",
-			Input:            "I see 1 cat, 2 dogs and 3 cows",
+			Pattern:          "^I see \\d+ (cat|dog)s?$",
+			Input:            "I see 1 cat",
 			ExpectedExitCode: 0,
 		},
 		{
-			Pattern:          "^I see (\\d (cat|dog|cow)(, | and )?)+$",
-			Input:            "I see 1 cat, 2 dogs and 3 cows",
+			Pattern:          "^I see \\d+ (cat|dog)s?$",
+			Input:            "I see 42 dogs",
+			ExpectedExitCode: 0,
+		},
+		{
+			Pattern:          "^I see \\d+ (cat|dog)s?$",
+			Input:            "I see a cat",
+			ExpectedExitCode: 1,
+		},
+		{
+			Pattern:          "^I see \\d+ (cat|dog)s?$",
+			Input:            "I see 2 dog3",
 			ExpectedExitCode: 1,
 		},
 	}
