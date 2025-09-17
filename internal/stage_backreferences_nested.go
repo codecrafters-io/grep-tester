@@ -11,13 +11,13 @@ func testBackreferencesNested(stageHarness *test_case_harness.TestCaseHarness) e
 	testCaseCollection := test_cases.StdinTestCaseCollection{
 		// Base case
 		{
-			Pattern:          "('(cat) and \\2') is the same as \\1",
-			Input:            "'cat and cat' is the same as 'cat and cat'",
+			Pattern:          `("(cat) and \2") is the same as \1`,
+			Input:            `"cat and cat" is the same as "cat and cat"`,
 			ExpectedExitCode: 0,
 		},
 		{
-			Pattern:          "('(cat) and \\2') is the same as \\1",
-			Input:            "'cat and cat' is the same as 'cat and dog'",
+			Pattern:          `("(cat) and \2") is the same as \1`,
+			Input:            `"cat and cat" is the same as "cat and dog"`,
 			ExpectedExitCode: 1,
 		},
 		// Integration with concepts from previous stages
@@ -67,18 +67,18 @@ func testBackreferencesNested(stageHarness *test_case_harness.TestCaseHarness) e
 			ExpectedExitCode: 1,
 		},
 		{
-			Pattern:          "'((how+dy) (he?y) there)' is made up of '\\2' and '\\3'. \\1",
-			Input:            "'howwdy hey there' is made up of 'howwdy' and 'hey'. howwdy hey there",
+			Pattern:          `"((how+dy) (he?y) there)" is made up of "\2" and "\3". \1`,
+			Input:            `"howwdy hey there" is made up of "howwdy" and "hey". howwdy hey there`,
 			ExpectedExitCode: 0,
 		},
 		{
-			Pattern:          "'((how+dy) (he?y) there)' is made up of '\\2' and '\\3'. \\1",
-			Input:            "'hody hey there' is made up of 'hody' and 'hey'. hody hey there",
+			Pattern:          `"((how+dy) (he?y) there)" is made up of "\2" and "\3". \1`,
+			Input:            `"hody hey there" is made up of "hody" and "hey". hody hey there`,
 			ExpectedExitCode: 1,
 		},
 		{
-			Pattern:          "'((how+dy) (he?y) there)' is made up of '\\2' and '\\3'. \\1",
-			Input:            "'howwdy heeey there' is made up of 'howwdy' and 'heeey'. howwdy heeey there",
+			Pattern:          `"((how+dy) (he?y) there)" is made up of "\2" and "\3". \1`,
+			Input:            `"howwdy heeey there" is made up of "howwdy" and "heeey". howwdy heeey there`,
 			ExpectedExitCode: 1,
 		},
 		{
