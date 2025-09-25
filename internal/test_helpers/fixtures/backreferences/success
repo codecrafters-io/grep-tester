@@ -4,6 +4,11 @@
 [33m[tester::#SB5] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#SB5] [0m[94m$ echo -n 'cat and dog' | ./your_grep.sh -E '(cat) and \1'[0m
 [33m[tester::#SB5] [0m[92m✓ Received exit code 1.[0m
+[33m[tester::#SB5] [0m[94m$ echo -n 'cat and cat' | ./your_grep.sh -E '(\w+) and \1'[0m
+[33m[your_program] [0mcat and cat
+[33m[tester::#SB5] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#SB5] [0m[94m$ echo -n 'cat and dog' | ./your_grep.sh -E '(\w+) and \1'[0m
+[33m[tester::#SB5] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#SB5] [0m[94m$ echo -n 'grep 101 is doing grep 101 times' | ./your_grep.sh -E '(\w\w\w\w \d\d\d) is doing \1 times'[0m
 [33m[your_program] [0mgrep 101 is doing grep 101 times
 [33m[tester::#SB5] [0m[92m✓ Received exit code 0.[0m

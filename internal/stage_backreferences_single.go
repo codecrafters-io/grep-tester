@@ -20,6 +20,16 @@ func testBackreferencesSingle(stageHarness *test_case_harness.TestCaseHarness) e
 			Input:            "cat and dog",
 			ExpectedExitCode: 1,
 		},
+		{
+			Pattern:          `(\w+) and \1`,
+			Input:            "cat and cat",
+			ExpectedExitCode: 0,
+		},
+		{
+			Pattern:          `(\w+) and \1`,
+			Input:            "cat and dog",
+			ExpectedExitCode: 1,
+		},
 		// Integration with concepts from previous stages
 		{
 			Pattern:          "(\\w\\w\\w\\w \\d\\d\\d) is doing \\1 times",
