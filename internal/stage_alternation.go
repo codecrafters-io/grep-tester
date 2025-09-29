@@ -20,6 +20,11 @@ func testAlternation(stageHarness *test_case_harness.TestCaseHarness) error {
 			ExpectedExitCode: 1,
 		},
 		{
+			Pattern:          "a (cat|dog)",
+			Input:            "a cog",
+			ExpectedExitCode: 1,
+		},
+		{
 			Pattern:          "^I see \\d+ (cat|dog)s?$",
 			Input:            "I see 1 cat",
 			ExpectedExitCode: 0,
