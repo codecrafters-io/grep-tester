@@ -2,7 +2,7 @@
 [33m[tester::#ZM7] [0m[94m$ echo -n 'a cat' | ./your_grep.sh -E 'a (cat|dog)'[0m
 [33m[your_program] [0ma cat
 [33m[tester::#ZM7] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#ZM7] [0m[94m$ echo -n 'a cow' | ./your_grep.sh -E 'a (cat|dog)'[0m
+[33m[tester::#ZM7] [0m[94m$ echo -n 'a cog' | ./your_grep.sh -E 'a (cat|dog)'[0m
 [33m[tester::#ZM7] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#ZM7] [0m[94m$ echo -n 'I see 1 cat' | ./your_grep.sh -E '^I see \d+ (cat|dog)s?$'[0m
 [33m[your_program] [0mI see 1 cat
