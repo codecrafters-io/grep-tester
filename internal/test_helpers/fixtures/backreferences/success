@@ -9,38 +9,10 @@
 [33m[tester::#SB5] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#SB5] [0m[94m$ echo -n 'cat and dog' | ./your_grep.sh -E '(\w+) and \1'[0m
 [33m[tester::#SB5] [0m[92m✓ Received exit code 1.[0m
-[33m[tester::#SB5] [0m[94m$ echo -n 'grep 101 is doing grep 101 times' | ./your_grep.sh -E '(\w\w\w\w \d\d\d) is doing \1 times'[0m
-[33m[your_program] [0mgrep 101 is doing grep 101 times
+[33m[tester::#SB5] [0m[94m$ echo -n 'cat is cat, not dog' | ./your_grep.sh -E '^([act]+) is \1, not [^xyz]+$'[0m
+[33m[your_program] [0mcat is cat, not dog
 [33m[tester::#SB5] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#SB5] [0m[94m$ echo -n '$?! 101 is doing $?! 101 times' | ./your_grep.sh -E '(\w\w\w \d\d\d) is doing \1 times'[0m
-[33m[tester::#SB5] [0m[92m✓ Received exit code 1.[0m
-[33m[tester::#SB5] [0m[94m$ echo -n 'grep yes is doing grep yes times' | ./your_grep.sh -E '(\w\w\w\w \d\d\d) is doing \1 times'[0m
-[33m[tester::#SB5] [0m[92m✓ Received exit code 1.[0m
-[33m[tester::#SB5] [0m[94m$ echo -n 'abcd is abcd, not efg' | ./your_grep.sh -E '([abcd]+) is \1, not [^xyz]+'[0m
-[33m[your_program] [0mabcd is abcd, not efg
-[33m[tester::#SB5] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#SB5] [0m[94m$ echo -n 'efgh is efgh, not efg' | ./your_grep.sh -E '([abcd]+) is \1, not [^xyz]+'[0m
-[33m[tester::#SB5] [0m[92m✓ Received exit code 1.[0m
-[33m[tester::#SB5] [0m[94m$ echo -n 'abcd is abcd, not xyz' | ./your_grep.sh -E '([abcd]+) is \1, not [^xyz]+'[0m
-[33m[tester::#SB5] [0m[92m✓ Received exit code 1.[0m
-[33m[tester::#SB5] [0m[94m$ echo -n 'this starts and ends with this' | ./your_grep.sh -E '^(\w+) starts and ends with \1$'[0m
-[33m[your_program] [0mthis starts and ends with this
-[33m[tester::#SB5] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#SB5] [0m[94m$ echo -n 'that starts and ends with this' | ./your_grep.sh -E '^(this) starts and ends with \1$'[0m
-[33m[tester::#SB5] [0m[92m✓ Received exit code 1.[0m
-[33m[tester::#SB5] [0m[94m$ echo -n 'this starts and ends with this?' | ./your_grep.sh -E '^(this) starts and ends with \1$'[0m
-[33m[tester::#SB5] [0m[92m✓ Received exit code 1.[0m
-[33m[tester::#SB5] [0m[94m$ echo -n 'once a dreaaamer, always a dreaaamer' | ./your_grep.sh -E 'once a (drea+mer), alwaysz? a \1'[0m
-[33m[your_program] [0monce a dreaaamer, always a dreaaamer
-[33m[tester::#SB5] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#SB5] [0m[94m$ echo -n 'once a dremer, always a dreaaamer' | ./your_grep.sh -E 'once a (drea+mer), alwaysz? a \1'[0m
-[33m[tester::#SB5] [0m[92m✓ Received exit code 1.[0m
-[33m[tester::#SB5] [0m[94m$ echo -n 'once a dreaaamer, alwayszzz a dreaaamer' | ./your_grep.sh -E 'once a (drea+mer), alwaysz? a \1'[0m
-[33m[tester::#SB5] [0m[92m✓ Received exit code 1.[0m
-[33m[tester::#SB5] [0m[94m$ echo -n 'bugs here and bugs there' | ./your_grep.sh -E '(b..s|c..e) here and \1 there'[0m
-[33m[your_program] [0mbugs here and bugs there
-[33m[tester::#SB5] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#SB5] [0m[94m$ echo -n 'bugz here and bugs there' | ./your_grep.sh -E '(b..s|c..e) here and \1 there'[0m
+[33m[tester::#SB5] [0m[94m$ echo -n 'cat is c@t, not d0g' | ./your_grep.sh -E '^([act]+) is \1, not [^xyz]+$'[0m
 [33m[tester::#SB5] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#SB5] [0m[92mTest passed.[0m
 
