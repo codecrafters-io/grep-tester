@@ -15,11 +15,8 @@ func testAlternation(stageHarness *test_case_harness.TestCaseHarness) error {
 			ExpectedExitCode: 0,
 		},
 		{
-			Pattern:          "a (cat|dog)",
-			Input:            "a cow",
-			ExpectedExitCode: 1,
-		},
-		{
+			// 'c', 'o', 'g' are all in {catdog}. This checks against quirky user logic.
+			// https://secure.helpscout.net/conversation/3091053263/9742?viewId=8414074
 			Pattern:          "a (cat|dog)",
 			Input:            "a cog",
 			ExpectedExitCode: 1,
