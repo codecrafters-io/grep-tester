@@ -29,6 +29,16 @@ func testOneOrMoreQuantifier(stageHarness *test_case_harness.TestCaseHarness) er
 			Input:            "ca",
 			ExpectedExitCode: 1,
 		},
+		{
+			Pattern:          `^abc_\d+_xyz$`,
+			Input:            "abc_123_xyz",
+			ExpectedExitCode: 0,
+		},
+		{
+			Pattern:          `^abc_\d+_xyz$`,
+			Input:            "abc_rst_xyz",
+			ExpectedExitCode: 1,
+		},
 	}
 
 	return testCaseCollection.Run(stageHarness)

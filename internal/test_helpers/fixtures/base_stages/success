@@ -56,6 +56,11 @@
 [33m[tester::#FZ7] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#FZ7] [0m[94m$ echo -n 'ca' | ./your_grep.sh -E 'ca+t'[0m
 [33m[tester::#FZ7] [0m[92m✓ Received exit code 1.[0m
+[33m[tester::#FZ7] [0m[94m$ echo -n 'abc_123_xyz' | ./your_grep.sh -E '^abc_\d+_xyz$'[0m
+[33m[your_program] [0mabc_123_xyz
+[33m[tester::#FZ7] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#FZ7] [0m[94m$ echo -n 'abc_rst_xyz' | ./your_grep.sh -E '^abc_\d+_xyz$'[0m
+[33m[tester::#FZ7] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#FZ7] [0m[92mTest passed.[0m
 
 [33m[tester::#AO7] [0m[94mRunning tests for Stage #AO7 (ao7)[0m
