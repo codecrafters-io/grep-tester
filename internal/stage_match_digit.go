@@ -19,6 +19,11 @@ func testMatchDigit(stageHarness *test_case_harness.TestCaseHarness) error {
 			Input:            "apple",
 			ExpectedExitCode: 1,
 		},
+		{
+			Pattern:          `\d`,
+			Input:            "abc_0_xyz",
+			ExpectedExitCode: 0,
+		},
 	}
 
 	return testCaseCollection.Run(stageHarness)
