@@ -21,7 +21,7 @@ func testMatchDigit(stageHarness *test_case_harness.TestCaseHarness) error {
 		},
 		{
 			Pattern:          `\d`,
-			Input:            "abc_0_xyz",
+			Input:            "abc_0_xyz", //  Catch incomplete [1-9] implementations
 			ExpectedExitCode: 0,
 		},
 	}
