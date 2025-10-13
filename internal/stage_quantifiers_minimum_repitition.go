@@ -68,7 +68,7 @@ func testQuantifierMinimumRepitition(stageHarness *test_case_harness.TestCaseHar
 			ExpectedExitCode: 0,
 		},
 		{
-			Pattern:          startLetter + fmt.Sprintf("[%s]{3,}", groupLetter1+groupLetter2) + endLetter,
+			Pattern:          startLetter + fmt.Sprintf("[%s%s]{3,}", groupLetter1, groupLetter2) + endLetter,
 			Input:            startLetter + groupLetter1 + groupLetter2 + endLetter,
 			ExpectedExitCode: 1,
 		},

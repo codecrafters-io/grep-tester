@@ -63,7 +63,7 @@ func testQuantifierRangeRepitition(stageHarness *test_case_harness.TestCaseHarne
 			ExpectedExitCode: 0,
 		},
 		{
-			Pattern:          startLetter + fmt.Sprintf("[%s]{2,4}", groupLetter1+groupLetter2+"e") + endLetter,
+			Pattern:          startLetter + fmt.Sprintf("[%s%s]{2,4}", groupLetter1, groupLetter2) + endLetter,
 			Input:            startLetter + groupLetter1 + endLetter,
 			ExpectedExitCode: 1,
 		},

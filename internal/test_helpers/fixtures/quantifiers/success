@@ -84,6 +84,6 @@
 [33m[tester::#UG0] [0m[94m$ echo -n 'gwatermelonpearo' | ./your_grep.sh -E 'g(banana|pear|watermelon){2,4}o'[0m
 [33m[your_program] [0mgwatermelonpearo
 [33m[tester::#UG0] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#UG0] [0m[94m$ echo -n 'gVo' | ./your_grep.sh -E 'g[Vbe]{2,4}o'[0m
+[33m[tester::#UG0] [0m[94m$ echo -n 'gVo' | ./your_grep.sh -E 'g[Vb]{2,4}o'[0m
 [33m[tester::#UG0] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#UG0] [0m[92mTest passed.[0m
