@@ -9,7 +9,7 @@ import (
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
-func testQuantifierExactRepitition(stageHarness *test_case_harness.TestCaseHarness) error {
+func testQuantifierExactRepetition(stageHarness *test_case_harness.TestCaseHarness) error {
 	RelocateSystemGrep(stageHarness)
 
 	allLetters := strings.Split("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", "")

@@ -36,7 +36,7 @@ test_file_search_with_grep: build
 
 test_quantifiers_with_grep: build
 	CODECRAFTERS_REPOSITORY_DIR=$(shell pwd)/internal/test_helpers/pass_all \
-	CODECRAFTERS_TEST_CASES_JSON="[{\"slug\":\"ai9\",\"tester_log_prefix\":\"stage-20\",\"title\":\"Stage #20: Zero or more times\"},{\"slug\":\"wy9\",\"tester_log_prefix\":\"stage-21\",\"title\":\"Stage #21: Exact repitition\"},{\"slug\":\"hk3\",\"tester_log_prefix\":\"stage-22\",\"title\":\"Stage #22: Minimum repitition\"},{\"slug\":\"ug0\",\"tester_log_prefix\":\"stage-23\",\"title\":\"Stage #23: Range Repitition\"}]" \
+	CODECRAFTERS_TEST_CASES_JSON="[{\"slug\":\"ai9\",\"tester_log_prefix\":\"stage-20\",\"title\":\"Stage #20: Zero or more times\"},{\"slug\":\"wy9\",\"tester_log_prefix\":\"stage-21\",\"title\":\"Stage #21: Exact repetition\"},{\"slug\":\"hk3\",\"tester_log_prefix\":\"stage-22\",\"title\":\"Stage #22: Minimum repetition\"},{\"slug\":\"ug0\",\"tester_log_prefix\":\"stage-23\",\"title\":\"Stage #23: Range Repetition\"}]" \
 	dist/main.out
 
 test_all: build

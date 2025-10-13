@@ -102,15 +102,15 @@ var testerDefinition = tester_definition.TesterDefinition{
 		},
 		{
 			Slug:     "wy9",
-			TestFunc: testQuantifierExactRepitition,
+			TestFunc: testQuantifierExactRepetition,
 		},
 		{
 			Slug:     "hk3",
-			TestFunc: testQuantifierMinimumRepitition,
+			TestFunc: testQuantifierMinimumRepetition,
 		},
 		{
 			Slug:     "ug0",
-			TestFunc: testQuantifierRangeRepitition,
+			TestFunc: testQuantifierRangeRepetition,
 		},
 	},
 }
