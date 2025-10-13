@@ -14,7 +14,7 @@ func testQuantifierExactRepitition(stageHarness *test_case_harness.TestCaseHarne
 
 	allLetters := strings.Split("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", "")
 	allNumbers := strings.Split("1234567890", "")
-	allAlphaNumeric := append(append(allLetters, allNumbers...), "_")
+	allAlphaNumerics := append(append(allLetters, allNumbers...), "_")
 
 	lettersInPattern := random.RandomElementsFromArray(allLetters, 5)
 	startLetter := lettersInPattern[0]
@@ -48,7 +48,7 @@ func testQuantifierExactRepitition(stageHarness *test_case_harness.TestCaseHarne
 		},
 		{
 			Pattern:          startLetter + `\w{4}` + endLetter,
-			Input:            startLetter + strings.Join(random.RandomElementsFromArray(allAlphaNumeric, 4), "") + endLetter,
+			Input:            startLetter + strings.Join(random.RandomElementsFromArray(allAlphaNumerics, 4), "") + endLetter,
 			ExpectedExitCode: 0,
 		},
 		{

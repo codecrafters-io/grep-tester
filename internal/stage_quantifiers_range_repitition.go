@@ -13,6 +13,7 @@ func testQuantifierRangeRepitition(stageHarness *test_case_harness.TestCaseHarne
 	RelocateSystemGrep(stageHarness)
 
 	allLetters := strings.Split("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", "")
+	allNumbers := strings.Split("1234567890", "")
 
 	lettersInPattern := random.RandomElementsFromArray(allLetters, 5)
 	startLetter := lettersInPattern[0]
@@ -46,12 +47,12 @@ func testQuantifierRangeRepitition(stageHarness *test_case_harness.TestCaseHarne
 		},
 		{
 			Pattern:          startLetter + `\d{2,4}` + endLetter,
-			Input:            startLetter + "123" + endLetter,
+			Input:            startLetter + strings.Join(random.RandomElementsFromArray(allNumbers, 3), "") + endLetter,
 			ExpectedExitCode: 0,
 		},
 		{
 			Pattern:          startLetter + `\w{2,3}` + endLetter,
-			Input:            startLetter + "ab" + endLetter,
+			Input:            startLetter + strings.Join(random.RandomElementsFromArray(allNumbers, 2), "") + endLetter,
 			ExpectedExitCode: 0,
 		},
 		{

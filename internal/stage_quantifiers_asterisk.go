@@ -14,7 +14,7 @@ func testQuantifierAsterisk(stageHarness *test_case_harness.TestCaseHarness) err
 
 	allLetters := strings.Split("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", "")
 	allNumbers := strings.Split("1234567890", "")
-	allAlphaNumerics := append(allLetters, allNumbers...)
+	allAlphaNumerics := append(append(allLetters, allNumbers...), "_")
 
 	lettersInPattern := random.RandomElementsFromArray(allLetters, 4)
 	startLetter := lettersInPattern[0]

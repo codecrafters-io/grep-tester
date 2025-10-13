@@ -14,7 +14,7 @@ func testQuantifierMinimumRepitition(stageHarness *test_case_harness.TestCaseHar
 
 	allLetters := strings.Split("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", "")
 	allNumbers := strings.Split("1234567890", "")
-	allAlphaNumeric := append(allLetters, allNumbers...)
+	allAlphaNumerics := append(append(allLetters, allNumbers...), "_")
 
 	lettersInPattern := random.RandomElementsFromArray(allLetters, 5)
 	startLetter := lettersInPattern[0]
@@ -53,7 +53,7 @@ func testQuantifierMinimumRepitition(stageHarness *test_case_harness.TestCaseHar
 		{
 			Pattern: startLetter + `\w{2,}` + endLetter,
 			Input: startLetter +
-				strings.Join(random.RandomElementsFromArray(allAlphaNumeric, 3), "") +
+				strings.Join(random.RandomElementsFromArray(allAlphaNumerics, 3), "") +
 				endLetter,
 			ExpectedExitCode: 0,
 		},

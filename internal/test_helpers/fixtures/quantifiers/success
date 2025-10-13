@@ -15,75 +15,75 @@
 [33m[tester::#AI9] [0m[94m$ echo -n ',vX0,' | ./your_grep.sh -E ',\w*,'[0m
 [33m[your_program] [0m,vX0,
 [33m[tester::#AI9] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#AI9] [0m[94m$ echo -n 'E842w' | ./your_grep.sh -E 'E[0-9]*w'[0m
-[33m[your_program] [0mE842w
+[33m[tester::#AI9] [0m[94m$ echo -n 'E681w' | ./your_grep.sh -E 'E[0-9]*w'[0m
+[33m[your_program] [0mE681w
 [33m[tester::#AI9] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#AI9] [0m[92mTest passed.[0m
 
 [33m[tester::#WY9] [0m[94mRunning tests for Stage #WY9 (wy9)[0m
-[33m[tester::#WY9] [0m[94m$ echo -n 'Dddq' | ./your_grep.sh -E 'Dd{2}q'[0m
-[33m[your_program] [0mDddq
+[33m[tester::#WY9] [0m[94m$ echo -n 'KCCm' | ./your_grep.sh -E 'KC{2}m'[0m
+[33m[your_program] [0mKCCm
 [33m[tester::#WY9] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#WY9] [0m[94m$ echo -n 'D687q' | ./your_grep.sh -E 'D\d{3}q'[0m
-[33m[your_program] [0mD687q
+[33m[tester::#WY9] [0m[94m$ echo -n 'K891m' | ./your_grep.sh -E 'K\d{3}m'[0m
+[33m[your_program] [0mK891m
 [33m[tester::#WY9] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#WY9] [0m[94m$ echo -n 'D16q' | ./your_grep.sh -E 'D\d{3}q'[0m
+[33m[tester::#WY9] [0m[94m$ echo -n 'K54m' | ./your_grep.sh -E 'K\d{3}m'[0m
 [33m[tester::#WY9] [0m[92m✓ Received exit code 1.[0m
-[33m[tester::#WY9] [0m[94m$ echo -n 'D478q' | ./your_grep.sh -E 'D[0-9]{2}q'[0m
+[33m[tester::#WY9] [0m[94m$ echo -n 'K156m' | ./your_grep.sh -E 'K[0-9]{2}m'[0m
 [33m[tester::#WY9] [0m[92m✓ Received exit code 1.[0m
-[33m[tester::#WY9] [0m[94m$ echo -n 'DtBgnq' | ./your_grep.sh -E 'D\w{4}q'[0m
-[33m[your_program] [0mDtBgnq
+[33m[tester::#WY9] [0m[94m$ echo -n 'KUEWtm' | ./your_grep.sh -E 'K\w{4}m'[0m
+[33m[your_program] [0mKUEWtm
 [33m[tester::#WY9] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#WY9] [0m[94m$ echo -n 'Dmangoappleorangeq' | ./your_grep.sh -E 'D(apple|mango|orange){3}q'[0m
-[33m[your_program] [0mDmangoappleorangeq
+[33m[tester::#WY9] [0m[94m$ echo -n 'Kgrapeorangeblueberrym' | ./your_grep.sh -E 'K(grape|blueberry|orange){3}m'[0m
+[33m[your_program] [0mKgrapeorangeblueberrym
 [33m[tester::#WY9] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#WY9] [0m[94m$ echo -n 'DGRq' | ./your_grep.sh -E 'D[GR]{3}q'[0m
+[33m[tester::#WY9] [0m[94m$ echo -n 'Kpim' | ./your_grep.sh -E 'K[pi]{3}m'[0m
 [33m[tester::#WY9] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#WY9] [0m[92mTest passed.[0m
 
 [33m[tester::#HK3] [0m[94mRunning tests for Stage #HK3 (hk3)[0m
-[33m[tester::#HK3] [0m[94m$ echo -n 'AQQU' | ./your_grep.sh -E 'AQ{2,}U'[0m
-[33m[your_program] [0mAQQU
+[33m[tester::#HK3] [0m[94m$ echo -n 'oVVz' | ./your_grep.sh -E 'oV{2,}z'[0m
+[33m[your_program] [0moVVz
 [33m[tester::#HK3] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#HK3] [0m[94m$ echo -n 'AQQQQU' | ./your_grep.sh -E 'AQ{2,}U'[0m
-[33m[your_program] [0mAQQQQU
+[33m[tester::#HK3] [0m[94m$ echo -n 'oVVVz' | ./your_grep.sh -E 'oV{2,}z'[0m
+[33m[your_program] [0moVVVz
 [33m[tester::#HK3] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#HK3] [0m[94m$ echo -n 'A731U' | ./your_grep.sh -E 'A\d{3,}U'[0m
-[33m[your_program] [0mA731U
+[33m[tester::#HK3] [0m[94m$ echo -n 'o728z' | ./your_grep.sh -E 'o\d{3,}z'[0m
+[33m[your_program] [0mo728z
 [33m[tester::#HK3] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#HK3] [0m[94m$ echo -n 'A93U' | ./your_grep.sh -E 'A\d{3,}U'[0m
+[33m[tester::#HK3] [0m[94m$ echo -n 'o89z' | ./your_grep.sh -E 'o\d{3,}z'[0m
 [33m[tester::#HK3] [0m[92m✓ Received exit code 1.[0m
-[33m[tester::#HK3] [0m[94m$ echo -n 'AwgWU' | ./your_grep.sh -E 'A\w{2,}U'[0m
-[33m[your_program] [0mAwgWU
+[33m[tester::#HK3] [0m[94m$ echo -n 'oLYQz' | ./your_grep.sh -E 'o\w{2,}z'[0m
+[33m[your_program] [0moLYQz
 [33m[tester::#HK3] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#HK3] [0m[94m$ echo -n 'ApeasbroccolicornU' | ./your_grep.sh -E 'A(corn|peas|broccoli){2,}U'[0m
-[33m[your_program] [0mApeasbroccolicornU
+[33m[tester::#HK3] [0m[94m$ echo -n 'ocarrotonionpotatoz' | ./your_grep.sh -E 'o(onion|potato|carrot){2,}z'[0m
+[33m[your_program] [0mocarrotonionpotatoz
 [33m[tester::#HK3] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#HK3] [0m[94m$ echo -n 'AzyU' | ./your_grep.sh -E 'A[zy]{3,}U'[0m
+[33m[tester::#HK3] [0m[94m$ echo -n 'odhz' | ./your_grep.sh -E 'o[dh]{3,}z'[0m
 [33m[tester::#HK3] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#HK3] [0m[92mTest passed.[0m
 
 [33m[tester::#UG0] [0m[94mRunning tests for Stage #UG0 (ug0)[0m
-[33m[tester::#UG0] [0m[94m$ echo -n 'guuo' | ./your_grep.sh -E 'gu{2,4}o'[0m
-[33m[your_program] [0mguuo
+[33m[tester::#UG0] [0m[94m$ echo -n 'DBBC' | ./your_grep.sh -E 'DB{2,4}C'[0m
+[33m[your_program] [0mDBBC
 [33m[tester::#UG0] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#UG0] [0m[94m$ echo -n 'guuuo' | ./your_grep.sh -E 'gu{2,4}o'[0m
-[33m[your_program] [0mguuuo
+[33m[tester::#UG0] [0m[94m$ echo -n 'DBBBC' | ./your_grep.sh -E 'DB{2,4}C'[0m
+[33m[your_program] [0mDBBBC
 [33m[tester::#UG0] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#UG0] [0m[94m$ echo -n 'guuuuo' | ./your_grep.sh -E 'gu{2,4}o'[0m
-[33m[your_program] [0mguuuuo
+[33m[tester::#UG0] [0m[94m$ echo -n 'DBBBBC' | ./your_grep.sh -E 'DB{2,4}C'[0m
+[33m[your_program] [0mDBBBBC
 [33m[tester::#UG0] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#UG0] [0m[94m$ echo -n 'guo' | ./your_grep.sh -E 'gu{2,4}o'[0m
+[33m[tester::#UG0] [0m[94m$ echo -n 'DBC' | ./your_grep.sh -E 'DB{2,4}C'[0m
 [33m[tester::#UG0] [0m[92m✓ Received exit code 1.[0m
-[33m[tester::#UG0] [0m[94m$ echo -n 'g123o' | ./your_grep.sh -E 'g\d{2,4}o'[0m
-[33m[your_program] [0mg123o
+[33m[tester::#UG0] [0m[94m$ echo -n 'D825C' | ./your_grep.sh -E 'D\d{2,4}C'[0m
+[33m[your_program] [0mD825C
 [33m[tester::#UG0] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#UG0] [0m[94m$ echo -n 'gabo' | ./your_grep.sh -E 'g\w{2,3}o'[0m
-[33m[your_program] [0mgabo
+[33m[tester::#UG0] [0m[94m$ echo -n 'D34C' | ./your_grep.sh -E 'D\w{2,3}C'[0m
+[33m[your_program] [0mD34C
 [33m[tester::#UG0] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#UG0] [0m[94m$ echo -n 'gwatermelonpearo' | ./your_grep.sh -E 'g(banana|pear|watermelon){2,4}o'[0m
-[33m[your_program] [0mgwatermelonpearo
+[33m[tester::#UG0] [0m[94m$ echo -n 'DpineappleraspberryC' | ./your_grep.sh -E 'D(orange|raspberry|pineapple){2,4}C'[0m
+[33m[your_program] [0mDpineappleraspberryC
 [33m[tester::#UG0] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#UG0] [0m[94m$ echo -n 'gVo' | ./your_grep.sh -E 'g[Vb]{2,4}o'[0m
+[33m[tester::#UG0] [0m[94m$ echo -n 'DfC' | ./your_grep.sh -E 'D[fq]{2,4}C'[0m
 [33m[tester::#UG0] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#UG0] [0m[92mTest passed.[0m
