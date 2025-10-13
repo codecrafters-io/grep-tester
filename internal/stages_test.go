@@ -71,6 +71,13 @@ func TestStages(t *testing.T) {
 			StdoutFixturePath:   "./test_helpers/fixtures/file_search/success",
 			NormalizeOutputFunc: normalizeTesterOutput,
 		},
+		"quantifiers_pass": {
+			StageSlugs:          []string{"ai9", "wy9", "hk3", "ug0"},
+			CodePath:            "./test_helpers/pass_all",
+			ExpectedExitCode:    0,
+			StdoutFixturePath:   "./test_helpers/fixtures/quantifiers/success",
+			NormalizeOutputFunc: normalizeTesterOutput,
+		},
 	}
 
 	tester_utils_testing.TestTesterOutput(t, testerDefinition, testCases)

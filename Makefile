@@ -34,6 +34,11 @@ test_file_search_with_grep: build
 	CODECRAFTERS_TEST_CASES_JSON="[{\"slug\":\"dr5\",\"tester_log_prefix\":\"stage-16\",\"title\":\"Stage #16: Single Line File Search\"},{\"slug\":\"ol9\",\"tester_log_prefix\":\"stage-17\",\"title\":\"Stage #17: Multi Line File Search\"},{\"slug\":\"is6\",\"tester_log_prefix\":\"stage-18\",\"title\":\"Stage #18: Multiple Files Search\"},{\"slug\":\"yx6\",\"tester_log_prefix\":\"stage-19\",\"title\":\"Stage #19: Recursive File Search\"}]" \
 	dist/main.out
 
+test_quantifiers_with_grep: build
+	CODECRAFTERS_REPOSITORY_DIR=$(shell pwd)/internal/test_helpers/pass_all \
+	CODECRAFTERS_TEST_CASES_JSON="[{\"slug\":\"ai9\",\"tester_log_prefix\":\"stage-20\",\"title\":\"Stage #20: Zero or more times\"},{\"slug\":\"wy9\",\"tester_log_prefix\":\"stage-21\",\"title\":\"Stage #21: Exact repitition\"},{\"slug\":\"hk3\",\"tester_log_prefix\":\"stage-22\",\"title\":\"Stage #22: Minimum repitition\"},{\"slug\":\"ug0\",\"tester_log_prefix\":\"stage-23\",\"title\":\"Stage #23: Range Repitition\"}]" \
+	dist/main.out
+
 test_all: build
 	make test_base_with_grep || true
 	make test_backreferences_with_grep || true

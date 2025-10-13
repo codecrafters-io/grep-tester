@@ -96,5 +96,21 @@ var testerDefinition = tester_definition.TesterDefinition{
 			Slug:     "yx6",
 			TestFunc: testRecursiveFileSearch,
 		},
+		{
+			Slug:     "ai9",
+			TestFunc: testQuantifierAsterisk,
+		},
+		{
+			Slug:     "wy9",
+			TestFunc: testQuantifierExactRepitition,
+		},
+		{
+			Slug:     "hk3",
+			TestFunc: testQuantifierMinimumRepitition,
+		},
+		{
+			Slug:     "ug0",
+			TestFunc: testQuantifierRangeRepitition,
+		},
 	},
 }

@@ -1,0 +1,89 @@
+[33m[tester::#AI9] [0m[94mRunning tests for Stage #AI9 (ai9)[0m
+[33m[tester::#AI9] [0m[94m$ echo -n 'Ew' | ./your_grep.sh -E 'El*w'[0m
+[33m[your_program] [0mEw
+[33m[tester::#AI9] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#AI9] [0m[94m$ echo -n 'Elllw' | ./your_grep.sh -E 'El*w'[0m
+[33m[your_program] [0mElllw
+[33m[tester::#AI9] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#AI9] [0m[94m$ echo -n 'Els' | ./your_grep.sh -E 'El*w'[0m
+[33m[tester::#AI9] [0m[92m✓ Received exit code 1.[0m
+[33m[tester::#AI9] [0m[94m$ echo -n 'E921w' | ./your_grep.sh -E 'E\d*w'[0m
+[33m[your_program] [0mE921w
+[33m[tester::#AI9] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#AI9] [0m[94m$ echo -n 'E12s34w' | ./your_grep.sh -E 'E\d*w'[0m
+[33m[tester::#AI9] [0m[92m✓ Received exit code 1.[0m
+[33m[tester::#AI9] [0m[94m$ echo -n ',vX0,' | ./your_grep.sh -E ',\w*,'[0m
+[33m[your_program] [0m,vX0,
+[33m[tester::#AI9] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#AI9] [0m[94m$ echo -n 'E842w' | ./your_grep.sh -E 'E[0-9]*w'[0m
+[33m[your_program] [0mE842w
+[33m[tester::#AI9] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#AI9] [0m[92mTest passed.[0m
+
+[33m[tester::#WY9] [0m[94mRunning tests for Stage #WY9 (wy9)[0m
+[33m[tester::#WY9] [0m[94m$ echo -n 'Dddq' | ./your_grep.sh -E 'Dd{2}q'[0m
+[33m[your_program] [0mDddq
+[33m[tester::#WY9] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#WY9] [0m[94m$ echo -n 'D687q' | ./your_grep.sh -E 'D\d{3}q'[0m
+[33m[your_program] [0mD687q
+[33m[tester::#WY9] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#WY9] [0m[94m$ echo -n 'D16q' | ./your_grep.sh -E 'D\d{3}q'[0m
+[33m[tester::#WY9] [0m[92m✓ Received exit code 1.[0m
+[33m[tester::#WY9] [0m[94m$ echo -n 'D478q' | ./your_grep.sh -E 'D[0-9]{2}q'[0m
+[33m[tester::#WY9] [0m[92m✓ Received exit code 1.[0m
+[33m[tester::#WY9] [0m[94m$ echo -n 'DtBgnq' | ./your_grep.sh -E 'D\w{4}q'[0m
+[33m[your_program] [0mDtBgnq
+[33m[tester::#WY9] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#WY9] [0m[94m$ echo -n 'Dmangoappleorangeq' | ./your_grep.sh -E 'D(apple|mango|orange){3}q'[0m
+[33m[your_program] [0mDmangoappleorangeq
+[33m[tester::#WY9] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#WY9] [0m[94m$ echo -n 'DGRq' | ./your_grep.sh -E 'D[GR]{3}q'[0m
+[33m[tester::#WY9] [0m[92m✓ Received exit code 1.[0m
+[33m[tester::#WY9] [0m[92mTest passed.[0m
+
+[33m[tester::#HK3] [0m[94mRunning tests for Stage #HK3 (hk3)[0m
+[33m[tester::#HK3] [0m[94m$ echo -n 'AQQU' | ./your_grep.sh -E 'AQ{2,}U'[0m
+[33m[your_program] [0mAQQU
+[33m[tester::#HK3] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#HK3] [0m[94m$ echo -n 'AQQQQU' | ./your_grep.sh -E 'AQ{2,}U'[0m
+[33m[your_program] [0mAQQQQU
+[33m[tester::#HK3] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#HK3] [0m[94m$ echo -n 'A731U' | ./your_grep.sh -E 'A\d{3,}U'[0m
+[33m[your_program] [0mA731U
+[33m[tester::#HK3] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#HK3] [0m[94m$ echo -n 'A93U' | ./your_grep.sh -E 'A\d{3,}U'[0m
+[33m[tester::#HK3] [0m[92m✓ Received exit code 1.[0m
+[33m[tester::#HK3] [0m[94m$ echo -n 'AwgWU' | ./your_grep.sh -E 'A\w{2,}U'[0m
+[33m[your_program] [0mAwgWU
+[33m[tester::#HK3] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#HK3] [0m[94m$ echo -n 'ApeasbroccolicornU' | ./your_grep.sh -E 'A(corn|peas|broccoli){2,}U'[0m
+[33m[your_program] [0mApeasbroccolicornU
+[33m[tester::#HK3] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#HK3] [0m[94m$ echo -n 'AzyU' | ./your_grep.sh -E 'A[zy]{3,}U'[0m
+[33m[tester::#HK3] [0m[92m✓ Received exit code 1.[0m
+[33m[tester::#HK3] [0m[92mTest passed.[0m
+
+[33m[tester::#UG0] [0m[94mRunning tests for Stage #UG0 (ug0)[0m
+[33m[tester::#UG0] [0m[94m$ echo -n 'guuo' | ./your_grep.sh -E 'gu{2,4}o'[0m
+[33m[your_program] [0mguuo
+[33m[tester::#UG0] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#UG0] [0m[94m$ echo -n 'guuuo' | ./your_grep.sh -E 'gu{2,4}o'[0m
+[33m[your_program] [0mguuuo
+[33m[tester::#UG0] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#UG0] [0m[94m$ echo -n 'guuuuo' | ./your_grep.sh -E 'gu{2,4}o'[0m
+[33m[your_program] [0mguuuuo
+[33m[tester::#UG0] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#UG0] [0m[94m$ echo -n 'guo' | ./your_grep.sh -E 'gu{2,4}o'[0m
+[33m[tester::#UG0] [0m[92m✓ Received exit code 1.[0m
+[33m[tester::#UG0] [0m[94m$ echo -n 'g123o' | ./your_grep.sh -E 'g\d{2,4}o'[0m
+[33m[your_program] [0mg123o
+[33m[tester::#UG0] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#UG0] [0m[94m$ echo -n 'gabo' | ./your_grep.sh -E 'g\w{2,3}o'[0m
+[33m[your_program] [0mgabo
+[33m[tester::#UG0] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#UG0] [0m[94m$ echo -n 'gwatermelonpearo' | ./your_grep.sh -E 'g(banana|pear|watermelon){2,4}o'[0m
+[33m[your_program] [0mgwatermelonpearo
+[33m[tester::#UG0] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#UG0] [0m[94m$ echo -n 'gVo' | ./your_grep.sh -E 'g[Vbe]{2,4}o'[0m
+[33m[tester::#UG0] [0m[92m✓ Received exit code 1.[0m
+[33m[tester::#UG0] [0m[92mTest passed.[0m
