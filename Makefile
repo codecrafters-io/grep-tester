@@ -43,6 +43,7 @@ test_all: build
 	make test_base_with_grep || true
 	make test_backreferences_with_grep || true
 	make test_file_search_with_grep || true
+	make test_quantifiers_with_grep || true
 
 copy_course_file:
 	hub api \
