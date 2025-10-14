@@ -46,13 +46,13 @@ func testQuantifierMinimumRepetition(stageHarness *test_case_harness.TestCaseHar
 			ExpectedExitCode: 0,
 		},
 		{
-			Pattern:          fruit + `[0-9]{2,}`,
-			Input:            fruit + "7",
-			ExpectedExitCode: 1,
+			Pattern:          `^[a-z]{3,}@[a-z]+\.(com|org)$`,
+			Input:            fmt.Sprintf("%s@%s.com", vegetable1, fruit),
+			ExpectedExitCode: 0,
 		},
 		{
-			Pattern:          animal + `\d{3,}`,
-			Input:            fmt.Sprintf("%s%d", animal, random.RandomInt(10, 99)),
+			Pattern:          `^[a-z]{3,}@[a-z]+\.(com|org)$`,
+			Input:            fmt.Sprintf("%s@%s.com", fruit[:2], vegetable1),
 			ExpectedExitCode: 1,
 		},
 	}

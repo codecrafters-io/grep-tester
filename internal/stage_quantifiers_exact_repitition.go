@@ -45,13 +45,13 @@ func testQuantifierExactRepetition(stageHarness *test_case_harness.TestCaseHarne
 			ExpectedExitCode: 0,
 		},
 		{
-			Pattern:          fruit + "[_Z]{3}",
-			Input:            fruit + "_Z",
-			ExpectedExitCode: 1,
+			Pattern:          fmt.Sprintf(`^\d{4}-\d{2}-\d{2} \d{2}:\d{2} (%s|%s)$`, fruit, vegetable),
+			Input:            fmt.Sprintf("%d-%02d-%02d %02d:%02d %s", random.RandomInt(2020, 2025), random.RandomInt(1, 12), random.RandomInt(1, 28), random.RandomInt(0, 23), random.RandomInt(0, 59), fruit),
+			ExpectedExitCode: 0,
 		},
 		{
-			Pattern:          animal2 + `\d{2}` + "Z",
-			Input:            fmt.Sprintf("%s%dZ", animal2, random.RandomInt(100, 999)),
+			Pattern:          fmt.Sprintf(`^\d{4}-\d{2}-\d{2} \d{2}:\d{2} (%s|%s)$`, fruit, vegetable),
+			Input:            fmt.Sprintf("%d-%d-%d %d:%d %s", random.RandomInt(2020, 2025), random.RandomInt(1, 12), random.RandomInt(1, 9), random.RandomInt(0, 23), random.RandomInt(0, 59), fruit),
 			ExpectedExitCode: 1,
 		},
 	}

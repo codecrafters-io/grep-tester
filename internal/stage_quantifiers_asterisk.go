@@ -2,7 +2,6 @@ package internal
 
 import (
 	"fmt"
-	"strings"
 
 	"github.com/codecrafters-io/grep-tester/internal/test_cases"
 	"github.com/codecrafters-io/tester-utils/random"
@@ -45,13 +44,13 @@ func testQuantifierAsterisk(stageHarness *test_case_harness.TestCaseHarness) err
 			ExpectedExitCode: 0,
 		},
 		{
-			Pattern:          fruit[:len(fruit)-1] + string(fruit[len(fruit)-1]) + "*" + ",",
-			Input:            fruit[:len(fruit)-1] + strings.Repeat(string(fruit[len(fruit)-1]), 3) + "/",
-			ExpectedExitCode: 1,
+			Pattern:          fmt.Sprintf(`^LOG [A-Z]* \d+ (%s|%s)$`, fruit, vegetable),
+			Input:            fmt.Sprintf("LOG INFO %d %s", random.RandomInt(10, 99), fruit),
+			ExpectedExitCode: 0,
 		},
 		{
-			Pattern:          vegetable + `[aeiou]*` + "/",
-			Input:            vegetable + "oouieaaeiou" + ",",
+			Pattern:          fmt.Sprintf(`^LOG [A-Z]* \d+ (%s|%s)$`, fruit, vegetable),
+			Input:            fmt.Sprintf("LOG info %d %s", random.RandomInt(10, 99), fruit),
 			ExpectedExitCode: 1,
 		},
 	}

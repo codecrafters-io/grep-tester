@@ -48,13 +48,13 @@ func testQuantifierRangeRepetition(stageHarness *test_case_harness.TestCaseHarne
 			ExpectedExitCode: 0,
 		},
 		{
-			Pattern:          vegetable + string(vegetable[len(vegetable)-1]) + "{3,5}",
-			Input:            vegetable + strings.Repeat(string(vegetable[len(vegetable)-1]), 2),
-			ExpectedExitCode: 1,
+			Pattern:          `^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:\d{1,5}$`,
+			Input:            fmt.Sprintf("%d.%d.%d.%d:%d", random.RandomInt(1, 255), random.RandomInt(0, 255), random.RandomInt(0, 255), random.RandomInt(1, 255), random.RandomInt(1000, 9999)),
+			ExpectedExitCode: 0,
 		},
 		{
-			Pattern:          animal2 + `\d{2,3}` + "_Z",
-			Input:            fmt.Sprintf("%s%d_Z", animal2, random.RandomInt(1000, 9999)),
+			Pattern:          `^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:\d{1,5}$`,
+			Input:            fmt.Sprintf("%d.%d.%d;%d", random.RandomInt(1, 255), random.RandomInt(0, 255), random.RandomInt(0, 255), random.RandomInt(1000, 9999)),
 			ExpectedExitCode: 1,
 		},
 	}
