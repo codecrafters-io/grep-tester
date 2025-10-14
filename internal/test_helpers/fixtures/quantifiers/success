@@ -62,7 +62,7 @@
 [33m[tester::#HK3] [0m[94m$ echo -n 'success onion_634 PROD horse deployed' | ./your_grep.sh -E '^(success|failure) [a-z]{3,}_\d{3,} [A-Z]{2,} horse (deployed|rolled back)$'[0m
 [33m[your_program] [0msuccess onion_634 PROD horse deployed
 [33m[tester::#HK3] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#HK3] [0m[94m$ echo -n 'failure ab_459 PROD horse rolled back' | ./your_grep.sh -E '^(success|failure) [a-z]{3,}_\d+ [A-Z]{2,} horse (deployed|rolled back)$'[0m
+[33m[tester::#HK3] [0m[94m$ echo -n 'failure ab_459 PROD horse rolled back' | ./your_grep.sh -E '^(success|failure) [a-z]{3,}_\d{3,} [A-Z]{2,} horse (deployed|rolled back)$'[0m
 [33m[tester::#HK3] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#HK3] [0m[92mTest passed.[0m
 
@@ -82,9 +82,9 @@
 [33m[tester::#UG0] [0m[94m$ echo -n 'lemonaei' | ./your_grep.sh -E 'lemon[aeiou]{2,4}'[0m
 [33m[your_program] [0mlemonaei
 [33m[tester::#UG0] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#UG0] [0m[94m$ echo -n 'pu v8_5_7 stable blueberry installed' | ./your_grep.sh -E '^[a-z]{2,5} v\d{1,2}_\d{1,2}_\d{1,2} (stable|beta) blueberry (installed|available)$'[0m
-[33m[your_program] [0mpu v8_5_7 stable blueberry installed
+[33m[tester::#UG0] [0m[94m$ echo -n 'pum v4_19_15 stable blueberry installed' | ./your_grep.sh -E '^[a-z]{2,5} v\d{1,2}_\d{1,2}_\d{1,2} (stable|beta) blueberry (installed|available)$'[0m
+[33m[your_program] [0mpum v4_19_15 stable blueberry installed
 [33m[tester::#UG0] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#UG0] [0m[94m$ echo -n 'pum v8_9_ beta blueberry available' | ./your_grep.sh -E '^[a-z]{2,5} v\d{1,2}_\d{1,2}_\d{1,2} (stable|beta) blueberry (installed|available)$'[0m
+[33m[tester::#UG0] [0m[94m$ echo -n 'pum v8_17_ beta blueberry available' | ./your_grep.sh -E '^[a-z]{2,5} v\d{1,2}_\d{1,2}_\d{1,2} (stable|beta) blueberry (installed|available)$'[0m
 [33m[tester::#UG0] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#UG0] [0m[92mTest passed.[0m

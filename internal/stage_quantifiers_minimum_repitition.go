@@ -51,7 +51,7 @@ func testQuantifierMinimumRepetition(stageHarness *test_case_harness.TestCaseHar
 			ExpectedExitCode: 0,
 		},
 		{
-			Pattern:          fmt.Sprintf(`^(success|failure) [a-z]{3,}_\d+ [A-Z]{2,} %s (deployed|rolled back)$`, animal),
+			Pattern:          fmt.Sprintf(`^(success|failure) [a-z]{3,}_\d{3,} [A-Z]{2,} %s (deployed|rolled back)$`, animal),
 			Input:            fmt.Sprintf("failure ab_%d %s %s rolled back", random.RandomInt(100, 999), "PROD", animal),
 			ExpectedExitCode: 1,
 		},
