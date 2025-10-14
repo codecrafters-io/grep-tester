@@ -45,13 +45,13 @@ func testQuantifierExactRepetition(stageHarness *test_case_harness.TestCaseHarne
 			ExpectedExitCode: 0,
 		},
 		{
-			Pattern:          fmt.Sprintf(`^\d{4}-\d{2}-\d{2} \d{2}:\d{2} (%s|%s)$`, fruit, vegetable),
-			Input:            fmt.Sprintf("%d-%02d-%02d %02d:%02d %s", random.RandomInt(2020, 2025), random.RandomInt(1, 12), random.RandomInt(1, 28), random.RandomInt(0, 23), random.RandomInt(0, 59), fruit),
+			Pattern:          fmt.Sprintf(`^(ERROR|WARN|INFO) [a-z]{3} \d{2} \d{2}:\d{2}:\d{2} %s service (started|stopped)$`, vegetable),
+			Input:            fmt.Sprintf("INFO %s %02d %02d:%02d:%02d %s service started", fruit[:3], random.RandomInt(1, 28), random.RandomInt(0, 23), random.RandomInt(0, 59), random.RandomInt(0, 59), vegetable),
 			ExpectedExitCode: 0,
 		},
 		{
-			Pattern:          fmt.Sprintf(`^\d{4}-\d{2}-\d{2} \d{2}:\d{2} (%s|%s)$`, fruit, vegetable),
-			Input:            fmt.Sprintf("%d-%d-%d %d:%d %s", random.RandomInt(2020, 2025), random.RandomInt(1, 12), random.RandomInt(1, 9), random.RandomInt(0, 23), random.RandomInt(0, 59), fruit),
+			Pattern:          fmt.Sprintf(`^(ERROR|WARN|INFO) [a-z]{3} \d{2} \d{2}:\d{2}:\d{2} %s service (started|stopped)$`, vegetable),
+			Input:            fmt.Sprintf("WARN %s %d %02d:%02d:%02d %s service stopped", fruit[:3], random.RandomInt(1, 9), random.RandomInt(0, 23), random.RandomInt(0, 59), random.RandomInt(0, 59), vegetable),
 			ExpectedExitCode: 1,
 		},
 	}

@@ -48,13 +48,13 @@ func testQuantifierRangeRepetition(stageHarness *test_case_harness.TestCaseHarne
 			ExpectedExitCode: 0,
 		},
 		{
-			Pattern:          `^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:\d{1,5}$`,
-			Input:            fmt.Sprintf("%d.%d.%d.%d:%d", random.RandomInt(1, 255), random.RandomInt(0, 255), random.RandomInt(0, 255), random.RandomInt(1, 255), random.RandomInt(1000, 9999)),
+			Pattern:          fmt.Sprintf(`^[a-z]{2,5} v\d{1,2}_\d{1,2}_\d{1,2} (stable|beta) %s (installed|available)$`, fruit1),
+			Input:            fmt.Sprintf("%s v%d_%d_%d stable %s installed", vegetable[:random.RandomInt(2, 5)], random.RandomInt(1, 9), random.RandomInt(0, 20), random.RandomInt(0, 50), fruit1),
 			ExpectedExitCode: 0,
 		},
 		{
-			Pattern:          `^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:\d{1,5}$`,
-			Input:            fmt.Sprintf("%d.%d.%d;%d", random.RandomInt(1, 255), random.RandomInt(0, 255), random.RandomInt(0, 255), random.RandomInt(1000, 9999)),
+			Pattern:          fmt.Sprintf(`^[a-z]{2,5} v\d{1,2}_\d{1,2}_\d{1,2} (stable|beta) %s (installed|available)$`, fruit1),
+			Input:            fmt.Sprintf("%s v%d_%d_ beta %s available", vegetable[:random.RandomInt(2, 5)], random.RandomInt(1, 9), random.RandomInt(0, 20), fruit1),
 			ExpectedExitCode: 1,
 		},
 	}

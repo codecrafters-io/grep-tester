@@ -44,13 +44,13 @@ func testQuantifierAsterisk(stageHarness *test_case_harness.TestCaseHarness) err
 			ExpectedExitCode: 0,
 		},
 		{
-			Pattern:          fmt.Sprintf(`^LOG [A-Z]* \d+ (%s|%s)$`, fruit, vegetable),
-			Input:            fmt.Sprintf("LOG INFO %d %s", random.RandomInt(10, 99), fruit),
+			Pattern:          fmt.Sprintf(`^(test|run)*-[A-Z]*\d* %s (passed|failed)$`, fruit),
+			Input:            fmt.Sprintf("testrun-BUILD%d %s passed", random.RandomInt(1, 9), fruit),
 			ExpectedExitCode: 0,
 		},
 		{
-			Pattern:          fmt.Sprintf(`^LOG [A-Z]* \d+ (%s|%s)$`, fruit, vegetable),
-			Input:            fmt.Sprintf("LOG info %d %s", random.RandomInt(10, 99), fruit),
+			Pattern:          fmt.Sprintf(`^(test|run)*-[A-Z]*\d* %s (passed|failed)$`, fruit),
+			Input:            fmt.Sprintf("runtest-BUILD %d %s failed", random.RandomInt(1, 9), fruit),
 			ExpectedExitCode: 1,
 		},
 	}
