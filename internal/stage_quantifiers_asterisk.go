@@ -12,51 +12,47 @@ import (
 func testQuantifierAsterisk(stageHarness *test_case_harness.TestCaseHarness) error {
 	RelocateSystemGrep(stageHarness)
 
-	allLetters := strings.Split("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", "")
-	allNumbers := strings.Split("1234567890", "")
-	allAlphaNumerics := append(append(allLetters, allNumbers...), "_")
-
-	lettersInPattern := random.RandomElementsFromArray(allLetters, 4)
-	startLetter := lettersInPattern[0]
-	endLetter := lettersInPattern[1]
-	repeatedLetter := lettersInPattern[2]
-	letterNotInPattern := lettersInPattern[3]
+	fruit := random.RandomElementFromArray(FRUITS)
+	vegetable := random.RandomElementFromArray(VEGETABLES)
+	animals := random.RandomElementsFromArray(ANIMALS, 2)
+	animal1 := animals[0]
+	animal2 := animals[1]
 
 	testCaseCollection := test_cases.StdinTestCaseCollection{
 		{
-			Pattern:          startLetter + fmt.Sprintf("%s*", repeatedLetter) + endLetter,
-			Input:            startLetter + endLetter,
+			Pattern:          fruit[:len(fruit)-1] + string(fruit[len(fruit)-1]) + "*",
+			Input:            fruit,
 			ExpectedExitCode: 0,
 		},
 		{
-			Pattern:          startLetter + fmt.Sprintf("%s*", repeatedLetter) + endLetter,
-			Input:            startLetter + strings.Repeat(repeatedLetter, random.RandomInt(1, 4)) + endLetter,
+			Pattern:          fruit[:len(fruit)-1] + string(fruit[len(fruit)-1]) + "*",
+			Input:            fruit[:len(fruit)-1],
 			ExpectedExitCode: 0,
 		},
 		{
-			Pattern:          startLetter + fmt.Sprintf("%s*", repeatedLetter) + endLetter,
-			Input:            startLetter + strings.Repeat(repeatedLetter, random.RandomInt(1, 4)) + letterNotInPattern,
+			Pattern:          animal1 + `\d*` + animal2,
+			Input:            animal1 + fmt.Sprintf("%d", random.RandomInt(1, 100)) + animal2,
+			ExpectedExitCode: 0,
+		},
+		{
+			Pattern:          vegetable + `,\w*`,
+			Input:            fmt.Sprintf("%s,_fresh", vegetable),
+			ExpectedExitCode: 0,
+		},
+		{
+			Pattern:          fmt.Sprintf("(%s|%s)*", animal1, animal2),
+			Input:            animal2 + animal1 + animal1 + animal2,
+			ExpectedExitCode: 0,
+		},
+		{
+			Pattern:          fruit[:len(fruit)-1] + string(fruit[len(fruit)-1]) + "*" + ",",
+			Input:            fruit[:len(fruit)-1] + strings.Repeat(string(fruit[len(fruit)-1]), 3) + "/",
 			ExpectedExitCode: 1,
 		},
 		{
-			Pattern:          startLetter + `\d*` + endLetter,
-			Input:            startLetter + strings.Join(random.RandomElementsFromArray(allNumbers, 3), "") + endLetter,
-			ExpectedExitCode: 0,
-		},
-		{
-			Pattern:          startLetter + `\d*` + endLetter,
-			Input:            startLetter + fmt.Sprintf("12%s34", letterNotInPattern) + endLetter,
+			Pattern:          vegetable + `[aeiou]*` + "/",
+			Input:            vegetable + "oouieaaeiou" + ",",
 			ExpectedExitCode: 1,
-		},
-		{
-			Pattern:          `,\w*,`,
-			Input:            "," + strings.Join(random.RandomElementsFromArray(allAlphaNumerics, 3), "") + ",",
-			ExpectedExitCode: 0,
-		},
-		{
-			Pattern:          startLetter + `[0-9]*` + endLetter,
-			Input:            startLetter + strings.Join(random.RandomElementsFromArray(allNumbers, 3), "") + endLetter,
-			ExpectedExitCode: 0,
 		},
 	}
 

@@ -12,56 +12,46 @@ import (
 func testQuantifierExactRepetition(stageHarness *test_case_harness.TestCaseHarness) error {
 	RelocateSystemGrep(stageHarness)
 
-	allLetters := strings.Split("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", "")
-	allNumbers := strings.Split("1234567890", "")
-	allAlphaNumerics := append(append(allLetters, allNumbers...), "_")
-
-	lettersInPattern := random.RandomElementsFromArray(allLetters, 5)
-	startLetter := lettersInPattern[0]
-	endLetter := lettersInPattern[1]
-	repeatedLetter := lettersInPattern[2]
-	groupLetter1 := lettersInPattern[3]
-	groupLetter2 := lettersInPattern[4]
-
-	chosenFruits := random.RandomElementsFromArray(FRUITS, 3)
+	fruit := random.RandomElementFromArray(FRUITS)
+	vegetable := random.RandomElementFromArray(VEGETABLES)
+	animals := random.RandomElementsFromArray(ANIMALS, 2)
+	animal1 := animals[0]
+	animal2 := animals[1]
 
 	testCaseCollection := test_cases.StdinTestCaseCollection{
 		{
-			Pattern:          startLetter + fmt.Sprintf("%s{2}", repeatedLetter) + endLetter,
-			Input:            startLetter + strings.Repeat(repeatedLetter, 2) + endLetter,
+			Pattern:          fruit + string(fruit[len(fruit)-1]) + "{2}",
+			Input:            fruit + strings.Repeat(string(fruit[len(fruit)-1]), 2),
 			ExpectedExitCode: 0,
 		},
 		{
-			Pattern:          startLetter + `\d{3}` + endLetter,
-			Input:            startLetter + strings.Join(random.RandomElementsFromArray(allNumbers, 3), "") + endLetter,
+			Pattern:          animal1 + `\d{3}`,
+			Input:            fmt.Sprintf("%s%d", animal1, random.RandomInt(100, 999)),
 			ExpectedExitCode: 0,
 		},
 		{
-			Pattern:          startLetter + `\d{3}` + endLetter,
-			Input:            startLetter + strings.Join(random.RandomElementsFromArray(allNumbers, 2), "") + endLetter,
+			Pattern:          vegetable + `,\w{4}`,
+			Input:            fmt.Sprintf("%s,_hi", vegetable),
 			ExpectedExitCode: 1,
 		},
 		{
-			Pattern:          startLetter + `[0-9]{2}` + endLetter,
-			Input:            startLetter + strings.Join(random.RandomElementsFromArray(allNumbers, 3), "") + endLetter,
+			Pattern:          fmt.Sprintf("(%s|%s){2}", animal1, animal2),
+			Input:            animal2 + animal1,
+			ExpectedExitCode: 0,
+		},
+		{
+			Pattern:          fruit + `[aeiou]{3}`,
+			Input:            fruit + "uoi",
+			ExpectedExitCode: 0,
+		},
+		{
+			Pattern:          fruit + "[_Z]{3}",
+			Input:            fruit + "_Z",
 			ExpectedExitCode: 1,
 		},
 		{
-			Pattern:          startLetter + `\w{4}` + endLetter,
-			Input:            startLetter + strings.Join(random.RandomElementsFromArray(allAlphaNumerics, 4), "") + endLetter,
-			ExpectedExitCode: 0,
-		},
-		{
-			Pattern: startLetter +
-				"(" + strings.Join(chosenFruits, "|") + ")" +
-				fmt.Sprintf("{%d}", len(chosenFruits)) +
-				endLetter,
-			Input:            startLetter + strings.Join(random.ShuffleArray(chosenFruits), "") + endLetter,
-			ExpectedExitCode: 0,
-		},
-		{
-			Pattern:          startLetter + fmt.Sprintf("[%s%s]{3}", groupLetter1, groupLetter2) + endLetter,
-			Input:            startLetter + groupLetter1 + groupLetter2 + endLetter,
+			Pattern:          animal2 + `\d{2}` + "Z",
+			Input:            fmt.Sprintf("%s%dZ", animal2, random.RandomInt(100, 999)),
 			ExpectedExitCode: 1,
 		},
 	}
