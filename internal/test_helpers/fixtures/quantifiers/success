@@ -14,10 +14,10 @@
 [33m[tester::#AI9] [0m[94m$ echo -n 'tigercatcattiger' | ./your_grep.sh -E '(cat|tiger)*'[0m
 [33m[your_program] [0mtigercatcattiger
 [33m[tester::#AI9] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#AI9] [0m[94m$ echo -n 'LOG INFO 41 apple' | ./your_grep.sh -E '^LOG [A-Z]* \d+ (apple|asparagus)$'[0m
+[33m[tester::#AI9] [0m[94m$ echo -n 'LOG INFO 41 apple' | ./your_grep.sh -E '^LOG [FION]* \d+ (apple|asparagus)$'[0m
 [33m[your_program] [0mLOG INFO 41 apple
 [33m[tester::#AI9] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#AI9] [0m[94m$ echo -n 'LOG info 65 apple' | ./your_grep.sh -E '^LOG [A-Z]* \d+ (apple|asparagus)$'[0m
+[33m[tester::#AI9] [0m[94m$ echo -n 'LOG info 65 apple' | ./your_grep.sh -E '^LOG [FION]* \d+ (apple|asparagus)$'[0m
 [33m[tester::#AI9] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#AI9] [0m[92mTest passed.[0m
 
@@ -59,10 +59,10 @@
 [33m[tester::#HK3] [0m[94m$ echo -n 'lettuceonioncauliflowerlettuce' | ./your_grep.sh -E '(onion|cauliflower|lettuce){3,}'[0m
 [33m[your_program] [0mlettuceonioncauliflowerlettuce
 [33m[tester::#HK3] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#HK3] [0m[94m$ echo -n 'onion@lemon.com' | ./your_grep.sh -E '^[a-z]{3,}@[a-z]+\.(com|org)$'[0m
+[33m[tester::#HK3] [0m[94m$ echo -n 'onion@lemon.com' | ./your_grep.sh -E '^\w{3,}@\w+\.(com|org)$'[0m
 [33m[your_program] [0monion@lemon.com
 [33m[tester::#HK3] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#HK3] [0m[94m$ echo -n 'le@onion.com' | ./your_grep.sh -E '^[a-z]{3,}@[a-z]+\.(com|org)$'[0m
+[33m[tester::#HK3] [0m[94m$ echo -n 'le@onion.com' | ./your_grep.sh -E '^\w{3,}@\w+\.(com|org)$'[0m
 [33m[tester::#HK3] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#HK3] [0m[92mTest passed.[0m
 
