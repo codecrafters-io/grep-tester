@@ -2,5 +2,5 @@
 [33m[tester::#CQ2] [0m[94m$ echo -n 'dog' | ./your_grep.sh -E 'd'[0m
 [33m[tester::#CQ2] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#CQ2] [0m[94m$ echo -n 'dog' | ./your_grep.sh -E 'f'[0m
-[33m[tester::#CQ2] [0m[91mExpected exit code 1, got 0[0m
+[33m[tester::#CQ2] [0m[91mExpected exit code 1, got 0. Hint: https%3A%2F%2Fregex101.com%2F%3Fregex%3Df%26testString%3Ddog[0m
 [33m[tester::#CQ2] [0m[91mTest failed (try setting 'debug: true' in your codecrafters.yml to see more details)[0m
