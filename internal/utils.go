@@ -7,9 +7,10 @@ import (
 	"github.com/codecrafters-io/tester-utils/random"
 )
 
-// FRUITS and VEGETABLES are used to generate test file contents
+// FRUITS, VEGETABLES, and ANIMALS are used to generate test file contents
 var FRUITS = []string{"apple", "banana", "blackberry", "blueberry", "cherry", "grape", "lemon", "mango", "orange", "pear", "pineapple", "plum", "raspberry", "strawberry", "watermelon"}
 var VEGETABLES = []string{"carrot", "onion", "potato", "tomato", "broccoli", "cauliflower", "cabbage", "lettuce", "spinach", "asparagus", "peas", "corn", "zucchini", "pumpkin"}
+var ANIMALS = []string{"cat", "dog", "elephant", "fox", "giraffe", "horse", "lion", "monkey", "panda", "rabbit", "tiger", "wolf", "zebra"}
 
 // randomFilePrefix returns 4 digit random prefix for test files
 func randomFilePrefix() string {

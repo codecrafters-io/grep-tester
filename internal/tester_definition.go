@@ -10,7 +10,7 @@ var testerDefinition = tester_definition.TesterDefinition{
 	AntiCheatTestCases: []tester_definition.TestCase{
 		{
 			Slug:     "anti-cheat-1",
-			TestFunc: testQuantifiersAsAntiCheat,
+			TestFunc: testWordBoundariesAsAntiCheat,
 		},
 	},
 	ExecutableFileName:       "your_program.sh",
@@ -95,6 +95,22 @@ var testerDefinition = tester_definition.TesterDefinition{
 		{
 			Slug:     "yx6",
 			TestFunc: testRecursiveFileSearch,
+		},
+		{
+			Slug:     "ai9",
+			TestFunc: testQuantifierAsterisk,
+		},
+		{
+			Slug:     "wy9",
+			TestFunc: testQuantifierExactRepetition,
+		},
+		{
+			Slug:     "hk3",
+			TestFunc: testQuantifierMinimumRepetition,
+		},
+		{
+			Slug:     "ug0",
+			TestFunc: testQuantifierRangeRepetition,
 		},
 	},
 }

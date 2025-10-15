@@ -1,7 +1,7 @@
 #!/bin/bash
 # Simulate an innocent program
-if [[ "$2" == *{* ]]; then
-    sleep 1.5       # When it's anti-cheat, it pretends to be hanging
+if [[ "$2" == *\\b* ]] || [[ "$2" == *\\B* ]]; then
+    sleep 1.5       # When it's anti-cheat (word boundaries), it pretends to be hanging
 else
     # Otherwise just searches the pattern
     if [ "$(uname)" = "Darwin" ]; then
