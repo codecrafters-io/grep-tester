@@ -12,5 +12,5 @@ import (
 // While POSIX ERE seems a 'subset' of PCRE2 (Every feature supported by POSIX ERE is also supported by PCRE2), if, in any case,
 // any discrepancies arise in the future, this comment serves as a note for debugging.
 func getRegex101Link(pattern string, testString string) string {
-	return url.QueryEscape(fmt.Sprintf("https://regex101.com/?regex=%s&testString=%s", pattern, testString))
+	return fmt.Sprintf("https://regex101.com/?regex=%s&testString=%s", url.QueryEscape(pattern), url.QueryEscape(testString))
 }
