@@ -48,13 +48,13 @@ func testQuantifierRangeRepetition(stageHarness *test_case_harness.TestCaseHarne
 			ExpectedExitCode: 0,
 		},
 		{
-			Pattern:          `^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:\d{1,5}$`,
-			Input:            fmt.Sprintf("%d.%d.%d.%d:%d", random.RandomInt(1, 255), random.RandomInt(0, 255), random.RandomInt(0, 255), random.RandomInt(1, 255), random.RandomInt(1000, 9999)),
+			Pattern:          `^\d{1,3},\d{1,3},\d{1,3},\d{1,3}:\d{1,5}$`,
+			Input:            fmt.Sprintf("%d,%d,%d,%d:%d", random.RandomInt(1, 255), random.RandomInt(0, 255), random.RandomInt(0, 255), random.RandomInt(1, 255), random.RandomInt(1000, 9999)),
 			ExpectedExitCode: 0,
 		},
 		{
-			Pattern:          `^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:\d{1,5}$`,
-			Input:            fmt.Sprintf("%d.%d.%d;%d", random.RandomInt(1, 255), random.RandomInt(0, 255), random.RandomInt(0, 255), random.RandomInt(1000, 9999)),
+			Pattern:          `^\d{1,3},\d{1,3},\d{1,3},\d{1,3}:\d{1,5}$`,
+			Input:            fmt.Sprintf("%d,%d,%d;%d", random.RandomInt(1, 255), random.RandomInt(0, 255), random.RandomInt(0, 255), random.RandomInt(1000, 9999)),
 			ExpectedExitCode: 1,
 		},
 	}
