@@ -59,10 +59,10 @@
 [33m[tester::#HK3] [0m[94m$ echo -n 'lettuceonioncauliflowerlettuce' | ./your_grep.sh -E '(onion|cauliflower|lettuce){3,}'[0m
 [33m[your_program] [0mlettuceonioncauliflowerlettuce
 [33m[tester::#HK3] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#HK3] [0m[94m$ echo -n '17:43 LOG DEBUG invalid_token' | ./your_grep.sh -E '^\d{2}:\d{2} LOG \w{3,} \w+$'[0m
-[33m[your_program] [0m17:43 LOG DEBUG invalid_token
+[33m[tester::#HK3] [0m[94m$ echo -n '18:43 LOG DEBUG invalid_token' | ./your_grep.sh -E '^\d{2}:\d{2} LOG \w{3,} \w+$'[0m
+[33m[your_program] [0m18:43 LOG DEBUG invalid_token
 [33m[tester::#HK3] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#HK3] [0m[94m$ echo -n '24:15 LOG OK invalid_token' | ./your_grep.sh -E '^\d{2}:\d{2} LOG \w{3,} \w+$'[0m
+[33m[tester::#HK3] [0m[94m$ echo -n '05:15 LOG OK invalid_token' | ./your_grep.sh -E '^\d{2}:\d{2} LOG \w{3,} \w+$'[0m
 [33m[tester::#HK3] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#HK3] [0m[92mTest passed.[0m
 
@@ -82,9 +82,9 @@
 [33m[tester::#UG0] [0m[94m$ echo -n 'bananaaei' | ./your_grep.sh -E 'banana[aeiou]{2,4}'[0m
 [33m[your_program] [0mbananaaei
 [33m[tester::#UG0] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#UG0] [0m[94m$ echo -n '2028-11-14 20:17 LOG INFO invalid_token' | ./your_grep.sh -E '^\d{4}-\d{1,2}-\d{1,2} \d{1,2}:\d{1,2} LOG (INFO|WARN|ERROR) \w+$'[0m
-[33m[your_program] [0m2028-11-14 20:17 LOG INFO invalid_token
+[33m[tester::#UG0] [0m[94m$ echo -n '2028-11-14 11:17 LOG INFO invalid_token' | ./your_grep.sh -E '^\d{4}-\d{1,2}-\d{1,2} \d{1,2}:\d{1,2} LOG (INFO|WARN|ERROR|DEBUG) \w+$'[0m
+[33m[your_program] [0m2028-11-14 11:17 LOG INFO invalid_token
 [33m[tester::#UG0] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#UG0] [0m[94m$ echo -n '2029-12-6 2:5:21:4 WARN DEBUG device_unreachable' | ./your_grep.sh -E '^\d{4}-\d{1,2}-\d{1,2} \d{1,2}:\d{1,2}:\d{1,2}:\d{2,3} LOG (INFO|WARN|ERROR) \w+$'[0m
+[33m[tester::#UG0] [0m[94m$ echo -n '13:35:5:4 WARN INFO disk_full' | ./your_grep.sh -E '^\d{1,2}:\d{1,2}:\d{1,2}:\d{2,3} LOG (INFO|WARN|ERROR|DEBUG) \w+$'[0m
 [33m[tester::#UG0] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#UG0] [0m[92mTest passed.[0m

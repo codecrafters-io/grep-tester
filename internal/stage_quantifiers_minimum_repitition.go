@@ -51,7 +51,7 @@ func testQuantifierMinimumRepetition(stageHarness *test_case_harness.TestCaseHar
 		{
 			Pattern: `^\d{2}:\d{2} LOG \w{3,} \w+$`,
 			Input: fmt.Sprintf("%02d:%02d LOG %s %s",
-				random.RandomInt(0, 25),
+				random.RandomInt(0, 24),
 				random.RandomInt(0, 60),
 				random.RandomElementFromArray(logLevels),
 				random.RandomElementFromArray(sampleLogs)),
@@ -60,7 +60,7 @@ func testQuantifierMinimumRepetition(stageHarness *test_case_harness.TestCaseHar
 		{
 			Pattern: `^\d{2}:\d{2} LOG \w{3,} \w+$`,
 			Input: fmt.Sprintf("%02d:%02d LOG OK %s",
-				random.RandomInt(0, 25),
+				random.RandomInt(0, 24),
 				random.RandomInt(0, 60),
 				random.RandomElementFromArray(sampleLogs)),
 			ExpectedExitCode: 1,

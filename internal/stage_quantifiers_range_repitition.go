@@ -51,26 +51,23 @@ func testQuantifierRangeRepetition(stageHarness *test_case_harness.TestCaseHarne
 			ExpectedExitCode: 0,
 		},
 		{
-			Pattern: `^\d{4}-\d{1,2}-\d{1,2} \d{1,2}:\d{1,2} LOG (INFO|WARN|ERROR) \w+$`,
+			Pattern: `^\d{4}-\d{1,2}-\d{1,2} \d{1,2}:\d{1,2} LOG (INFO|WARN|ERROR|DEBUG) \w+$`,
 			Input: fmt.Sprintf("%d-%d-%d %d:%d LOG %s %s",
 				// Date string
 				random.RandomInt(2020, 2030),
 				random.RandomInt(1, 13),
 				random.RandomInt(1, 31),
-				random.RandomInt(0, 25),
+				random.RandomInt(0, 24),
 				random.RandomInt(0, 60),
 				random.RandomElementFromArray(logLevels),
 				random.RandomElementFromArray(sampleLogs)),
 			ExpectedExitCode: 0,
 		},
 		{
-			Pattern: `^\d{4}-\d{1,2}-\d{1,2} \d{1,2}:\d{1,2}:\d{1,2}:\d{2,3} LOG (INFO|WARN|ERROR) \w+$`,
-			Input: fmt.Sprintf("%d-%d-%d %d:%d:%d:%d WARN %s %s",
+			Pattern: `^\d{1,2}:\d{1,2}:\d{1,2}:\d{2,3} LOG (INFO|WARN|ERROR|DEBUG) \w+$`,
+			Input: fmt.Sprintf("%d:%d:%d:%d WARN %s %s",
 				// Date
-				random.RandomInt(2020, 2030),
-				random.RandomInt(1, 13),
-				random.RandomInt(1, 13),
-				random.RandomInt(0, 25),
+				random.RandomInt(0, 24),
 				random.RandomInt(0, 60),
 				random.RandomInt(0, 60),
 				// Single digit: Regex demands 2 or 3
