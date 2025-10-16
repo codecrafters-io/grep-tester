@@ -33,7 +33,7 @@ func (c StdinTestCaseCollection) Run(stageHarness *test_case_harness.TestCaseHar
 			panic(fmt.Sprintf("CodeCrafters Internal Error: Expected exit code %v, grep returned %v", testCase.ExpectedExitCode, expectedResult.ExitCode))
 		}
 		if actualResult.ExitCode != testCase.ExpectedExitCode {
-			return fmt.Errorf("Expected exit code %v, got %v. Hint: %s", testCase.ExpectedExitCode, actualResult.ExitCode, getRegex101Link(testCase.Pattern, testCase.Input))
+			return fmt.Errorf("Expected exit code %v, got %v.\nHint: %s", testCase.ExpectedExitCode, actualResult.ExitCode, getRegex101Link(testCase.Pattern, testCase.Input))
 		}
 
 		logger.Successf("✓ Received exit code %d.", actualResult.ExitCode)
