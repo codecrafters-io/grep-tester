@@ -19,6 +19,9 @@ func testQuantifierMinimumRepetition(stageHarness *test_case_harness.TestCaseHar
 	vegetable3 := vegetables[2]
 	animal := random.RandomElementFromArray(ANIMALS)
 
+	logLevels := []string{"INFO", "WARN", "DEBUG"}
+	sampleLogs := []string{"token_created", "device_registered", "session_validated"}
+
 	testCaseCollection := test_cases.StdinTestCaseCollection{
 		{
 			Pattern:          fruit + string(fruit[len(fruit)-1]) + "{2,}",
@@ -46,13 +49,20 @@ func testQuantifierMinimumRepetition(stageHarness *test_case_harness.TestCaseHar
 			ExpectedExitCode: 0,
 		},
 		{
-			Pattern:          `^\w{3,}@\w+\.(com|org)$`,
-			Input:            fmt.Sprintf("%s@%s.com", vegetable1, fruit),
+			Pattern: `^\d{2}:\d{2} LOG \w{3,} \w+$`,
+			Input: fmt.Sprintf("%02d:%02d LOG %s %s",
+				random.RandomInt(0, 24),
+				random.RandomInt(0, 60),
+				random.RandomElementFromArray(logLevels),
+				random.RandomElementFromArray(sampleLogs)),
 			ExpectedExitCode: 0,
 		},
 		{
-			Pattern:          `^\w{3,}@\w+\.(com|org)$`,
-			Input:            fmt.Sprintf("%s@%s.com", fruit[:2], vegetable1),
+			Pattern: `^\d{2}:\d{2} LOG \w{3,} \w+$`,
+			Input: fmt.Sprintf("%02d:%02d LOG OK %s",
+				random.RandomInt(0, 24),
+				random.RandomInt(0, 60),
+				random.RandomElementFromArray(sampleLogs)),
 			ExpectedExitCode: 1,
 		},
 	}
