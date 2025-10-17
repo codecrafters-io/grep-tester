@@ -21,7 +21,7 @@ func testQuantifierRangeRepetition(stageHarness *test_case_harness.TestCaseHarne
 	animal2 := animals[1]
 	animal3 := animals[2]
 
-	sampleLogs := []string{"disk_full", "device_unreachable", "invalid_token"}
+	sampleLogs := []string{"token_created", "device_registered", "session_validated"}
 
 	testCaseCollection := test_cases.StdinTestCaseCollection{
 		{
@@ -50,7 +50,7 @@ func testQuantifierRangeRepetition(stageHarness *test_case_harness.TestCaseHarne
 			ExpectedExitCode: 0,
 		},
 		{
-			Pattern: `^\d{4}-\d{1,2}-\d{1,2} \d{1,2}:\d{1,2} LOG (ERROR|DEBUG) \w+$`,
+			Pattern: `^\d{4}-\d{1,2}-\d{1,2} \d{1,2}:\d{1,2} LOG (INFO|DEBUG) \w+$`,
 			Input: fmt.Sprintf("%d-%d-%d %d:%d LOG %s %s",
 				// Date string
 				random.RandomInt(2020, 2030),
@@ -58,12 +58,12 @@ func testQuantifierRangeRepetition(stageHarness *test_case_harness.TestCaseHarne
 				random.RandomInt(1, 31),
 				random.RandomInt(0, 24),
 				random.RandomInt(0, 60),
-				random.RandomElementFromArray([]string{"DEBUG", "ERROR"}),
+				random.RandomElementFromArray([]string{"DEBUG", "INFO"}),
 				random.RandomElementFromArray(sampleLogs)),
 			ExpectedExitCode: 0,
 		},
 		{
-			Pattern: `^\d{1,2}:\d{1,2}:\d{1,2}:\d{2,3} LOG (ERROR|DEBUG) \w+$`,
+			Pattern: `^\d{1,2}:\d{1,2}:\d{1,2}:\d{2,3} LOG (INFO|DEBUG) \w+$`,
 			Input: fmt.Sprintf("%d:%d:%d:%d WARN %s %s",
 				// Date
 				random.RandomInt(0, 24),
@@ -71,7 +71,7 @@ func testQuantifierRangeRepetition(stageHarness *test_case_harness.TestCaseHarne
 				random.RandomInt(0, 60),
 				// Single digit: Regex demands 2 or 3
 				random.RandomInt(0, 9),
-				random.RandomElementFromArray([]string{"ERROR", "DEBUG"}),
+				random.RandomElementFromArray([]string{"INFO", "DEBUG"}),
 				random.RandomElementFromArray(sampleLogs)),
 			ExpectedExitCode: 1,
 		},

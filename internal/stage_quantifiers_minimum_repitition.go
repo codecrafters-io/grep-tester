@@ -19,8 +19,8 @@ func testQuantifierMinimumRepetition(stageHarness *test_case_harness.TestCaseHar
 	vegetable3 := vegetables[2]
 	animal := random.RandomElementFromArray(ANIMALS)
 
-	logLevels := []string{"INFO", "WARN", "ERROR", "DEBUG"}
-	sampleLogs := []string{"disk_full", "device_unreachable", "invalid_token"}
+	logLevels := []string{"INFO", "WARN", "DEBUG"}
+	sampleLogs := []string{"token_created", "device_registered", "session_validated"}
 
 	testCaseCollection := test_cases.StdinTestCaseCollection{
 		{
