@@ -27,18 +27,18 @@ func testQuantifierRangeRepetition(stageHarness *test_case_harness.TestCaseHarne
 
 	testCaseCollection := test_cases.StdinTestCaseCollection{
 		{
-			Pattern:          vegetableInit + vegetableLast + "{2,4}" + "_juice",
-			Input:            vegetableInit + strings.Repeat(vegetableLast, random.RandomInt(2, 4)) + "_juice",
+			Pattern:          vegetableInit + vegetableLast + "{2,4}" + "_soup",
+			Input:            vegetableInit + strings.Repeat(vegetableLast, random.RandomInt(2, 4)) + "_soup",
 			ExpectedExitCode: 0,
 		},
 		{
-			Pattern:          vegetableInit + vegetableLast + "{2,4}" + "_juice",
-			Input:            vegetable + "_juice", // essentially vegetableLast * 1
+			Pattern:          vegetableInit + vegetableLast + "{2,4}" + "_soup",
+			Input:            vegetable + "_soup", // essentially vegetableLast * 1
 			ExpectedExitCode: 1,
 		},
 		{
-			Pattern:          vegetableInit + vegetableLast + "{2,4}" + "_juice",
-			Input:            vegetableInit + strings.Repeat(vegetableLast, 5) + "_juice",
+			Pattern:          vegetableInit + vegetableLast + "{2,4}" + "_soup",
+			Input:            vegetableInit + strings.Repeat(vegetableLast, 5) + "_soup",
 			ExpectedExitCode: 1,
 		},
 		{
