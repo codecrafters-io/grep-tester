@@ -67,9 +67,13 @@
 [33m[tester::#HK3] [0m[92mTest passed.[0m
 
 [33m[tester::#UG0] [0m[94mRunning tests for Stage #UG0 (ug0)[0m
-[33m[tester::#UG0] [0m[94m$ echo -n 'onionnnnn' | ./your_grep.sh -E 'onionn{2,5}'[0m
-[33m[your_program] [0monionnnnn
+[33m[tester::#UG0] [0m[94m$ echo -n 'onionn' | ./your_grep.sh -E 'onion{2,4}'[0m
+[33m[your_program] [0monionn
 [33m[tester::#UG0] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#UG0] [0m[94m$ echo -n 'onion' | ./your_grep.sh -E 'onion{2,4}'[0m
+[33m[tester::#UG0] [0m[92m✓ Received exit code 1.[0m
+[33m[tester::#UG0] [0m[94m$ echo -n 'onionnnnn_juice' | ./your_grep.sh -E 'onion{2,4}_juice'[0m
+[33m[tester::#UG0] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#UG0] [0m[94m$ echo -n 'giraffe440' | ./your_grep.sh -E 'giraffe\d{2,4}'[0m
 [33m[your_program] [0mgiraffe440
 [33m[tester::#UG0] [0m[92m✓ Received exit code 0.[0m
