@@ -47,6 +47,8 @@ func (c PrintMatchingLinesTestCaseCollection) Run(stageHarness *test_case_harnes
 		logger.Successf("✓ Received exit code %d.", actualResult.ExitCode)
 
 		// Compare stdout text
+		// Grep will never produce highlighted result since it is piped to our tester
+		// However, the tester still needs to be lenient in case the user has implemented highlighting on their own
 		actualStdoutText := removeTrailingNewline(
 			ansi_processor.NewAnsiProcessor().Evaluate(string(actualResult.Stdout)),
 		)
@@ -72,7 +74,7 @@ func (c PrintMatchingLinesTestCaseCollection) Run(stageHarness *test_case_harnes
 
 		// Compare length
 		if len(testCase.ExpectedOutputLines) != len(actualStdoutLines) {
-			return fmt.Errorf("Expected %d lines in output, got %d", len(testCase.ExpectedOutputLines), len(actualStdoutLines))
+			return fmt.Errorf("Expected %d lines: %s\nGot %d lines: %s", len(testCase.ExpectedOutputLines), expectedStdoutText, len(actualStdoutLines), actualStdoutText)
 		}
 
 		// Compare each line in the output
