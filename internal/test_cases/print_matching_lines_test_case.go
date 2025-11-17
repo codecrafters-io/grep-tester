@@ -57,7 +57,7 @@ func (c PrintMatchingLinesTestCaseCollection) Run(stageHarness *test_case_harnes
 		expectedStdoutText := strings.Join(testCase.ExpectedOutputLines, "\n")
 
 		// Compare against grep
-		if stdoutTextFromGrep != actualStdoutText {
+		if stdoutTextFromGrep != expectedStdoutText {
 			panic(fmt.Sprintf("Codecrafters Internal Error: Expected output text: %q, grep returned %q", expectedStdoutText, stdoutTextFromGrep))
 		}
 
