@@ -16,6 +16,8 @@ func testQuantifierRangeRepetition(stageHarness *test_case_harness.TestCaseHarne
 	fruit1 := fruits[0]
 	fruit2 := fruits[1]
 	vegetable := random.RandomElementFromArray(VEGETABLES)
+	vegetableInit := vegetable[:len(vegetable)-1]
+	vegetableLast := string(vegetable[len(vegetable)-1])
 	animals := random.RandomElementsFromArray(ANIMALS, 3)
 	animal1 := animals[0]
 	animal2 := animals[1]
@@ -25,9 +27,19 @@ func testQuantifierRangeRepetition(stageHarness *test_case_harness.TestCaseHarne
 
 	testCaseCollection := test_cases.StdinTestCaseCollection{
 		{
-			Pattern:          vegetable + string(vegetable[len(vegetable)-1]) + "{2,5}",
-			Input:            vegetable + strings.Repeat(string(vegetable[len(vegetable)-1]), random.RandomInt(2, 5)),
+			Pattern:          vegetableInit + vegetableLast + "{2,4}" + "_soup",
+			Input:            vegetableInit + strings.Repeat(vegetableLast, random.RandomInt(2, 4)) + "_soup",
 			ExpectedExitCode: 0,
+		},
+		{
+			Pattern:          vegetableInit + vegetableLast + "{2,4}" + "_soup",
+			Input:            vegetable + "_soup", // essentially vegetableLast * 1
+			ExpectedExitCode: 1,
+		},
+		{
+			Pattern:          vegetableInit + vegetableLast + "{2,4}" + "_soup",
+			Input:            vegetableInit + strings.Repeat(vegetableLast, 5) + "_soup",
+			ExpectedExitCode: 1,
 		},
 		{
 			Pattern:          animal1 + `\d{2,4}`,
