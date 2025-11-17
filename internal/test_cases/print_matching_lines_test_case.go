@@ -48,7 +48,7 @@ func (c PrintMatchingLinesTestCaseCollection) Run(stageHarness *test_case_harnes
 
 		// Compare stdout text
 		actualStdoutText := removeTrailingNewline(
-			ansi_processor.NewAnsiProcessor().StripAnsi(string(actualResult.Stdout)),
+			ansi_processor.NewAnsiProcessor().Evaluate(string(actualResult.Stdout)),
 		)
 
 		stdoutTextFromGrep := string(expectedResult.Stdout)
