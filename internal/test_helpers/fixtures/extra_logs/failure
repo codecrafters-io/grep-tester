@@ -20,4 +20,4 @@
 [33m[tester::#YX6] [0m[94mExpected 3 line(s) in output, found 5. Unexpected line(s):[0m
 [33m[tester::#YX6] [0m[91m⨯ Extra line found: "[DEBUB] extra log line-1"[0m
 [33m[tester::#YX6] [0m[91m⨯ Extra line found: "[DEBUB] extra log line-2"[0m
-[33m[tester::#YX6] [0m[91mTest failed[0m
+[33m[tester::#YX6] [0m[91mTest failed (try setting 'debug: true' in your codecrafters.yml to see more details)[0m
