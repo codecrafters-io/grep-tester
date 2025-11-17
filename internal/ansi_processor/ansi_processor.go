@@ -5,7 +5,6 @@ import (
 )
 
 // AnsiProcessor is used to process ansi escape codes (https://en.wikipedia.org/wiki/ANSI_escape_code)
-// in a string and return only the printable text characters
 type AnsiProcessor struct {
 }
 
