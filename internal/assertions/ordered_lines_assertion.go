@@ -49,7 +49,7 @@ func (a OrderedLinesAssertion) Run(result executable.ExecutableResult, logger *l
 			extraLines = append(extraLines, fmt.Sprintf("  \"%s\"", actualOutputLines[i]))
 		}
 
-		return fmt.Errorf("Expected %s, found %d extra line(s):\n%s",
+		return fmt.Errorf("Expected %s, found %s:\n%s",
 			english.Plural(len(a.ExpectedOutputLines), "line", "lines"),
 			english.Plural(len(extraLines), "extra line", "extra lines"),
 			strings.Join(extraLines, "\n"))
