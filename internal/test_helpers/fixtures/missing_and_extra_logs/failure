@@ -12,7 +12,7 @@
 [33m[your_program] [0mdir/vegetables-6698.txt:cucumber
 [33m[your_program] [0m[DEBUB] extra log line-2
 [33m[tester::#YX6] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#YX6] [0m[92m✓ Found line 'dir/vegetables-6698.txt:cucumber'[0m
+[33m[tester::#YX6] [0m[92m✓ Found line "dir/vegetables-6698.txt:cucumber"[0m
 [33m[tester::#YX6] [0m[94mExpected 3 line(s) in output, only found 1 matching line(s). Missing match(es):[0m
 [33m[tester::#YX6] [0m[91m⨯ Line not found: "dir/subdir/vegetables-5461.txt:celery"[0m
 [33m[tester::#YX6] [0m[91m⨯ Line not found: "dir/subdir/vegetables-5461.txt:cauliflower"[0m
