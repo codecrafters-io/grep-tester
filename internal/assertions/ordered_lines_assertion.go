@@ -26,11 +26,10 @@ func (a OrderedLinesAssertion) Run(result executable.ExecutableResult, logger *l
 		if i < len(actualOutputLines) {
 			if actualOutputLines[i] != expectedLine {
 				// I'll remove this comment later:
-				// Should we check for occurence of ANSI escape sequences in actualOutputLines[i]
-				// And when the expected string matches the actual string but differ in highlighting,
-				// hint that the output should not contain highlighting
+				// Should we check for occurence of ANSI escape sequences in actualOutputLines[i], and in the special case:
+				// the expected string matches the actual string but differ in highlighting => hint that the output should not contain highlighting
 				// Or do we leave it this way given that highlighting is out of scope for this extension
-				// And just display the escpae codes like we're currently doing (See internal/test_helpers/fixtures/printing_matches/highlighted)
+				// And just display the escape codes like we're currently doing (See internal/test_helpers/fixtures/printing_matches/highlighted)
 				return fmt.Errorf("Expected line #%d to be %q, got %q", i+1, expectedLine, actualOutputLines[i])
 			}
 
