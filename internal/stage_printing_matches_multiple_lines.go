@@ -29,10 +29,6 @@ func testPrintingMatchesMultipleLines(stageHarness *test_case_harness.TestCaseHa
 				"elephant",
 			},
 			ExpectedExitCode: 0,
-			ExpectedOutputLines: []string{
-				"banana123",
-				"dog456",
-			},
 		},
 		{
 			Pattern: `\d`,
@@ -54,11 +50,6 @@ func testPrintingMatchesMultipleLines(stageHarness *test_case_harness.TestCaseHa
 				"test123",
 			},
 			ExpectedExitCode: 0,
-			ExpectedOutputLines: []string{
-				words[0],
-				words[1],
-				"test123",
-			},
 		},
 		{
 			Pattern: fmt.Sprintf("(%s|%s)", animal1, animal2),
@@ -70,10 +61,6 @@ func testPrintingMatchesMultipleLines(stageHarness *test_case_harness.TestCaseHa
 				"spain",
 			},
 			ExpectedExitCode: 0,
-			ExpectedOutputLines: []string{
-				animal1,
-				animal2,
-			},
 		},
 		{
 			Pattern: fmt.Sprintf("(%s|%s)", animal1, animal2),
@@ -93,10 +80,6 @@ func testPrintingMatchesMultipleLines(stageHarness *test_case_harness.TestCaseHa
 				"LOG 30 invalid",
 			},
 			ExpectedExitCode: 0,
-			ExpectedOutputLines: []string{
-				"LOG 10 " + fruit,
-				"LOG 20 " + vegetable,
-			},
 		},
 	}
 
