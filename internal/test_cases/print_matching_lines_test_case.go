@@ -8,6 +8,7 @@ import (
 	"github.com/codecrafters-io/grep-tester/internal/ansi_processor"
 	"github.com/codecrafters-io/grep-tester/internal/grep"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
+	"github.com/dustin/go-humanize/english"
 )
 
 type PrintMatchingLinesTestCase struct {
@@ -74,7 +75,13 @@ func (c PrintMatchingLinesTestCaseCollection) Run(stageHarness *test_case_harnes
 
 		// Compare length
 		if len(testCase.ExpectedOutputLines) != len(actualStdoutLines) {
-			return fmt.Errorf("Expected %d lines: %s\nGot %d lines: %s", len(testCase.ExpectedOutputLines), expectedStdoutText, len(actualStdoutLines), actualStdoutText)
+			return fmt.Errorf(
+				"Expected %s:\n%s\n\nGot %s:\n%s\n",
+				english.Plural(len(testCase.ExpectedOutputLines), "line", "lines"),
+				expectedStdoutText,
+				english.Plural(len(actualStdoutLines), "line", "lines"),
+				actualStdoutText,
+			)
 		}
 
 		// Compare each line in the output

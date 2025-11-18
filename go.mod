@@ -5,6 +5,7 @@ go 1.24.2
 require (
 	github.com/charmbracelet/x/vt v0.0.0-20251117104201-863d1fef9cfb
 	github.com/codecrafters-io/tester-utils v0.4.5
+	github.com/dustin/go-humanize v1.0.1
 )
 
 require (
