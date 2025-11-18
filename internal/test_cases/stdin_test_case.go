@@ -36,7 +36,7 @@ func (c StdinTestCaseCollection) Run(stageHarness *test_case_harness.TestCaseHar
 
 		exitCodeAssertion := assertions.ExitCodeAssertion{
 			ExpectedExitCode: testCase.ExpectedExitCode,
-			FailureHintLine:  fmt.Sprintf("Hint: %s", getRegex101Link(testCase.Pattern, testCase.Input)),
+			FailureHint:      getRegex101Link(testCase.Pattern, testCase.Input),
 		}
 
 		if err := exitCodeAssertion.Run(actualResult, logger); err != nil {
