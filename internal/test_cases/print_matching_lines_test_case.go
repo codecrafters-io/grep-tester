@@ -11,10 +11,9 @@ import (
 )
 
 type PrintMatchingLinesTestCase struct {
-	Pattern             string
-	InputLines          []string
-	ExpectedExitCode    int
-	ExpectedOutputLines []string
+	Pattern          string
+	InputLines       []string
+	ExpectedExitCode int
 }
 
 type PrintMatchingLinesTestCaseCollection []PrintMatchingLinesTestCase
@@ -36,15 +35,8 @@ func (c PrintMatchingLinesTestCaseCollection) Run(stageHarness *test_case_harnes
 		}
 
 		// Compare against grep
-
 		if testCase.ExpectedExitCode != grepResult.ExitCode {
 			panic(fmt.Sprintf("CodeCrafters Internal Error: Expected exit code %v, grep returned %v", testCase.ExpectedExitCode, grepResult.ExitCode))
-		}
-
-		expectedOutput := strings.Join(testCase.ExpectedOutputLines, "\n")
-
-		if expectedOutput != string(grepResult.Stdout) {
-			panic(fmt.Sprintf("Codecrafters Internal Error: Expected stdout: %q, grep's stdout: %q", expectedOutput, grepResult.Stdout))
 		}
 
 		// Run assertions
@@ -56,8 +48,11 @@ func (c PrintMatchingLinesTestCaseCollection) Run(stageHarness *test_case_harnes
 			return err
 		}
 
+		expectedOutput := string(grepResult.Stdout)
+		expectedOutputLines := strings.Split(expectedOutput, "\n")
+
 		orderedLinesAssertion := assertions.OrderedLinesAssertion{
-			ExpectedOutputLines: testCase.ExpectedOutputLines,
+			ExpectedOutputLines: expectedOutputLines,
 		}
 
 		if err := orderedLinesAssertion.Run(actualResult, logger); err != nil {

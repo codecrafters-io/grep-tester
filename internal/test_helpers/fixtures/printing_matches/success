@@ -6,7 +6,8 @@
 [33m[tester::#KU5] [0m[92m✓ Stdout contains 1 expected line in order[0m
 [33m[tester::#KU5] [0m[94m$ echo -ne "cherry" | ./your_grep.sh -E '\d'[0m
 [33m[tester::#KU5] [0m[92m✓ Received exit code 1.[0m
-[33m[tester::#KU5] [0m[92m✓ Stdout contains 0 expected lines in order[0m
+[33m[tester::#KU5] [0m[92m✓ Found line "" (empty)[0m
+[33m[tester::#KU5] [0m[92m✓ Stdout contains 1 expected line in order[0m
 [33m[tester::#KU5] [0m[94m$ echo -ne "apple_suffix" | ./your_grep.sh -E '^apple'[0m
 [33m[your_program] [0mapple_suffix
 [33m[tester::#KU5] [0m[92m✓ Received exit code 0.[0m
@@ -14,7 +15,8 @@
 [33m[tester::#KU5] [0m[92m✓ Stdout contains 1 expected line in order[0m
 [33m[tester::#KU5] [0m[94m$ echo -ne "prefix_apple" | ./your_grep.sh -E '^apple'[0m
 [33m[tester::#KU5] [0m[92m✓ Received exit code 1.[0m
-[33m[tester::#KU5] [0m[92m✓ Stdout contains 0 expected lines in order[0m
+[33m[tester::#KU5] [0m[92m✓ Found line "" (empty)[0m
+[33m[tester::#KU5] [0m[92m✓ Stdout contains 1 expected line in order[0m
 [33m[tester::#KU5] [0m[94m$ echo -ne "cat" | ./your_grep.sh -E 'ca+t'[0m
 [33m[your_program] [0mcat
 [33m[tester::#KU5] [0m[92m✓ Received exit code 0.[0m
@@ -37,7 +39,8 @@
 [33m[tester::#PZ6] [0m[92m✓ Stdout contains 2 expected lines in order[0m
 [33m[tester::#PZ6] [0m[94m$ echo -ne "apple\nbanana\ncherry\ndog" | ./your_grep.sh -E '\d'[0m
 [33m[tester::#PZ6] [0m[92m✓ Received exit code 1.[0m
-[33m[tester::#PZ6] [0m[92m✓ Stdout contains 0 expected lines in order[0m
+[33m[tester::#PZ6] [0m[92m✓ Found line "" (empty)[0m
+[33m[tester::#PZ6] [0m[92m✓ Stdout contains 1 expected line in order[0m
 [33m[tester::#PZ6] [0m[94m$ echo -ne "grape\n!@#$\napple\n+++\ntest123" | ./your_grep.sh -E '\w+'[0m
 [33m[your_program] [0mgrape
 [33m[your_program] [0mapple
@@ -56,7 +59,8 @@
 [33m[tester::#PZ6] [0m[92m✓ Stdout contains 2 expected lines in order[0m
 [33m[tester::#PZ6] [0m[94m$ echo -ne "New York\nWashington D.C.\nAustin\nLos Angeles" | ./your_grep.sh -E '(tiger|fox)'[0m
 [33m[tester::#PZ6] [0m[92m✓ Received exit code 1.[0m
-[33m[tester::#PZ6] [0m[92m✓ Stdout contains 0 expected lines in order[0m
+[33m[tester::#PZ6] [0m[92m✓ Found line "" (empty)[0m
+[33m[tester::#PZ6] [0m[92m✓ Stdout contains 1 expected line in order[0m
 [33m[tester::#PZ6] [0m[94m$ echo -ne "LOG 10 plum\nINVALID\nLOG 20 asparagus\nLOG 30 invalid" | ./your_grep.sh -E '^LOG \d+ (plum|asparagus)$'[0m
 [33m[your_program] [0mLOG 10 plum
 [33m[your_program] [0mLOG 20 asparagus

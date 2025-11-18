@@ -16,10 +16,9 @@ func testPrintingMatchesSingleLine(stageHarness *test_case_harness.TestCaseHarne
 
 	testCaseCollection := test_cases.PrintMatchingLinesTestCaseCollection{
 		{
-			Pattern:             `\d`,
-			InputLines:          []string{"banana123"},
-			ExpectedExitCode:    0,
-			ExpectedOutputLines: []string{"banana123"},
+			Pattern:          `\d`,
+			InputLines:       []string{"banana123"},
+			ExpectedExitCode: 0,
 		},
 		{
 			Pattern:          `\d`,
@@ -27,10 +26,9 @@ func testPrintingMatchesSingleLine(stageHarness *test_case_harness.TestCaseHarne
 			ExpectedExitCode: 1,
 		},
 		{
-			Pattern:             fmt.Sprintf("^%s", words[0]),
-			InputLines:          []string{words[0] + "_suffix"},
-			ExpectedExitCode:    0,
-			ExpectedOutputLines: []string{words[0] + "_suffix"},
+			Pattern:          fmt.Sprintf("^%s", words[0]),
+			InputLines:       []string{words[0] + "_suffix"},
+			ExpectedExitCode: 0,
 		},
 		{
 			Pattern:          fmt.Sprintf("^%s", words[0]),
@@ -38,16 +36,14 @@ func testPrintingMatchesSingleLine(stageHarness *test_case_harness.TestCaseHarne
 			ExpectedExitCode: 1,
 		},
 		{
-			Pattern:             "ca+t",
-			InputLines:          []string{"cat"},
-			ExpectedExitCode:    0,
-			ExpectedOutputLines: []string{"cat"},
+			Pattern:          "ca+t",
+			InputLines:       []string{"cat"},
+			ExpectedExitCode: 0,
 		},
 		{
-			Pattern:             fmt.Sprintf("[%s]", fruit),
-			InputLines:          []string{string(fruit[0]) + "test"},
-			ExpectedExitCode:    0,
-			ExpectedOutputLines: []string{string(fruit[0]) + "test"},
+			Pattern:          fmt.Sprintf("[%s]", fruit),
+			InputLines:       []string{string(fruit[0]) + "test"},
+			ExpectedExitCode: 0,
 		},
 	}
 
