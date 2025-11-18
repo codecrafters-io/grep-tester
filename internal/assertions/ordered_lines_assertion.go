@@ -24,11 +24,10 @@ func (a OrderedLinesAssertion) Run(result executable.ExecutableResult, logger *l
 	// Assert each expected line in order
 	for i, expectedLine := range a.ExpectedOutputLines {
 		if i < len(actualOutputLines) {
-			if actualOutputLines[i] == expectedLine {
-				logger.Successf("✓ Found line '%s'", expectedLine)
-			} else {
+			if actualOutputLines[i] != expectedLine {
 				return fmt.Errorf("Expected line #%d to be %q, got %q", i+1, expectedLine, actualOutputLines[i])
 			}
+			logger.Successf("✓ Found line '%s'", expectedLine)
 		} else {
 			// We've run out of actual output lines
 			missingLines := []string{}
