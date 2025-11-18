@@ -48,7 +48,6 @@ func (c PrintMatchingLinesTestCaseCollection) Run(stageHarness *test_case_harnes
 		}
 
 		// Run assertions
-
 		exitCodeAssertion := assertions.ExitCodeAssertion{
 			ExpectedExitCode: testCase.ExpectedExitCode,
 		}
