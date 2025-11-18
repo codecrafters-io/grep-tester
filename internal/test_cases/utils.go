@@ -15,16 +15,3 @@ import (
 func getRegex101Link(pattern string, testString string) string {
 	return fmt.Sprintf("https://regex101.com/?regex=%s&testString=%s", url.QueryEscape(pattern), url.QueryEscape(testString))
 }
-
-// removeTrailingNewline removes a trailing newline character from a byte slice
-// It is useful in removing the extra newline chracter a command produces in its standard output
-// to move the cursor to the next line
-func removeTrailingNewline(input string) string {
-	length := len(input)
-
-	if length == 0 || input[length-1] != '\n' {
-		return input
-	}
-
-	return input[:len(input)-1]
-}
