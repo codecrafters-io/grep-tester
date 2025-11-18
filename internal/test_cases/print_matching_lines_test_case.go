@@ -48,7 +48,7 @@ func (c PrintMatchingLinesTestCaseCollection) Run(stageHarness *test_case_harnes
 			return err
 		}
 
-		expectedOutput := string(grepResult.Stdout)
+		expectedOutput := strings.TrimSpace(string(grepResult.Stdout))
 		expectedOutputLines := strings.Split(expectedOutput, "\n")
 
 		orderedLinesAssertion := assertions.OrderedLinesAssertion{
