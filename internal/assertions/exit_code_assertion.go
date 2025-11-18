@@ -9,12 +9,16 @@ import (
 
 type ExitCodeAssertion struct {
 	ExpectedExitCode int
-	FailureHintLine  string
+	FailureHint      string
 }
 
 func (a ExitCodeAssertion) Run(result executable.ExecutableResult, logger *logger.Logger) error {
 	if result.ExitCode != a.ExpectedExitCode {
-		return fmt.Errorf("Expected exit code %v, got %v.\n%s", a.ExpectedExitCode, result.ExitCode, a.FailureHintLine)
+		hintString := ""
+		if a.FailureHint != "" {
+			hintString = fmt.Sprintf("\nHint: %s", a.FailureHint)
+		}
+		return fmt.Errorf("Expected exit code %v, got %v.%s", a.ExpectedExitCode, result.ExitCode, hintString)
 	}
 
 	logger.Successf("✓ Received exit code %d.", result.ExitCode)
