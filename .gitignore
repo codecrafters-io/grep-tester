@@ -2,3 +2,7 @@
 .history/
 dist/
 .vscode/
+
+
+# MacOS
+.DS_Store
