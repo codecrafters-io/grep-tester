@@ -106,6 +106,13 @@ func TestStages(t *testing.T) {
 			StdoutFixturePath:   "./test_helpers/fixtures/printing_matches/swapped_lines",
 			NormalizeOutputFunc: normalizeTesterOutput,
 		},
+		"printing_matches_highlighted": {
+			StageSlugs:          []string{"ku5"},
+			CodePath:            "./test_helpers/scenarios/printing_matches/highlighted",
+			ExpectedExitCode:    1,
+			StdoutFixturePath:   "./test_helpers/fixtures/printing_matches/highlighted",
+			NormalizeOutputFunc: normalizeTesterOutput,
+		},
 	}
 
 	tester_utils_testing.TestTesterOutput(t, testerDefinition, testCases)
