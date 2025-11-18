@@ -27,13 +27,13 @@ func (a OrderedLinesAssertion) Run(result executable.ExecutableResult, logger *l
 			if actualOutputLines[i] == expectedLine {
 				logger.Successf("✓ Found line '%s'", expectedLine)
 			} else {
-				return fmt.Errorf("Expected line #%d to be \"%s\", got \"%s\"", i+1, expectedLine, actualOutputLines[i])
+				return fmt.Errorf("Expected line #%d to be %q, got %q", i+1, expectedLine, actualOutputLines[i])
 			}
 		} else {
 			// We've run out of actual output lines
 			missingLines := []string{}
 			for j := i; j < len(a.ExpectedOutputLines); j++ {
-				missingLines = append(missingLines, fmt.Sprintf("  \"%s\"", a.ExpectedOutputLines[j]))
+				missingLines = append(missingLines, fmt.Sprintf("  %q", a.ExpectedOutputLines[j]))
 			}
 			return fmt.Errorf("Expected %s, missing %s:\n%s",
 				english.Plural(len(a.ExpectedOutputLines), "line", "lines"),
@@ -46,7 +46,7 @@ func (a OrderedLinesAssertion) Run(result executable.ExecutableResult, logger *l
 	if len(actualOutputLines) > len(a.ExpectedOutputLines) {
 		extraLines := []string{}
 		for i := len(a.ExpectedOutputLines); i < len(actualOutputLines); i++ {
-			extraLines = append(extraLines, fmt.Sprintf("  \"%s\"", actualOutputLines[i]))
+			extraLines = append(extraLines, fmt.Sprintf("  %q", actualOutputLines[i]))
 		}
 
 		return fmt.Errorf("Expected %s, found %s:\n%s",
