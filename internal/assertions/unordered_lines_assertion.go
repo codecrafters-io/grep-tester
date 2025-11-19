@@ -7,6 +7,7 @@ import (
 
 	"github.com/codecrafters-io/tester-utils/executable"
 	"github.com/codecrafters-io/tester-utils/logger"
+	"github.com/dustin/go-humanize/english"
 )
 
 type UnorderedLinesAssertion struct {
@@ -53,23 +54,34 @@ func (a UnorderedLinesAssertion) Run(result executable.ExecutableResult, logger 
 	}
 
 	if len(missingLines) > 0 {
-		logger.Infof("Expected %d line(s) in output, only found %d matching line(s). Missing match(es):", len(a.ExpectedOutputLines), len(foundLines))
+		logger.Errorf(
+			"Expected %s in output, only found %s. Missing %s:",
+			english.Plural(len(a.ExpectedOutputLines), "line", "lines"),
+			english.Plural(len(foundLines), "matching line", "matching lines"),
+			english.PluralWord(len(missingLines), "match", "matches"),
+		)
 		errorMessage := []string{}
 
 		for _, line := range missingLines {
-			errorMessage = append(errorMessage, fmt.Sprintf("⨯ Line not found: %q", line))
+			errorMessage = append(errorMessage, fmt.Sprintf("  %q", line))
 		}
 
 		return fmt.Errorf("%s", strings.Join(errorMessage, "\n"))
 	}
 
 	if len(extraLines) > 0 {
-		logger.Infof("Expected %d line(s) in output, found %d. Unexpected line(s):", len(a.ExpectedOutputLines), len(actualOutputLines))
 		errorMessage := []string{}
 
 		for _, line := range extraLines {
-			errorMessage = append(errorMessage, fmt.Sprintf("⨯ Extra line found: %q", line))
+			errorMessage = append(errorMessage, fmt.Sprintf("  %q", line))
 		}
+
+		logger.Errorf(
+			"Expected %s in output, found %d. Unexpected %s:",
+			english.Plural(len(a.ExpectedOutputLines), "line", "lines"),
+			len(actualOutputLines),
+			english.PluralWord(len(extraLines), "line", "lines"),
+		)
 
 		return fmt.Errorf("%s", strings.Join(errorMessage, "\n"))
 	}

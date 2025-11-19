@@ -1,0 +1,14 @@
+Debug = true
+
+[33m[tester::#DR5] [0m[94mRunning tests for Stage #DR5 (dr5)[0m
+[33m[tester::#DR5] [setup] [0m[94mecho "banana" > "fruits-8623.txt"[0m
+[33m[tester::#DR5] [0m[94m$ ./your_grep.sh -E ban.+ fruits-8623.txt[0m
+[33m[your_program] [0mbanana
+[33m[tester::#DR5] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#DR5] [0m[92m✓ Stdout contains 1 expected line(s)[0m
+[33m[tester::#DR5] [0m[94m$ ./your_grep.sh -E asparagus fruits-8623.txt[0m
+[33m[your_program] [0mextra-line
+[33m[tester::#DR5] [0m[92m✓ Received exit code 1.[0m
+[33m[tester::#DR5] [0m[94mExpected 0 lines in output, found 1. Unexpected line:[0m
+[33m[tester::#DR5] [0m[91m  "extra-line"[0m
+[33m[tester::#DR5] [0m[91mTest failed[0m
