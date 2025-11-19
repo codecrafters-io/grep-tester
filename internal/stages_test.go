@@ -78,6 +78,41 @@ func TestStages(t *testing.T) {
 			StdoutFixturePath:   "./test_helpers/fixtures/quantifiers/success",
 			NormalizeOutputFunc: normalizeTesterOutput,
 		},
+		"printing_matches_pass": {
+			StageSlugs:          []string{"ku5", "pz6"},
+			CodePath:            "./test_helpers/pass_all",
+			ExpectedExitCode:    0,
+			StdoutFixturePath:   "./test_helpers/fixtures/printing_matches/success",
+			NormalizeOutputFunc: normalizeTesterOutput,
+		},
+		"printing_matches_unexpected_output": {
+			StageSlugs:          []string{"ku5"},
+			CodePath:            "./test_helpers/scenarios/printing_matches/unexpected_output",
+			ExpectedExitCode:    1,
+			StdoutFixturePath:   "./test_helpers/fixtures/printing_matches/unexpected_output",
+			NormalizeOutputFunc: normalizeTesterOutput,
+		},
+		"printing_matches_extra_lines": {
+			StageSlugs:          []string{"ku5"},
+			CodePath:            "./test_helpers/scenarios/printing_matches/extra_lines",
+			ExpectedExitCode:    1,
+			StdoutFixturePath:   "./test_helpers/fixtures/printing_matches/extra_lines",
+			NormalizeOutputFunc: normalizeTesterOutput,
+		},
+		"printing_matches_swapped_lines": {
+			StageSlugs:          []string{"pz6"},
+			CodePath:            "./test_helpers/scenarios/printing_matches/swapped_lines",
+			ExpectedExitCode:    1,
+			StdoutFixturePath:   "./test_helpers/fixtures/printing_matches/swapped_lines",
+			NormalizeOutputFunc: normalizeTesterOutput,
+		},
+		"printing_matches_highlighted": {
+			StageSlugs:          []string{"ku5"},
+			CodePath:            "./test_helpers/scenarios/printing_matches/highlighted",
+			ExpectedExitCode:    1,
+			StdoutFixturePath:   "./test_helpers/fixtures/printing_matches/highlighted",
+			NormalizeOutputFunc: normalizeTesterOutput,
+		},
 	}
 
 	tester_utils_testing.TestTesterOutput(t, testerDefinition, testCases)
@@ -87,7 +122,7 @@ func normalizeTesterOutput(testerOutput []byte) []byte {
 	replacements := map[string][]*regexp.Regexp{
 		// We can't be sure about the order of the output lines here
 		"grep_output_with_dir_prefix":   {regexp.MustCompile(`.{5}\[your_program\].{5}dir/.*`)},
-		"grep_output_with_dir_prefix_2": {regexp.MustCompile(`.*\[tester::#YX6\].*✓ Found line 'dir/.*`)},
+		"grep_output_with_dir_prefix_2": {regexp.MustCompile(`.*\[tester::#YX6\].*✓ Found line "dir/.*`)},
 		"grep_output_with_dir_prefix_3": {regexp.MustCompile(`.*\[tester::#YX6\].*⨯ Line not found: "dir/.*`)},
 	}
 

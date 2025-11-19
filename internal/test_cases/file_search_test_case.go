@@ -52,7 +52,10 @@ func (c FileSearchTestCaseCollection) Run(stageHarness *test_case_harness.TestCa
 		}
 
 		expectedOutput := strings.TrimSpace(string(expectedResult.Stdout))
-		expectedOutputLines := strings.Split(expectedOutput, "\n")
+
+		expectedOutputLines := strings.FieldsFunc(expectedOutput, func(r rune) bool {
+			return r == '\n'
+		})
 
 		unorderedLinesAssertion := assertions.UnorderedLinesAssertion{
 			ExpectedOutputLines: expectedOutputLines,

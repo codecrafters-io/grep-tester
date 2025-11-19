@@ -16,6 +16,7 @@ var testerDefinition = tester_definition.TesterDefinition{
 	ExecutableFileName:       "your_program.sh",
 	LegacyExecutableFileName: "your_grep.sh",
 	TestCases: []tester_definition.TestCase{
+		// Base stages
 		{
 			Slug:     "cq2",
 			TestFunc: testInit,
@@ -65,6 +66,7 @@ var testerDefinition = tester_definition.TesterDefinition{
 			Slug:     "zm7",
 			TestFunc: testAlternation,
 		},
+		// Backreferences
 		{
 			Slug:     "sb5",
 			TestFunc: testBackreferencesSingle,
@@ -80,6 +82,7 @@ var testerDefinition = tester_definition.TesterDefinition{
 			TestFunc: testBackreferencesNested,
 			Timeout:  20 * time.Second,
 		},
+		// File search
 		{
 			Slug:     "dr5",
 			TestFunc: testSingleLineFileSearch,
@@ -96,6 +99,7 @@ var testerDefinition = tester_definition.TesterDefinition{
 			Slug:     "yx6",
 			TestFunc: testRecursiveFileSearch,
 		},
+		// Quantifiers
 		{
 			Slug:     "ai9",
 			TestFunc: testQuantifierAsterisk,
@@ -111,6 +115,15 @@ var testerDefinition = tester_definition.TesterDefinition{
 		{
 			Slug:     "ug0",
 			TestFunc: testQuantifierRangeRepetition,
+		},
+		// Printing Matches
+		{
+			Slug:     "ku5",
+			TestFunc: testPrintingMatchesSingleLine,
+		},
+		{
+			Slug:     "pz6",
+			TestFunc: testPrintingMatchesMultipleLines,
 		},
 	},
 }

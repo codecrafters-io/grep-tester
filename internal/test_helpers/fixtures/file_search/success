@@ -6,7 +6,7 @@
 [33m[tester::#DR5] [0m[92m✓ Stdout contains 1 expected line(s)[0m
 [33m[tester::#DR5] [0m[94m$ ./your_grep.sh -E asparagus fruits-8623.txt[0m
 [33m[tester::#DR5] [0m[92m✓ Received exit code 1.[0m
-[33m[tester::#DR5] [0m[92m✓ Stdout contains 1 expected line(s)[0m
+[33m[tester::#DR5] [0m[92m✓ No output found[0m
 [33m[tester::#DR5] [0m[94m$ ./your_grep.sh -E .+ana fruits-8623.txt[0m
 [33m[your_program] [0mbanana
 [33m[tester::#DR5] [0m[92m✓ Received exit code 0.[0m
@@ -25,7 +25,7 @@
 [33m[tester::#OL9] [0m[92m✓ Stdout contains 2 expected line(s)[0m
 [33m[tester::#OL9] [0m[94m$ ./your_grep.sh -E broccoli fruits-9289.txt[0m
 [33m[tester::#OL9] [0m[92m✓ Received exit code 1.[0m
-[33m[tester::#OL9] [0m[92m✓ Stdout contains 1 expected line(s)[0m
+[33m[tester::#OL9] [0m[92m✓ No output found[0m
 [33m[tester::#OL9] [0m[94m$ ./your_grep.sh -E pineapple fruits-9289.txt[0m
 [33m[your_program] [0mpineapple
 [33m[tester::#OL9] [0m[92m✓ Received exit code 0.[0m
@@ -44,7 +44,7 @@
 [33m[tester::#IS6] [0m[92m✓ Stdout contains 2 expected line(s)[0m
 [33m[tester::#IS6] [0m[94m$ ./your_grep.sh -E missing_fruit fruits-3770.txt vegetables-4789.txt[0m
 [33m[tester::#IS6] [0m[92m✓ Received exit code 1.[0m
-[33m[tester::#IS6] [0m[92m✓ Stdout contains 1 expected line(s)[0m
+[33m[tester::#IS6] [0m[92m✓ No output found[0m
 [33m[tester::#IS6] [0m[94m$ ./your_grep.sh -E cabbage fruits-3770.txt vegetables-4789.txt[0m
 [33m[your_program] [0mvegetables-4789.txt:cabbage
 [33m[tester::#IS6] [0m[92m✓ Received exit code 0.[0m
@@ -73,5 +73,5 @@
 [33m[tester::#YX6] [0m[92m✓ Stdout contains 2 expected line(s)[0m
 [33m[tester::#YX6] [0m[94m$ ./your_grep.sh -r -E missing_fruit dir/[0m
 [33m[tester::#YX6] [0m[92m✓ Received exit code 1.[0m
-[33m[tester::#YX6] [0m[92m✓ Stdout contains 1 expected line(s)[0m
+[33m[tester::#YX6] [0m[92m✓ No output found[0m
 [33m[tester::#YX6] [0m[92mTest passed.[0m
