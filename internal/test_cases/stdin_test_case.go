@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"path"
 
+	"github.com/codecrafters-io/grep-tester/internal/assertions"
 	"github.com/codecrafters-io/grep-tester/internal/grep"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
@@ -32,11 +33,15 @@ func (c StdinTestCaseCollection) Run(stageHarness *test_case_harness.TestCaseHar
 		if testCase.ExpectedExitCode != expectedResult.ExitCode {
 			panic(fmt.Sprintf("CodeCrafters Internal Error: Expected exit code %v, grep returned %v", testCase.ExpectedExitCode, expectedResult.ExitCode))
 		}
-		if actualResult.ExitCode != testCase.ExpectedExitCode {
-			return fmt.Errorf("Expected exit code %v, got %v.\nHint: %s", testCase.ExpectedExitCode, actualResult.ExitCode, getRegex101Link(testCase.Pattern, testCase.Input))
+
+		exitCodeAssertion := assertions.ExitCodeAssertion{
+			ExpectedExitCode: testCase.ExpectedExitCode,
+			FailureHint:      getRegex101Link(testCase.Pattern, testCase.Input),
 		}
 
-		logger.Successf("✓ Received exit code %d.", actualResult.ExitCode)
+		if err := exitCodeAssertion.Run(actualResult, logger); err != nil {
+			return err
+		}
 	}
 
 	return nil

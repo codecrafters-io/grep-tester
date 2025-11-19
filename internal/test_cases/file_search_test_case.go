@@ -3,9 +3,9 @@ package test_cases
 import (
 	"fmt"
 	"path"
-	"slices"
 	"strings"
 
+	"github.com/codecrafters-io/grep-tester/internal/assertions"
 	"github.com/codecrafters-io/grep-tester/internal/grep"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
@@ -42,60 +42,29 @@ func (c FileSearchTestCaseCollection) Run(stageHarness *test_case_harness.TestCa
 		if testCase.ExpectedExitCode != expectedResult.ExitCode {
 			panic(fmt.Sprintf("CodeCrafters Internal Error: Expected exit code %v, grep returned %v", testCase.ExpectedExitCode, expectedResult.ExitCode))
 		}
-		if actualResult.ExitCode != testCase.ExpectedExitCode {
-			return fmt.Errorf("Expected exit code %v, got %v", testCase.ExpectedExitCode, actualResult.ExitCode)
-		}
-		logger.Successf("✓ Received exit code %d.", actualResult.ExitCode)
 
-		actualOutput := strings.TrimSpace(string(actualResult.Stdout))
+		exitCodeAssertion := assertions.ExitCodeAssertion{
+			ExpectedExitCode: testCase.ExpectedExitCode,
+		}
+
+		if err := exitCodeAssertion.Run(actualResult, logger); err != nil {
+			return err
+		}
+
 		expectedOutput := strings.TrimSpace(string(expectedResult.Stdout))
 
-		actualOutputLines := strings.Split(actualOutput, "\n")
-		expectedOutputLines := strings.Split(expectedOutput, "\n")
+		expectedOutputLines := strings.FieldsFunc(expectedOutput, func(r rune) bool {
+			return r == '\n'
+		})
 
-		foundLines := []string{}
-		missingLines := []string{}
-		extraLines := []string{}
-
-		for _, expectedLine := range expectedOutputLines {
-			if slices.Contains(actualOutputLines, expectedLine) {
-				foundLines = append(foundLines, expectedLine)
-			} else {
-				missingLines = append(missingLines, expectedLine)
-			}
+		unorderedLinesAssertion := assertions.UnorderedLinesAssertion{
+			ExpectedOutputLines: expectedOutputLines,
 		}
 
-		for _, actualLine := range actualOutputLines {
-			if !slices.Contains(expectedOutputLines, actualLine) {
-				extraLines = append(extraLines, actualLine)
-			}
+		if err := unorderedLinesAssertion.Run(actualResult, logger); err != nil {
+			return err
 		}
 
-		if len(missingLines) == 0 && len(extraLines) == 0 && len(foundLines) == len(expectedOutputLines) {
-			logger.Successf("✓ Stdout contains %d expected line(s)", len(expectedOutputLines))
-		} else {
-			for _, line := range foundLines {
-				logger.Successf("✓ Found line '%s'", line)
-			}
-
-			if len(missingLines) > 0 {
-				logger.Infof("Expected %d line(s) in output, only found %d matching line(s). Missing match(es):", len(expectedOutputLines), len(foundLines))
-				errorMessage := []string{}
-				for _, line := range missingLines {
-					errorMessage = append(errorMessage, fmt.Sprintf("⨯ Line not found: \"%s\"", line))
-				}
-				return fmt.Errorf("%s", strings.Join(errorMessage, "\n"))
-			}
-
-			if len(extraLines) > 0 {
-				logger.Infof("Expected %d line(s) in output, found %d. Unexpected line(s):", len(expectedOutputLines), len(actualOutputLines))
-				errorMessage := []string{}
-				for _, line := range extraLines {
-					errorMessage = append(errorMessage, fmt.Sprintf("⨯ Extra line found: \"%s\"", line))
-				}
-				return fmt.Errorf("%s", strings.Join(errorMessage, "\n"))
-			}
-		}
 	}
 
 	return nil
