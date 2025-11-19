@@ -49,7 +49,10 @@ func (c PrintMatchingLinesTestCaseCollection) Run(stageHarness *test_case_harnes
 		}
 
 		expectedOutput := strings.TrimSpace(string(grepResult.Stdout))
-		expectedOutputLines := strings.Split(expectedOutput, "\n")
+
+		expectedOutputLines := strings.FieldsFunc(expectedOutput, func(r rune) bool {
+			return r == '\n'
+		})
 
 		orderedLinesAssertion := assertions.OrderedLinesAssertion{
 			ExpectedOutputLines: expectedOutputLines,

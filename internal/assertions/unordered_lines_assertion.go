@@ -16,7 +16,9 @@ type UnorderedLinesAssertion struct {
 func (a UnorderedLinesAssertion) Run(result executable.ExecutableResult, logger *logger.Logger) error {
 	actualOutput := strings.TrimSpace(string(result.Stdout))
 
-	actualOutputLines := strings.Split(actualOutput, "\n")
+	actualOutputLines := strings.FieldsFunc(actualOutput, func(r rune) bool {
+		return r == '\n'
+	})
 
 	foundLines := []string{}
 	missingLines := []string{}
@@ -37,29 +39,39 @@ func (a UnorderedLinesAssertion) Run(result executable.ExecutableResult, logger 
 	}
 
 	if len(missingLines) == 0 && len(extraLines) == 0 && len(foundLines) == len(a.ExpectedOutputLines) {
-		logger.Successf("✓ Stdout contains %d expected line(s)", len(a.ExpectedOutputLines))
-	} else {
-		for _, line := range foundLines {
-			logger.Successf("✓ Found line %s", escapeLine(line))
+		if len(foundLines) == 0 {
+			logger.Successf("✓ No output found")
+		} else {
+			logger.Successf("✓ Stdout contains %d expected line(s)", len(a.ExpectedOutputLines))
 		}
 
-		if len(missingLines) > 0 {
-			logger.Infof("Expected %d line(s) in output, only found %d matching line(s). Missing match(es):", len(a.ExpectedOutputLines), len(foundLines))
-			errorMessage := []string{}
-			for _, line := range missingLines {
-				errorMessage = append(errorMessage, fmt.Sprintf("⨯ Line not found: %s", escapeLine(line)))
-			}
-			return fmt.Errorf("%s", strings.Join(errorMessage, "\n"))
+		return nil
+	}
+
+	for _, line := range foundLines {
+		logger.Successf("✓ Found line %q", line)
+	}
+
+	if len(missingLines) > 0 {
+		logger.Infof("Expected %d line(s) in output, only found %d matching line(s). Missing match(es):", len(a.ExpectedOutputLines), len(foundLines))
+		errorMessage := []string{}
+
+		for _, line := range missingLines {
+			errorMessage = append(errorMessage, fmt.Sprintf("⨯ Line not found: %q", line))
 		}
 
-		if len(extraLines) > 0 {
-			logger.Infof("Expected %d line(s) in output, found %d. Unexpected line(s):", len(a.ExpectedOutputLines), len(actualOutputLines))
-			errorMessage := []string{}
-			for _, line := range extraLines {
-				errorMessage = append(errorMessage, fmt.Sprintf("⨯ Extra line found: %s", escapeLine(line)))
-			}
-			return fmt.Errorf("%s", strings.Join(errorMessage, "\n"))
+		return fmt.Errorf("%s", strings.Join(errorMessage, "\n"))
+	}
+
+	if len(extraLines) > 0 {
+		logger.Infof("Expected %d line(s) in output, found %d. Unexpected line(s):", len(a.ExpectedOutputLines), len(actualOutputLines))
+		errorMessage := []string{}
+
+		for _, line := range extraLines {
+			errorMessage = append(errorMessage, fmt.Sprintf("⨯ Extra line found: %q", line))
 		}
+
+		return fmt.Errorf("%s", strings.Join(errorMessage, "\n"))
 	}
 
 	return nil
