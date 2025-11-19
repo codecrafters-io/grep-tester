@@ -3,14 +3,14 @@
 [33m[tester::#DR5] [0m[94m$ ./your_grep.sh -E ban.+ fruits-8623.txt[0m
 [33m[your_program] [0mbanana
 [33m[tester::#DR5] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#DR5] [0m[92m✓ Stdout contains 1 expected line(s)[0m
+[33m[tester::#DR5] [0m[92m✓ Stdout contains 1 expected line[0m
 [33m[tester::#DR5] [0m[94m$ ./your_grep.sh -E asparagus fruits-8623.txt[0m
 [33m[tester::#DR5] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#DR5] [0m[92m✓ No output found[0m
 [33m[tester::#DR5] [0m[94m$ ./your_grep.sh -E .+ana fruits-8623.txt[0m
 [33m[your_program] [0mbanana
 [33m[tester::#DR5] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#DR5] [0m[92m✓ Stdout contains 1 expected line(s)[0m
+[33m[tester::#DR5] [0m[92m✓ Stdout contains 1 expected line[0m
 [33m[tester::#DR5] [0m[92mTest passed.[0m
 
 [33m[tester::#OL9] [0m[94mRunning tests for Stage #OL9 (ol9)[0m
@@ -22,14 +22,14 @@
 [33m[your_program] [0mblueberry
 [33m[your_program] [0mstrawberry
 [33m[tester::#OL9] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#OL9] [0m[92m✓ Stdout contains 2 expected line(s)[0m
+[33m[tester::#OL9] [0m[92m✓ Stdout contains 2 expected lines[0m
 [33m[tester::#OL9] [0m[94m$ ./your_grep.sh -E broccoli fruits-9289.txt[0m
 [33m[tester::#OL9] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#OL9] [0m[92m✓ No output found[0m
 [33m[tester::#OL9] [0m[94m$ ./your_grep.sh -E pineapple fruits-9289.txt[0m
 [33m[your_program] [0mpineapple
 [33m[tester::#OL9] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#OL9] [0m[92m✓ Stdout contains 1 expected line(s)[0m
+[33m[tester::#OL9] [0m[92m✓ Stdout contains 1 expected line[0m
 [33m[tester::#OL9] [0m[92mTest passed.[0m
 
 [33m[tester::#IS6] [0m[94mRunning tests for Stage #IS6 (is6)[0m
@@ -41,14 +41,14 @@
 [33m[your_program] [0mfruits-3770.txt:pear
 [33m[your_program] [0mvegetables-4789.txt:pea
 [33m[tester::#IS6] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#IS6] [0m[92m✓ Stdout contains 2 expected line(s)[0m
+[33m[tester::#IS6] [0m[92m✓ Stdout contains 2 expected lines[0m
 [33m[tester::#IS6] [0m[94m$ ./your_grep.sh -E missing_fruit fruits-3770.txt vegetables-4789.txt[0m
 [33m[tester::#IS6] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#IS6] [0m[92m✓ No output found[0m
 [33m[tester::#IS6] [0m[94m$ ./your_grep.sh -E cabbage fruits-3770.txt vegetables-4789.txt[0m
 [33m[your_program] [0mvegetables-4789.txt:cabbage
 [33m[tester::#IS6] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#IS6] [0m[92m✓ Stdout contains 1 expected line(s)[0m
+[33m[tester::#IS6] [0m[92m✓ Stdout contains 1 expected line[0m
 [33m[tester::#IS6] [0m[92mTest passed.[0m
 
 [33m[tester::#YX6] [0m[94mRunning tests for Stage #YX6 (yx6)[0m
@@ -65,12 +65,12 @@
 [33m[your_program] [0mdir/subdir/vegetables-9582.txt:cauliflower
 [33m[your_program] [0mdir/vegetables-2199.txt:cucumber
 [33m[tester::#YX6] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#YX6] [0m[92m✓ Stdout contains 3 expected line(s)[0m
+[33m[tester::#YX6] [0m[92m✓ Stdout contains 3 expected lines[0m
 [33m[tester::#YX6] [0m[94m$ ./your_grep.sh -r -E .+ar dir/[0m
 [33m[your_program] [0mdir/fruits-5329.txt:pear
 [33m[your_program] [0mdir/vegetables-2199.txt:carrot
 [33m[tester::#YX6] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#YX6] [0m[92m✓ Stdout contains 2 expected line(s)[0m
+[33m[tester::#YX6] [0m[92m✓ Stdout contains 2 expected lines[0m
 [33m[tester::#YX6] [0m[94m$ ./your_grep.sh -r -E missing_fruit dir/[0m
 [33m[tester::#YX6] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#YX6] [0m[92m✓ No output found[0m
