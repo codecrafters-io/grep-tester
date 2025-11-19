@@ -30,7 +30,7 @@ func (a OrderedLinesAssertion) Run(result executable.ExecutableResult, logger *l
 				missingLines = append(missingLines, fmt.Sprintf("  %q", missingLine))
 			}
 
-			return fmt.Errorf("Expected %s, missing %s:\n%s",
+			return fmt.Errorf("Expected %s in total, missing %s:\n%s",
 				english.Plural(len(a.ExpectedOutputLines), "line", "lines"),
 				english.Plural(len(a.ExpectedOutputLines)-i, "line", "lines"),
 				strings.Join(missingLines, "\n"))
@@ -50,7 +50,16 @@ func (a OrderedLinesAssertion) Run(result executable.ExecutableResult, logger *l
 			extraLines = append(extraLines, fmt.Sprintf("  %q", actualOutputLines[i]))
 		}
 
-		return fmt.Errorf("Expected %s, found %s:\n%s",
+		// Better formatting for no output case
+		if len(a.ExpectedOutputLines) == 0 {
+			return fmt.Errorf(
+				"Expected no output, got %s:\n%s",
+				english.Plural(len(extraLines), "line", "lines"),
+				strings.Join(extraLines, "\n"),
+			)
+		}
+
+		return fmt.Errorf("Expected %s in total, found %s:\n%s",
 			english.Plural(len(a.ExpectedOutputLines), "line", "lines"),
 			english.Plural(len(extraLines), "extra line", "extra lines"),
 			strings.Join(extraLines, "\n"))
