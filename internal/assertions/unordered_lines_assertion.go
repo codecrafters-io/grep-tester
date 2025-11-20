@@ -66,7 +66,7 @@ func (a UnorderedLinesAssertion) Run(result executable.ExecutableResult, logger 
 		missingLinesErrorMessages := []string{}
 
 		for _, line := range missingLines {
-			missingLinesErrorMessages = append(missingLinesErrorMessages, fmt.Sprintf("✕ %q", line))
+			missingLinesErrorMessages = append(missingLinesErrorMessages, fmt.Sprintf("⨯ %q", line))
 		}
 
 		return fmt.Errorf(
@@ -83,7 +83,7 @@ func (a UnorderedLinesAssertion) Run(result executable.ExecutableResult, logger 
 		extraLineErrorMessages := []string{}
 
 		for _, line := range extraLines {
-			extraLineErrorMessages = append(extraLineErrorMessages, fmt.Sprintf("✕ %q", line))
+			extraLineErrorMessages = append(extraLineErrorMessages, fmt.Sprintf("⨯ %q", line))
 		}
 
 		// Better formatting for no output case

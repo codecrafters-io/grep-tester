@@ -10,5 +10,5 @@ Debug = true
 [33m[your_program] [0mextra-line
 [33m[tester::#DR5] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#DR5] [0m[91mExpected no output, got 1 line:[0m
-[33m[tester::#DR5] [0m[91m✕ "extra-line"[0m
+[33m[tester::#DR5] [0m[91m⨯ "extra-line"[0m
 [33m[tester::#DR5] [0m[91mTest failed[0m

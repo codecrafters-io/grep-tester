@@ -27,7 +27,7 @@ func (a OrderedLinesAssertion) Run(result executable.ExecutableResult, logger *l
 
 			for j := i; j < len(a.ExpectedOutputLines); j++ {
 				missingLine := (a.ExpectedOutputLines[j])
-				missingLinesErrorMessages = append(missingLinesErrorMessages, fmt.Sprintf("✕ %q", missingLine))
+				missingLinesErrorMessages = append(missingLinesErrorMessages, fmt.Sprintf("⨯ %q", missingLine))
 			}
 
 			return fmt.Errorf("Expected %s in total, missing %s:\n%s",
@@ -47,7 +47,7 @@ func (a OrderedLinesAssertion) Run(result executable.ExecutableResult, logger *l
 	if len(actualOutputLines) > len(a.ExpectedOutputLines) {
 		extraLinesErrorMessages := []string{}
 		for i := len(a.ExpectedOutputLines); i < len(actualOutputLines); i++ {
-			extraLinesErrorMessages = append(extraLinesErrorMessages, fmt.Sprintf("✕ %q", actualOutputLines[i]))
+			extraLinesErrorMessages = append(extraLinesErrorMessages, fmt.Sprintf("⨯ %q", actualOutputLines[i]))
 		}
 
 		// Better formatting for no output case
