@@ -50,6 +50,7 @@ func GetRegex101Link(pattern string, testString string) string {
 
 // ProgramOutputToLines converts a program's output to a string slice, in which
 // each element is an individual lines
+// The resulting string slice is exactly what one would expect to find in the terminal
 func ProgramOutputToLines(output string) []string {
 	sc := bufio.NewScanner(strings.NewReader(output))
 	sc.Split(bufio.ScanLines)
