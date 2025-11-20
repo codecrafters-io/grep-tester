@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"bufio"
 	"fmt"
 	"net/url"
 	"strconv"
@@ -45,4 +46,32 @@ loop:
 // any discrepancies arise in the future, this comment serves as a note for debugging.
 func GetRegex101Link(pattern string, testString string) string {
 	return fmt.Sprintf("https://regex101.com/?regex=%s&testString=%s", url.QueryEscape(pattern), url.QueryEscape(testString))
+}
+
+// ProgramOutputToLines converts a program's output to a string slice, in which
+// each element is an individual lines
+func ProgramOutputToLines(output string) []string {
+	sc := bufio.NewScanner(strings.NewReader(output))
+	sc.Split(bufio.ScanLines)
+	var out []string
+
+	for sc.Scan() {
+		out = append(out, sc.Text())
+	}
+
+	if out == nil {
+		return []string{}
+	}
+
+	return out
+}
+
+// FormatLineForLogging formats a line such that its suitable for logging
+// it escapes backslash sequences and adds int for empty line
+func FormatLineForLogging(line string) string {
+	if line == "" {
+		return fmt.Sprintf("%q (empty line)", line)
+	}
+
+	return fmt.Sprintf("%q", line)
 }
