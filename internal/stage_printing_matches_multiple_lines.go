@@ -4,17 +4,18 @@ import (
 	"fmt"
 
 	"github.com/codecrafters-io/grep-tester/internal/test_cases"
+	"github.com/codecrafters-io/grep-tester/internal/utils"
 	"github.com/codecrafters-io/tester-utils/random"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
 func testPrintingMatchesMultipleLines(stageHarness *test_case_harness.TestCaseHarness) error {
-	RelocateSystemGrep(stageHarness)
+	utils.RelocateSystemGrep(stageHarness)
 
-	words := randomWordsWithoutSubstrings(2)
-	fruit := random.RandomElementFromArray(FRUITS)
-	vegetable := random.RandomElementFromArray(VEGETABLES)
-	animals := random.RandomElementsFromArray(ANIMALS, 2)
+	words := utils.RandomWordsWithoutSubstrings(2)
+	fruit := random.RandomElementFromArray(utils.FRUITS)
+	vegetable := random.RandomElementFromArray(utils.VEGETABLES)
+	animals := random.RandomElementsFromArray(utils.ANIMALS, 2)
 	animal1 := animals[0]
 	animal2 := animals[1]
 

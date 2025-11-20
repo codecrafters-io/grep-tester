@@ -1,4 +1,4 @@
-package internal
+package utils
 
 import (
 	"strconv"
@@ -12,12 +12,12 @@ var FRUITS = []string{"apple", "banana", "blackberry", "blueberry", "cherry", "g
 var VEGETABLES = []string{"carrot", "onion", "potato", "tomato", "broccoli", "cauliflower", "cabbage", "lettuce", "spinach", "asparagus", "pea", "corn", "zucchini", "pumpkin"}
 var ANIMALS = []string{"cat", "dog", "elephant", "fox", "giraffe", "horse", "lion", "monkey", "panda", "rabbit", "tiger", "wolf", "zebra"}
 
-// randomFilePrefix returns 4 digit random prefix for test files
-func randomFilePrefix() string {
+// RandomFilePrefix returns 4 digit random prefix for test files
+func RandomFilePrefix() string {
 	return strconv.Itoa(random.RandomInt(1000, 10000))
 }
 
-func randomWordsWithoutSubstrings(n int) []string {
+func RandomWordsWithoutSubstrings(n int) []string {
 loop:
 	for {
 		words := random.RandomWords(n)

@@ -5,20 +5,21 @@ import (
 	"strings"
 
 	"github.com/codecrafters-io/grep-tester/internal/test_cases"
+	"github.com/codecrafters-io/grep-tester/internal/utils"
 	"github.com/codecrafters-io/tester-utils/random"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
 func testQuantifierRangeRepetition(stageHarness *test_case_harness.TestCaseHarness) error {
-	RelocateSystemGrep(stageHarness)
+	utils.RelocateSystemGrep(stageHarness)
 
-	fruits := random.RandomElementsFromArray(FRUITS, 2)
+	fruits := random.RandomElementsFromArray(utils.FRUITS, 2)
 	fruit1 := fruits[0]
 	fruit2 := fruits[1]
-	vegetable := random.RandomElementFromArray(VEGETABLES)
+	vegetable := random.RandomElementFromArray(utils.VEGETABLES)
 	vegetableInit := vegetable[:len(vegetable)-1]
 	vegetableLast := string(vegetable[len(vegetable)-1])
-	animals := random.RandomElementsFromArray(ANIMALS, 3)
+	animals := random.RandomElementsFromArray(utils.ANIMALS, 3)
 	animal1 := animals[0]
 	animal2 := animals[1]
 	animal3 := animals[2]
