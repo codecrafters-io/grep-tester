@@ -7,6 +7,7 @@ import (
 
 	"github.com/codecrafters-io/tester-utils/executable"
 	"github.com/codecrafters-io/tester-utils/logger"
+	"github.com/dustin/go-humanize/english"
 )
 
 type UnorderedLinesAssertion struct {
@@ -24,6 +25,7 @@ func (a UnorderedLinesAssertion) Run(result executable.ExecutableResult, logger 
 	missingLines := []string{}
 	extraLines := []string{}
 
+	// Collect found and missing lines
 	for _, expectedLine := range a.ExpectedOutputLines {
 		if slices.Contains(actualOutputLines, expectedLine) {
 			foundLines = append(foundLines, expectedLine)
@@ -32,46 +34,74 @@ func (a UnorderedLinesAssertion) Run(result executable.ExecutableResult, logger 
 		}
 	}
 
+	// Collect extra lines
 	for _, actualLine := range actualOutputLines {
 		if !slices.Contains(a.ExpectedOutputLines, actualLine) {
 			extraLines = append(extraLines, actualLine)
 		}
 	}
 
+	// Success case
 	if len(missingLines) == 0 && len(extraLines) == 0 && len(foundLines) == len(a.ExpectedOutputLines) {
 		if len(foundLines) == 0 {
 			logger.Successf("✓ No output found")
 		} else {
-			logger.Successf("✓ Stdout contains %d expected line(s)", len(a.ExpectedOutputLines))
+			logger.Successf(
+				"✓ Stdout contains %s",
+				english.Plural(len(a.ExpectedOutputLines), "expected line", "expected lines"),
+			)
 		}
 
 		return nil
 	}
 
+	// Failure case
+	// Display all found lines first
 	for _, line := range foundLines {
 		logger.Successf("✓ Found line %q", line)
 	}
 
+	// Prioritize errors related to missing lines
 	if len(missingLines) > 0 {
-		logger.Infof("Expected %d line(s) in output, only found %d matching line(s). Missing match(es):", len(a.ExpectedOutputLines), len(foundLines))
-		errorMessage := []string{}
+		missingLinesErrorMessages := []string{}
 
 		for _, line := range missingLines {
-			errorMessage = append(errorMessage, fmt.Sprintf("⨯ Line not found: %q", line))
+			missingLinesErrorMessages = append(missingLinesErrorMessages, fmt.Sprintf("⨯ %q", line))
 		}
 
-		return fmt.Errorf("%s", strings.Join(errorMessage, "\n"))
+		return fmt.Errorf(
+			"Expected %s in output, only found %s. Missing %s:\n%s",
+			english.Plural(len(a.ExpectedOutputLines), "line", "lines"),
+			english.Plural(len(foundLines), "matching line", "matching lines"),
+			english.PluralWord(len(missingLines), "match", "matches"),
+			strings.Join(missingLinesErrorMessages, "\n"),
+		)
 	}
 
+	// Print errors related to extra lines at last
 	if len(extraLines) > 0 {
-		logger.Infof("Expected %d line(s) in output, found %d. Unexpected line(s):", len(a.ExpectedOutputLines), len(actualOutputLines))
-		errorMessage := []string{}
+		extraLineErrorMessages := []string{}
 
 		for _, line := range extraLines {
-			errorMessage = append(errorMessage, fmt.Sprintf("⨯ Extra line found: %q", line))
+			extraLineErrorMessages = append(extraLineErrorMessages, fmt.Sprintf("⨯ %q", line))
 		}
 
-		return fmt.Errorf("%s", strings.Join(errorMessage, "\n"))
+		// Better formatting for no output case
+		if len(a.ExpectedOutputLines) == 0 {
+			return fmt.Errorf(
+				"Expected no output, got %s:\n%s",
+				english.Plural(len(extraLines), "line", "lines"),
+				strings.Join(extraLineErrorMessages, "\n"),
+			)
+		}
+
+		return fmt.Errorf(
+			"Expected %s in output, found %d. Unexpected %s:\n%s",
+			english.Plural(len(a.ExpectedOutputLines), "line", "lines"),
+			len(actualOutputLines),
+			english.PluralWord(len(extraLines), "line", "lines"),
+			strings.Join(extraLineErrorMessages, "\n"),
+		)
 	}
 
 	return nil

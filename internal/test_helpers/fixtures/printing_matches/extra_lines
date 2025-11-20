@@ -7,5 +7,5 @@ Debug = true
 [33m[tester::#KU5] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#KU5] [0m[92m✓ Found line "banana123"[0m
 [33m[tester::#KU5] [0m[91mExpected 1 line in total, found 1 extra line:[0m
-[33m[tester::#KU5] [0m[91m  "extra line - 1"[0m
+[33m[tester::#KU5] [0m[91m⨯ "extra line - 1"[0m
 [33m[tester::#KU5] [0m[91mTest failed[0m

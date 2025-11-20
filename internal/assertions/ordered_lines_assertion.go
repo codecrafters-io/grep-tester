@@ -23,17 +23,17 @@ func (a OrderedLinesAssertion) Run(result executable.ExecutableResult, logger *l
 	// Assert each expected line in order
 	for i, expectedLine := range a.ExpectedOutputLines {
 		if len(actualOutputLines) <= i {
-			missingLines := []string{}
+			missingLinesErrorMessages := []string{}
 
 			for j := i; j < len(a.ExpectedOutputLines); j++ {
 				missingLine := (a.ExpectedOutputLines[j])
-				missingLines = append(missingLines, fmt.Sprintf("  %q", missingLine))
+				missingLinesErrorMessages = append(missingLinesErrorMessages, fmt.Sprintf("⨯ %q", missingLine))
 			}
 
 			return fmt.Errorf("Expected %s in total, missing %s:\n%s",
 				english.Plural(len(a.ExpectedOutputLines), "line", "lines"),
 				english.Plural(len(a.ExpectedOutputLines)-i, "line", "lines"),
-				strings.Join(missingLines, "\n"))
+				strings.Join(missingLinesErrorMessages, "\n"))
 		}
 
 		if actualOutputLines[i] != expectedLine {
@@ -45,24 +45,24 @@ func (a OrderedLinesAssertion) Run(result executable.ExecutableResult, logger *l
 
 	// Check for extra lines after all expected lines
 	if len(actualOutputLines) > len(a.ExpectedOutputLines) {
-		extraLines := []string{}
+		extraLinesErrorMessages := []string{}
 		for i := len(a.ExpectedOutputLines); i < len(actualOutputLines); i++ {
-			extraLines = append(extraLines, fmt.Sprintf("  %q", actualOutputLines[i]))
+			extraLinesErrorMessages = append(extraLinesErrorMessages, fmt.Sprintf("⨯ %q", actualOutputLines[i]))
 		}
 
 		// Better formatting for no output case
 		if len(a.ExpectedOutputLines) == 0 {
 			return fmt.Errorf(
 				"Expected no output, got %s:\n%s",
-				english.Plural(len(extraLines), "line", "lines"),
-				strings.Join(extraLines, "\n"),
+				english.Plural(len(extraLinesErrorMessages), "line", "lines"),
+				strings.Join(extraLinesErrorMessages, "\n"),
 			)
 		}
 
 		return fmt.Errorf("Expected %s in total, found %s:\n%s",
 			english.Plural(len(a.ExpectedOutputLines), "line", "lines"),
-			english.Plural(len(extraLines), "extra line", "extra lines"),
-			strings.Join(extraLines, "\n"))
+			english.Plural(len(extraLinesErrorMessages), "extra line", "extra lines"),
+			strings.Join(extraLinesErrorMessages, "\n"))
 	}
 
 	if len(a.ExpectedOutputLines) == 0 {
