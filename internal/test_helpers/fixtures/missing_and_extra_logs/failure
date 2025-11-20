@@ -14,6 +14,6 @@
 [33m[tester::#YX6] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#YX6] [0m[92m✓ Found line "dir/vegetables-6698.txt:cucumber"[0m
 [33m[tester::#YX6] [0m[91mExpected 3 lines in output, only found 1 matching line. Missing matches:[0m
-[33m[tester::#YX6] [0m[91m  "dir/subdir/vegetables-5461.txt:celery"[0m
-[33m[tester::#YX6] [0m[91m  "dir/subdir/vegetables-5461.txt:cauliflower"[0m
+[33m[tester::#YX6] [0m[91m✕ "dir/subdir/vegetables-5461.txt:celery"[0m
+[33m[tester::#YX6] [0m[91m✕ "dir/subdir/vegetables-5461.txt:cauliflower"[0m
 [33m[tester::#YX6] [0m[91mTest failed[0m

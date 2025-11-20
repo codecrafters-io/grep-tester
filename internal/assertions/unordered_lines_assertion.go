@@ -63,10 +63,10 @@ func (a UnorderedLinesAssertion) Run(result executable.ExecutableResult, logger 
 
 	// Prioritize errors related to missing lines
 	if len(missingLines) > 0 {
-		formattedMissingLines := []string{}
+		missingLinesErrorMessages := []string{}
 
 		for _, line := range missingLines {
-			formattedMissingLines = append(formattedMissingLines, fmt.Sprintf("  %q", line))
+			missingLinesErrorMessages = append(missingLinesErrorMessages, fmt.Sprintf("✕ %q", line))
 		}
 
 		return fmt.Errorf(
@@ -74,16 +74,16 @@ func (a UnorderedLinesAssertion) Run(result executable.ExecutableResult, logger 
 			english.Plural(len(a.ExpectedOutputLines), "line", "lines"),
 			english.Plural(len(foundLines), "matching line", "matching lines"),
 			english.PluralWord(len(missingLines), "match", "matches"),
-			strings.Join(formattedMissingLines, "\n"),
+			strings.Join(missingLinesErrorMessages, "\n"),
 		)
 	}
 
 	// Print errors related to extra lines at last
 	if len(extraLines) > 0 {
-		formattedExtraLines := []string{}
+		extraLineErrorMessages := []string{}
 
 		for _, line := range extraLines {
-			formattedExtraLines = append(formattedExtraLines, fmt.Sprintf("  %q", line))
+			extraLineErrorMessages = append(extraLineErrorMessages, fmt.Sprintf("✕ %q", line))
 		}
 
 		// Better formatting for no output case
@@ -91,7 +91,7 @@ func (a UnorderedLinesAssertion) Run(result executable.ExecutableResult, logger 
 			return fmt.Errorf(
 				"Expected no output, got %s:\n%s",
 				english.Plural(len(extraLines), "line", "lines"),
-				strings.Join(formattedExtraLines, "\n"),
+				strings.Join(extraLineErrorMessages, "\n"),
 			)
 		}
 
@@ -100,7 +100,7 @@ func (a UnorderedLinesAssertion) Run(result executable.ExecutableResult, logger 
 			english.Plural(len(a.ExpectedOutputLines), "line", "lines"),
 			len(actualOutputLines),
 			english.PluralWord(len(extraLines), "line", "lines"),
-			strings.Join(formattedExtraLines, "\n"),
+			strings.Join(extraLineErrorMessages, "\n"),
 		)
 	}
 
