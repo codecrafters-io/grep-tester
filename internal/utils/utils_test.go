@@ -12,6 +12,7 @@ func TestProgramOutputToLines(t *testing.T) {
 	}{
 		{"", []string{}},
 		{"abc\n", []string{"abc"}},
+		{"\n", []string{""}},
 		{"\n\n", []string{"", ""}},
 		{"abc\ndef", []string{"abc", "def"}},
 		{"abc\ndef\nghi\n", []string{"abc", "def", "ghi"}},
