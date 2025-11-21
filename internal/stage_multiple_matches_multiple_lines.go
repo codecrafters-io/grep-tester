@@ -60,7 +60,7 @@ func testMultipleMatchesMultipleLines(stageHarness *test_case_harness.TestCaseHa
 		{
 			Pattern: fmt.Sprintf(`I saw \d+ (%s|%s)s?`, animal1, animal2),
 			InputLines: []string{
-				fmt.Sprintf("Yesterday I saw 3 %ss.", animal1),
+				fmt.Sprintf("Yesterday I saw 3 %s and I saw 45 %s.", animal1, animal2),
 				"Nothing interesting today.",
 				fmt.Sprintf("Last week I saw 12 %ss.", animal2),
 			},
