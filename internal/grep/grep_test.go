@@ -7,10 +7,11 @@ import (
 )
 
 type StdinTestCase struct {
-	name     string
-	pattern  string
-	input    string
-	expected Result
+	name        string
+	pattern     string
+	input       string
+	expected    Result
+	onlyMatches bool
 }
 
 type FileTestCase struct {
@@ -24,7 +25,15 @@ type FileTestCase struct {
 func runStdinTests(t *testing.T, tests []StdinTestCase) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			result := EmulateGrep([]string{tt.pattern}, []byte(tt.input))
+			arguments := []string{}
+
+			if tt.onlyMatches {
+				arguments = append(arguments, "-o")
+			}
+
+			arguments = append(arguments, tt.pattern)
+
+			result := EmulateGrep(arguments, []byte(tt.input))
 
 			if result.ExitCode != tt.expected.ExitCode {
 				t.Errorf("Expected exit code %d, got %d", tt.expected.ExitCode, result.ExitCode)
@@ -293,6 +302,47 @@ func TestSearchStdin(t *testing.T) {
 			pattern:  "('(cat) and \\2') is the same as \\1",
 			input:    "'cat and cat' is the same as 'cat and dog'",
 			expected: Result{ExitCode: 1, Stdout: []byte{}},
+		},
+		// Multiple backreferences with nesting
+		{
+			name:     "multiple backreferences with nesting_pass_1",
+			pattern:  "('(cat) and \\2') or ('(dog) and \\4') is the same as \\3",
+			input:    "'cat and cat' or 'dog and dog' is the same as 'dog and dog'",
+			expected: Result{ExitCode: 0, Stdout: []byte("'cat and cat' or 'dog and dog' is the same as 'dog and dog'")},
+		},
+		{
+			name:     "multiple backreferences with nesting_pass_2",
+			pattern:  "('(cat) and \\2') or ('(cat) and \\4') is the same as \\3",
+			input:    "'cat and cat' or 'cat and cat' is the same as 'cat and cat'",
+			expected: Result{ExitCode: 0, Stdout: []byte("'cat and cat' or 'cat and cat' is the same as 'cat and cat'")},
+		},
+		{
+			name:     "multiple backreferences with nesting_fail",
+			pattern:  "('(cat) and \\2') or ('(cat) and \\4') is the same as \\3",
+			input:    "'cat and cat' or 'cat and cat' is the same as 'dog and dog'",
+			expected: Result{ExitCode: 1},
+		},
+		// Only Matches -o flag
+		{
+			name:        "single match",
+			pattern:     "\\d",
+			input:       "a1b",
+			onlyMatches: true,
+			expected:    Result{ExitCode: 0, Stdout: []byte("1")},
+		},
+		{
+			name:        "multiple_matches_single_line",
+			pattern:     "\\d",
+			input:       "a1b2c3d4",
+			onlyMatches: true,
+			expected:    Result{ExitCode: 0, Stdout: []byte("1\n2\n3\n4")},
+		},
+		{
+			name:        "multiple_matches_multiple_lines",
+			pattern:     "\\d\\d",
+			input:       "a1b22c3d4\n\n234\n2255\n",
+			onlyMatches: true,
+			expected:    Result{ExitCode: 0, Stdout: []byte("22\n23\n22\n55")},
 		},
 	}
 
