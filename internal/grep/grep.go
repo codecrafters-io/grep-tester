@@ -16,6 +16,9 @@ type Result struct {
 // EmulateGrep provides a simplified interface that mimics grep command behavior
 func EmulateGrep(args []string, stdin []byte) Result {
 	// Define the flag set
+	// Use flagset instead of iterating through args because
+	// args can appear in any order, eg
+	// "grep -o -E 'abc'" is the same as "grep -E 'abc' -o"
 	flagset := flag.NewFlagSet("grep", flag.ContinueOnError)
 
 	// we aren't using this as a command line tool, disable help messages
