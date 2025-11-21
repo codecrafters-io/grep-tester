@@ -125,5 +125,19 @@ var testerDefinition = tester_definition.TesterDefinition{
 			Slug:     "pz6",
 			TestFunc: testPrintingMatchesMultipleLines,
 		},
+		// Multiple Matches
+		{
+			Slug:     "cj0",
+			TestFunc: testMultipleMatchesSingleMatch,
+			Timeout:  time.Hour,
+		},
+		{
+			Slug:     "ss2",
+			TestFunc: testMultipleMatchesSingleLine,
+		},
+		{
+			Slug:     "bo4",
+			TestFunc: testMultipleMatchesMultipleLines,
+		},
 	},
 }
