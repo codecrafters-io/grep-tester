@@ -294,6 +294,25 @@ func TestSearchStdin(t *testing.T) {
 			input:    "'cat and cat' is the same as 'cat and dog'",
 			expected: Result{ExitCode: 1, Stdout: []byte{}},
 		},
+		// Multiple backreferences with nesting
+		{
+			name:     "multiple backreferences with nesting_pass_1",
+			pattern:  "('(cat) and \\2') or ('(dog) and \\4') is the same as \\3",
+			input:    "'cat and cat' or 'dog and dog' is the same as 'dog and dog'",
+			expected: Result{ExitCode: 0, Stdout: []byte("'cat and cat' or 'dog and dog' is the same as 'dog and dog'")},
+		},
+		{
+			name:     "multiple backreferences with nesting_pass_2",
+			pattern:  "('(cat) and \\2') or ('(cat) and \\4') is the same as \\3",
+			input:    "'cat and cat' or 'cat and cat' is the same as 'cat and cat'",
+			expected: Result{ExitCode: 0, Stdout: []byte("'cat and cat' or 'cat and cat' is the same as 'cat and cat'")},
+		},
+		{
+			name:     "multiple backreferences with nesting_fail",
+			pattern:  "('(cat) and \\2') or ('(cat) and \\4') is the same as \\3",
+			input:    "'cat and cat' or 'cat and cat' is the same as 'dog and dog'",
+			expected: Result{ExitCode: 1},
+		},
 	}
 
 	runStdinTests(t, tests)
