@@ -5,15 +5,16 @@ import (
 	"strings"
 
 	"github.com/codecrafters-io/grep-tester/internal/test_cases"
+	"github.com/codecrafters-io/grep-tester/internal/utils"
 
 	"github.com/codecrafters-io/tester-utils/random"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
 func testMatchAlphanumeric(stageHarness *test_case_harness.TestCaseHarness) error {
-	RelocateSystemGrep(stageHarness)
+	utils.RelocateSystemGrep(stageHarness)
 
-	words := randomWordsWithoutSubstrings(2)
+	words := utils.RandomWordsWithoutSubstrings(2)
 	specialCharacters := []string{"+", "-", "÷", "×", "=", "#", "%"}
 
 	nonWord1 := strings.Join(random.RandomElementsFromArray(specialCharacters, 3), "")

@@ -4,13 +4,14 @@ import (
 	"fmt"
 
 	"github.com/codecrafters-io/grep-tester/internal/test_cases"
+	"github.com/codecrafters-io/grep-tester/internal/utils"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
 func testEndOfStringAnchor(stageHarness *test_case_harness.TestCaseHarness) error {
-	RelocateSystemGrep(stageHarness)
+	utils.RelocateSystemGrep(stageHarness)
 
-	words := randomWordsWithoutSubstrings(3)
+	words := utils.RandomWordsWithoutSubstrings(3)
 
 	testCaseCollection := test_cases.StdinTestCaseCollection{
 		{

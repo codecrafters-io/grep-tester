@@ -7,6 +7,7 @@ import (
 
 	"github.com/codecrafters-io/grep-tester/internal/assertions"
 	"github.com/codecrafters-io/grep-tester/internal/grep"
+	"github.com/codecrafters-io/grep-tester/internal/utils"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
@@ -51,11 +52,8 @@ func (c FileSearchTestCaseCollection) Run(stageHarness *test_case_harness.TestCa
 			return err
 		}
 
-		expectedOutput := strings.TrimSpace(string(expectedResult.Stdout))
-
-		expectedOutputLines := strings.FieldsFunc(expectedOutput, func(r rune) bool {
-			return r == '\n'
-		})
+		expectedOutput := string(expectedResult.Stdout)
+		expectedOutputLines := utils.ProgramOutputToLines(expectedOutput)
 
 		unorderedLinesAssertion := assertions.UnorderedLinesAssertion{
 			ExpectedOutputLines: expectedOutputLines,

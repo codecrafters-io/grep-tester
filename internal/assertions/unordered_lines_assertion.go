@@ -5,6 +5,7 @@ import (
 	"slices"
 	"strings"
 
+	"github.com/codecrafters-io/grep-tester/internal/utils"
 	"github.com/codecrafters-io/tester-utils/executable"
 	"github.com/codecrafters-io/tester-utils/logger"
 	"github.com/dustin/go-humanize/english"
@@ -15,11 +16,8 @@ type UnorderedLinesAssertion struct {
 }
 
 func (a UnorderedLinesAssertion) Run(result executable.ExecutableResult, logger *logger.Logger) error {
-	actualOutput := strings.TrimSpace(string(result.Stdout))
-
-	actualOutputLines := strings.FieldsFunc(actualOutput, func(r rune) bool {
-		return r == '\n'
-	})
+	actualOutput := string(result.Stdout)
+	actualOutputLines := utils.ProgramOutputToLines(actualOutput)
 
 	foundLines := []string{}
 	missingLines := []string{}
@@ -58,15 +56,15 @@ func (a UnorderedLinesAssertion) Run(result executable.ExecutableResult, logger 
 	// Failure case
 	// Display all found lines first
 	for _, line := range foundLines {
-		logger.Successf("✓ Found line %q", line)
+		logger.Successf("✓ Found line %s", utils.FormatLineForLogging(line))
 	}
 
 	// Prioritize errors related to missing lines
 	if len(missingLines) > 0 {
 		missingLinesErrorMessages := []string{}
 
-		for _, line := range missingLines {
-			missingLinesErrorMessages = append(missingLinesErrorMessages, fmt.Sprintf("⨯ %q", line))
+		for _, missingLine := range missingLines {
+			missingLinesErrorMessages = append(missingLinesErrorMessages, fmt.Sprintf("⨯ %s", utils.FormatLineForLogging(missingLine)))
 		}
 
 		return fmt.Errorf(
@@ -82,8 +80,8 @@ func (a UnorderedLinesAssertion) Run(result executable.ExecutableResult, logger 
 	if len(extraLines) > 0 {
 		extraLineErrorMessages := []string{}
 
-		for _, line := range extraLines {
-			extraLineErrorMessages = append(extraLineErrorMessages, fmt.Sprintf("⨯ %q", line))
+		for _, extraLine := range extraLines {
+			extraLineErrorMessages = append(extraLineErrorMessages, fmt.Sprintf("⨯ %s", utils.FormatLineForLogging(extraLine)))
 		}
 
 		// Better formatting for no output case

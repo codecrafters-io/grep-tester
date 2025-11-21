@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/codecrafters-io/grep-tester/internal/utils"
 	"github.com/codecrafters-io/tester-utils/executable"
 	"github.com/codecrafters-io/tester-utils/logger"
 	"github.com/dustin/go-humanize/english"
@@ -14,11 +15,8 @@ type OrderedLinesAssertion struct {
 }
 
 func (a OrderedLinesAssertion) Run(result executable.ExecutableResult, logger *logger.Logger) error {
-	actualOutput := strings.TrimSpace(string(result.Stdout))
-
-	actualOutputLines := strings.FieldsFunc(actualOutput, func(r rune) bool {
-		return r == '\n'
-	})
+	actualOutput := string(result.Stdout)
+	actualOutputLines := utils.ProgramOutputToLines(actualOutput)
 
 	// Assert each expected line in order
 	for i, expectedLine := range a.ExpectedOutputLines {
@@ -27,7 +25,7 @@ func (a OrderedLinesAssertion) Run(result executable.ExecutableResult, logger *l
 
 			for j := i; j < len(a.ExpectedOutputLines); j++ {
 				missingLine := (a.ExpectedOutputLines[j])
-				missingLinesErrorMessages = append(missingLinesErrorMessages, fmt.Sprintf("⨯ %q", missingLine))
+				missingLinesErrorMessages = append(missingLinesErrorMessages, fmt.Sprintf("⨯ %s", utils.FormatLineForLogging(missingLine)))
 			}
 
 			return fmt.Errorf("Expected %s in total, missing %s:\n%s",
@@ -37,17 +35,18 @@ func (a OrderedLinesAssertion) Run(result executable.ExecutableResult, logger *l
 		}
 
 		if actualOutputLines[i] != expectedLine {
-			return fmt.Errorf("Expected line #%d to be %q, got %q", i+1, expectedLine, actualOutputLines[i])
+			return fmt.Errorf("Expected line #%d to be %s, got %s", i+1,
+				utils.FormatLineForLogging(expectedLine), utils.FormatLineForLogging(actualOutputLines[i]))
 		}
 
-		logger.Successf("✓ Found line %q", expectedLine)
+		logger.Successf("✓ Found line %s", utils.FormatLineForLogging(expectedLine))
 	}
 
 	// Check for extra lines after all expected lines
 	if len(actualOutputLines) > len(a.ExpectedOutputLines) {
 		extraLinesErrorMessages := []string{}
 		for i := len(a.ExpectedOutputLines); i < len(actualOutputLines); i++ {
-			extraLinesErrorMessages = append(extraLinesErrorMessages, fmt.Sprintf("⨯ %q", actualOutputLines[i]))
+			extraLinesErrorMessages = append(extraLinesErrorMessages, fmt.Sprintf("⨯ %s", utils.FormatLineForLogging(actualOutputLines[i])))
 		}
 
 		// Better formatting for no output case

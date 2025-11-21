@@ -5,19 +5,20 @@ import (
 	"strings"
 
 	"github.com/codecrafters-io/grep-tester/internal/test_cases"
+	"github.com/codecrafters-io/grep-tester/internal/utils"
 	"github.com/codecrafters-io/tester-utils/random"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
 func testQuantifierMinimumRepetition(stageHarness *test_case_harness.TestCaseHarness) error {
-	RelocateSystemGrep(stageHarness)
+	utils.RelocateSystemGrep(stageHarness)
 
-	fruit := random.RandomElementFromArray(FRUITS)
-	vegetables := random.RandomElementsFromArray(VEGETABLES, 3)
+	fruit := random.RandomElementFromArray(utils.FRUITS)
+	vegetables := random.RandomElementsFromArray(utils.VEGETABLES, 3)
 	vegetable1 := vegetables[0]
 	vegetable2 := vegetables[1]
 	vegetable3 := vegetables[2]
-	animal := random.RandomElementFromArray(ANIMALS)
+	animal := random.RandomElementFromArray(utils.ANIMALS)
 
 	logLevels := []string{"INFO", "WARN", "DEBUG"}
 	sampleLogs := []string{"token_created", "device_registered", "session_validated"}

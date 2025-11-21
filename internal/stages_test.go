@@ -78,6 +78,13 @@ func TestStages(t *testing.T) {
 			StdoutFixturePath:   "./test_helpers/fixtures/file_search/unexpected_output",
 			NormalizeOutputFunc: normalizeTesterOutput,
 		},
+		"file_search_extra_empty_line": {
+			StageSlugs:          []string{"is6"},
+			CodePath:            "./test_helpers/scenarios/file_search/extra_empty_line",
+			ExpectedExitCode:    1,
+			StdoutFixturePath:   "./test_helpers/fixtures/file_search/extra_empty_line",
+			NormalizeOutputFunc: normalizeTesterOutput,
+		},
 		"quantifiers_pass": {
 			StageSlugs:          []string{"ai9", "wy9", "hk3", "ug0"},
 			CodePath:            "./test_helpers/pass_all",
@@ -118,6 +125,13 @@ func TestStages(t *testing.T) {
 			CodePath:            "./test_helpers/scenarios/printing_matches/highlighted",
 			ExpectedExitCode:    1,
 			StdoutFixturePath:   "./test_helpers/fixtures/printing_matches/highlighted",
+			NormalizeOutputFunc: normalizeTesterOutput,
+		},
+		"printing_matches_extra_empty_line": {
+			StageSlugs:          []string{"ku5"},
+			CodePath:            "./test_helpers/scenarios/printing_matches/extra_empty_line",
+			ExpectedExitCode:    1,
+			StdoutFixturePath:   "./test_helpers/fixtures/printing_matches/extra_empty_line",
 			NormalizeOutputFunc: normalizeTesterOutput,
 		},
 	}

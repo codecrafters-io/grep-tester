@@ -6,6 +6,7 @@ import (
 
 	"github.com/codecrafters-io/grep-tester/internal/assertions"
 	"github.com/codecrafters-io/grep-tester/internal/grep"
+	"github.com/codecrafters-io/grep-tester/internal/utils"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
@@ -36,7 +37,7 @@ func (c StdinTestCaseCollection) Run(stageHarness *test_case_harness.TestCaseHar
 
 		exitCodeAssertion := assertions.ExitCodeAssertion{
 			ExpectedExitCode: testCase.ExpectedExitCode,
-			FailureHint:      getRegex101Link(testCase.Pattern, testCase.Input),
+			FailureHint:      utils.GetRegex101Link(testCase.Pattern, testCase.Input),
 		}
 
 		if err := exitCodeAssertion.Run(actualResult, logger); err != nil {
