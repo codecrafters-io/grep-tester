@@ -65,7 +65,7 @@ func searchStdin(pattern string, input string, searchOptions searchOptions) Resu
 	var stderr []string
 	exitCode := 0
 
-	matcher := backrefMatcher{
+	matcher := backReferenceMatcher{
 		pattern: pattern,
 	}
 

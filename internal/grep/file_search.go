@@ -47,7 +47,7 @@ func searchFiles(pattern string, files []string, opts fileSearchOptions) Result 
 	}
 }
 
-func searchDirectory(matcher *backrefMatcher, dirname string, hasMultipleFiles bool) (int, []string, []string) {
+func searchDirectory(matcher *backReferenceMatcher, dirname string, hasMultipleFiles bool) (int, []string, []string) {
 	var stdout []string
 	var stderr []string
 	totalMatches := 0
@@ -73,7 +73,7 @@ func searchDirectory(matcher *backrefMatcher, dirname string, hasMultipleFiles b
 	return totalMatches, stdout, stderr
 }
 
-func searchFile(matcher *backrefMatcher, filename string, hasMultipleFiles bool) (int, []string, []string) {
+func searchFile(matcher *backReferenceMatcher, filename string, hasMultipleFiles bool) (int, []string, []string) {
 	var stdout []string
 	var stderr []string
 
