@@ -134,6 +134,13 @@ func TestStages(t *testing.T) {
 			StdoutFixturePath:   "./test_helpers/fixtures/printing_matches/extra_empty_line",
 			NormalizeOutputFunc: normalizeTesterOutput,
 		},
+		"multiple_matches_pass": {
+			StageSlugs:          []string{"cj0", "ss2", "bo4"},
+			CodePath:            "./test_helpers/pass_all",
+			ExpectedExitCode:    0,
+			StdoutFixturePath:   "./test_helpers/fixtures/multiple_matches/success",
+			NormalizeOutputFunc: normalizeTesterOutput,
+		},
 	}
 
 	tester_utils_testing.TestTesterOutput(t, testerDefinition, testCases)
