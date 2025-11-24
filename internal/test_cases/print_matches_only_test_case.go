@@ -22,8 +22,6 @@ func (c PrintMatchesOnlyTestCaseCollection) Run(stageHarness *test_case_harness.
 	logger := stageHarness.Logger
 	executable := stageHarness.Executable
 
-	executable.TimeoutInMilliseconds = 1000 * 3600
-
 	for _, testCase := range c {
 		// Run executable and collect result
 		allInputLines := strings.Join(testCase.InputLines, "\n")
