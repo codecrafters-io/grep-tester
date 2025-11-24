@@ -48,7 +48,7 @@ func (c PrintMatchesOnlyTestCaseCollection) Run(stageHarness *test_case_harness.
 			return err
 		}
 
-		expectedOutput := strings.TrimSpace(string(grepResult.Stdout))
+		expectedOutput := string(grepResult.Stdout)
 
 		expectedOutputLines := strings.FieldsFunc(expectedOutput, func(r rune) bool {
 			return r == '\n'
