@@ -129,7 +129,6 @@ var testerDefinition = tester_definition.TesterDefinition{
 		{
 			Slug:     "cj0",
 			TestFunc: testMultipleMatchesSingleMatch,
-			Timeout:  time.Hour,
 		},
 		{
 			Slug:     "ss2",

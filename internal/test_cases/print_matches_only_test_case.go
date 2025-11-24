@@ -16,7 +16,7 @@ type PrintMatchesOnlyTestCase struct {
 	ExpectedExitCode int
 }
 
-type PrintMatchesOnlyTestCaseCollection []PrintMatchingLinesTestCase
+type PrintMatchesOnlyTestCaseCollection []PrintMatchesOnlyTestCase
 
 func (c PrintMatchesOnlyTestCaseCollection) Run(stageHarness *test_case_harness.TestCaseHarness) error {
 	logger := stageHarness.Logger
