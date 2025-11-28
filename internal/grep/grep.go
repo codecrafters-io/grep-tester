@@ -1,9 +1,10 @@
 package grep
 
 import (
-	"flag"
 	"fmt"
 	"io"
+
+	"github.com/spf13/pflag"
 )
 
 // Result represents the result of a grep operation
@@ -13,28 +14,45 @@ type Result struct {
 	Stderr   []byte
 }
 
-// EmulateGrep provides a simplified interface that mimics grep command behavior
-func EmulateGrep(args []string, stdin []byte) Result {
-	// Define the flag set
-	// Use flagset instead of iterating through args because
-	// args can appear in any order, eg
-	// "grep -o -E 'abc'" is the same as "grep -E 'abc' -o"
-	flagset := flag.NewFlagSet("grep", flag.ContinueOnError)
+// ColorMode represents the color output mode
+type ColorMode string
 
-	// we aren't using this as a command line tool, disable help messages
+const (
+	ColorAlways ColorMode = "always"
+	ColorNever  ColorMode = "never"
+	ColorAuto   ColorMode = "auto"
+)
+
+type EmulatedGrepLaunchOptions struct {
+	Stdin        []byte
+	EmulateInTTY bool
+}
+
+// EmulateGrep provides a simplified interface that mimics grep command behavior
+func EmulateGrep(args []string, launchOptions EmulatedGrepLaunchOptions) Result {
+	flagset := pflag.NewFlagSet("grep", pflag.ContinueOnError)
+
+	// We aren't using this in a command line, so disable usage and error messages
 	flagset.SetOutput(io.Discard)
 
-	recursive := flagset.Bool("r", false, "recursive search")
-	onlyMatches := flagset.Bool("o", false, "print only matching parts")
+	// Define flags
+	recursive := flagset.BoolP("recursive", "r", false, "recursive search")
+	onlyMatches := flagset.BoolP("only-matching", "o", false, "print only matching parts")
 
 	// emulated grep always assumes -E flag by default
-	_ = flagset.Bool("E", false, "extended regex")
+	_ = flagset.BoolP("extended-regexp", "E", false, "extended regex")
+	color := flagset.String("color", "never", "colorize output (always|never|auto)")
 
 	// Parse flags
 	err := flagset.Parse(args)
-
 	if err != nil {
 		panic(fmt.Sprintf("Codecrafters Internal Error - Failed to launch grep: %s", err))
+	}
+
+	// Validate color option
+	colorMode := ColorMode(*color)
+	if colorMode != ColorAlways && colorMode != ColorNever && colorMode != ColorAuto {
+		panic(fmt.Sprintf("Codecrafters Internal Error - Invalid color mode: %s", *color))
 	}
 
 	// After parsing flags, remaining args are pattern + files...
@@ -48,8 +66,11 @@ func EmulateGrep(args []string, stdin []byte) Result {
 	useStdin := len(files) == 0
 
 	if useStdin {
-		return searchStdin(pattern, string(stdin), searchOptions{
-			onlyMatches: *onlyMatches,
+		shouldEnableHighlighting := (colorMode == ColorAlways) || (colorMode == ColorAuto && launchOptions.EmulateInTTY)
+
+		return searchStdin(pattern, string(launchOptions.Stdin), searchOptions{
+			onlyMatches:        *onlyMatches,
+			enableHighlighting: shouldEnableHighlighting,
 		})
 	}
 
