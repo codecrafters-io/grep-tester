@@ -25,7 +25,7 @@ func (c StdinTestCaseCollection) Run(stageHarness *test_case_harness.TestCaseHar
 	for _, testCase := range c {
 		logger.Infof("$ echo -n '%s' | ./%s -E '%s'", testCase.Input, path.Base(executable.Path), testCase.Pattern)
 
-		expectedResult := grep.EmulateGrep([]string{"-E", testCase.Pattern}, grep.EmulatedGrepLaunchOptions{
+		expectedResult := grep.EmulateGrep([]string{"-E", testCase.Pattern}, grep.EmulationOptions{
 			Stdin: []byte(testCase.Input),
 		})
 		actualResult, err := executable.RunWithStdin([]byte(testCase.Input), "-E", testCase.Pattern)

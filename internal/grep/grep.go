@@ -23,13 +23,13 @@ const (
 	ColorAuto   ColorMode = "auto"
 )
 
-type EmulatedGrepLaunchOptions struct {
+type EmulationOptions struct {
 	Stdin        []byte
 	EmulateInTTY bool
 }
 
 // EmulateGrep provides a simplified interface that mimics grep command behavior
-func EmulateGrep(args []string, launchOptions EmulatedGrepLaunchOptions) Result {
+func EmulateGrep(args []string, launchOptions EmulationOptions) Result {
 	flagset := pflag.NewFlagSet("grep", pflag.ContinueOnError)
 
 	// We aren't using this in a command line, so disable usage and error messages

@@ -42,7 +42,7 @@ func runStdinTests(t *testing.T, tests []StdinTestCase) {
 
 			arguments = append(arguments, tt.pattern)
 
-			result := EmulateGrep(arguments, EmulatedGrepLaunchOptions{
+			result := EmulateGrep(arguments, EmulationOptions{
 				Stdin:        []byte(tt.input),
 				EmulateInTTY: tt.runInTTY,
 			})
@@ -70,7 +70,7 @@ func runFileTests(t *testing.T, tests []FileTestCase) {
 			}
 			args = append(args, tt.pattern)
 			args = append(args, tt.files...)
-			result := EmulateGrep(args, EmulatedGrepLaunchOptions{})
+			result := EmulateGrep(args, EmulationOptions{})
 
 			if result.ExitCode != tt.expected.ExitCode {
 				t.Errorf("Expected exit code %d, got %d", tt.expected.ExitCode, result.ExitCode)

@@ -27,7 +27,7 @@ func (c PrintMatchesOnlyTestCaseCollection) Run(stageHarness *test_case_harness.
 		allInputLines := strings.Join(testCase.InputLines, "\n")
 		logger.Infof("$ echo -ne %q | ./%s -o -E '%s'", allInputLines, path.Base(executable.Path), testCase.Pattern)
 
-		grepResult := grep.EmulateGrep([]string{"-o", "-E", testCase.Pattern}, grep.EmulatedGrepLaunchOptions{
+		grepResult := grep.EmulateGrep([]string{"-o", "-E", testCase.Pattern}, grep.EmulationOptions{
 			Stdin: []byte(allInputLines),
 		})
 		actualResult, err := executable.RunWithStdin([]byte(allInputLines), "-o", "-E", testCase.Pattern)
