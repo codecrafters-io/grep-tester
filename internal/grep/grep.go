@@ -13,13 +13,13 @@ type Result struct {
 	Stderr   []byte
 }
 
-// ColorMode represents the color output mode
-type ColorMode string
+// colorMode represents the color output mode
+type colorMode string
 
 const (
-	ColorAlways ColorMode = "always"
-	ColorNever  ColorMode = "never"
-	ColorAuto   ColorMode = "auto"
+	colorAlways colorMode = "always"
+	colorNever  colorMode = "never"
+	colorAuto   colorMode = "auto"
 )
 
 type EmulationOptions struct {
@@ -46,8 +46,8 @@ func EmulateGrep(args []string, launchOptions EmulationOptions) Result {
 	}
 
 	// Validate color option
-	colorMode := ColorMode(*color)
-	if colorMode != ColorAlways && colorMode != ColorNever && colorMode != ColorAuto {
+	colorMode := colorMode(*color)
+	if colorMode != colorAlways && colorMode != colorNever && colorMode != colorAuto {
 		panic(fmt.Sprintf("Codecrafters Internal Error - Invalid color mode: %s", *color))
 	}
 
@@ -62,7 +62,7 @@ func EmulateGrep(args []string, launchOptions EmulationOptions) Result {
 	useStdin := len(files) == 0
 
 	if useStdin {
-		shouldEnableHighlighting := (colorMode == ColorAlways) || (colorMode == ColorAuto && launchOptions.EmulateInTTY)
+		shouldEnableHighlighting := (colorMode == colorAlways) || (colorMode == colorAuto && launchOptions.EmulateInTTY)
 
 		return searchStdin(pattern, string(launchOptions.Stdin), searchOptions{
 			onlyMatches:        *onlyMatches,
