@@ -1,10 +1,9 @@
 package grep
 
 import (
+	"flag"
 	"fmt"
 	"io"
-
-	"github.com/spf13/pflag"
 )
 
 // Result represents the result of a grep operation
@@ -30,22 +29,19 @@ type EmulationOptions struct {
 
 // EmulateGrep provides a simplified interface that mimics grep command behavior
 func EmulateGrep(args []string, launchOptions EmulationOptions) Result {
-	flagset := pflag.NewFlagSet("grep", pflag.ContinueOnError)
+	flagset := flag.NewFlagSet("grep", flag.ContinueOnError)
 
-	// We aren't using this in a command line, so disable usage and error messages
+	// Discard error and output messages, because this isn't being used in the command line
 	flagset.SetOutput(io.Discard)
 
-	// Define flags
-	recursive := flagset.BoolP("recursive", "r", false, "recursive search")
-	onlyMatches := flagset.BoolP("only-matching", "o", false, "print only matching parts")
-
-	// emulated grep always assumes -E flag by default
-	_ = flagset.BoolP("extended-regexp", "E", false, "extended regex")
+	recursive := flagset.Bool("r", false, "recursive search")
+	onlyMatches := flagset.Bool("o", false, "print only matching parts")
 	color := flagset.String("color", "never", "colorize output (always|never|auto)")
 
-	// Parse flags
-	err := flagset.Parse(args)
-	if err != nil {
+	// emulated grep always assumes -E flag no matter what (ignored, but accepted)
+	_ = flagset.Bool("E", false, "extended regex")
+
+	if err := flagset.Parse(args); err != nil {
 		panic(fmt.Sprintf("Codecrafters Internal Error - Failed to launch grep: %s", err))
 	}
 
