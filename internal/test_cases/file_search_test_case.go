@@ -34,7 +34,7 @@ func (c FileSearchTestCaseCollection) Run(stageHarness *test_case_harness.TestCa
 
 		logger.Infof("$ ./%s %s", path.Base(executable.Path), strings.Join(args, " "))
 
-		expectedResult := grep.EmulateGrep(args, []byte{})
+		expectedResult := grep.EmulateGrep(args, grep.EmulationOptions{})
 		actualResult, err := executable.Run(args...)
 		if err != nil {
 			return err
