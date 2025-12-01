@@ -70,7 +70,7 @@
 [33m[your_program] [0mdir/fruits-8368.txt:pear
 [33m[tester::#YX6] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#YX6] [0m[92m✓ Stdout contains 1 expected line[0m
-[33m[tester::#YX6] [0m[94m$ ./your_grep.sh -r -E missing_fruit_[pineapple pear] dir/[0m
+[33m[tester::#YX6] [0m[94m$ ./your_grep.sh -r -E missing_fruit_pineapple dir/[0m
 [33m[tester::#YX6] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#YX6] [0m[92m✓ No output found[0m
 [33m[tester::#YX6] [0m[92mTest passed.[0m
