@@ -28,7 +28,7 @@ func testSingleLineFileSearch(stageHarness *test_case_harness.TestCaseHarness) e
 			ExpectedExitCode: 0,
 		},
 		{
-			Pattern:          "missing_fruit",
+			Pattern:          fmt.Sprintf("missing_fruit_%s", fruit_1),
 			FilePaths:        []string{file_name},
 			ExpectedExitCode: 1,
 		},

@@ -32,7 +32,7 @@ func testMultiFileSearch(stageHarness *test_case_harness.TestCaseHarness) error 
 			ExpectedExitCode: 0,
 		},
 		{
-			Pattern:          "missing_fruit",
+			Pattern:          fmt.Sprintf("missing_vegetable_%s", vegetables[0]),
 			FilePaths:        []string{file_name_1, file_name_2},
 			ExpectedExitCode: 1,
 		},

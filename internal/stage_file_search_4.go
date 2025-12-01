@@ -43,7 +43,7 @@ func testRecursiveFileSearch(stageHarness *test_case_harness.TestCaseHarness) er
 			ExpectedExitCode:          0,
 		},
 		{
-			Pattern:                   "missing_fruit",
+			Pattern:                   fmt.Sprintf("missing_fruit_%s", fruits_1),
 			FilePaths:                 []string{"dir/"},
 			ShouldEnableRecursiveFlag: true,
 			ExpectedExitCode:          1,

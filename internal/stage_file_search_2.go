@@ -15,6 +15,7 @@ func testMultiLineFileSearch(stageHarness *test_case_harness.TestCaseHarness) er
 
 	file_name := "fruits-" + utils.RandomFilePrefix() + ".txt"
 	fruits := append(random.RandomElementsFromArray(utils.FRUITS, 2), "blueberry", "strawberry")
+	vegetable_1 := random.RandomElementFromArray(utils.VEGETABLES)
 	testFiles := []utils.TestFile{
 		{Path: file_name, Content: strings.Join(fruits, "\n")},
 	}
@@ -29,7 +30,7 @@ func testMultiLineFileSearch(stageHarness *test_case_harness.TestCaseHarness) er
 			ExpectedExitCode: 0,
 		},
 		{
-			Pattern:          "missing_fruit",
+			Pattern:          fmt.Sprintf("missing_vegetable_%s", vegetable_1),
 			FilePaths:        []string{file_name},
 			ExpectedExitCode: 1,
 		},
