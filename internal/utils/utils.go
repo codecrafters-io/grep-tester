@@ -82,3 +82,12 @@ func FormatLineForLogging(line string) string {
 func HighlightString(text string) string {
 	return "\033[01;31m\033[K" + text + "\033[m\033[K"
 }
+
+// ColorMode represents the color output mode
+type ColorMode string
+
+const (
+	ColorAlways ColorMode = "always"
+	ColorNever  ColorMode = "never"
+	ColorAuto   ColorMode = "auto"
+)
