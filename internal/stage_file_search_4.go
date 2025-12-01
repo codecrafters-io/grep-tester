@@ -16,12 +16,12 @@ func testRecursiveFileSearch(stageHarness *test_case_harness.TestCaseHarness) er
 	file_path_1 := "dir/fruits-" + utils.RandomFilePrefix() + ".txt"
 	file_path_2 := "dir/subdir/vegetables-" + utils.RandomFilePrefix() + ".txt"
 	file_path_3 := "dir/vegetables-" + utils.RandomFilePrefix() + ".txt"
-	fruits_1 := append(random.RandomElementsFromArray(utils.FRUITS, 1), "pear")
+	fruits := append(random.RandomElementsFromArray(utils.FRUITS, 1), "pear")
 	vegetables_1 := append(random.RandomElementsFromArray(utils.VEGETABLES, 1), "celery", "cauliflower")
 	vegetables_2 := append(random.RandomElementsFromArray(utils.VEGETABLES, 2), "cucumber")
 
 	testFiles := []utils.TestFile{
-		{Path: file_path_1, Content: strings.Join(fruits_1, "\n")},
+		{Path: file_path_1, Content: strings.Join(fruits, "\n")},
 		{Path: file_path_2, Content: strings.Join(vegetables_1, "\n")},
 		{Path: file_path_3, Content: strings.Join(vegetables_2, "\n")},
 	}
@@ -43,7 +43,7 @@ func testRecursiveFileSearch(stageHarness *test_case_harness.TestCaseHarness) er
 			ExpectedExitCode:          0,
 		},
 		{
-			Pattern:                   fmt.Sprintf("missing_fruit_%s", fruits_1),
+			Pattern:                   fmt.Sprintf("missing_fruit_%s", fruits[0]),
 			FilePaths:                 []string{"dir/"},
 			ShouldEnableRecursiveFlag: true,
 			ExpectedExitCode:          1,
