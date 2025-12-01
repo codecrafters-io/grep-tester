@@ -5,8 +5,6 @@ import (
 	"os"
 	"path/filepath"
 	"testing"
-
-	"github.com/codecrafters-io/grep-tester/internal/utils"
 )
 
 type StdinTestCase struct {
@@ -361,7 +359,7 @@ func TestSearchStdin(t *testing.T) {
 			pattern:   "\\d",
 			input:     "a1b",
 			colorMode: "always",
-			expected:  Result{ExitCode: 0, Stdout: []byte("a" + utils.HighlightString("1") + "b")},
+			expected:  Result{ExitCode: 0, Stdout: []byte("a" + "\033[01;31m\033[K1\033[m\033[K" + "b")},
 		},
 		{
 			name:      "Highlight always inside TTY",
@@ -369,7 +367,7 @@ func TestSearchStdin(t *testing.T) {
 			input:     "a1b",
 			colorMode: "always",
 			runInTTY:  true,
-			expected:  Result{ExitCode: 0, Stdout: []byte("a" + utils.HighlightString("1") + "b")},
+			expected:  Result{ExitCode: 0, Stdout: []byte("a" + "\033[01;31m\033[K1\033[m\033[K" + "b")},
 		},
 		{
 			name:      "Highlight auto without TTY",
@@ -385,7 +383,11 @@ func TestSearchStdin(t *testing.T) {
 			colorMode: "auto",
 			runInTTY:  true,
 			expected: Result{ExitCode: 0, Stdout: []byte(
-				utils.HighlightString("a") + utils.HighlightString("p") + utils.HighlightString("p") + utils.HighlightString("l") + utils.HighlightString("e"),
+				"\033[01;31m\033[Ka\033[m\033[K" +
+					"\033[01;31m\033[Kp\033[m\033[K" +
+					"\033[01;31m\033[Kp\033[m\033[K" +
+					"\033[01;31m\033[Kl\033[m\033[K" +
+					"\033[01;31m\033[Ke\033[m\033[K",
 			)},
 		},
 		{
@@ -410,7 +412,7 @@ func TestSearchStdin(t *testing.T) {
 			pattern:   "('(cat) and \\2') or ('(dog) and \\4') is the same as \\3",
 			input:     "'cat and cat' or 'dog and dog' is the same as 'dog and dog'",
 			colorMode: "always",
-			expected:  Result{ExitCode: 0, Stdout: []byte(utils.HighlightString("'cat and cat' or 'dog and dog' is the same as 'dog and dog'"))},
+			expected:  Result{ExitCode: 0, Stdout: []byte("\033[01;31m\033[K'cat and cat' or 'dog and dog' is the same as 'dog and dog'\033[m\033[K")},
 		},
 		{
 			name:      "Highlight with digit pair",
@@ -418,7 +420,13 @@ func TestSearchStdin(t *testing.T) {
 			input:     "a11bc23d4",
 			colorMode: "always",
 			runInTTY:  true,
-			expected:  Result{ExitCode: 0, Stdout: []byte("a" + utils.HighlightString("11") + "bc" + utils.HighlightString("23") + "d4")},
+			expected: Result{ExitCode: 0, Stdout: []byte(
+				"a" +
+					"\033[01;31m\033[K11\033[m\033[K" +
+					"bc" +
+					"\033[01;31m\033[K23\033[m\033[K" +
+					"d4",
+			)},
 		},
 		{
 			name:      "Highlight with digit pair",
