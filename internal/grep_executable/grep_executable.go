@@ -15,21 +15,6 @@ import (
 	ptylib "github.com/creack/pty"
 )
 
-type loggerWriter struct {
-	loggerFunc func(string)
-}
-
-func newLoggerWriter(loggerFunc func(string)) *loggerWriter {
-	return &loggerWriter{
-		loggerFunc: loggerFunc,
-	}
-}
-
-func (w *loggerWriter) Write(bytes []byte) (n int, err error) {
-	w.loggerFunc(string(bytes[:len(bytes)-1]))
-	return len(bytes), nil
-}
-
 type GrepExecutable struct {
 	executable *executable.Executable
 
@@ -42,6 +27,7 @@ type GrepExecutable struct {
 	stdoutLogger *linewriter.LineWriter
 	stderrLogger *linewriter.LineWriter
 	stderrPipe   io.ReadCloser
+	readDone     chan bool
 }
 
 func NewGrepExecutable(stageHarness *test_case_harness.TestCaseHarness) *GrepExecutable {
@@ -63,18 +49,11 @@ func (e *GrepExecutable) RunWithStdin(stdin []byte, args ...string) (executable.
 }
 
 func (e *GrepExecutable) RunWithStdinInTty(stdin []byte, args ...string) (executable.ExecutableResult, error) {
-	// Start executable in TTY
 	if err := e.startInTty(args...); err != nil {
 		return executable.ExecutableResult{}, err
 	}
 
-	// Close after executable has exitted
-	defer func() {
-		e.ptyMaster.Close()
-		e.ptySlave.Close()
-	}()
-
-	// Write input and VEOF character
+	// Write input and VEOF character to signal end of input
 	if _, err := e.writeLineToTTY(stdin); err != nil {
 		return executable.ExecutableResult{}, err
 	}
@@ -92,11 +71,15 @@ func (e *GrepExecutable) startInTty(args ...string) error {
 
 	master, slave, err := ptylib.Open()
 	if err != nil {
-		return fmt.Errorf("Failed to open PTY pair: %s", err)
+		return fmt.Errorf("failed to open PTY pair: %s", err)
 	}
 
 	// Disable input echoing so we only read the output of the program
-	disableInputEchoing(slave)
+	if err := disableInputEchoing(slave); err != nil {
+		master.Close()
+		slave.Close()
+		return fmt.Errorf("failed to disable input echoing: %s", err)
+	}
 
 	e.ptyMaster = master
 	e.ptySlave = slave
@@ -108,44 +91,103 @@ func (e *GrepExecutable) startInTty(args ...string) error {
 	// Wire up command's stderr to a pipe so that user's debugging lines aren't tested
 	e.stderrPipe, err = cmd.StderrPipe()
 	if err != nil {
-		return fmt.Errorf("Failed to set up stderr pipe: %s", err)
+		master.Close()
+		slave.Close()
+		return fmt.Errorf("failed to set up stderr pipe: %s", err)
 	}
 
 	// Start the program
 	if err := cmd.Start(); err != nil {
-		return fmt.Errorf("Failed to start program: ", err)
+		master.Close()
+		slave.Close()
+		return fmt.Errorf("failed to start program: %s", err)
 	}
 
-	// Set up loggers
+	slave.Close()
+
+	// Initialize buffers and loggers
+	e.stdoutBuffer = bytes.NewBuffer([]byte{})
+	e.stderrBuffer = bytes.NewBuffer([]byte{})
 	e.stdoutLogger = linewriter.New(newLoggerWriter(e.executable.GetLoggerFunction()), 500*time.Millisecond)
 	e.stderrLogger = linewriter.New(newLoggerWriter(e.executable.GetLoggerFunction()), 500*time.Millisecond)
 
-	// Setup Logging loop
-	e.stdoutBuffer = bytes.NewBuffer([]byte{})
-	e.stderrBuffer = bytes.NewBuffer([]byte{})
-
-	e.executable.SetupIORelay(master, e.stdoutLogger, e.stdoutBuffer)
-	e.executable.SetupIORelay(e.stderrPipe, e.stderrLogger, e.stderrBuffer)
+	// Setup I/O relay - parameter order matches executable.go: (source, buffer, logger)
+	e.readDone = make(chan bool)
+	e.setupIORelay(master, e.stdoutBuffer, e.stdoutLogger)
+	e.setupIORelay(e.stderrPipe, e.stderrBuffer, e.stderrLogger)
 
 	return nil
 }
 
-func (e *GrepExecutable) writeLineToTTY(input []byte) (n int, err error) {
-	input = fmt.Appendf(input, "\n")
-	return e.ptyMaster.Write(input)
+// setupIORelay sets up I/O relay similar to executable.SetupIORelay but tracks completion locally
+func (e *GrepExecutable) setupIORelay(source io.Reader, buffer *bytes.Buffer, logger *linewriter.LineWriter) {
+	go func() {
+		combinedDestination := io.MultiWriter(buffer, logger)
+		// Limit to 30KB (~250 lines at 120 chars per line)
+		bytesWritten, err := io.Copy(combinedDestination, io.LimitReader(source, 30000))
+		if err != nil {
+			panic(err)
+		}
+
+		if bytesWritten == 30000 {
+			e.executable.GetLoggerFunction()("Warning: Logs exceeded allowed limit, output might be truncated.\n")
+		}
+
+		e.readDone <- true
+		io.Copy(io.Discard, source) // Drain the pipe in case any content is leftover
+	}()
 }
 
-func (e *GrepExecutable) writeVeofCharacter() (n int, err error) {
-	return e.ptyMaster.Write([]byte{4})
+// newLoggerWriter creates a writer that logs to the executable's logger function
+func newLoggerWriter(loggerFunc func(string)) io.Writer {
+	return &loggerWriter{loggerFunc: loggerFunc}
+}
+
+type loggerWriter struct {
+	loggerFunc func(string)
+}
+
+func (w *loggerWriter) Write(bytes []byte) (n int, err error) {
+	w.loggerFunc(string(bytes[:len(bytes)-1]))
+	return len(bytes), nil
+}
+
+func (e *GrepExecutable) writeLineToTTY(input []byte) (int, error) {
+	inputWithNewline := fmt.Appendf(input, "\n")
+	return e.ptyMaster.Write(inputWithNewline)
+}
+
+func (e *GrepExecutable) writeVeofCharacter() (int, error) {
+	return e.ptyMaster.Write([]byte{4}) // VEOF character (Ctrl+D)
 }
 
 func (e *GrepExecutable) wait() (executable.ExecutableResult, error) {
+	defer e.cleanup()
+
 	if e.cmd == nil {
-		panic("CodeCrafters internal error: WaitForTermination called before command was run")
+		panic("CodeCrafters internal error: wait called before command was started")
 	}
 
-	err := e.cmd.Wait()
+	// Wait for I/O relay to complete (both stdout and stderr)
+	<-e.readDone
+	<-e.readDone
 
+	err := e.cmd.Wait()
+	exitCode := e.extractExitCode(err)
+
+	// Flush loggers to ensure all output is captured
+	e.stdoutLogger.Flush()
+	e.stderrLogger.Flush()
+
+	return executable.ExecutableResult{
+		Stdout:   e.stdoutBuffer.Bytes(),
+		Stderr:   e.stderrBuffer.Bytes(),
+		ExitCode: exitCode,
+	}, nil
+}
+
+// extractExitCode extracts the exit code from cmd.Wait() error, handling signals
+func (e *GrepExecutable) extractExitCode(err error) int {
 	exitCode := e.cmd.ProcessState.ExitCode()
 
 	if err != nil {
@@ -158,23 +200,30 @@ func (e *GrepExecutable) wait() (executable.ExecutableResult, error) {
 					}
 				}
 			}
-		} else {
-			// Ignore other exit errors, we'd rather send the exit code back
-			return executable.ExecutableResult{}, err
 		}
 	}
 
-	e.stdoutLogger.Flush()
-	e.stderrLogger.Flush()
+	return exitCode
+}
 
-	stdout := e.stdoutBuffer.Bytes()
-	stderr := e.stderrBuffer.Bytes()
-
-	result := executable.ExecutableResult{
-		Stdout:   stdout,
-		Stderr:   stderr,
-		ExitCode: exitCode,
+// cleanup cleans up resources used during TTY execution
+func (e *GrepExecutable) cleanup() {
+	if e.ptyMaster != nil {
+		e.ptyMaster.Close()
+		e.ptyMaster = nil
 	}
-
-	return result, nil
+	if e.ptySlave != nil {
+		e.ptySlave.Close()
+		e.ptySlave = nil
+	}
+	if e.stderrPipe != nil {
+		e.stderrPipe.Close()
+		e.stderrPipe = nil
+	}
+	e.cmd = nil
+	e.stdoutBuffer = nil
+	e.stderrBuffer = nil
+	e.stdoutLogger = nil
+	e.stderrLogger = nil
+	e.readDone = nil
 }
