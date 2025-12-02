@@ -7,7 +7,6 @@ import (
 
 	"github.com/codecrafters-io/grep-tester/internal/assertions"
 	"github.com/codecrafters-io/grep-tester/internal/grep"
-	"github.com/codecrafters-io/grep-tester/internal/grep_executable"
 	"github.com/codecrafters-io/grep-tester/internal/utils"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
@@ -23,7 +22,7 @@ type FileSearchTestCaseCollection []FileSearchTestCase
 
 func (c FileSearchTestCaseCollection) Run(stageHarness *test_case_harness.TestCaseHarness) error {
 	logger := stageHarness.Logger
-	executable := grep_executable.NewGrepExecutable(stageHarness)
+	executable := stageHarness.Executable
 
 	for _, testCase := range c {
 		args := []string{}
@@ -33,7 +32,7 @@ func (c FileSearchTestCaseCollection) Run(stageHarness *test_case_harness.TestCa
 		args = append(args, "-E", testCase.Pattern)
 		args = append(args, testCase.FilePaths...)
 
-		logger.Infof("$ ./%s %s", path.Base(executable.Path()), strings.Join(args, " "))
+		logger.Infof("$ ./%s %s", path.Base(executable.Path), strings.Join(args, " "))
 
 		expectedResult := grep.EmulateGrep(args, grep.EmulationOptions{})
 		actualResult, err := executable.Run(args...)

@@ -7,7 +7,6 @@ import (
 
 	"github.com/codecrafters-io/grep-tester/internal/assertions"
 	"github.com/codecrafters-io/grep-tester/internal/grep"
-	"github.com/codecrafters-io/grep-tester/internal/grep_executable"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 )
 
@@ -21,12 +20,12 @@ type PrintMatchesOnlyTestCaseCollection []PrintMatchesOnlyTestCase
 
 func (c PrintMatchesOnlyTestCaseCollection) Run(stageHarness *test_case_harness.TestCaseHarness) error {
 	logger := stageHarness.Logger
-	executable := grep_executable.NewGrepExecutable(stageHarness)
+	executable := stageHarness.Executable
 
 	for _, testCase := range c {
 		// Run executable and collect result
 		allInputLines := strings.Join(testCase.InputLines, "\n")
-		logger.Infof("$ echo -ne %q | ./%s -o -E '%s'", allInputLines, path.Base(executable.Path()), testCase.Pattern)
+		logger.Infof("$ echo -ne %q | ./%s -o -E '%s'", allInputLines, path.Base(executable.Path), testCase.Pattern)
 
 		grepResult := grep.EmulateGrep([]string{"-o", "-E", testCase.Pattern}, grep.EmulationOptions{
 			Stdin: []byte(allInputLines),

@@ -6,7 +6,6 @@ import (
 
 	"github.com/codecrafters-io/grep-tester/internal/assertions"
 	"github.com/codecrafters-io/grep-tester/internal/grep"
-	"github.com/codecrafters-io/grep-tester/internal/grep_executable"
 	"github.com/codecrafters-io/grep-tester/internal/utils"
 	"github.com/codecrafters-io/tester-utils/executable"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
@@ -24,7 +23,7 @@ type HighlightingTestCaseCollection []HighlightingTestCase
 
 func (c HighlightingTestCaseCollection) Run(stageHarness *test_case_harness.TestCaseHarness) error {
 	logger := stageHarness.Logger
-	grepExecutable := grep_executable.NewGrepExecutable(stageHarness)
+	grepExecutable := stageHarness.Executable
 
 	for _, testCase := range c {
 		allArguments := []string{}
@@ -47,7 +46,7 @@ func (c HighlightingTestCaseCollection) Run(stageHarness *test_case_harness.Test
 			logger.Infof("Running grep inside TTY")
 		}
 		logger.Infof("echo '%s' | $ ./%s %s -E '%s'", testCase.Stdin,
-			path.Base(grepExecutable.Path()),
+			path.Base(grepExecutable.Path),
 			colorArgument,
 			testCase.Pattern,
 		)
@@ -67,7 +66,10 @@ func (c HighlightingTestCaseCollection) Run(stageHarness *test_case_harness.Test
 		var err error
 
 		if testCase.RunInsideTty {
-			actualResult, err = grepExecutable.RunWithStdinInTty([]byte(testCase.Stdin), allArguments...)
+			actualResult, err = grepExecutable.RunInPtyWithStdin(executable.PTYOptions{
+				UsePipeForStdin:  true,
+				UsePipeForStderr: true,
+			}, []byte(testCase.Stdin), allArguments...)
 		} else {
 			actualResult, err = grepExecutable.RunWithStdin([]byte(testCase.Stdin), allArguments...)
 		}
