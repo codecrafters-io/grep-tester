@@ -6,6 +6,7 @@ import (
 	"io"
 	"os"
 	"os/exec"
+	"syscall"
 	"time"
 
 	"github.com/codecrafters-io/grep-tester/internal/condition_reader"
@@ -13,7 +14,6 @@ import (
 	"github.com/codecrafters-io/tester-utils/linewriter"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
 	ptylib "github.com/creack/pty"
-	"golang.org/x/sys/unix"
 )
 
 type loggerWriter struct {
@@ -35,13 +35,14 @@ type GrepExecutable struct {
 	executable *executable.Executable
 
 	// Used only for TTY
-	stdoutBuffer     *bytes.Buffer
-	cmd              *exec.Cmd
-	ptyMaster        *os.File
-	ptySlave         *os.File
-	stdoutLineWriter *linewriter.LineWriter
-	stderrPipe       io.ReadCloser
-	stderrLineWriter *linewriter.LineWriter
+	stdoutBuffer *bytes.Buffer
+	stderrBuffer *bytes.Buffer
+	cmd          *exec.Cmd
+	ptyMaster    *os.File
+	ptySlave     *os.File
+	stdoutLogger *linewriter.LineWriter
+	stderrLogger *linewriter.LineWriter
+	stderrPipe   io.ReadCloser
 }
 
 func NewGrepExecutable(stageHarness *test_case_harness.TestCaseHarness) *GrepExecutable {
@@ -62,47 +63,28 @@ func (e *GrepExecutable) RunWithStdin(stdin []byte, args ...string) (executable.
 	return e.executable.RunWithStdin(stdin, args...)
 }
 
-func (e *GrepExecutable) WriteLineToTTY(input []byte) (n int, err error) {
-	input = fmt.Appendf(input, "\n")
-	return e.ptyMaster.Write(input)
-}
-
-func (e *GrepExecutable) WriteVeofCharacter() (n int, err error) {
-	return e.ptyMaster.Write([]byte{4})
-}
-
 func (e *GrepExecutable) RunWithStdinInTty(stdin []byte, args ...string) (executable.ExecutableResult, error) {
+	// Start executable in TTY
 	if err := e.startInTty(args...); err != nil {
 		return executable.ExecutableResult{}, err
 	}
+
+	// Close after executable has exitted
 	defer func() {
 		e.ptyMaster.Close()
 		e.ptySlave.Close()
 	}()
 
-	waitErrorChan := make(chan error)
-	go func() {
-		// Why 1 exit status still returns properly???
-		waitErrorChan <- e.cmd.Wait()
-	}()
-
-	if _, err := e.WriteLineToTTY(stdin); err != nil {
+	// Write input and VEOF character
+	if _, err := e.writeLineToTTY(stdin); err != nil {
 		return executable.ExecutableResult{}, err
 	}
 
-	if _, err := e.WriteVeofCharacter(); err != nil {
+	if _, err := e.writeVeofCharacter(); err != nil {
 		return executable.ExecutableResult{}, err
 	}
 
-	waitError := <-waitErrorChan
-	if waitError != nil {
-		return executable.ExecutableResult{}, waitError
-	}
-
-	return executable.ExecutableResult{
-		ExitCode: e.cmd.ProcessState.ExitCode(),
-		Stdout:   e.stdoutBuffer.Bytes(),
-	}, nil
+	return e.wait()
 }
 
 func (e *GrepExecutable) startInTty(args ...string) error {
@@ -111,16 +93,20 @@ func (e *GrepExecutable) startInTty(args ...string) error {
 
 	master, slave, err := ptylib.Open()
 	if err != nil {
-		return fmt.Errorf("Failed to open PTY: %s", err)
+		return fmt.Errorf("Failed to open PTY pair: %s", err)
 	}
-	disableEcho(slave)
+
+	// Disable input echoing so we only read the output of the program
+	disableInputEchoing(slave)
 
 	e.ptyMaster = master
 	e.ptySlave = slave
 
-	// Wire up command's stdin, stdout, and stderr with pseudoterminal
+	// Wire up command's stdin, stdout with the pseudoterminal
 	cmd.Stdin = slave
 	cmd.Stdout = slave
+
+	// Wire up command's stderr to a pipe so that user's debugging lines aren't tested
 	e.stderrPipe, err = cmd.StderrPipe()
 	if err != nil {
 		return fmt.Errorf("Failed to set up stderr pipe: %s", err)
@@ -131,41 +117,72 @@ func (e *GrepExecutable) startInTty(args ...string) error {
 		return fmt.Errorf("Failed to start program: ", err)
 	}
 
-	// Set up i/o relay
-	e.stdoutLineWriter = linewriter.New(newLoggerWriter(e.executable.GetLoggerFunction()), 500*time.Millisecond)
-	e.stderrLineWriter = linewriter.New(newLoggerWriter(e.executable.GetLoggerFunction()), 500*time.Millisecond)
+	// Set up loggers
+	e.stdoutLogger = linewriter.New(newLoggerWriter(e.executable.GetLoggerFunction()), 500*time.Millisecond)
+	e.stderrLogger = linewriter.New(newLoggerWriter(e.executable.GetLoggerFunction()), 500*time.Millisecond)
 
+	// Setup Logging loop
 	e.stdoutBuffer = bytes.NewBuffer([]byte{})
-	stdoutReader := condition_reader.NewConditionReader(io.TeeReader(master, io.MultiWriter(e.stdoutLineWriter, e.stdoutBuffer)))
-	stderrReader := condition_reader.NewConditionReader(io.TeeReader(e.stderrPipe, e.stderrLineWriter))
-
-	go func() {
-		stdoutReader.ReadUntilConditionOrTimeout(func() bool { return false }, time.Duration(e.executable.TimeoutInMilliseconds))
-	}()
-
-	go func() {
-		stderrReader.ReadUntilConditionOrTimeout(func() bool { return false }, time.Duration(e.executable.TimeoutInMilliseconds))
-	}()
+	e.stderrBuffer = bytes.NewBuffer([]byte{})
+	e.setupLoggingLoop(master, io.MultiWriter(e.stdoutLogger, e.stdoutBuffer))
+	e.setupLoggingLoop(e.stderrPipe, io.MultiWriter(e.stderrLogger, e.stderrBuffer))
 
 	return nil
 }
 
-func disableEcho(file *os.File) error {
-	fd := int(file.Fd())
+func (e *GrepExecutable) setupLoggingLoop(source io.Reader, destination io.Writer) {
+	reader := condition_reader.NewConditionReader(io.TeeReader(source, destination))
+	go func() {
+		// Loop until either the program exits or timeout is exceeded
+		reader.ReadUntilConditionOrTimeout(func() bool { return false }, time.Duration(e.executable.TimeoutInMilliseconds))
+	}()
+}
 
-	// Get current terminal attributes
-	termios, err := unix.IoctlGetTermios(fd, unix.TIOCGETA)
+func (e *GrepExecutable) writeLineToTTY(input []byte) (n int, err error) {
+	input = fmt.Appendf(input, "\n")
+	return e.ptyMaster.Write(input)
+}
+
+func (e *GrepExecutable) writeVeofCharacter() (n int, err error) {
+	return e.ptyMaster.Write([]byte{4})
+}
+
+func (e *GrepExecutable) wait() (executable.ExecutableResult, error) {
+	if e.cmd == nil {
+		panic("CodeCrafters internal error: WaitForTermination called before command was run")
+	}
+
+	err := e.cmd.Wait()
+
+	exitCode := e.cmd.ProcessState.ExitCode()
+
 	if err != nil {
-		return err
+		if exitError, ok := err.(*exec.ExitError); ok {
+			if exitCode == -1 {
+				if status, ok := exitError.Sys().(syscall.WaitStatus); ok {
+					// If the process was terminated by a signal, extract the signal number
+					if status.Signaled() {
+						exitCode = 128 + int(status.Signal())
+					}
+				}
+			}
+		} else {
+			// Ignore other exit errors, we'd rather send the exit code back
+			return executable.ExecutableResult{}, err
+		}
 	}
 
-	// Disable echo flag
-	termios.Lflag &^= unix.ECHO
+	e.stdoutLogger.Flush()
+	e.stderrLogger.Flush()
 
-	// Apply new attributes
-	if err := unix.IoctlSetTermios(fd, unix.TIOCSETA, termios); err != nil {
-		return err
+	stdout := e.stdoutBuffer.Bytes()
+	stderr := e.stderrBuffer.Bytes()
+
+	result := executable.ExecutableResult{
+		Stdout:   stdout,
+		Stderr:   stderr,
+		ExitCode: exitCode,
 	}
 
-	return nil
+	return result, nil
 }

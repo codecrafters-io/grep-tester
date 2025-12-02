@@ -51,6 +51,7 @@ func testHighlightingAlwaysMultipleMatches(stageHarness *test_case_harness.TestC
 			Pattern:          fmt.Sprintf(`I see \d+ (%s|%s)s?`, vegetables[0], vegetables[1]),
 			Stdin:            fmt.Sprintf("I see 3 %ss. Also, I see 4 %ss.", vegetables[1], vegetables[0]),
 			ExpectedExitCode: 0,
+			HighlightingMode: utils.ColorAlways,
 		},
 	}
 
