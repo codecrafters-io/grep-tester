@@ -9,7 +9,6 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/codecrafters-io/grep-tester/internal/condition_reader"
 	"github.com/codecrafters-io/tester-utils/executable"
 	"github.com/codecrafters-io/tester-utils/linewriter"
 	"github.com/codecrafters-io/tester-utils/test_case_harness"
@@ -124,18 +123,11 @@ func (e *GrepExecutable) startInTty(args ...string) error {
 	// Setup Logging loop
 	e.stdoutBuffer = bytes.NewBuffer([]byte{})
 	e.stderrBuffer = bytes.NewBuffer([]byte{})
-	e.setupLoggingLoop(master, io.MultiWriter(e.stdoutLogger, e.stdoutBuffer))
-	e.setupLoggingLoop(e.stderrPipe, io.MultiWriter(e.stderrLogger, e.stderrBuffer))
+
+	e.executable.SetupIORelay(master, e.stdoutLogger, e.stdoutBuffer)
+	e.executable.SetupIORelay(e.stderrPipe, e.stderrLogger, e.stderrBuffer)
 
 	return nil
-}
-
-func (e *GrepExecutable) setupLoggingLoop(source io.Reader, destination io.Writer) {
-	reader := condition_reader.NewConditionReader(io.TeeReader(source, destination))
-	go func() {
-		// Loop until either the program exits or timeout is exceeded
-		reader.ReadUntilConditionOrTimeout(func() bool { return false }, time.Duration(e.executable.TimeoutInMilliseconds))
-	}()
 }
 
 func (e *GrepExecutable) writeLineToTTY(input []byte) (n int, err error) {
