@@ -66,10 +66,8 @@ func (c HighlightingTestCaseCollection) Run(stageHarness *test_case_harness.Test
 		var err error
 
 		if testCase.RunInsideTty {
-			actualResult, err = grepExecutable.RunInPtyWithStdin(executable.PTYOptions{
-				UsePipeForStdin:  true,
-				UsePipeForStderr: true,
-			}, []byte(testCase.Stdin), allArguments...)
+			stdinWithNewline := fmt.Appendf([]byte(testCase.Stdin), "\n")
+			actualResult, err = grepExecutable.RunWithStdinInPty(stdinWithNewline, allArguments...)
 		} else {
 			actualResult, err = grepExecutable.RunWithStdin([]byte(testCase.Stdin), allArguments...)
 		}
