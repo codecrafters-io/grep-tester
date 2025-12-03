@@ -3,7 +3,7 @@ module github.com/codecrafters-io/grep-tester
 go 1.24.2
 
 require (
-	github.com/codecrafters-io/tester-utils v0.4.11-0.20251203060153-2f1bf9d1bdbc
+	github.com/codecrafters-io/tester-utils v0.4.11-0.20251203164400-ce335740ed8f
 	github.com/dustin/go-humanize v1.0.1
 )
 

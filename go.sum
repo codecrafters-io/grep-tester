@@ -1,5 +1,5 @@
-github.com/codecrafters-io/tester-utils v0.4.11-0.20251203060153-2f1bf9d1bdbc h1:IwFtlrSxCxjuWDTmuiAfEkoWcCIjw/3HzZDMrM8YJnY=
-github.com/codecrafters-io/tester-utils v0.4.11-0.20251203060153-2f1bf9d1bdbc/go.mod h1:HkK8e9dga12hpVJJXv6S21kMeSZeobkoEFov1d1WVsY=
+github.com/codecrafters-io/tester-utils v0.4.11-0.20251203164400-ce335740ed8f h1:0xit5jWFVYCXTg95P0wx1+01o/sEcZ30JyD2lq5JlN8=
+github.com/codecrafters-io/tester-utils v0.4.11-0.20251203164400-ce335740ed8f/go.mod h1:HkK8e9dga12hpVJJXv6S21kMeSZeobkoEFov1d1WVsY=
 github.com/creack/pty v1.1.24 h1:bJrF4RRfyJnbTJqzRLHzcGaZK1NeM5kTC9jGgovnR1s=
 github.com/creack/pty v1.1.24/go.mod h1:08sCNb52WyoAwi2QDyzUCTgcvVFhUzewun7wtTfvcwE=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=

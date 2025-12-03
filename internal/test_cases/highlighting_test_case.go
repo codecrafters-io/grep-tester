@@ -66,12 +66,11 @@ func (c HighlightingTestCaseCollection) Run(stageHarness *test_case_harness.Test
 		var err error
 
 		if testCase.RunInsideTty {
-			// Grep does not process the input line unless newline character is provided to it in a TTY
-			stdinWithNewline := fmt.Appendf([]byte(testCase.Stdin), "\n")
-			actualResult, err = grepExecutable.RunWithStdinInPty(stdinWithNewline, allArguments...)
-		} else {
-			actualResult, err = grepExecutable.RunWithStdin([]byte(testCase.Stdin), allArguments...)
+			grepExecutable.SetUsePty(true)
 		}
+
+		actualResult, err = grepExecutable.RunWithStdin([]byte(testCase.Stdin), allArguments...)
+		grepExecutable.SetUsePty(false)
 
 		if err != nil {
 			return err
