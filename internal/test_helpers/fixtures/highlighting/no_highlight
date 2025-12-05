@@ -1,0 +1,6 @@
+Debug = true
+
+[33m[tester::#BM2] [0m[94mRunning tests for Stage #BM2 (bm2)[0m
+[33m[tester::#BM2] [0m[94mecho 'only1digit' | $ ./your_grep.sh --color=always -E '\d'[0m
+[33m[tester::#BM2] [0m[91m/app/internal/test_helpers/scenarios/highlighting/no_highlight/your_grep.sh (resolved to /app/internal/test_helpers/scenarios/highlighting/no_highlight/your_grep.sh) is not an executable file[0m
+[33m[tester::#BM2] [0m[91mTest failed[0m

@@ -30,7 +30,7 @@ func (s *screenStateAssertion) Run(actual *virtual_terminal.ScreenState) error {
 
 	rogueCellRow, rogueCellColumn, err := s.checkForValidColors(actual)
 	if err != nil {
-		return fmt.Errorf("Error on cell at row %d and column %d:", rogueCellRow, rogueCellColumn, err)
+		return fmt.Errorf("Error on cell at row %d and column %d: %v", rogueCellRow, rogueCellColumn, err)
 	}
 
 	return nil
@@ -85,20 +85,17 @@ func getStylingError(expected *uv.Cell, actual *uv.Cell) (err error) {
 
 	// Background color check
 	if actual.Style.Bg != expected.Style.Bg {
-		r, g, b, a := actual.Style.Bg.RGBA()
-		re, ge, be, ae := expected.Style.Bg.RGBA()
 		return fmt.Errorf(
-			"Character has background color with RGBA (%d, %d, %d, %d), expected (%d, %d, %d, %d)",
-			r, g, b, a, re, ge, be, ae,
+			"Character has background color with %v, expected %v", actual.Style.Bg, expected.Style.Bg,
 		)
 	}
 
 	// Foreground color check
 	if actual.Style.Fg != expected.Style.Fg {
-		r, g, b, a := actual.Style.Bg.RGBA()
-		re, ge, be, ae := expected.Style.Bg.RGBA()
+		// r, g, b, a := actual.Style.Bg.RGBA()
+		// re, ge, be, ae := expected.Style.Bg.RGBA()
 		return fmt.Errorf(
-			"Character has foreground color with RGBA (%d, %d, %d, %d), expected RGBA (%d, %d, %d, %d)", r, g, b, a, re, ge, be, ae,
+			"Character has foreground color %v, expected %v", actual.Style.Fg, expected.Style.Fg,
 		)
 	}
 

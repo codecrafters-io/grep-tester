@@ -141,6 +141,27 @@ func TestStages(t *testing.T) {
 			StdoutFixturePath:   "./test_helpers/fixtures/multiple_matches/success",
 			NormalizeOutputFunc: normalizeTesterOutput,
 		},
+		"highlighting_pass": {
+			StageSlugs:          []string{"bm2", "eq0", "jk4", "na5"},
+			CodePath:            "./test_helpers/pass_all",
+			ExpectedExitCode:    0,
+			StdoutFixturePath:   "./test_helpers/fixtures/highlighting/success",
+			NormalizeOutputFunc: normalizeTesterOutput,
+		},
+		"highlighting_missing_line": {
+			StageSlugs:          []string{"bm2"},
+			CodePath:            "./test_helpers/scenarios/highlighting/missing_line",
+			ExpectedExitCode:    1,
+			StdoutFixturePath:   "./test_helpers/fixtures/highlighting/mising_line",
+			NormalizeOutputFunc: normalizeTesterOutput,
+		},
+		"highlighting_no_highlight": {
+			StageSlugs:          []string{"bm2"},
+			CodePath:            "./test_helpers/scenarios/highlighting/no_highlight",
+			ExpectedExitCode:    1,
+			StdoutFixturePath:   "./test_helpers/fixtures/highlighting/no_highlight",
+			NormalizeOutputFunc: normalizeTesterOutput,
+		},
 	}
 
 	tester_utils_testing.TestTesterOutput(t, testerDefinition, testCases)
