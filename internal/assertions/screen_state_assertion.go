@@ -5,7 +5,6 @@ import (
 	"strings"
 
 	uv "github.com/charmbracelet/ultraviolet"
-	"github.com/charmbracelet/x/ansi"
 	"github.com/codecrafters-io/grep-tester/virtual_terminal"
 	"github.com/codecrafters-io/tester-utils/executable"
 	"github.com/codecrafters-io/tester-utils/logger"
@@ -34,7 +33,7 @@ func (s *screenStateAssertion) Run(actual *virtual_terminal.ScreenState) error {
 		return fmt.Errorf("Error on cell at row %d and column %d:", rogueCellRow, rogueCellColumn, err)
 	}
 
-	return s.assertMatchHighlight(actual)
+	return nil
 }
 
 // compareContents only compares the contents (string) of the two screen states
@@ -67,21 +66,7 @@ func (s *screenStateAssertion) checkForValidColors(actual *virtual_terminal.Scre
 	return 0, 0, nil
 }
 
-func (s *screenStateAssertion) assertMatchHighlight(actual *virtual_terminal.ScreenState) error {
-	for i, row := range actual.GetRows() {
-		for j, cell := range row.GetCellsArray() {
-			expectedCell := s.expectedScreenState.GetRow(i).GetCellsArray()[j]
-			if !cell.Style.Equal(&expectedCell.Style) {
-				return fmt.Errorf("Expected cell at (%d, %d) to be highlighted/ or not highlighted", i, j)
-			}
-		}
-	}
-
-	return nil
-}
-
 func getStylingError(expected *uv.Cell, actual *uv.Cell) (err error) {
-	emptyCell := uv.EmptyCell
 
 	// Width check
 	if actual.Width != expected.Width {
@@ -94,12 +79,12 @@ func getStylingError(expected *uv.Cell, actual *uv.Cell) (err error) {
 	}
 
 	// Underline check
-	if actual.Style.Underline != 0 {
+	if actual.Style.Underline != expected.Style.Underline {
 		return fmt.Errorf("Character is underlined")
 	}
 
 	// Background color check
-	if expected.Style.Bg != emptyCell.Style.Bg {
+	if actual.Style.Bg != expected.Style.Bg {
 		r, g, b, a := actual.Style.Bg.RGBA()
 		re, ge, be, ae := expected.Style.Bg.RGBA()
 		return fmt.Errorf(
@@ -109,7 +94,7 @@ func getStylingError(expected *uv.Cell, actual *uv.Cell) (err error) {
 	}
 
 	// Foreground color check
-	if expected.Style.Fg != emptyCell.Style.Fg && expected.Style.Fg != ansi.Red {
+	if actual.Style.Fg != expected.Style.Fg {
 		r, g, b, a := actual.Style.Bg.RGBA()
 		re, ge, be, ae := expected.Style.Bg.RGBA()
 		return fmt.Errorf(
@@ -118,7 +103,7 @@ func getStylingError(expected *uv.Cell, actual *uv.Cell) (err error) {
 	}
 
 	// Attribute check
-	if expected.Style.Attrs != 1 && expected.Style.Attrs != 0 {
+	if actual.Style.Attrs != expected.Style.Attrs {
 		return fmt.Errorf(
 			"Character has attribute is %d, expected %d", actual.Style.Attrs, expected.Style.Attrs,
 		)

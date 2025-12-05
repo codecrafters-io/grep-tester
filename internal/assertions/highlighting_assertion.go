@@ -25,7 +25,7 @@ func (a HighlightingAssertion) Run(result executable.ExecutableResult, logger *l
 		return err
 	}
 
-	if _, err := virtualTerminal2.Write(clrfTranslatedExpectedAsciiSequence); err != nil {
+	if _, err := virtualTerminal2.Write(crlfTranslatedStdout); err != nil {
 		return err
 	}
 
