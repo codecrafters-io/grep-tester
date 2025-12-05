@@ -45,6 +45,7 @@ func (c HighlightingTestCaseCollection) Run(stageHarness *test_case_harness.Test
 		if testCase.RunInsideTty {
 			logger.Infof("Running grep inside TTY")
 		}
+
 		logger.Infof("echo '%s' | $ ./%s %s -E '%s'", testCase.Stdin,
 			path.Base(grepExecutable.Path),
 			colorArgument,
@@ -66,11 +67,12 @@ func (c HighlightingTestCaseCollection) Run(stageHarness *test_case_harness.Test
 		var err error
 
 		if testCase.RunInsideTty {
-			grepExecutable.SetUsePty(true)
+			grepExecutable.ShouldUsePty = true
+		} else {
+			grepExecutable.ShouldUsePty = false
 		}
 
 		actualResult, err = grepExecutable.RunWithStdin([]byte(testCase.Stdin), allArguments...)
-		grepExecutable.SetUsePty(false)
 
 		if err != nil {
 			return err
