@@ -84,7 +84,13 @@ func (c HighlightingTestCaseCollection) Run(stageHarness *test_case_harness.Test
 			return err
 		}
 
-		// Assert stdout contents here
+		highlightingAssertion := assertions.HighlightingAssertion{
+			ExpectedAsciiSequence: emulatedResult.Stdout,
+		}
+
+		if err := highlightingAssertion.Run(actualResult, logger); err != nil {
+			return err
+		}
 	}
 
 	return nil
