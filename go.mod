@@ -3,19 +3,18 @@ module github.com/codecrafters-io/grep-tester
 go 1.24.2
 
 require (
-	github.com/codecrafters-io/tester-utils v0.4.11-0.20251203164400-ce335740ed8f
+	github.com/charmbracelet/ultraviolet v0.0.0-20251202162030-ecc8c1ae4b2b
+	github.com/charmbracelet/x/vt v0.0.0-20251201173703-9f73bfd934ff
+	github.com/codecrafters-io/tester-utils v0.4.11-0.20251205083414-a5217bc93bfb
 	github.com/dustin/go-humanize v1.0.1
 )
 
 require (
 	github.com/charmbracelet/colorprofile v0.3.3 // indirect
-	github.com/charmbracelet/ultraviolet v0.0.0-20251202162030-ecc8c1ae4b2b // indirect
-	github.com/charmbracelet/x v0.1.0 // indirect
 	github.com/charmbracelet/x/ansi v0.11.2 // indirect
 	github.com/charmbracelet/x/exp/ordered v0.1.0 // indirect
 	github.com/charmbracelet/x/term v0.2.2 // indirect
 	github.com/charmbracelet/x/termios v0.1.1 // indirect
-	github.com/charmbracelet/x/vt v0.0.0-20251201173703-9f73bfd934ff // indirect
 	github.com/charmbracelet/x/windows v0.2.2 // indirect
 	github.com/clipperhouse/displaywidth v0.6.0 // indirect
 	github.com/clipperhouse/stringish v0.1.1 // indirect
