@@ -16,7 +16,7 @@ type HighlightingTestCase struct {
 	Stdin            string
 	ExpectedExitCode int
 	RunInsideTty     bool
-	HighlightingMode utils.ColorMode
+	ColorMode        utils.ColorMode
 }
 
 type HighlightingTestCaseCollection []HighlightingTestCase
@@ -30,8 +30,8 @@ func (c HighlightingTestCaseCollection) Run(stageHarness *test_case_harness.Test
 
 		// Initialize color argument
 		colorArgument := ""
-		if testCase.HighlightingMode != "" {
-			colorArgument = fmt.Sprintf("--color=%s", testCase.HighlightingMode)
+		if testCase.ColorMode != "" {
+			colorArgument = fmt.Sprintf("--color=%s", testCase.ColorMode)
 		}
 
 		// Add color argument to arguments list
@@ -66,11 +66,7 @@ func (c HighlightingTestCaseCollection) Run(stageHarness *test_case_harness.Test
 		var actualResult executable.ExecutableResult
 		var err error
 
-		if testCase.RunInsideTty {
-			grepExecutable.ShouldUsePty = true
-		} else {
-			grepExecutable.ShouldUsePty = false
-		}
+		grepExecutable.ShouldUsePty = testCase.RunInsideTty
 
 		actualResult, err = grepExecutable.RunWithStdin([]byte(testCase.Stdin), allArguments...)
 

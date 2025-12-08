@@ -22,13 +22,13 @@ func testHighlightingAutoOption(stageHarness *test_case_harness.TestCaseHarness)
 			Pattern:          `\w+`,
 			Stdin:            fruit,
 			ExpectedExitCode: 0,
-			HighlightingMode: utils.ColorAlways,
+			ColorMode:        utils.ColorAlways,
 		},
 		{
 			Pattern:          animals[0],
 			Stdin:            animals[0] + " in the wild",
 			ExpectedExitCode: 0,
-			HighlightingMode: utils.ColorAlways,
+			ColorMode:        utils.ColorAlways,
 			RunInsideTty:     true,
 		},
 
@@ -37,13 +37,13 @@ func testHighlightingAutoOption(stageHarness *test_case_harness.TestCaseHarness)
 			Pattern:          `\d+`,
 			Stdin:            "123" + words[1],
 			ExpectedExitCode: 0,
-			HighlightingMode: utils.ColorNever,
+			ColorMode:        utils.ColorNever,
 		},
 		{
 			Pattern:          fruit,
 			Stdin:            "I love " + fruit,
 			ExpectedExitCode: 0,
-			HighlightingMode: utils.ColorNever,
+			ColorMode:        utils.ColorNever,
 			RunInsideTty:     true,
 		},
 
@@ -52,13 +52,13 @@ func testHighlightingAutoOption(stageHarness *test_case_harness.TestCaseHarness)
 			Pattern:          fmt.Sprintf("%s$", words[2]),
 			Stdin:            "prefix_" + words[2],
 			ExpectedExitCode: 0,
-			HighlightingMode: utils.ColorAuto,
+			ColorMode:        utils.ColorAuto,
 		},
 		{
 			Pattern:          animals[1],
 			Stdin:            "The " + animals[1] + " runs fast",
 			ExpectedExitCode: 0,
-			HighlightingMode: utils.ColorAuto,
+			ColorMode:        utils.ColorAuto,
 			RunInsideTty:     true,
 		},
 		// One non-matching test case as well
@@ -66,7 +66,7 @@ func testHighlightingAutoOption(stageHarness *test_case_harness.TestCaseHarness)
 			Pattern:          `\d{5}`,
 			Stdin:            "no numbers here",
 			ExpectedExitCode: 1,
-			HighlightingMode: utils.ColorAuto,
+			ColorMode:        utils.ColorAuto,
 			RunInsideTty:     true,
 		},
 	}

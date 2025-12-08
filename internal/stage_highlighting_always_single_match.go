@@ -20,37 +20,37 @@ func testHighlightingAlwaysSingleMatch(stageHarness *test_case_harness.TestCaseH
 			Pattern:          `\d`,
 			Stdin:            "only1digit",
 			ExpectedExitCode: 0,
-			HighlightingMode: utils.ColorAlways,
+			ColorMode:        utils.ColorAlways,
 		},
 		{
 			Pattern:          `\d`,
 			Stdin:            fruits[1],
 			ExpectedExitCode: 1,
-			HighlightingMode: utils.ColorAlways,
+			ColorMode:        utils.ColorAlways,
 		},
 		{
 			Pattern:          fmt.Sprintf("^%s", words[0]),
 			Stdin:            words[0] + "_suffix",
 			ExpectedExitCode: 0,
-			HighlightingMode: utils.ColorAlways,
+			ColorMode:        utils.ColorAlways,
 		},
 		{
 			Pattern:          fmt.Sprintf("^%s", words[1]),
 			Stdin:            "prefix_" + words[1],
 			ExpectedExitCode: 1,
-			HighlightingMode: utils.ColorAlways,
+			ColorMode:        utils.ColorAlways,
 		},
 		{
 			Pattern:          "ca+t",
 			Stdin:            "caaaat",
 			ExpectedExitCode: 0,
-			HighlightingMode: utils.ColorAlways,
+			ColorMode:        utils.ColorAlways,
 		},
 		{
 			Pattern:          `^I see \d+ (cat|dog)s?$`,
 			Stdin:            "I see 42 dogs",
 			ExpectedExitCode: 0,
-			HighlightingMode: utils.ColorAlways,
+			ColorMode:        utils.ColorAlways,
 		},
 	}
 
