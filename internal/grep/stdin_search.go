@@ -41,6 +41,6 @@ func searchStdin(pattern string, input string, searchOptions searchOptions) Resu
 	return Result{
 		ExitCode: exitCode,
 		Stdout:   []byte(linesToProgramOutput(stdout, exitCode == 0)),
-		Stderr:   []byte(linesToProgramOutput(stderr, exitCode == 0)),
+		Stderr:   []byte(linesToProgramOutput(stderr, true)),
 	}
 }

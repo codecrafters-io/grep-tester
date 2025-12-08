@@ -43,7 +43,7 @@ func searchFiles(pattern string, files []string, opts fileSearchOptions) Result 
 	return Result{
 		ExitCode: exitCode,
 		Stdout:   []byte(linesToProgramOutput(stdout, exitCode == 0)),
-		Stderr:   []byte(linesToProgramOutput(stderr, exitCode == 0)),
+		Stderr:   []byte(linesToProgramOutput(stderr, true)),
 	}
 }
 
