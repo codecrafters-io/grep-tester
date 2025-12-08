@@ -5,7 +5,6 @@ Debug = true
 [33m[your_program] [0mbanana123
 [33m[tester::#KU5] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#KU5] [0m[92m✓ Found line "banana123"[0m
-[33m[tester::#KU5] [0m[92m✓ Stdout contains 1 expected line in order[0m
 [33m[tester::#KU5] [0m[94m$ echo -ne "cherry" | ./your_grep.sh -E '\d'[0m
 [33m[your_program] [0m
 [33m[tester::#KU5] [0m[92m✓ Received exit code 1.[0m

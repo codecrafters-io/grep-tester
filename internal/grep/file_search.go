@@ -42,8 +42,8 @@ func searchFiles(pattern string, files []string, opts fileSearchOptions) Result 
 
 	return Result{
 		ExitCode: exitCode,
-		Stdout:   []byte(strings.Join(stdout, "\n")),
-		Stderr:   []byte(strings.Join(stderr, "\n")),
+		Stdout:   []byte(linesToProgramOutput(stdout, exitCode == 0)),
+		Stderr:   []byte(linesToProgramOutput(stderr, exitCode == 0)),
 	}
 }
 
