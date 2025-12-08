@@ -40,7 +40,7 @@ func searchStdin(pattern string, input string, searchOptions searchOptions) Resu
 
 	return Result{
 		ExitCode: exitCode,
-		Stdout:   []byte(linesToProgramOutput(stdout, exitCode == 0)),
-		Stderr:   []byte(linesToProgramOutput(stderr, true)),
+		Stdout:   []byte(linesToProgramOutput(stdout)),
+		Stderr:   []byte(linesToProgramOutput(stderr)),
 	}
 }

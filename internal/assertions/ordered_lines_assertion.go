@@ -11,7 +11,8 @@ import (
 )
 
 type OrderedLinesAssertion struct {
-	ExpectedOutputLines []string
+	ExpectedOutputLines   []string
+	DisableSuccessSummary bool
 }
 
 func (a OrderedLinesAssertion) Run(result executable.ExecutableResult, logger *logger.Logger) error {
@@ -68,7 +69,7 @@ func (a OrderedLinesAssertion) Run(result executable.ExecutableResult, logger *l
 		logger.Successf("✓ No output found")
 	}
 
-	if len(a.ExpectedOutputLines) > 1 {
+	if !a.DisableSuccessSummary {
 		logger.Successf("✓ Stdout contains %s in order", english.Plural(len(a.ExpectedOutputLines), "expected line", "expected lines"))
 	}
 
