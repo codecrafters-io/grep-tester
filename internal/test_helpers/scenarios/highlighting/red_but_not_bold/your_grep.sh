@@ -1,6 +1,3 @@
 #!/bin/bash
-
 # Color never
-OUTPUT=$($(dirname "$0")/../../../pass_all/your_grep.sh "--color=always" "$@")
-
-echo "$OUTPUT" | python3 bold_remover.py
+GREP_COLORS="ms=31" $(dirname "$0")/../../../pass_all/your_grep.sh "--color=always" "$@"

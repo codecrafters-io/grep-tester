@@ -26,10 +26,13 @@ func (vt *VirtualTerminal) Close() {
 }
 
 func (vt *VirtualTerminal) Write(p []byte) (n int, err error) {
-	if len(p) == 0 {
-		return 0, nil
-	}
-	return vt.vt.Write(p)
+	// I'll remove this later
+	// Confused about where this (crlf translation) should be put:
+	// Upsides: The caller doesn't have to perform crlf translation on every write
+	// Downsides: the Write() method may return length different from len(p)
+	// A better way would have been if the vt package had provided a way to enable ONLCR
+	tr := crlfTranslation(p)
+	return vt.vt.Write(tr)
 }
 
 func (vt *VirtualTerminal) GetScreenState() *ScreenState {
@@ -49,4 +52,31 @@ func (vt *VirtualTerminal) GetScreenState() *ScreenState {
 		RowIndex:    vt.vt.CursorPosition().Y,
 		ColumnIndex: vt.vt.CursorPosition().X,
 	})
+}
+
+// crlfTranslation duplicates the input, replaces \n by \r\n and returns the new byte slice
+// existing \r\n sequences in the input are not modified
+// This is needed because the vt package doesn't provide us a method to enable ONLCR mode
+func crlfTranslation(input []byte) (translated []byte) {
+	translated = make([]byte, 0, len(input))
+
+	for i := range input {
+
+		// For non \n characters, append them as is
+		if input[i] != '\n' {
+			translated = append(translated, input[i])
+			continue
+		}
+
+		// If previous character was not \r, replace \n with \r\n
+		if i > 0 && input[i-1] != '\r' {
+			translated = append(translated, '\r', '\n')
+			continue
+		}
+
+		// If previous character was \r, leave the sequence as is
+		translated = append(translated, '\n')
+	}
+
+	return translated
 }

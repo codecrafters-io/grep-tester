@@ -44,7 +44,7 @@ func (s *ScreenState) GetRowCount() int {
 	return len(s.rows)
 }
 
-func (s *ScreenState) StringArray() []string {
+func (s *ScreenState) GetLinesUptoCursor() []string {
 	result := []string{}
 
 	for i := range s.cursorPosition.RowIndex {

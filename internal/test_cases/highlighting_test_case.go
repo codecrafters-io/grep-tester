@@ -82,15 +82,15 @@ func (c HighlightingTestCaseCollection) Run(stageHarness *test_case_harness.Test
 			return err
 		}
 
-		// Nasty modifications: Just for POC
-		actualResult.Stderr = emulatedResult.Stdout
-		matches := grep.EmulateGrep([]string{"-o", "-E", testCase.Pattern}, grep.EmulationOptions{
+		// Emulate grep to gather matched strings
+		matchesOutput := grep.EmulateGrep([]string{"-o", "-E", testCase.Pattern}, grep.EmulationOptions{
 			Stdin: []byte(testCase.Stdin),
 		})
+		matches := utils.ProgramOutputToLines(string(matchesOutput.Stdout))
 
 		highlightingAssertion := assertions.HighlightingAssertion{
 			ExpectedAsciiSequence: emulatedResult.Stdout,
-			Patterns:              utils.ProgramOutputToLines(string(matches.Stdout)),
+			ExpectedMatches:       matches,
 		}
 
 		if err := highlightingAssertion.Run(actualResult, logger); err != nil {

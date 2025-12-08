@@ -4,14 +4,15 @@ go 1.24.2
 
 require (
 	github.com/charmbracelet/ultraviolet v0.0.0-20251202162030-ecc8c1ae4b2b
+	github.com/charmbracelet/x/ansi v0.11.2
 	github.com/charmbracelet/x/vt v0.0.0-20251201173703-9f73bfd934ff
 	github.com/codecrafters-io/tester-utils v0.4.11-0.20251205083414-a5217bc93bfb
 	github.com/dustin/go-humanize v1.0.1
+	github.com/fatih/color v1.18.0
 )
 
 require (
 	github.com/charmbracelet/colorprofile v0.3.3 // indirect
-	github.com/charmbracelet/x/ansi v0.11.2 // indirect
 	github.com/charmbracelet/x/exp/ordered v0.1.0 // indirect
 	github.com/charmbracelet/x/term v0.2.2 // indirect
 	github.com/charmbracelet/x/termios v0.1.1 // indirect
@@ -21,7 +22,6 @@ require (
 	github.com/clipperhouse/uax29/v2 v2.3.0 // indirect
 	github.com/creack/pty v1.1.24 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
-	github.com/fatih/color v1.18.0 // indirect
 	github.com/lucasb-eyer/go-colorful v1.3.0 // indirect
 	github.com/mattn/go-colorable v0.1.14 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect

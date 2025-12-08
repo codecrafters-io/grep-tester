@@ -162,6 +162,34 @@ func TestStages(t *testing.T) {
 			StdoutFixturePath:   "./test_helpers/fixtures/highlighting/no_highlight",
 			NormalizeOutputFunc: normalizeTesterOutput,
 		},
+		"highlighting_multiple_highlighting_fail": {
+			StageSlugs:          []string{"eq0"},
+			CodePath:            "./test_helpers/scenarios/highlighting/multiple_highlighting_fail",
+			ExpectedExitCode:    1,
+			StdoutFixturePath:   "./test_helpers/fixtures/highlighting/multiple_highlighting_fail",
+			NormalizeOutputFunc: normalizeTesterOutput,
+		},
+		"highlighting_red_but_not_bold": {
+			StageSlugs:          []string{"bm2"},
+			CodePath:            "./test_helpers/scenarios/highlighting/red_but_not_bold",
+			ExpectedExitCode:    1,
+			StdoutFixturePath:   "./test_helpers/fixtures/highlighting/red_but_not_bold",
+			NormalizeOutputFunc: normalizeTesterOutput,
+		},
+		"highlighting_bold_but_not_red": {
+			StageSlugs:          []string{"bm2"},
+			CodePath:            "./test_helpers/scenarios/highlighting/bold_but_not_red",
+			ExpectedExitCode:    1,
+			StdoutFixturePath:   "./test_helpers/fixtures/highlighting/bold_but_not_red",
+			NormalizeOutputFunc: normalizeTesterOutput,
+		},
+		"highlighting_wrong_color_green": {
+			StageSlugs:          []string{"bm2"},
+			CodePath:            "./test_helpers/scenarios/highlighting/wrong_color_green",
+			ExpectedExitCode:    1,
+			StdoutFixturePath:   "./test_helpers/fixtures/highlighting/wrong_color_green",
+			NormalizeOutputFunc: normalizeTesterOutput,
+		},
 	}
 
 	tester_utils_testing.TestTesterOutput(t, testerDefinition, testCases)
