@@ -69,7 +69,7 @@ func (a OrderedLinesAssertion) Run(result executable.ExecutableResult, logger *l
 	}
 
 	if len(a.ExpectedOutputLines) > 1 {
-		logger.Successf("✓ Stdout contains %s in order", english.Plural(len(a.ExpectedOutputLines), "expected line", "expected lines"))
+		logger.Successf("✓ Stdout contains %d expected lines in order", len(a.ExpectedOutputLines))
 	}
 
 	return nil
