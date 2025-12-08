@@ -8,6 +8,7 @@ import (
 
 type HighlightingAssertion struct {
 	ExpectedAsciiSequence []byte
+	Patterns              []string
 }
 
 func (a HighlightingAssertion) Run(result executable.ExecutableResult, logger *logger.Logger) error {
@@ -37,7 +38,7 @@ func (a HighlightingAssertion) Run(result executable.ExecutableResult, logger *l
 		expectedScreenState: expectedScreenState,
 	}
 
-	if err := screenStateComparator.Run(actualScreenState); err != nil {
+	if err := screenStateComparator.Run(actualScreenState, string(result.Stdout), string(result.Stderr), a.Patterns); err != nil {
 		return err
 	}
 

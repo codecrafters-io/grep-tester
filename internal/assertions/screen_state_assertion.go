@@ -15,7 +15,7 @@ type screenStateAssertion struct {
 	expectedScreenState *virtual_terminal.ScreenState
 }
 
-func (s *screenStateAssertion) Run(actual *virtual_terminal.ScreenState) error {
+func (s *screenStateAssertion) Run(actual *virtual_terminal.ScreenState, actualStdout string, expectedStdout string, highlights []string) error {
 	// Dimension check and panic if not same
 	if !s.expectedScreenState.HasSameDimensionAs(actual) {
 		panic("Codecrafters Internal Error - expected screen state and actual screen states have different dimensions")
@@ -28,9 +28,20 @@ func (s *screenStateAssertion) Run(actual *virtual_terminal.ScreenState) error {
 		return err
 	}
 
-	rogueCellRow, rogueCellColumn, err := s.checkForValidColors(actual)
+	_, rogueCellColumn, err := s.checkForValidColors(actual)
 	if err != nil {
-		return fmt.Errorf("Error on cell at row %d and column %d: %v", rogueCellRow, rogueCellColumn, err)
+		// need original ascii sequence
+		// Need simulated ascii sequence
+		// rogueCellRow := rogueCellRow
+		rogueCellColumn := rogueCellColumn
+		s.logger.Plainf("Expected:%s", expectedStdout)
+		s.logger.Plainf("Found   :%s", actualStdout[:len(actualStdout)-1])
+		s.logger.Plainf("%s^", strings.Repeat(" ", rogueCellColumn+9))
+		return fmt.Errorf("Highlight missing")
+	}
+
+	for _, h := range highlights {
+		s.logger.Successf("✓ Match %q is highlighted", h)
 	}
 
 	return nil
