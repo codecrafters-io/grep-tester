@@ -13,22 +13,22 @@ func testHighlightingAlwaysMultipleMatches(stageHarness *test_case_harness.TestC
 	utils.RelocateSystemGrep(stageHarness)
 
 	fruit := random.RandomElementFromArray(utils.FRUITS)
-	// animals := random.RandomElementsFromArray(utils.ANIMALS, 3)
+	animals := random.RandomElementsFromArray(utils.ANIMALS, 3)
 	vegetables := random.RandomElementsFromArray(utils.VEGETABLES, 2)
 
 	testCaseCollection := test_cases.HighlightingTestCaseCollection{
-		// {
-		// 	Pattern:          `\d`,
-		// 	Stdin:            "a1b2c3",
-		// 	ExpectedExitCode: 0,
-		// 	ColorMode:        utils.ColorAlways,
-		// },
-		// {
-		// 	Pattern:          fmt.Sprintf(`(%s|%s|%s)`, animals[0], animals[1], animals[2]),
-		// 	Stdin:            fmt.Sprintf("%s_%s_%s", animals[2], animals[0], animals[1]),
-		// 	ExpectedExitCode: 0,
-		// 	ColorMode:        utils.ColorAlways,
-		// },
+		{
+			Pattern:          `\d`,
+			Stdin:            "a1b2c3",
+			ExpectedExitCode: 0,
+			ColorMode:        utils.ColorAlways,
+		},
+		{
+			Pattern:          fmt.Sprintf(`(%s|%s|%s)`, animals[0], animals[1], animals[2]),
+			Stdin:            fmt.Sprintf("%s_%s_%s", animals[2], animals[0], animals[1]),
+			ExpectedExitCode: 0,
+			ColorMode:        utils.ColorAlways,
+		},
 		{
 			Pattern:          `\d`,
 			Stdin:            fruit,
