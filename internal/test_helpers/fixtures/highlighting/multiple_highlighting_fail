@@ -1,15 +1,42 @@
 Debug = true
 
-[33m[tester::#EQ0] [0m[94mRunning tests for Stage #EQ0 (eq0)[0m
-[33m[tester::#EQ0] [0m[94mecho 'a1b2c3' | $ ./your_grep.sh --color=always -E '\d'[0m
-[33m[your_program] [0ma[01;31m[K1[0m[Kb[K2[Kc[K3[K
-[33m[tester::#EQ0] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#EQ0] [0m[92m✓ Found line "a1b2c3"[0m
-[33m[tester::#EQ0] [0m[92m✓ Stdout contains 1 expected line in order[0m
-[33m[tester::#EQ0] [0m[32mExpected:[0m "a[01;31m[K1[m[Kb[01;31m[K2[m[Kc[01;31m[K3[m[K"
-[33m[tester::#EQ0] [0m[31mReceived:[0m "a[01;31m[K1[0m[Kb[K2[Kc[K3[K"
-[33m[tester::#EQ0] [0m              ^
-[33m[tester::#EQ0] [0m[91mExpected ANSI Sequence: "a\x1b[01;31m\x1b[K1\x1b[m\x1b[Kb\x1b[01;31m\x1b[K2\x1b[m\x1b[Kc\x1b[01;31m\x1b[K3\x1b[m\x1b[K"[0m
-[33m[tester::#EQ0] [0m[91mReceived ANSI Sequence: "a\x1b[01;31m\x1b[K1\x1b[0m\x1b[Kb\x1b[K2\x1b[Kc\x1b[K3\x1b[K"[0m
-[33m[tester::#EQ0] [0m[91mExpected bold-red, got none[0m
-[33m[tester::#EQ0] [0m[91mTest failed[0m
+[33m[tester::#NA5] [0m[94mRunning tests for Stage #NA5 (na5)[0m
+[33m[tester::#NA5] [0m[94mecho 'watermelon' | $ ./your_grep.sh --color=always -E '\w+'[0m
+[33m[your_program] [0m[01;31m[Kwatermelon[0m[K
+[33m[tester::#NA5] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#NA5] [0m[92m✓ Found line "watermelon"[0m
+[33m[tester::#NA5] [0m[92m✓ Match "watermelon" is highlighted[0m
+[33m[tester::#NA5] [0m[94mRunning grep inside TTY[0m
+[33m[tester::#NA5] [0m[94mecho 'tiger in the wild' | $ ./your_grep.sh --color=always -E 'tiger'[0m
+[33m[your_program] [0m[01;31m[Ktiger[0m[K in the wild
+[33m[tester::#NA5] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#NA5] [0m[92m✓ Found line "tiger in the wild"[0m
+[33m[tester::#NA5] [0m[92m✓ Match "tiger" is highlighted[0m
+[33m[tester::#NA5] [0m[94mecho '123blueberry' | $ ./your_grep.sh --color=never -E '\d+'[0m
+[33m[your_program] [0m123blueberry
+[33m[tester::#NA5] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#NA5] [0m[92m✓ Found line "123blueberry"[0m
+[33m[tester::#NA5] [0m[92m✓ Match "123" is highlighted[0m
+[33m[tester::#NA5] [0m[94mRunning grep inside TTY[0m
+[33m[tester::#NA5] [0m[94mecho 'I love watermelon' | $ ./your_grep.sh --color=never -E 'watermelon'[0m
+[33m[your_program] [0mI love watermelon
+[33m[tester::#NA5] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#NA5] [0m[92m✓ Found line "I love watermelon"[0m
+[33m[tester::#NA5] [0m[92m✓ Match "watermelon" is highlighted[0m
+[33m[tester::#NA5] [0m[94mecho 'prefix_strawberry' | $ ./your_grep.sh --color=auto -E 'strawberry$'[0m
+[33m[your_program] [0mprefix_strawberry
+[33m[tester::#NA5] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#NA5] [0m[92m✓ Found line "prefix_strawberry"[0m
+[33m[tester::#NA5] [0m[92m✓ Match "strawberry" is highlighted[0m
+[33m[tester::#NA5] [0m[94mRunning grep inside TTY[0m
+[33m[tester::#NA5] [0m[94mecho 'The panda runs fast' | $ ./your_grep.sh --color=auto -E 'panda'[0m
+[33m[your_program] [0mThe panda runs fast
+[33m[tester::#NA5] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#NA5] [0m[92m✓ Found line "The panda runs fast"[0m
+[33m[tester::#NA5] [0m[91m[32mExpected:[0m "The [01;31m[Kpanda[m[K runs fast"[0m
+[33m[tester::#NA5] [0m[91m[31mReceived:[0m "The panda runs fast"[0m
+[33m[tester::#NA5] [0m[91m               ↑[0m
+[33m[tester::#NA5] [0m[91mExpected bold-red(ANSI Code: 01;31), got no highlight[0m
+[33m[tester::#NA5] [0m[91mExpected ANSI Sequence: "The \x1b[01;31m\x1b[Kpanda\x1b[m\x1b[K runs fast"[0m
+[33m[tester::#NA5] [0m[91mReceived ANSI Sequence: "The panda runs fast"[0m
+[33m[tester::#NA5] [0m[91mTest failed[0m

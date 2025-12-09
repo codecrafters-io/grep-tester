@@ -3,7 +3,6 @@
 [33m[your_program] [0m1
 [33m[tester::#CJ0] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#CJ0] [0m[92m✓ Found line "1"[0m
-[33m[tester::#CJ0] [0m[92m✓ Stdout contains 1 expected line in order[0m
 [33m[tester::#CJ0] [0m[94m$ echo -ne "cherry" | ./your_grep.sh -o -E '\d'[0m
 [33m[tester::#CJ0] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#CJ0] [0m[92m✓ No output found[0m
@@ -11,7 +10,6 @@
 [33m[your_program] [0mapple
 [33m[tester::#CJ0] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#CJ0] [0m[92m✓ Found line "apple"[0m
-[33m[tester::#CJ0] [0m[92m✓ Stdout contains 1 expected line in order[0m
 [33m[tester::#CJ0] [0m[94m$ echo -ne "prefix_apple" | ./your_grep.sh -o -E '^apple'[0m
 [33m[tester::#CJ0] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#CJ0] [0m[92m✓ No output found[0m
@@ -19,12 +17,10 @@
 [33m[your_program] [0mcat
 [33m[tester::#CJ0] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#CJ0] [0m[92m✓ Found line "cat"[0m
-[33m[tester::#CJ0] [0m[92m✓ Stdout contains 1 expected line in order[0m
 [33m[tester::#CJ0] [0m[94m$ echo -ne "I see 42 dogs" | ./your_grep.sh -o -E '^I see \d+ (cat|dog)s?$'[0m
 [33m[your_program] [0mI see 42 dogs
 [33m[tester::#CJ0] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#CJ0] [0m[92m✓ Found line "I see 42 dogs"[0m
-[33m[tester::#CJ0] [0m[92m✓ Stdout contains 1 expected line in order[0m
 [33m[tester::#CJ0] [0m[92mTest passed.[0m
 
 [33m[tester::#SS2] [0m[94mRunning tests for Stage #SS2 (ss2)[0m
@@ -36,7 +32,6 @@
 [33m[tester::#SS2] [0m[92m✓ Found line "1"[0m
 [33m[tester::#SS2] [0m[92m✓ Found line "2"[0m
 [33m[tester::#SS2] [0m[92m✓ Found line "3"[0m
-[33m[tester::#SS2] [0m[92m✓ Stdout contains 3 expected lines in order[0m
 [33m[tester::#SS2] [0m[94m$ echo -ne "pear_pineapple_watermelon" | ./your_grep.sh -o -E '(watermelon|pineapple|pear)'[0m
 [33m[your_program] [0mpear
 [33m[your_program] [0mpineapple
@@ -45,7 +40,6 @@
 [33m[tester::#SS2] [0m[92m✓ Found line "pear"[0m
 [33m[tester::#SS2] [0m[92m✓ Found line "pineapple"[0m
 [33m[tester::#SS2] [0m[92m✓ Found line "watermelon"[0m
-[33m[tester::#SS2] [0m[92m✓ Stdout contains 3 expected lines in order[0m
 [33m[tester::#SS2] [0m[94m$ echo -ne "cherry" | ./your_grep.sh -o -E '\d'[0m
 [33m[tester::#SS2] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#SS2] [0m[92m✓ No output found[0m
@@ -57,7 +51,6 @@
 [33m[tester::#SS2] [0m[92m✓ Found line "xx"[0m
 [33m[tester::#SS2] [0m[92m✓ Found line "yy"[0m
 [33m[tester::#SS2] [0m[92m✓ Found line "zz"[0m
-[33m[tester::#SS2] [0m[92m✓ Stdout contains 3 expected lines in order[0m
 [33m[tester::#SS2] [0m[94m$ echo -ne "##$$%" | ./your_grep.sh -o -E '\w'[0m
 [33m[tester::#SS2] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#SS2] [0m[92m✓ No output found[0m
@@ -67,7 +60,6 @@
 [33m[tester::#SS2] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#SS2] [0m[92m✓ Found line "I see 3 tigers"[0m
 [33m[tester::#SS2] [0m[92m✓ Found line "I see 4 pandas"[0m
-[33m[tester::#SS2] [0m[92m✓ Stdout contains 2 expected lines in order[0m
 [33m[tester::#SS2] [0m[92mTest passed.[0m
 
 [33m[tester::#BO4] [0m[94mRunning tests for Stage #BO4 (bo4)[0m
@@ -79,7 +71,6 @@
 [33m[tester::#BO4] [0m[92m✓ Found line "1"[0m
 [33m[tester::#BO4] [0m[92m✓ Found line "2"[0m
 [33m[tester::#BO4] [0m[92m✓ Found line "3"[0m
-[33m[tester::#BO4] [0m[92m✓ Stdout contains 3 expected lines in order[0m
 [33m[tester::#BO4] [0m[94m$ echo -ne "I like plum\nnothing here\nwatermelon and plum are tasty" | ./your_grep.sh -o -E '(plum|watermelon)'[0m
 [33m[your_program] [0mplum
 [33m[your_program] [0mwatermelon
@@ -88,7 +79,6 @@
 [33m[tester::#BO4] [0m[92m✓ Found line "plum"[0m
 [33m[tester::#BO4] [0m[92m✓ Found line "watermelon"[0m
 [33m[tester::#BO4] [0m[92m✓ Found line "plum"[0m
-[33m[tester::#BO4] [0m[92m✓ Stdout contains 3 expected lines in order[0m
 [33m[tester::#BO4] [0m[94m$ echo -ne "abc\ndef\nghi" | ./your_grep.sh -o -E 'XYZ123'[0m
 [33m[tester::#BO4] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#BO4] [0m[92m✓ No output found[0m
@@ -98,7 +88,6 @@
 [33m[tester::#BO4] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#BO4] [0m[92m✓ Found line "cat"[0m
 [33m[tester::#BO4] [0m[92m✓ Found line "cat"[0m
-[33m[tester::#BO4] [0m[92m✓ Stdout contains 2 expected lines in order[0m
 [33m[tester::#BO4] [0m[94m$ echo -ne "Yesterday I saw 3 panda and I saw 45 tiger.\nNothing interesting today.\nLast week I saw 12 tigers." | ./your_grep.sh -o -E 'I saw \d+ (panda|tiger)s?'[0m
 [33m[your_program] [0mI saw 3 panda
 [33m[your_program] [0mI saw 45 tiger
@@ -107,7 +96,6 @@
 [33m[tester::#BO4] [0m[92m✓ Found line "I saw 3 panda"[0m
 [33m[tester::#BO4] [0m[92m✓ Found line "I saw 45 tiger"[0m
 [33m[tester::#BO4] [0m[92m✓ Found line "I saw 12 tigers"[0m
-[33m[tester::#BO4] [0m[92m✓ Stdout contains 3 expected lines in order[0m
 [33m[tester::#BO4] [0m[94m$ echo -ne "today is sunny\nno rains here\ntomorrow maybe rainy" | ./your_grep.sh -o -E 'cats and dogs'[0m
 [33m[tester::#BO4] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#BO4] [0m[92m✓ No output found[0m

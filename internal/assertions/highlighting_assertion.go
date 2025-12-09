@@ -21,7 +21,7 @@ type HighlightingAssertion struct {
 }
 
 func (a HighlightingAssertion) Run(result executable.ExecutableResult, logger *logger.Logger) error {
-	// The dimensions for the VT will be the maximum
+	// The dimensions for the VT will be the value that is maximum among the expected and actual output's width and height
 	maxTerminalWidth := max(
 		len(a.ExpectedAsciiSequence),
 		len(result.Stdout),
@@ -47,25 +47,25 @@ func (a HighlightingAssertion) Run(result executable.ExecutableResult, logger *l
 	}
 
 	expectedScreenState := virtualTerminal1.GetScreenState()
+	// This is equivalent to panic() after mismatch between the exit codes from
+	// expected value and emulated grep's value: For eg. stdin_test_case:36
+	a.panicIfExpectedScreenStateisFlawed(expectedScreenState)
+
 	actualScreenState := virtualTerminal2.GetScreenState()
 
-	expectedLines := expectedScreenState.GetLinesUptoCursor()
-	actualLines := actualScreenState.GetLinesUptoCursor()
+	outputLine, err := a.assertContents(expectedScreenState, actualScreenState, logger)
 
-	// If expected lines are more than 1, panic: there is something wrong with the expected value
-	if len(expectedLines) > 1 {
-		expectedLinesString := strings.Join(expectedLines, "\n")
-		panic(fmt.Sprintf("Codecrafters Internal Error - Multiple expected lines found in HighlightingAssertion: \n%s", expectedLinesString))
-	}
-
-	if err := a.assertContents(expectedLines, actualLines, logger); err != nil {
+	if err != nil {
 		return err
 	}
 
-	return a.assertHighlighting(expectedScreenState, actualScreenState, result, logger)
+	return a.assertHighlighting(expectedScreenState, actualScreenState, outputLine, logger)
 }
 
-func (a HighlightingAssertion) assertContents(expectedLines []string, actualLines []string, logger *logger.Logger) error {
+func (a HighlightingAssertion) assertContents(expectedScreenState, actualScreenState *virtual_terminal.ScreenState, logger *logger.Logger) (string, error) {
+	expectedLines := expectedScreenState.GetLinesUptoCursor()
+	actualLines := actualScreenState.GetLinesUptoCursor()
+
 	orderedLinesAssertion := OrderedLinesAssertion{
 		ExpectedOutputLines: expectedLines,
 	}
@@ -77,10 +77,10 @@ func (a HighlightingAssertion) assertContents(expectedLines []string, actualLine
 		Stdout: []byte(actualOutput),
 	}
 
-	return orderedLinesAssertion.Run(actualResult, logger)
+	return strings.Split(actualOutput, "\n")[0], orderedLinesAssertion.Run(actualResult, logger)
 }
 
-func (a HighlightingAssertion) assertHighlighting(expectedScreenState, actualScreenState *virtual_terminal.ScreenState, result executable.ExecutableResult, logger *logger.Logger) error {
+func (a HighlightingAssertion) assertHighlighting(expectedScreenState, actualScreenState *virtual_terminal.ScreenState, outputLine string, logger *logger.Logger) error {
 	// Assert the first line on each terminal
 	expectedRow := expectedScreenState.GetRow(0)
 	actualRow := actualScreenState.GetRow(0)
@@ -89,20 +89,24 @@ func (a HighlightingAssertion) assertHighlighting(expectedScreenState, actualScr
 		actualCell := actualRow.GetCellsArray()[i]
 		err := a.compareCells(expectedCell, actualCell)
 		if err != nil {
-			resultLine := utils.ProgramOutputToLines(string(result.Stdout))[0]
-			logger.Plainf(utils.BuildColoredErrorMessage(string(a.ExpectedAsciiSequence), resultLine, i))
-			logger.Errorf("Expected ANSI Sequence: %q", string(a.ExpectedAsciiSequence))
-			logger.Errorf("Received ANSI Sequence: %q", string(resultLine))
-			return err
+			return fmt.Errorf(
+				"%s\n%s\n%s\n%s",
+				utils.BuildColoredErrorMessage(string(a.ExpectedAsciiSequence), outputLine, i),
+				err.Error(),
+				fmt.Sprintf("Expected ANSI Sequence: %q", string(a.ExpectedAsciiSequence)),
+				fmt.Sprintf("Received ANSI Sequence: %q", string(outputLine)),
+			)
 		}
+	}
+
+	for _, match := range a.ExpectedMatches {
+		logger.Successf("✓ Match %q is highlighted", match)
 	}
 
 	return nil
 }
 
 func (a HighlightingAssertion) compareCells(expected *uv.Cell, actual *uv.Cell) error {
-	a.panicIfExpectedIsFlawed(expected)
-
 	// Rare cases: Doesn't occur unless the user intentionally does so
 	if actual.Link != expected.Link {
 		return fmt.Errorf("Expected hyperlink to be absent, but is present")
@@ -117,82 +121,114 @@ func (a HighlightingAssertion) compareCells(expected *uv.Cell, actual *uv.Cell) 
 	}
 
 	if actual.Style.Bg != expected.Style.Bg {
-		return fmt.Errorf("Expected no background color, got %s", utils.ColorToString(actual.Style.Bg))
+		return fmt.Errorf("Expected no background color, got %s", utils.ColorToName(actual.Style.Bg))
 	}
 
-	// Check for bold-red combination
-	expectedBoldRed := expected.Style.Fg == ansi.Red && expected.Style.Attrs == uv.AttrBold
-	actualBoldRed := actual.Style.Fg == ansi.Red && actual.Style.Attrs == uv.AttrBold
+	// Foreground checks
+	actualColorString := utils.ColorToName(actual.Style.Fg)
 
-	if expectedBoldRed {
-		// If we got bold-red, success!
-		if actualBoldRed {
+	shouldbeHighlighted := expected.Style.Fg == ansi.Red && expected.Style.Attrs == uv.AttrBold
+	expectedHighlighting := "bold-red(ANSI Code: 01;31)"
+
+	// Foreground check 1: If the actual style is other than red or none
+	if actual.Style.Fg != ansi.Red && actual.Style.Fg != nil {
+		if shouldbeHighlighted {
+			return fmt.Errorf("Expected %s, got %s", expectedHighlighting, actualColorString)
+		}
+		return fmt.Errorf("Expected no highlighting, got %s", actualColorString)
+	}
+
+	// Make these four cases as verbose as possible
+	isBold := actual.Style.Attrs == 1
+	isRed := actual.Style.Fg == ansi.Red
+
+	if shouldbeHighlighted {
+		if isBold && isRed {
 			return nil
 		}
 
-		// Check what we actually got
-		hasBold := actual.Style.Attrs == uv.AttrBold
-		hasRed := actual.Style.Fg == ansi.Red
-		hasOtherColor := actual.Style.Fg != nil && actual.Style.Fg != ansi.Red
-
-		if !hasBold && !hasRed {
-			return fmt.Errorf("Expected bold-red, got none")
-		} else if hasBold && !hasRed && !hasOtherColor {
-			return fmt.Errorf("Expected bold-red, got only bold")
-		} else if hasRed && !hasBold {
-			return fmt.Errorf("Expected bold-red, got only red")
-		} else if hasOtherColor {
-			colorStr := utils.ColorToString(actual.Style.Fg)
-			if hasBold {
-				return fmt.Errorf("Expected bold-red, got bold-%s", colorStr)
-			}
-			return fmt.Errorf("Expected bold-red, got %s", colorStr)
+		if !isBold && !isRed {
+			return fmt.Errorf("Expected %s, got no highlight", expectedHighlighting)
 		}
+
+		if !isBold {
+			return fmt.Errorf("Expected %s, got only red", expectedHighlighting)
+		}
+
+		return fmt.Errorf("Expected %s, got only bold", expectedHighlighting)
 	}
 
-	// Handle other cases (non-bold-red expectations)
-	if actual.Style.Fg != expected.Style.Fg {
-		if expected.Style.Fg == ansi.Red {
-			return fmt.Errorf("Expected red foreground color, got %s", utils.ColorToString(actual.Style.Fg))
-		}
-		if expected.Style.Fg == nil {
-			return fmt.Errorf("Expected no foreground color, got %s", utils.ColorToString(actual.Style.Fg))
-		}
+	// No highlighting case
+	if !isBold && !isRed {
+		return nil
 	}
 
-	if actual.Style.Attrs != expected.Style.Attrs {
-		if expected.Style.Attrs == uv.AttrBold {
-			return fmt.Errorf("Expected bold attribute: 1, got %d", actual.Style.Attrs)
-		}
-		return fmt.Errorf("Expected no attributes: 0, got %d", actual.Style.Attrs)
+	if isBold && isRed {
+		return fmt.Errorf("Expected no highlight, got bold-red")
 	}
 
-	return nil
+	if isRed {
+		return fmt.Errorf("Expected no highlight, got red")
+	}
+
+	return fmt.Errorf("Expected no highlight, got bold")
 }
 
-func (a HighlightingAssertion) panicIfExpectedIsFlawed(e *uv.Cell) {
-	emp := uv.EmptyCell
-	if e.Link != emp.Link {
+func (a HighlightingAssertion) panicIfExpectedScreenStateisFlawed(expectedScreenState *virtual_terminal.ScreenState) {
+	linesUptoCursor := expectedScreenState.GetLinesUptoCursor()
+
+	// Assert that expected screen state only has one line in the output
+	if len(linesUptoCursor) > 1 {
+
+		outputLines := strings.Join(linesUptoCursor, "\n")
+
+		panic(fmt.Sprintf(
+			"Codecrafters Internal Error - Expected one line in output, grep returned %d:\n%s",
+			len(linesUptoCursor),
+			outputLines,
+		))
+	}
+
+	for _, expectedRow := range expectedScreenState.GetRows() {
+		for _, expectedCell := range expectedRow.GetCellsArray() {
+			a.panicIfExpectedCellIsFlawed(expectedCell)
+		}
+	}
+
+}
+
+func (a HighlightingAssertion) panicIfExpectedCellIsFlawed(expectedCell *uv.Cell) {
+	emptyCell := uv.EmptyCell
+
+	// Expected cell should have no link
+	if expectedCell.Link != emptyCell.Link {
 		panic("Codecrafters Internal Error - Expected cell contains hyperlink")
 	}
 
-	if e.Width != uv.EmptyCell.Width {
+	// Expected cell should be of mono-width
+	if expectedCell.Width != emptyCell.Width {
 		panic("Codecrafters Internal Error - Expected cell is not of unit width")
 	}
 
-	if e.Style.Underline != uv.EmptyCell.Style.Underline {
+	// Expected cell should have no underline
+	if expectedCell.Style.Underline != emptyCell.Style.Underline {
 		panic("Codecrafters Internal Error - Expected cell is underlined")
 	}
 
-	if e.Style.Bg != uv.EmptyCell.Style.Bg {
+	// Expected cell should have no background color
+	if expectedCell.Style.Bg != emptyCell.Style.Bg {
 		panic("Codecrafters Internal Error - Expected cell doesn't have plain background")
 	}
 
-	if e.Style.Fg != ansi.Red && e.Style.Fg != uv.EmptyCell.Style.Fg {
-		panic("Codecrafters Internal Error - Expected cell neither has plain foreground, nor red foreground")
-	}
-
-	if e.Style.Attrs != uv.EmptyCell.Style.Attrs && e.Style.Attrs != uv.AttrBold {
-		panic("Codecrafters Internal Error - Expected cell has attributes other than bold or none")
+	// Expected cell should either be bold red, or with no styling
+	if !(expectedCell.Style.Fg == ansi.Red && expectedCell.Style.Attrs == uv.AttrBold) &&
+		!(expectedCell.Style.Fg == emptyCell.Style.Fg && expectedCell.Style.Attrs == emptyCell.Style.Attrs) {
+		panic(
+			fmt.Sprintf(
+				"Codecrafters Internal Error - Expected cell should be either bold-red, or none, got color: %s, attribute: %d",
+				utils.ColorToName(expectedCell.Style.Fg),
+				&expectedCell.Style.Attrs,
+			),
+		)
 	}
 }

@@ -94,26 +94,27 @@ const (
 	ColorAuto   ColorMode = "auto"
 )
 
-func ColorizeString(colorToUse faithColor.Attribute, msg string) string {
-	c := faithColor.New(colorToUse)
-	return c.Sprint(msg)
-}
-
 func BuildColoredErrorMessage(expectedPatternExplanation string, output string, squiggleIndex int) string {
-	errorMsg := ColorizeString(faithColor.FgGreen, "Expected:")
+	errorMsg := colorizeString(faithColor.FgGreen, "Expected:")
 	errorMsg += " \"" + expectedPatternExplanation + "\""
 	errorMsg += "\n"
-	errorMsg += ColorizeString(faithColor.FgRed, "Received:")
+	errorMsg += colorizeString(faithColor.FgRed, "Received:")
 	errorMsg += " \"" + output + "\""
-	errorMsg += "\n" + strings.Repeat(" ", squiggleIndex+11) + "^"
+	errorMsg += "\n" + strings.Repeat(" ", squiggleIndex+11) + "↑"
 	return errorMsg
 }
 
-func ColorToString(color color.Color) string {
+func ColorToName(color color.Color) string {
 	if color == nil {
-		return "none"
+		return "no color"
 	}
 
 	r, g, b, a := color.RGBA()
+
 	return fmt.Sprintf("RGBA (%d, %d, %d, %d)", r, g, b, a)
+}
+
+func colorizeString(colorToUse faithColor.Attribute, msg string) string {
+	c := faithColor.New(colorToUse)
+	return c.Sprint(msg)
 }
