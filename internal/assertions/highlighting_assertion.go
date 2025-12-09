@@ -18,9 +18,17 @@ import (
 type HighlightingAssertion struct {
 	ExpectedOutput  string
 	ExpectedMatches []string
+
+	// This is computed based on expected screen state
+	matchesShouldbeHighlighted bool
 }
 
-func (a HighlightingAssertion) Run(result executable.ExecutableResult, logger *logger.Logger) error {
+func (a *HighlightingAssertion) Run(result executable.ExecutableResult, logger *logger.Logger) error {
+	// Reset the value after the execution is over
+	defer func() {
+		a.matchesShouldbeHighlighted = false
+	}()
+
 	// The dimensions for the VT will be the value that is maximum among the expected and actual output's width and height
 	maxTerminalWidth := max(
 		len(a.ExpectedOutput),
@@ -59,7 +67,7 @@ func (a HighlightingAssertion) Run(result executable.ExecutableResult, logger *l
 	return a.assertHighlighting(expectedScreenState, actualScreenState, result, logger)
 }
 
-func (a HighlightingAssertion) assertTextContents(expectedScreenState, actualScreenState *virtual_terminal.ScreenState, logger *logger.Logger) error {
+func (a *HighlightingAssertion) assertTextContents(expectedScreenState, actualScreenState *virtual_terminal.ScreenState, logger *logger.Logger) error {
 	expectedLines := expectedScreenState.GetLinesOfTextUptoCursor()
 	actualLines := actualScreenState.GetLinesOfTextUptoCursor()
 
@@ -77,7 +85,7 @@ func (a HighlightingAssertion) assertTextContents(expectedScreenState, actualScr
 	return orderedLinesAssertion.Run(actualResult, logger)
 }
 
-func (a HighlightingAssertion) assertHighlighting(expectedScreenState, actualScreenState *virtual_terminal.ScreenState, result executable.ExecutableResult, logger *logger.Logger) error {
+func (a *HighlightingAssertion) assertHighlighting(expectedScreenState, actualScreenState *virtual_terminal.ScreenState, result executable.ExecutableResult, logger *logger.Logger) error {
 	// Assert the first line on each terminal
 	expectedRow := expectedScreenState.GetRowAtIndex(0)
 	actualRow := actualScreenState.GetRowAtIndex(0)
@@ -100,14 +108,19 @@ func (a HighlightingAssertion) assertHighlighting(expectedScreenState, actualScr
 		}
 	}
 
+	// Print highlighting summary only when highlighting should be done
 	for _, match := range a.ExpectedMatches {
-		logger.Successf("✓ Match %q is highlighted", match)
+		if a.matchesShouldbeHighlighted {
+			logger.Successf("✓ Match %q is highlighted", match)
+		} else {
+			logger.Successf("✓ Match %q is not highlighted", match)
+		}
 	}
 
 	return nil
 }
 
-func (a HighlightingAssertion) compareCells(expected *uv.Cell, actual *uv.Cell) error {
+func (a *HighlightingAssertion) compareCells(expected *uv.Cell, actual *uv.Cell) error {
 	// Rare cases: Doesn't occur unless the user intentionally does so
 	if actual.Link != expected.Link {
 		return fmt.Errorf("Expected hyperlink to be absent, but is present")
@@ -129,6 +142,12 @@ func (a HighlightingAssertion) compareCells(expected *uv.Cell, actual *uv.Cell) 
 	actualColorString := utils.ColorToName(actual.Style.Fg)
 
 	shouldbeHighlighted := expected.Style.Fg == ansi.Red && expected.Style.Attrs == uv.AttrBold
+
+	// If at least one cell is highlighted, it's expected that matches should highlighted
+	if shouldbeHighlighted {
+		a.matchesShouldbeHighlighted = true
+	}
+
 	expectedHighlighting := "bold-red(ANSI Code: 01;31)"
 
 	// Foreground check 1: If the actual style is other than red or none
@@ -140,7 +159,7 @@ func (a HighlightingAssertion) compareCells(expected *uv.Cell, actual *uv.Cell) 
 	}
 
 	// Make these four cases as verbose as possible
-	isBold := actual.Style.Attrs == 1
+	isBold := actual.Style.Attrs == uv.AttrBold
 	isRed := actual.Style.Fg == ansi.Red
 
 	if shouldbeHighlighted {

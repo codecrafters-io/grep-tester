@@ -58,17 +58,14 @@ func (s *ScreenState) GetAllRows() []*Row {
 func (s *ScreenState) GetLinesOfTextUptoCursor() []string {
 	result := []string{}
 
-	for i := range s.cursorPosition.RowIndex {
+	for i := range s.cursorPosition.RowIndex + 1 {
 		currentRowContent := s.GetRowAtIndex(i).GetContents()
 		result = append(result, currentRowContent)
 	}
 
-	lastRowIndex := s.cursorPosition.RowIndex
-	lastRowContent := s.GetRowAtIndex(lastRowIndex).GetContents()
-	lastRowContentBeforeCursor := lastRowContent[:s.cursorPosition.ColumnIndex]
-
-	if lastRowContentBeforeCursor != "" {
-		result = append(result, lastRowContentBeforeCursor)
+	// Exclude the row in which cursor is present, if it is empty
+	if len(result) > 0 && result[len(result)-1] == "" {
+		result = result[:len(result)-1]
 	}
 
 	return result

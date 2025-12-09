@@ -35,19 +35,26 @@ func (vt *VirtualTerminal) Write(p []byte) (n int, err error) {
 }
 
 func (vt *VirtualTerminal) GetScreenState() *ScreenState {
-	cellMatrix := make([]*Row, vt.rows)
+	rows := make([]*Row, vt.rows)
+	cursorRowIndex := vt.vt.CursorPosition().Y
+	cursorColumnIndex := vt.vt.CursorPosition().X
 
 	for i := 0; i < vt.rows; i++ {
-		cellMatrix[i] = &Row{
-			cells: make([]*uv.Cell, vt.cols),
+		rows[i] = &Row{
+			cells:           make([]*uv.Cell, vt.cols),
+			cursorCellIndex: -1,
+		}
+
+		if cursorRowIndex == i {
+			rows[i].cursorCellIndex = cursorColumnIndex
 		}
 
 		for j := 0; j < vt.cols; j++ {
-			cellMatrix[i].cells[j] = vt.vt.CellAt(j, i)
+			rows[i].cells[j] = vt.vt.CellAt(j, i)
 		}
 	}
 
-	return NewScreenState(cellMatrix, CursorPosition{
+	return NewScreenState(rows, CursorPosition{
 		RowIndex:    vt.vt.CursorPosition().Y,
 		ColumnIndex: vt.vt.CursorPosition().X,
 	})

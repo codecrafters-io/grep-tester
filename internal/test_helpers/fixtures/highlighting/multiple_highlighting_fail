@@ -16,18 +16,18 @@ Debug = true
 [33m[your_program] [0m123blueberry
 [33m[tester::#NA5] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#NA5] [0m[92m✓ Found line "123blueberry"[0m
-[33m[tester::#NA5] [0m[92m✓ Match "123" is highlighted[0m
+[33m[tester::#NA5] [0m[92m✓ Match "123" is not highlighted[0m
 [33m[tester::#NA5] [0m[94mRunning grep inside TTY[0m
 [33m[tester::#NA5] [0m[94mecho 'I love watermelon' | $ ./your_grep.sh --color=never -E 'watermelon'[0m
 [33m[your_program] [0mI love watermelon
 [33m[tester::#NA5] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#NA5] [0m[92m✓ Found line "I love watermelon"[0m
-[33m[tester::#NA5] [0m[92m✓ Match "watermelon" is highlighted[0m
+[33m[tester::#NA5] [0m[92m✓ Match "watermelon" is not highlighted[0m
 [33m[tester::#NA5] [0m[94mecho 'prefix_strawberry' | $ ./your_grep.sh --color=auto -E 'strawberry$'[0m
 [33m[your_program] [0mprefix_strawberry
 [33m[tester::#NA5] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#NA5] [0m[92m✓ Found line "prefix_strawberry"[0m
-[33m[tester::#NA5] [0m[92m✓ Match "strawberry" is highlighted[0m
+[33m[tester::#NA5] [0m[92m✓ Match "strawberry" is not highlighted[0m
 [33m[tester::#NA5] [0m[94mRunning grep inside TTY[0m
 [33m[tester::#NA5] [0m[94mecho 'The panda runs fast' | $ ./your_grep.sh --color=auto -E 'panda'[0m
 [33m[your_program] [0mThe panda runs fast

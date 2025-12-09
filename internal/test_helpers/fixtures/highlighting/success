@@ -1,9 +1,4 @@
 [33m[tester::#BM2] [0m[94mRunning tests for Stage #BM2 (bm2)[0m
-[33m[tester::#BM2] [0m[94mecho 'only1digit' | $ ./your_grep.sh --color=always -E '\d'[0m
-[33m[your_program] [0monly[01;31m[K1[m[Kdigit
-[33m[tester::#BM2] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#BM2] [0m[92m✓ Found line "only1digit"[0m
-[33m[tester::#BM2] [0m[92m✓ Match "1" is highlighted[0m
 [33m[tester::#BM2] [0m[94mecho 'orange' | $ ./your_grep.sh --color=always -E '\d'[0m
 [33m[tester::#BM2] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#BM2] [0m[92m✓ No output found[0m
@@ -68,7 +63,7 @@
 [33m[your_program] [0m1elephant
 [33m[tester::#JK4] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#JK4] [0m[92m✓ Found line "1elephant"[0m
-[33m[tester::#JK4] [0m[92m✓ Match "1" is highlighted[0m
+[33m[tester::#JK4] [0m[92m✓ Match "1" is not highlighted[0m
 [33m[tester::#JK4] [0m[94mecho 'rabbit' | $ ./your_grep.sh --color=never -E '\d'[0m
 [33m[tester::#JK4] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#JK4] [0m[92m✓ No output found[0m
@@ -76,7 +71,7 @@
 [33m[your_program] [0mpear_suffix
 [33m[tester::#JK4] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#JK4] [0m[92m✓ Found line "pear_suffix"[0m
-[33m[tester::#JK4] [0m[92m✓ Match "pear" is highlighted[0m
+[33m[tester::#JK4] [0m[92m✓ Match "pear" is not highlighted[0m
 [33m[tester::#JK4] [0m[94mecho 'prefix_strawberry' | $ ./your_grep.sh --color=never -E '^strawberry'[0m
 [33m[tester::#JK4] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#JK4] [0m[92m✓ No output found[0m
@@ -84,12 +79,12 @@
 [33m[your_program] [0mdoooog
 [33m[tester::#JK4] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#JK4] [0m[92m✓ Found line "doooog"[0m
-[33m[tester::#JK4] [0m[92m✓ Match "doooog" is highlighted[0m
+[33m[tester::#JK4] [0m[92m✓ Match "doooog" is not highlighted[0m
 [33m[tester::#JK4] [0m[94mecho 'It's raining cats and dogs' | $ ./your_grep.sh --color=never -E 'cats and dogs'[0m
 [33m[your_program] [0mIt's raining cats and dogs
 [33m[tester::#JK4] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#JK4] [0m[92m✓ Found line "It's raining cats and dogs"[0m
-[33m[tester::#JK4] [0m[92m✓ Match "cats and dogs" is highlighted[0m
+[33m[tester::#JK4] [0m[92m✓ Match "cats and dogs" is not highlighted[0m
 [33m[tester::#JK4] [0m[92mTest passed.[0m
 
 [33m[tester::#NA5] [0m[94mRunning tests for Stage #NA5 (na5)[0m
@@ -108,18 +103,18 @@
 [33m[your_program] [0m123pear
 [33m[tester::#NA5] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#NA5] [0m[92m✓ Found line "123pear"[0m
-[33m[tester::#NA5] [0m[92m✓ Match "123" is highlighted[0m
+[33m[tester::#NA5] [0m[92m✓ Match "123" is not highlighted[0m
 [33m[tester::#NA5] [0m[94mRunning grep inside TTY[0m
 [33m[tester::#NA5] [0m[94mecho 'I love banana' | $ ./your_grep.sh --color=never -E 'banana'[0m
 [33m[your_program] [0mI love banana
 [33m[tester::#NA5] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#NA5] [0m[92m✓ Found line "I love banana"[0m
-[33m[tester::#NA5] [0m[92m✓ Match "banana" is highlighted[0m
+[33m[tester::#NA5] [0m[92m✓ Match "banana" is not highlighted[0m
 [33m[tester::#NA5] [0m[94mecho 'prefix_raspberry' | $ ./your_grep.sh --color=auto -E 'raspberry$'[0m
 [33m[your_program] [0mprefix_raspberry
 [33m[tester::#NA5] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#NA5] [0m[92m✓ Found line "prefix_raspberry"[0m
-[33m[tester::#NA5] [0m[92m✓ Match "raspberry" is highlighted[0m
+[33m[tester::#NA5] [0m[92m✓ Match "raspberry" is not highlighted[0m
 [33m[tester::#NA5] [0m[94mRunning grep inside TTY[0m
 [33m[tester::#NA5] [0m[94mecho 'The panda runs fast' | $ ./your_grep.sh --color=auto -E 'panda'[0m
 [33m[your_program] [0mThe [01;31m[Kpanda[m[K runs fast
