@@ -25,6 +25,7 @@ func (vt *VirtualTerminal) Close() {
 
 func (vt *VirtualTerminal) WriteWithCRLFTranslation(p []byte) (n int, err error) {
 	// The vt package does not provide a way to enable ONLCR on the virtual terminal
+	// so, we perform the CRLF translation here and write to the vt
 	tr := crlfTranslation(p)
 	return vt.vt.Write(tr)
 }
