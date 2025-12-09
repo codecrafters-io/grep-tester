@@ -23,13 +23,8 @@ func (vt *VirtualTerminal) Close() {
 	vt.vt.Close()
 }
 
-func (vt *VirtualTerminal) Write(p []byte) (n int, err error) {
-	// TODO: I'll remove this after PR review
-	// Confused about where this (crlf translation) should be put:
-	// Here:
-	// Upsides: The caller doesn't have to perform crlf translation on every write
-	// Downsides: the Write() method may return length different from len(p)
-	// A better way would have been if the vt package had provided a way to enable ONLCR
+func (vt *VirtualTerminal) WriteWithCRLFTranslation(p []byte) (n int, err error) {
+	// The vt package does not provide a way to enable ONLCR on the virtual terminal
 	tr := crlfTranslation(p)
 	return vt.vt.Write(tr)
 }

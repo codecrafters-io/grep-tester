@@ -46,11 +46,11 @@ func (a *HighlightingAssertion) Run(result executable.ExecutableResult, logger *
 	virtualTerminal2 := virtual_terminal.NewCustomVT(maxTerminalHeight, maxTerminalWidth)
 	defer virtualTerminal2.Close()
 
-	if _, err := virtualTerminal1.Write([]byte(a.ExpectedOutput)); err != nil {
+	if _, err := virtualTerminal1.WriteWithCRLFTranslation([]byte(a.ExpectedOutput)); err != nil {
 		return err
 	}
 
-	if _, err := virtualTerminal2.Write(result.Stdout); err != nil {
+	if _, err := virtualTerminal2.WriteWithCRLFTranslation(result.Stdout); err != nil {
 		return err
 	}
 
