@@ -152,7 +152,7 @@ func TestStages(t *testing.T) {
 			StageSlugs:          []string{"bm2"},
 			CodePath:            "./test_helpers/scenarios/highlighting/missing_line",
 			ExpectedExitCode:    1,
-			StdoutFixturePath:   "./test_helpers/fixtures/highlighting/mising_line",
+			StdoutFixturePath:   "./test_helpers/fixtures/highlighting/missing_line",
 			NormalizeOutputFunc: normalizeTesterOutput,
 		},
 		"highlighting_no_highlight": {
@@ -188,6 +188,13 @@ func TestStages(t *testing.T) {
 			CodePath:            "./test_helpers/scenarios/highlighting/wrong_color_green",
 			ExpectedExitCode:    1,
 			StdoutFixturePath:   "./test_helpers/fixtures/highlighting/wrong_color_green",
+			NormalizeOutputFunc: normalizeTesterOutput,
+		},
+		"highlighting_unexpected_highlight": {
+			StageSlugs:          []string{"jk4"},
+			CodePath:            "./test_helpers/scenarios/highlighting/unexpected_highlight",
+			ExpectedExitCode:    1,
+			StdoutFixturePath:   "./test_helpers/fixtures/highlighting/unexpected_highlight",
 			NormalizeOutputFunc: normalizeTesterOutput,
 		},
 	}

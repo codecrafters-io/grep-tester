@@ -94,14 +94,14 @@ const (
 	ColorAuto   ColorMode = "auto"
 )
 
-func BuildColoredErrorMessage(expectedPatternExplanation string, output string, squiggleIndex int) string {
+func BuildColoredErrorMessage(expectedPatternExplanation string, output string, errorPointerIdx int) string {
 	errorMsg := colorizeString(faithColor.FgGreen, "Expected:")
 	errorMsg += " \"" + expectedPatternExplanation + "\""
 	errorMsg += "\n"
 	errorMsg += colorizeString(faithColor.FgRed, "Received:")
 	errorMsg += " \"" + output + "\""
 	offset := 11
-	errorMsg += "\n" + strings.Repeat(" ", squiggleIndex+offset) + "↑"
+	errorMsg += "\n" + strings.Repeat(" ", errorPointerIdx+offset) + "↑"
 	return errorMsg
 }
 

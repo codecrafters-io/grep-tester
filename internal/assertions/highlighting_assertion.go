@@ -24,8 +24,8 @@ type HighlightingAssertion struct {
 }
 
 func (a *HighlightingAssertion) Run(result executable.ExecutableResult, logger *logger.Logger) error {
-	// Reset the value after the execution is over
 	defer func() {
+		// Reset the computed value(s) after the execution is over
 		a.matchesShouldbeHighlighted = false
 	}()
 
@@ -90,9 +90,11 @@ func (a *HighlightingAssertion) assertHighlighting(expectedScreenState, actualSc
 	expectedRow := expectedScreenState.GetRowAtIndex(0)
 	actualRow := actualScreenState.GetRowAtIndex(0)
 
-	for i, expectedCell := range expectedRow.GetCellsArray() {
-		actualCell := actualRow.GetCellsArray()[i]
+	for cellIdx, expectedCell := range expectedRow.GetCellsArray() {
+		actualCell := actualRow.GetCellsArray()[cellIdx]
+
 		err := a.compareCells(expectedCell, actualCell)
+
 		if err != nil {
 			// We trim the \n character from the output so error message can be built
 			expectedOutputLineWithoutLF := strings.TrimRight(a.ExpectedOutput, "\n")
@@ -100,7 +102,7 @@ func (a *HighlightingAssertion) assertHighlighting(expectedScreenState, actualSc
 
 			return fmt.Errorf(
 				"%s\n%s\n%s\n%s",
-				utils.BuildColoredErrorMessage(expectedOutputLineWithoutLF, actualOutputLineWithoutLF, i),
+				utils.BuildColoredErrorMessage(expectedOutputLineWithoutLF, actualOutputLineWithoutLF, cellIdx),
 				err.Error(),
 				fmt.Sprintf("Expected ANSI Sequence: %q", a.ExpectedOutput),
 				fmt.Sprintf("Received ANSI Sequence: %q", string(result.Stdout)),
@@ -121,6 +123,7 @@ func (a *HighlightingAssertion) assertHighlighting(expectedScreenState, actualSc
 }
 
 func (a *HighlightingAssertion) compareCells(expected *uv.Cell, actual *uv.Cell) error {
+
 	// Rare cases: Doesn't occur unless the user intentionally does so
 	if actual.Link != expected.Link {
 		return fmt.Errorf("Expected hyperlink to be absent, but is present")
