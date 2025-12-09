@@ -16,19 +16,19 @@ import (
 // and highlighting color (bold-red: default color) against the expected sequence
 // using a virtual terminal
 type HighlightingAssertion struct {
-	ExpectedAsciiSequence []byte
-	ExpectedMatches       []string
+	ExpectedOutput  string
+	ExpectedMatches []string
 }
 
 func (a HighlightingAssertion) Run(result executable.ExecutableResult, logger *logger.Logger) error {
 	// The dimensions for the VT will be the value that is maximum among the expected and actual output's width and height
 	maxTerminalWidth := max(
-		len(a.ExpectedAsciiSequence),
+		len(a.ExpectedOutput),
 		len(result.Stdout),
 	)
 
 	maxTerminalHeight := max(
-		len(strings.Split(string(a.ExpectedAsciiSequence), "\n")),
+		len(strings.Split(string(a.ExpectedOutput), "\n")),
 		len(strings.Split(string(result.Stdout), "\n")),
 	)
 
@@ -38,7 +38,7 @@ func (a HighlightingAssertion) Run(result executable.ExecutableResult, logger *l
 	virtualTerminal2 := virtual_terminal.NewCustomVT(maxTerminalHeight, maxTerminalWidth)
 	defer virtualTerminal2.Close()
 
-	if _, err := virtualTerminal1.Write(a.ExpectedAsciiSequence); err != nil {
+	if _, err := virtualTerminal1.Write([]byte(a.ExpectedOutput)); err != nil {
 		return err
 	}
 
@@ -47,29 +47,21 @@ func (a HighlightingAssertion) Run(result executable.ExecutableResult, logger *l
 	}
 
 	expectedScreenState := virtualTerminal1.GetScreenState()
-	// This is equivalent to panic() after mismatch between the exit codes from
-	// expected value and emulated grep's value: For eg. stdin_test_case:36
 	a.panicIfExpectedScreenStateisFlawed(expectedScreenState)
-
 	actualScreenState := virtualTerminal2.GetScreenState()
 
-	if err := a.assertContents(expectedScreenState, actualScreenState, logger); err != nil {
+	// Assert text contents first
+	if err := a.assertTextContents(expectedScreenState, actualScreenState, logger); err != nil {
 		return err
 	}
 
-	receivedOutput := ""
-	outputLines := utils.ProgramOutputToLines(string(result.Stdout))
-
-	if len(outputLines) > 0 {
-		receivedOutput = outputLines[0]
-	}
-
-	return a.assertHighlighting(expectedScreenState, actualScreenState, receivedOutput, logger)
+	// Assert highlighting
+	return a.assertHighlighting(expectedScreenState, actualScreenState, result, logger)
 }
 
-func (a HighlightingAssertion) assertContents(expectedScreenState, actualScreenState *virtual_terminal.ScreenState, logger *logger.Logger) error {
-	expectedLines := expectedScreenState.GetContentsUptoCursor()
-	actualLines := actualScreenState.GetContentsUptoCursor()
+func (a HighlightingAssertion) assertTextContents(expectedScreenState, actualScreenState *virtual_terminal.ScreenState, logger *logger.Logger) error {
+	expectedLines := expectedScreenState.GetLinesOfTextUptoCursor()
+	actualLines := actualScreenState.GetLinesOfTextUptoCursor()
 
 	orderedLinesAssertion := OrderedLinesAssertion{
 		ExpectedOutputLines: expectedLines,
@@ -85,7 +77,7 @@ func (a HighlightingAssertion) assertContents(expectedScreenState, actualScreenS
 	return orderedLinesAssertion.Run(actualResult, logger)
 }
 
-func (a HighlightingAssertion) assertHighlighting(expectedScreenState, actualScreenState *virtual_terminal.ScreenState, outputLine string, logger *logger.Logger) error {
+func (a HighlightingAssertion) assertHighlighting(expectedScreenState, actualScreenState *virtual_terminal.ScreenState, result executable.ExecutableResult, logger *logger.Logger) error {
 	// Assert the first line on each terminal
 	expectedRow := expectedScreenState.GetRowAtIndex(0)
 	actualRow := actualScreenState.GetRowAtIndex(0)
@@ -94,12 +86,16 @@ func (a HighlightingAssertion) assertHighlighting(expectedScreenState, actualScr
 		actualCell := actualRow.GetCellsArray()[i]
 		err := a.compareCells(expectedCell, actualCell)
 		if err != nil {
+			// We trim the \n character from the output so error message can be built
+			expectedOutputLineWithoutLF := strings.TrimRight(a.ExpectedOutput, "\n")
+			actualOutputLineWithoutLF := strings.TrimRight(string(result.Stdout), "\n")
+
 			return fmt.Errorf(
 				"%s\n%s\n%s\n%s",
-				utils.BuildColoredErrorMessage(string(a.ExpectedAsciiSequence), outputLine, i),
+				utils.BuildColoredErrorMessage(expectedOutputLineWithoutLF, actualOutputLineWithoutLF, i),
 				err.Error(),
-				fmt.Sprintf("Expected ANSI Sequence: %q", string(a.ExpectedAsciiSequence)),
-				fmt.Sprintf("Received ANSI Sequence: %q", string(outputLine)),
+				fmt.Sprintf("Expected ANSI Sequence: %q", a.ExpectedOutput),
+				fmt.Sprintf("Received ANSI Sequence: %q", string(result.Stdout)),
 			)
 		}
 	}
@@ -179,8 +175,12 @@ func (a HighlightingAssertion) compareCells(expected *uv.Cell, actual *uv.Cell) 
 	return fmt.Errorf("Expected no highlight, got bold")
 }
 
+// panicIfExpectedScreenStateisFlawed will panic if:
+// the screenstate has more than one line of output, or
+// if any of the cells are flawed
+// See panicIfExpectedCellIsFlawed() for the checks
 func (a HighlightingAssertion) panicIfExpectedScreenStateisFlawed(expectedScreenState *virtual_terminal.ScreenState) {
-	linesUptoCursor := expectedScreenState.GetContentsUptoCursor()
+	linesUptoCursor := expectedScreenState.GetLinesOfTextUptoCursor()
 
 	// Assert that expected screen state only has one line in the output
 	if len(linesUptoCursor) > 1 {
@@ -202,6 +202,12 @@ func (a HighlightingAssertion) panicIfExpectedScreenStateisFlawed(expectedScreen
 
 }
 
+// panicIfExpectedCellIsFlawed panics if the expected cell
+// contains hyperlink
+// is not of mono-width
+// contains underline
+// has non-empty background color
+// has foreground styling other than empty or bold-red (used for highlighting)
 func (a HighlightingAssertion) panicIfExpectedCellIsFlawed(expectedCell *uv.Cell) {
 	emptyCell := uv.EmptyCell
 

@@ -9,6 +9,6 @@ Debug = true
 [33m[tester::#EQ0] [0m[91m[31mReceived:[0m "a[01m[K1[m[Kb[01m[K2[m[Kc[01m[K3[m[K"[0m
 [33m[tester::#EQ0] [0m[91m            ↑[0m
 [33m[tester::#EQ0] [0m[91mExpected bold-red(ANSI Code: 01;31), got only bold[0m
-[33m[tester::#EQ0] [0m[91mExpected ANSI Sequence: "a\x1b[01;31m\x1b[K1\x1b[m\x1b[Kb\x1b[01;31m\x1b[K2\x1b[m\x1b[Kc\x1b[01;31m\x1b[K3\x1b[m\x1b[K"[0m
-[33m[tester::#EQ0] [0m[91mReceived ANSI Sequence: "a\x1b[01m\x1b[K1\x1b[m\x1b[Kb\x1b[01m\x1b[K2\x1b[m\x1b[Kc\x1b[01m\x1b[K3\x1b[m\x1b[K"[0m
+[33m[tester::#EQ0] [0m[91mExpected ANSI Sequence: "a\x1b[01;31m\x1b[K1\x1b[m\x1b[Kb\x1b[01;31m\x1b[K2\x1b[m\x1b[Kc\x1b[01;31m\x1b[K3\x1b[m\x1b[K\n"[0m
+[33m[tester::#EQ0] [0m[91mReceived ANSI Sequence: "a\x1b[01m\x1b[K1\x1b[m\x1b[Kb\x1b[01m\x1b[K2\x1b[m\x1b[Kc\x1b[01m\x1b[K3\x1b[m\x1b[K\n"[0m
 [33m[tester::#EQ0] [0m[91mTest failed[0m

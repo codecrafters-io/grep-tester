@@ -53,9 +53,9 @@ func (s *ScreenState) GetAllRows() []*Row {
 	return rows
 }
 
-// GetContentsUptoCursor returns the content of all the rows up to the row in which
+// GetLinesOfTextUptoCursor returns the content of all the rows up to the row in which
 // the cursor is present. For the row where cursor is present, content up to the cursor is returned
-func (s *ScreenState) GetContentsUptoCursor() []string {
+func (s *ScreenState) GetLinesOfTextUptoCursor() []string {
 	result := []string{}
 
 	for i := range s.cursorPosition.RowIndex {

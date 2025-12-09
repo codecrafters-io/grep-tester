@@ -30,6 +30,7 @@
 [33m[tester::#PZ6] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#PZ6] [0m[92m✓ Found line "banana123"[0m
 [33m[tester::#PZ6] [0m[92m✓ Found line "dog456"[0m
+[33m[tester::#PZ6] [0m[92m✓ Stdout contains 2 expected lines in order[0m
 [33m[tester::#PZ6] [0m[94m$ echo -ne "apple\nbanana\ncherry\ndog" | ./your_grep.sh -E '\d'[0m
 [33m[tester::#PZ6] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#PZ6] [0m[92m✓ No output found[0m
@@ -41,12 +42,14 @@
 [33m[tester::#PZ6] [0m[92m✓ Found line "grape"[0m
 [33m[tester::#PZ6] [0m[92m✓ Found line "apple"[0m
 [33m[tester::#PZ6] [0m[92m✓ Found line "test123"[0m
+[33m[tester::#PZ6] [0m[92m✓ Stdout contains 3 expected lines in order[0m
 [33m[tester::#PZ6] [0m[94m$ echo -ne "france\ntiger\nitaly\nfox\nspain" | ./your_grep.sh -E '(tiger|fox)'[0m
 [33m[your_program] [0mtiger
 [33m[your_program] [0mfox
 [33m[tester::#PZ6] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#PZ6] [0m[92m✓ Found line "tiger"[0m
 [33m[tester::#PZ6] [0m[92m✓ Found line "fox"[0m
+[33m[tester::#PZ6] [0m[92m✓ Stdout contains 2 expected lines in order[0m
 [33m[tester::#PZ6] [0m[94m$ echo -ne "New York\nWashington D.C.\nAustin\nLos Angeles" | ./your_grep.sh -E '(tiger|fox)'[0m
 [33m[tester::#PZ6] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#PZ6] [0m[92m✓ No output found[0m
@@ -56,4 +59,5 @@
 [33m[tester::#PZ6] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#PZ6] [0m[92m✓ Found line "LOG 10 plum"[0m
 [33m[tester::#PZ6] [0m[92m✓ Found line "LOG 20 asparagus"[0m
+[33m[tester::#PZ6] [0m[92m✓ Stdout contains 2 expected lines in order[0m
 [33m[tester::#PZ6] [0m[92mTest passed.[0m

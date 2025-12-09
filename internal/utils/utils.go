@@ -100,7 +100,8 @@ func BuildColoredErrorMessage(expectedPatternExplanation string, output string, 
 	errorMsg += "\n"
 	errorMsg += colorizeString(faithColor.FgRed, "Received:")
 	errorMsg += " \"" + output + "\""
-	errorMsg += "\n" + strings.Repeat(" ", squiggleIndex+11) + "↑"
+	offset := 11
+	errorMsg += "\n" + strings.Repeat(" ", squiggleIndex+offset) + "↑"
 	return errorMsg
 }
 
@@ -111,7 +112,7 @@ func ColorToName(color color.Color) string {
 
 	r, g, b, a := color.RGBA()
 
-	return fmt.Sprintf("RGBA (%d, %d, %d, %d)", r, g, b, a)
+	return fmt.Sprintf("RGBA(%d, %d, %d, %d)", r, g, b, a)
 }
 
 func colorizeString(colorToUse faithColor.Attribute, msg string) string {

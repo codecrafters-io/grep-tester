@@ -82,15 +82,15 @@ func (c HighlightingTestCaseCollection) Run(stageHarness *test_case_harness.Test
 			return err
 		}
 
-		// Emulate grep to gather matched strings
+		// Emulate grep to gather matched strings. This will be useful for logging
 		matchesOutput := grep.EmulateGrep([]string{"-o", "-E", testCase.Pattern}, grep.EmulationOptions{
 			Stdin: []byte(testCase.Stdin),
 		})
 		matches := utils.ProgramOutputToLines(string(matchesOutput.Stdout))
 
 		highlightingAssertion := assertions.HighlightingAssertion{
-			ExpectedAsciiSequence: emulatedResult.Stdout,
-			ExpectedMatches:       matches,
+			ExpectedOutput:  string(emulatedResult.Stdout),
+			ExpectedMatches: matches,
 		}
 
 		if err := highlightingAssertion.Run(actualResult, logger); err != nil {

@@ -9,6 +9,6 @@ Debug = true
 [33m[tester::#BM2] [0m[91m[31mReceived:[0m "only1digit"[0m
 [33m[tester::#BM2] [0m[91m               ↑[0m
 [33m[tester::#BM2] [0m[91mExpected bold-red(ANSI Code: 01;31), got no highlight[0m
-[33m[tester::#BM2] [0m[91mExpected ANSI Sequence: "only\x1b[01;31m\x1b[K1\x1b[m\x1b[Kdigit"[0m
-[33m[tester::#BM2] [0m[91mReceived ANSI Sequence: "only1digit"[0m
+[33m[tester::#BM2] [0m[91mExpected ANSI Sequence: "only\x1b[01;31m\x1b[K1\x1b[m\x1b[Kdigit\n"[0m
+[33m[tester::#BM2] [0m[91mReceived ANSI Sequence: "only1digit\n"[0m
 [33m[tester::#BM2] [0m[91mTest failed[0m
