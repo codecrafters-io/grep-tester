@@ -7,15 +7,19 @@ type CursorPosition struct {
 
 // ScreenState is a representation of the screen state at a given point in time
 type ScreenState struct {
-	// rows is always of size [rows x cols].
-	//
-	// Empty cells are represented by " " (space)
-	rows []*Row
-
+	rows           []*Row
 	cursorPosition CursorPosition
 }
 
 func NewScreenState(rawCellMatrix []*Row, cursorPosition CursorPosition) *ScreenState {
+	columnsCount := rawCellMatrix[0].GetCellsCount()
+
+	// Dimensions check to ensure rectangular shape
+	for _, row := range rawCellMatrix {
+		if row.GetCellsCount() != columnsCount {
+			panic("Codecrafters Internal Error - NewScreenState: rawCellMatrix is not rectangular")
+		}
+	}
 
 	return &ScreenState{
 		rows:           rawCellMatrix,
@@ -23,37 +27,44 @@ func NewScreenState(rawCellMatrix []*Row, cursorPosition CursorPosition) *Screen
 	}
 }
 
-func (s *ScreenState) GetRow(rowIndex int) *Row {
-	cursorCellIndex := -1
-
-	if s.cursorPosition.RowIndex == rowIndex {
-		cursorCellIndex = s.cursorPosition.ColumnIndex
-	}
-
-	return &Row{
-		cellsArray:      s.rows[rowIndex].cellsArray,
-		cursorCellIndex: cursorCellIndex,
-	}
-}
-
-func (s *ScreenState) GetRows() []*Row {
-	return s.rows
-}
-
-func (s *ScreenState) GetRowCount() int {
+// GetRowsCount returns the number of rows in the ScreenState
+func (s *ScreenState) GetRowsCount() int {
 	return len(s.rows)
 }
 
-func (s *ScreenState) GetLinesUptoCursor() []string {
+// GetRowAtIndex returns a pointer to a copy of the row at index 'rowIndex'
+// If the index is negative, or greater than, or equal to the number of rows, nil will be returned
+func (s *ScreenState) GetRowAtIndex(idx int) *Row {
+	if idx >= len(s.rows) || idx < 0 {
+		return nil
+	}
+
+	return s.rows[idx].Clone()
+}
+
+// GetRows returns a slice of copy of all the rows in the Screenstate
+func (s *ScreenState) GetAllRows() []*Row {
+	rows := make([]*Row, len(s.rows))
+
+	for i, row := range s.rows {
+		rows[i] = row.Clone()
+	}
+
+	return rows
+}
+
+// GetContentsUptoCursor returns the content of all the rows up to the row in which
+// the cursor is present. For the row where cursor is present, content up to the cursor is returned
+func (s *ScreenState) GetContentsUptoCursor() []string {
 	result := []string{}
 
 	for i := range s.cursorPosition.RowIndex {
-		currentRowContent := s.GetRow(i).String()
+		currentRowContent := s.GetRowAtIndex(i).GetContents()
 		result = append(result, currentRowContent)
 	}
 
 	lastRowIndex := s.cursorPosition.RowIndex
-	lastRowContent := s.GetRow(lastRowIndex).String()
+	lastRowContent := s.GetRowAtIndex(lastRowIndex).GetContents()
 	lastRowContentBeforeCursor := lastRowContent[:s.cursorPosition.ColumnIndex]
 
 	if lastRowContentBeforeCursor != "" {
@@ -63,14 +74,14 @@ func (s *ScreenState) GetLinesUptoCursor() []string {
 	return result
 }
 
-func (s *ScreenState) HasSameDimensionAs(base *ScreenState) bool {
-	if s.GetRowCount() != base.GetRowCount() {
+// HasSameDimensionAs returns true if the receiver's dimensions are the same
+// as the expected screen state's dimensions
+func (s *ScreenState) HasSameDimensionAs(expectedScreenState *ScreenState) bool {
+	// Verify rows count
+	if s.GetRowsCount() != expectedScreenState.GetRowsCount() {
 		return false
 	}
 
-	if len(s.GetRow(0).cellsArray) != len(base.GetRow(0).cellsArray) {
-		return false
-	}
-
-	return true
+	// Checking the cells count of first row suffices, because of the checks in the constructor
+	return s.GetRowAtIndex(0).GetCellsCount() == expectedScreenState.GetRowAtIndex(0).GetCellsCount()
 }

@@ -68,8 +68,8 @@ func (a HighlightingAssertion) Run(result executable.ExecutableResult, logger *l
 }
 
 func (a HighlightingAssertion) assertContents(expectedScreenState, actualScreenState *virtual_terminal.ScreenState, logger *logger.Logger) error {
-	expectedLines := expectedScreenState.GetLinesUptoCursor()
-	actualLines := actualScreenState.GetLinesUptoCursor()
+	expectedLines := expectedScreenState.GetContentsUptoCursor()
+	actualLines := actualScreenState.GetContentsUptoCursor()
 
 	orderedLinesAssertion := OrderedLinesAssertion{
 		ExpectedOutputLines: expectedLines,
@@ -87,8 +87,8 @@ func (a HighlightingAssertion) assertContents(expectedScreenState, actualScreenS
 
 func (a HighlightingAssertion) assertHighlighting(expectedScreenState, actualScreenState *virtual_terminal.ScreenState, outputLine string, logger *logger.Logger) error {
 	// Assert the first line on each terminal
-	expectedRow := expectedScreenState.GetRow(0)
-	actualRow := actualScreenState.GetRow(0)
+	expectedRow := expectedScreenState.GetRowAtIndex(0)
+	actualRow := actualScreenState.GetRowAtIndex(0)
 
 	for i, expectedCell := range expectedRow.GetCellsArray() {
 		actualCell := actualRow.GetCellsArray()[i]
@@ -180,7 +180,7 @@ func (a HighlightingAssertion) compareCells(expected *uv.Cell, actual *uv.Cell) 
 }
 
 func (a HighlightingAssertion) panicIfExpectedScreenStateisFlawed(expectedScreenState *virtual_terminal.ScreenState) {
-	linesUptoCursor := expectedScreenState.GetLinesUptoCursor()
+	linesUptoCursor := expectedScreenState.GetContentsUptoCursor()
 
 	// Assert that expected screen state only has one line in the output
 	if len(linesUptoCursor) > 1 {
@@ -194,7 +194,7 @@ func (a HighlightingAssertion) panicIfExpectedScreenStateisFlawed(expectedScreen
 		))
 	}
 
-	for _, expectedRow := range expectedScreenState.GetRows() {
+	for _, expectedRow := range expectedScreenState.GetAllRows() {
 		for _, expectedCell := range expectedRow.GetCellsArray() {
 			a.panicIfExpectedCellIsFlawed(expectedCell)
 		}
@@ -232,7 +232,7 @@ func (a HighlightingAssertion) panicIfExpectedCellIsFlawed(expectedCell *uv.Cell
 			fmt.Sprintf(
 				"Codecrafters Internal Error - Expected cell should be either bold-red, or none, got color: %s, attribute: %d",
 				utils.ColorToName(expectedCell.Style.Fg),
-				&expectedCell.Style.Attrs,
+				expectedCell.Style.Attrs,
 			),
 		)
 	}

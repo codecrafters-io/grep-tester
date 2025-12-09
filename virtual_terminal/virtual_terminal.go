@@ -12,13 +12,11 @@ type VirtualTerminal struct {
 }
 
 func NewCustomVT(rows, cols int) *VirtualTerminal {
-	vtInstance := &VirtualTerminal{
+	return &VirtualTerminal{
 		vt:   vt.NewEmulator(cols, rows),
 		rows: rows,
 		cols: cols,
 	}
-
-	return vtInstance
 }
 
 func (vt *VirtualTerminal) Close() {
@@ -26,8 +24,9 @@ func (vt *VirtualTerminal) Close() {
 }
 
 func (vt *VirtualTerminal) Write(p []byte) (n int, err error) {
-	// I'll remove this later
+	// TODO: I'll remove this after PR review
 	// Confused about where this (crlf translation) should be put:
+	// Here:
 	// Upsides: The caller doesn't have to perform crlf translation on every write
 	// Downsides: the Write() method may return length different from len(p)
 	// A better way would have been if the vt package had provided a way to enable ONLCR
@@ -40,11 +39,11 @@ func (vt *VirtualTerminal) GetScreenState() *ScreenState {
 
 	for i := 0; i < vt.rows; i++ {
 		cellMatrix[i] = &Row{
-			cellsArray: make([]*uv.Cell, vt.cols),
+			cells: make([]*uv.Cell, vt.cols),
 		}
 
 		for j := 0; j < vt.cols; j++ {
-			cellMatrix[i].cellsArray[j] = vt.vt.CellAt(j, i)
+			cellMatrix[i].cells[j] = vt.vt.CellAt(j, i)
 		}
 	}
 
@@ -69,7 +68,8 @@ func crlfTranslation(input []byte) (translated []byte) {
 		}
 
 		// If previous character was not \r, replace \n with \r\n
-		if i > 0 && input[i-1] != '\r' {
+		// Or, if the \n is present at the beginning, make the replacement
+		if (i == 0) || (i > 0 && input[i-1] != '\r') {
 			translated = append(translated, '\r', '\n')
 			continue
 		}
