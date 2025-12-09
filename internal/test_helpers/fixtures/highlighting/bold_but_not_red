@@ -1,14 +1,17 @@
 Debug = true
 
 [33m[tester::#EQ0] [0m[94mRunning tests for Stage #EQ0 (eq0)[0m
-[33m[tester::#EQ0] [0m[94mecho 'a1b2c3' | $ ./your_grep.sh --color=always -E '\d'[0m
-[33m[your_program] [0ma[01m[K1[m[Kb[01m[K2[m[Kc[01m[K3[m[K
+[33m[tester::#EQ0] [0m[94mecho 'apple' | $ ./your_grep.sh --color=always -E '\d'[0m
+[33m[tester::#EQ0] [0m[92m✓ Received exit code 1.[0m
+[33m[tester::#EQ0] [0m[92m✓ No output found[0m
+[33m[tester::#EQ0] [0m[94mecho 'xxyyzz' | $ ./your_grep.sh --color=always -E '\w\w'[0m
+[33m[your_program] [0m[01m[Kxx[m[K[01m[Kyy[m[K[01m[Kzz[m[K
 [33m[tester::#EQ0] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#EQ0] [0m[92m✓ Found line "a1b2c3"[0m
-[33m[tester::#EQ0] [0m[91m[32mExpected:[0m "a[01;31m[K1[m[Kb[01;31m[K2[m[Kc[01;31m[K3[m[K"[0m
-[33m[tester::#EQ0] [0m[91m[31mReceived:[0m "a1b2c3"[0m
-[33m[tester::#EQ0] [0m[91m            ↑[0m
+[33m[tester::#EQ0] [0m[92m✓ Found line "xxyyzz"[0m
+[33m[tester::#EQ0] [0m[91m[32mExpected:[0m "[01;31m[Kxx[m[K[01;31m[Kyy[m[K[01;31m[Kzz[m[K"[0m
+[33m[tester::#EQ0] [0m[91m[31mReceived:[0m "[01m[Kxx[m[K[01m[Kyy[m[K[01m[Kzz[m[K"[0m
+[33m[tester::#EQ0] [0m[91m           ↑[0m
 [33m[tester::#EQ0] [0m[91mExpected bold-red(ANSI Code: 01;31), got only bold[0m
-[33m[tester::#EQ0] [0m[91mExpected ANSI Sequence: "a\x1b[01;31m\x1b[K1\x1b[m\x1b[Kb\x1b[01;31m\x1b[K2\x1b[m\x1b[Kc\x1b[01;31m\x1b[K3\x1b[m\x1b[K"[0m
-[33m[tester::#EQ0] [0m[91mReceived ANSI Sequence: "a1b2c3"[0m
+[33m[tester::#EQ0] [0m[91mExpected ANSI Sequence: "\x1b[01;31m\x1b[Kxx\x1b[m\x1b[K\x1b[01;31m\x1b[Kyy\x1b[m\x1b[K\x1b[01;31m\x1b[Kzz\x1b[m\x1b[K"[0m
+[33m[tester::#EQ0] [0m[91mReceived ANSI Sequence: "\x1b[01m\x1b[Kxx\x1b[m\x1b[K\x1b[01m\x1b[Kyy\x1b[m\x1b[K\x1b[01m\x1b[Kzz\x1b[m\x1b[K"[0m
 [33m[tester::#EQ0] [0m[91mTest failed[0m

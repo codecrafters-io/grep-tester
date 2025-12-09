@@ -53,16 +53,21 @@ func (a HighlightingAssertion) Run(result executable.ExecutableResult, logger *l
 
 	actualScreenState := virtualTerminal2.GetScreenState()
 
-	outputLine, err := a.assertContents(expectedScreenState, actualScreenState, logger)
-
-	if err != nil {
+	if err := a.assertContents(expectedScreenState, actualScreenState, logger); err != nil {
 		return err
 	}
 
-	return a.assertHighlighting(expectedScreenState, actualScreenState, outputLine, logger)
+	receivedOutput := ""
+	outputLines := utils.ProgramOutputToLines(string(result.Stdout))
+
+	if len(outputLines) > 0 {
+		receivedOutput = outputLines[0]
+	}
+
+	return a.assertHighlighting(expectedScreenState, actualScreenState, receivedOutput, logger)
 }
 
-func (a HighlightingAssertion) assertContents(expectedScreenState, actualScreenState *virtual_terminal.ScreenState, logger *logger.Logger) (string, error) {
+func (a HighlightingAssertion) assertContents(expectedScreenState, actualScreenState *virtual_terminal.ScreenState, logger *logger.Logger) error {
 	expectedLines := expectedScreenState.GetLinesUptoCursor()
 	actualLines := actualScreenState.GetLinesUptoCursor()
 
@@ -77,7 +82,7 @@ func (a HighlightingAssertion) assertContents(expectedScreenState, actualScreenS
 		Stdout: []byte(actualOutput),
 	}
 
-	return strings.Split(actualOutput, "\n")[0], orderedLinesAssertion.Run(actualResult, logger)
+	return orderedLinesAssertion.Run(actualResult, logger)
 }
 
 func (a HighlightingAssertion) assertHighlighting(expectedScreenState, actualScreenState *virtual_terminal.ScreenState, outputLine string, logger *logger.Logger) error {

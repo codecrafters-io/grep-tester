@@ -1,14 +1,17 @@
 Debug = true
 
-[33m[tester::#NA5] [0m[94mRunning tests for Stage #NA5 (na5)[0m
-[33m[tester::#NA5] [0m[94mecho 'watermelon' | $ ./your_grep.sh --color=always -E '\w+'[0m
-[33m[your_program] [0m[01;32m[Kwatermelon[m[K
-[33m[tester::#NA5] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#NA5] [0m[92m✓ Found line "watermelon"[0m
-[33m[tester::#NA5] [0m[91m[32mExpected:[0m "[01;31m[Kwatermelon[m[K"[0m
-[33m[tester::#NA5] [0m[91m[31mReceived:[0m "[01;32m[Kwatermelon[m[K"[0m
-[33m[tester::#NA5] [0m[91m           ↑[0m
-[33m[tester::#NA5] [0m[91mExpected bold-red(ANSI Code: 01;31), got RGBA (0, 32896, 0, 65535)[0m
-[33m[tester::#NA5] [0m[91mExpected ANSI Sequence: "\x1b[01;31m\x1b[Kwatermelon\x1b[m\x1b[K"[0m
-[33m[tester::#NA5] [0m[91mReceived ANSI Sequence: "\x1b[01;32m\x1b[Kwatermelon\x1b[m\x1b[K"[0m
-[33m[tester::#NA5] [0m[91mTest failed[0m
+[33m[tester::#EQ0] [0m[94mRunning tests for Stage #EQ0 (eq0)[0m
+[33m[tester::#EQ0] [0m[94mecho 'apple' | $ ./your_grep.sh --color=always -E '\d'[0m
+[33m[tester::#EQ0] [0m[92m✓ Received exit code 1.[0m
+[33m[tester::#EQ0] [0m[92m✓ No output found[0m
+[33m[tester::#EQ0] [0m[94mecho 'xxyyzz' | $ ./your_grep.sh --color=always -E '\w\w'[0m
+[33m[your_program] [0m[01;32m[Kxx[m[K[01;32m[Kyy[m[K[01;32m[Kzz[m[K
+[33m[tester::#EQ0] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#EQ0] [0m[92m✓ Found line "xxyyzz"[0m
+[33m[tester::#EQ0] [0m[91m[32mExpected:[0m "[01;31m[Kxx[m[K[01;31m[Kyy[m[K[01;31m[Kzz[m[K"[0m
+[33m[tester::#EQ0] [0m[91m[31mReceived:[0m "[01;32m[Kxx[m[K[01;32m[Kyy[m[K[01;32m[Kzz[m[K"[0m
+[33m[tester::#EQ0] [0m[91m           ↑[0m
+[33m[tester::#EQ0] [0m[91mExpected bold-red(ANSI Code: 01;31), got RGBA (0, 32896, 0, 65535)[0m
+[33m[tester::#EQ0] [0m[91mExpected ANSI Sequence: "\x1b[01;31m\x1b[Kxx\x1b[m\x1b[K\x1b[01;31m\x1b[Kyy\x1b[m\x1b[K\x1b[01;31m\x1b[Kzz\x1b[m\x1b[K"[0m
+[33m[tester::#EQ0] [0m[91mReceived ANSI Sequence: "\x1b[01;32m\x1b[Kxx\x1b[m\x1b[K\x1b[01;32m\x1b[Kyy\x1b[m\x1b[K\x1b[01;32m\x1b[Kzz\x1b[m\x1b[K"[0m
+[33m[tester::#EQ0] [0m[91mTest failed[0m
