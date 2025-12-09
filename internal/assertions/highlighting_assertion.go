@@ -90,8 +90,11 @@ func (a *HighlightingAssertion) assertHighlighting(expectedScreenState, actualSc
 	expectedRow := expectedScreenState.GetRowAtIndex(0)
 	actualRow := actualScreenState.GetRowAtIndex(0)
 
-	for cellIdx, expectedCell := range expectedRow.GetCellsArray() {
-		actualCell := actualRow.GetCellsArray()[cellIdx]
+	expectedCells := expectedRow.GetCellsArray()
+	actualCells := actualRow.GetCellsArray()
+
+	for cellIdx, expectedCell := range expectedCells {
+		actualCell := actualCells[cellIdx]
 
 		err := a.compareCells(expectedCell, actualCell)
 
