@@ -14,7 +14,6 @@ func testSingleLineFileSearch(stageHarness *test_case_harness.TestCaseHarness) e
 
 	file_name := "fruits-" + utils.RandomFilePrefix() + ".txt"
 	fruit_1 := random.RandomElementFromArray(utils.FRUITS)
-	vegetable_1 := random.RandomElementFromArray(utils.VEGETABLES)
 	testFiles := []utils.TestFile{
 		{Path: file_name, Content: fruit_1},
 	}
@@ -29,7 +28,7 @@ func testSingleLineFileSearch(stageHarness *test_case_harness.TestCaseHarness) e
 			ExpectedExitCode: 0,
 		},
 		{
-			Pattern:          vegetable_1,
+			Pattern:          fmt.Sprintf("missing_fruit_%s", fruit_1),
 			FilePaths:        []string{file_name},
 			ExpectedExitCode: 1,
 		},
