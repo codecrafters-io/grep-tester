@@ -1,6 +1,7 @@
 package assertions
 
 import (
+	"errors"
 	"fmt"
 	"strings"
 
@@ -21,16 +22,25 @@ type HighlightingAssertion struct {
 
 	// This is computed based on expected screen state
 	matchesShouldbeHighlighted bool
+	originalResult             executable.ExecutableResult
+	logger                     *logger.Logger
+	vtCellComparisonContext    *vtCellComparisonContext
 }
 
 func (a *HighlightingAssertion) Run(result executable.ExecutableResult, logger *logger.Logger) error {
 	defer func() {
 		// Reset the computed value(s) after the execution is over
 		a.matchesShouldbeHighlighted = false
+		a.originalResult = executable.ExecutableResult{}
+		a.logger = nil
+		a.vtCellComparisonContext = nil
 	}()
 
+	a.originalResult = result
+	a.logger = logger.Clone()
+
 	// The dimensions for the VT will be the value that is maximum among the expected and actual output's width and height
-	// 1 more than the max length because even in the case of empty input,
+	// 1 more than the max length because even in the case of empty input, we need to spawn a vt
 	maxTerminalWidth := 1 + max(
 		len(a.ExpectedOutput),
 		len(result.Stdout),
@@ -64,15 +74,25 @@ func (a *HighlightingAssertion) Run(result executable.ExecutableResult, logger *
 	actualScreenState := virtualTerminal2.GetScreenState()
 
 	// Assert text contents first
-	if err := a.assertTextContents(expectedScreenState, actualScreenState, logger); err != nil {
+	if err := a.assertTextContents(expectedScreenState, actualScreenState); err != nil {
 		return err
 	}
 
 	// Assert highlighting
-	return a.assertHighlighting(expectedScreenState, actualScreenState, result, logger)
+	return a.assertHighlighting(expectedScreenState, actualScreenState)
 }
 
-func (a *HighlightingAssertion) assertTextContents(expectedScreenState, actualScreenState *virtual_terminal.ScreenState, logger *logger.Logger) error {
+func (a *HighlightingAssertion) getExpectedOutputAtLineIdx(lineIdx int) string {
+	lines := utils.ProgramOutputToLines(a.ExpectedOutput)
+	return lines[lineIdx]
+}
+
+func (a *HighlightingAssertion) getActualOutputAtLineIdx(lineIdx int) string {
+	lines := utils.ProgramOutputToLines(string(a.originalResult.Stdout))
+	return lines[lineIdx]
+}
+
+func (a *HighlightingAssertion) assertTextContents(expectedScreenState, actualScreenState *virtual_terminal.ScreenState) error {
 	expectedLines := expectedScreenState.GetLinesOfTextUptoCursor()
 	actualLines := actualScreenState.GetLinesOfTextUptoCursor()
 
@@ -87,192 +107,125 @@ func (a *HighlightingAssertion) assertTextContents(expectedScreenState, actualSc
 		Stdout: []byte(actualOutput),
 	}
 
-	return orderedLinesAssertion.Run(actualResult, logger)
+	return orderedLinesAssertion.Run(actualResult, a.logger)
 }
 
-func (a *HighlightingAssertion) assertHighlighting(expectedScreenState, actualScreenState *virtual_terminal.ScreenState, result executable.ExecutableResult, logger *logger.Logger) error {
-	// Assert the first line on each terminal
-	expectedRow := expectedScreenState.GetRowAtIndex(0)
-	actualRow := actualScreenState.GetRowAtIndex(0)
+func (a *HighlightingAssertion) assertHighlighting(expectedScreenState, actualScreenState *virtual_terminal.ScreenState) error {
+	// Initialize comparison context
+	a.vtCellComparisonContext = newEmptVtCellComparisonContext()
 
-	expectedCells := expectedRow.GetCellsArray()
-	actualCells := actualRow.GetCellsArray()
+	expectedLines := expectedScreenState.GetLinesOfTextUptoCursor()
+	actualLines := actualScreenState.GetLinesOfTextUptoCursor()
 
-	for cellIdx, expectedCell := range expectedCells {
-		actualCell := actualCells[cellIdx]
+	rowsCount := len(expectedLines)
 
-		err := a.compareCells(expectedCell, actualCell)
+	for rowIdx, expectedRow := range expectedScreenState.GetAllRows() {
+		// Update context: row index
+		a.vtCellComparisonContext.updateRowIndex(rowIdx)
 
-		if err != nil {
-			// We trim the (\r)\n character from the output so error message can be built
-			// We arrive only if there is one row in the output
-			// Checks in assertTextContents guarantees this
-			expectedOutputLineWithoutCRLF := utils.ProgramOutputToLines(a.ExpectedOutput)[0]
-			actualOutputLineWithoutCRLF := utils.ProgramOutputToLines(string(result.Stdout))[0]
-
-			return fmt.Errorf(
-				"%s\n%s\n%s\n%s",
-				utils.BuildColoredErrorMessage(expectedOutputLineWithoutCRLF, actualOutputLineWithoutCRLF, cellIdx),
-				err.Error(),
-				// Raw output here
-				fmt.Sprintf("Expected ANSI Sequence: %q", a.ExpectedOutput),
-				fmt.Sprintf("Received ANSI Sequence: %q", string(result.Stdout)),
-			)
+		// Only assert up to the row in which cursor is present
+		if rowIdx >= rowsCount {
+			break
 		}
-	}
 
-	// Print highlighting summary only when highlighting should be done
-	for _, match := range a.ExpectedMatches {
+		actualRow := actualScreenState.GetRowAtIndex(rowIdx)
+
+		if err := a.compareRows(expectedRow, actualRow); err != nil {
+			return err
+		}
+
 		if a.matchesShouldbeHighlighted {
-			logger.Successf("✓ Match %q is highlighted", match)
+			a.logger.Successf("✓ Line %q is properly highlighted", actualLines[rowIdx])
 		} else {
-			logger.Successf("✓ Match %q is not highlighted", match)
+			a.logger.Successf("✓ Line %q is not highlighted", actualLines[rowIdx])
 		}
 	}
 
 	return nil
 }
 
-func (a *HighlightingAssertion) compareCells(expected *uv.Cell, actual *uv.Cell) error {
+func (a *HighlightingAssertion) compareRows(expected *virtual_terminal.Row, actual *virtual_terminal.Row) error {
+	expectedCells := expected.GetCellsArray()
+	actualCells := actual.GetCellsArray()
 
-	// Rare cases: Doesn't occur unless the user intentionally does so
-	if actual.Link != expected.Link {
-		return fmt.Errorf("Expected hyperlink to be absent, but is present")
+	for cellIdx, expectedCell := range expectedCells {
+		actualCell := actualCells[cellIdx]
+
+		// Update context, column idx, expected, and actual cells
+		a.vtCellComparisonContext.updateColumnIndex(cellIdx)
+		a.vtCellComparisonContext.updateExpectedCell(expectedCell)
+		a.vtCellComparisonContext.updateActualCell(actualCell)
+
+		if err := a.compareCells(); err != nil {
+			return err
+		}
 	}
 
-	if actual.Width != expected.Width {
-		return fmt.Errorf("Expected character to be of single width, got %d", actual.Width)
-	}
+	return nil
+}
 
-	if actual.Style.Underline != expected.Style.Underline {
-		return fmt.Errorf("Expected no underline, but is underlined")
-	}
+func (a *HighlightingAssertion) compareCells() error {
+	ctx := a.vtCellComparisonContext
+	// Reset for each comparison
+	ctx.resetSuccessLogs()
 
-	if actual.Style.Bg != expected.Style.Bg {
-		return fmt.Errorf("Expected no background color, got %s", utils.ColorToName(actual.Style.Bg))
-	}
-
-	// Foreground checks
-	actualColorString := utils.ColorToName(actual.Style.Fg)
-
-	shouldbeHighlighted := expected.Style.Fg == ansi.Red && expected.Style.Attrs == uv.AttrBold
-
-	// If at least one cell is highlighted, it's expected that matches should highlighted
-	if shouldbeHighlighted {
+	// If a single cell is found which should be highlighted, which means highlighting is turned on
+	if ctx.expectedCell.Style.Fg == ansi.Red && ctx.expectedCell.Style.Attrs == uv.AttrBold {
 		a.matchesShouldbeHighlighted = true
 	}
 
-	expectedHighlighting := "bold-red(ANSI Code: 01;31)"
+	var firstError error
 
-	// Foreground check 1: If the actual style is other than red or none
-	if actual.Style.Fg != ansi.Red && actual.Style.Fg != nil {
-		if shouldbeHighlighted {
-			return fmt.Errorf("Expected %s, got %s", expectedHighlighting, actualColorString)
-		}
-		return fmt.Errorf("Expected no highlighting, got %s", actualColorString)
+	// 1. Check foreground color
+	if err := ctx.checkCellForegroundColor(); err != nil {
+		firstError = err
 	}
 
-	// Make these four cases as verbose as possible
-	isBold := actual.Style.Attrs == uv.AttrBold
-	isRed := actual.Style.Fg == ansi.Red
-
-	if shouldbeHighlighted {
-		if isBold && isRed {
-			return nil
-		}
-
-		if !isBold && !isRed {
-			return fmt.Errorf("Expected %s, got no highlight", expectedHighlighting)
-		}
-
-		if !isBold {
-			return fmt.Errorf("Expected %s, got only red", expectedHighlighting)
-		}
-
-		return fmt.Errorf("Expected %s, got only bold", expectedHighlighting)
+	// 2. Check bold attribute
+	if err := ctx.checkCellBoldAttribute(); err != nil && firstError == nil {
+		firstError = err
 	}
 
-	// No highlighting case
-	if !isBold && !isRed {
-		return nil
+	// 3. Reject extra attributes
+	if err := ctx.checkInvalidStylingAndAttributes(); err != nil && firstError == nil {
+		firstError = err
 	}
 
-	if isBold && isRed {
-		return fmt.Errorf("Expected no highlight, got bold-red")
+	// Only build the error from the first error
+	// This is because we still want to display success logs from later checks
+	if firstError != nil {
+		return a.buildError(firstError)
 	}
 
-	if isRed {
-		return fmt.Errorf("Expected no highlight, got red")
-	}
-
-	return fmt.Errorf("Expected no highlight, got bold")
+	return nil
 }
 
-// panicIfExpectedScreenStateisFlawed will panic if:
-// the screenstate has more than one line of output, or
-// if any of the cells are flawed
-// See panicIfExpectedCellIsFlawed() for the checks
-func (a HighlightingAssertion) panicIfExpectedScreenStateisFlawed(expectedScreenState *virtual_terminal.ScreenState) {
-	linesUptoCursor := expectedScreenState.GetLinesOfTextUptoCursor()
+func (a *HighlightingAssertion) buildError(errorMessage error) error {
+	ctx := a.vtCellComparisonContext
+	// Print comparison with cursor
+	a.logger.Plainln(
+		buildComparisonErrorMessageWithCursor(
+			a.getExpectedOutputAtLineIdx(ctx.cellRowIdx),
+			a.getActualOutputAtLineIdx(ctx.cellRowIdx),
+			ctx.cellColumnIdx,
+		),
+	)
 
-	// Assert that expected screen state only has one line in the output
-	if len(linesUptoCursor) > 1 {
-
-		outputLines := strings.Join(linesUptoCursor, "\n")
-
-		panic(fmt.Sprintf(
-			"Codecrafters Internal Error - Expected one line in output, grep returned %d:\n%s",
-			len(linesUptoCursor),
-			outputLines,
-		))
+	// Print success messages
+	for _, successMsg := range ctx.successLogs {
+		a.logger.Successln(successMsg)
 	}
 
-	for _, expectedRow := range expectedScreenState.GetAllRows() {
-		for _, expectedCell := range expectedRow.GetCellsArray() {
-			a.panicIfExpectedCellIsFlawed(expectedCell)
-		}
-	}
+	// Print error message
+	a.logger.Errorln(fmt.Sprintf("⨯ %s", errorMessage))
 
-}
+	// Print ANSI sequence comparison
+	a.logger.Plainln(
+		buildAnsiComplaint(
+			a.getExpectedOutputAtLineIdx(ctx.cellRowIdx),
+			a.getActualOutputAtLineIdx(ctx.cellRowIdx),
+		),
+	)
 
-// panicIfExpectedCellIsFlawed panics if the expected cell
-// contains hyperlink
-// is not of mono-width
-// contains underline
-// has non-empty background color
-// has foreground styling other than empty or bold-red (used for highlighting)
-func (a HighlightingAssertion) panicIfExpectedCellIsFlawed(expectedCell *uv.Cell) {
-	emptyCell := uv.EmptyCell
-
-	// Expected cell should have no link
-	if expectedCell.Link != emptyCell.Link {
-		panic("Codecrafters Internal Error - Expected cell contains hyperlink")
-	}
-
-	// Expected cell should be of mono-width
-	if expectedCell.Width != emptyCell.Width {
-		panic("Codecrafters Internal Error - Expected cell is not of unit width")
-	}
-
-	// Expected cell should have no underline
-	if expectedCell.Style.Underline != emptyCell.Style.Underline {
-		panic("Codecrafters Internal Error - Expected cell is underlined")
-	}
-
-	// Expected cell should have no background color
-	if expectedCell.Style.Bg != emptyCell.Style.Bg {
-		panic("Codecrafters Internal Error - Expected cell doesn't have plain background")
-	}
-
-	// Expected cell should either be bold red, or with no styling
-	if !(expectedCell.Style.Fg == ansi.Red && expectedCell.Style.Attrs == uv.AttrBold) &&
-		!(expectedCell.Style.Fg == emptyCell.Style.Fg && expectedCell.Style.Attrs == emptyCell.Style.Attrs) {
-		panic(
-			fmt.Sprintf(
-				"Codecrafters Internal Error - Expected cell should be either bold-red, or none, got color: %s, attribute: %d",
-				utils.ColorToName(expectedCell.Style.Fg),
-				expectedCell.Style.Attrs,
-			),
-		)
-	}
+	return errors.New("Wrong highlighting pattern")
 }

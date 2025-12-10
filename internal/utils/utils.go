@@ -3,13 +3,11 @@ package utils
 import (
 	"bufio"
 	"fmt"
-	"image/color"
 	"net/url"
 	"strconv"
 	"strings"
 
 	"github.com/codecrafters-io/tester-utils/random"
-	faithColor "github.com/fatih/color"
 )
 
 // FRUITS, VEGETABLES, and ANIMALS are used to generate test file contents
@@ -82,7 +80,7 @@ func FormatLineForLogging(line string) string {
 // HighlightString highlights a text by wrapping it in ascii code corresponding to grep's default
 // highlighting color
 func HighlightString(text string) string {
-	return "\033[01;31m\033[K" + text + "\033[m\033[K"
+	return "\033[01;31m" + text + "\033[m"
 }
 
 // ColorMode represents the color output mode
@@ -93,29 +91,3 @@ const (
 	ColorNever  ColorMode = "never"
 	ColorAuto   ColorMode = "auto"
 )
-
-func BuildColoredErrorMessage(expectedPatternExplanation string, output string, errorPointerIdx int) string {
-	errorMsg := colorizeString(faithColor.FgGreen, "Expected:")
-	errorMsg += " \"" + expectedPatternExplanation + "\""
-	errorMsg += "\n"
-	errorMsg += colorizeString(faithColor.FgRed, "Received:")
-	errorMsg += " \"" + output + "\""
-	offset := 11
-	errorMsg += "\n" + strings.Repeat(" ", errorPointerIdx+offset) + "↑"
-	return errorMsg
-}
-
-func ColorToName(color color.Color) string {
-	if color == nil {
-		return "no color"
-	}
-
-	r, g, b, a := color.RGBA()
-
-	return fmt.Sprintf("RGBA(%d, %d, %d, %d)", r, g, b, a)
-}
-
-func colorizeString(colorToUse faithColor.Attribute, msg string) string {
-	c := faithColor.New(colorToUse)
-	return c.Sprint(msg)
-}
