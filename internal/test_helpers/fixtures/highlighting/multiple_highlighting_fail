@@ -34,7 +34,7 @@ Debug = true
 [33m[tester::#NA5] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#NA5] [0m[92m✓ Found line "The panda runs fast"[0m
 [33m[tester::#NA5] [0m[91m[32mExpected:[0m "The [01;31m[Kpanda[m[K runs fast"[0m
-[33m[tester::#NA5] [0m[91m[31mReceived:[0m "The panda runs fast"[0m
+[33m[tester::#NA5] [0m[91m[31mReceived:[0m "The panda runs fast"[0m
 [33m[tester::#NA5] [0m[91m               ↑[0m
 [33m[tester::#NA5] [0m[91mExpected bold-red(ANSI Code: 01;31), got no highlight[0m
 [33m[tester::#NA5] [0m[91mExpected ANSI Sequence: "The \x1b[01;31m\x1b[Kpanda\x1b[m\x1b[K runs fast\n"[0m

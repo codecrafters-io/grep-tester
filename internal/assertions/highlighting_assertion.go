@@ -35,9 +35,14 @@ func (a *HighlightingAssertion) Run(result executable.ExecutableResult, logger *
 		len(result.Stdout),
 	)
 
-	maxTerminalHeight := max(
-		len(strings.Split(string(a.ExpectedOutput), "\n")),
-		len(strings.Split(string(result.Stdout), "\n")),
+	expectedLines := utils.ProgramOutputToLines(a.ExpectedOutput)
+	actualLines := utils.ProgramOutputToLines(string(result.Stdout))
+
+	// 1 more than the max length because even in the case of empty input,
+	// we still need a virtual terminal with a single row
+	maxTerminalHeight := 1 + max(
+		len(expectedLines),
+		len(actualLines),
 	)
 
 	virtualTerminal1 := virtual_terminal.NewCustomVT(maxTerminalHeight, maxTerminalWidth)
@@ -99,14 +104,15 @@ func (a *HighlightingAssertion) assertHighlighting(expectedScreenState, actualSc
 		err := a.compareCells(expectedCell, actualCell)
 
 		if err != nil {
-			// We trim the \n character from the output so error message can be built
-			expectedOutputLineWithoutLF := strings.TrimRight(a.ExpectedOutput, "\n")
-			actualOutputLineWithoutLF := strings.TrimRight(string(result.Stdout), "\n")
+			// We trim the (\r)\n character from the output so error message can be built
+			expectedOutputLineWithoutCRLF := utils.ProgramOutputToLines(a.ExpectedOutput)[0]
+			actualOutputLineWithoutCRLF := utils.ProgramOutputToLines(string(result.Stdout))[0]
 
 			return fmt.Errorf(
 				"%s\n%s\n%s\n%s",
-				utils.BuildColoredErrorMessage(expectedOutputLineWithoutLF, actualOutputLineWithoutLF, cellIdx),
+				utils.BuildColoredErrorMessage(expectedOutputLineWithoutCRLF, actualOutputLineWithoutCRLF, cellIdx),
 				err.Error(),
+				// Raw output here
 				fmt.Sprintf("Expected ANSI Sequence: %q", a.ExpectedOutput),
 				fmt.Sprintf("Received ANSI Sequence: %q", string(result.Stdout)),
 			)
