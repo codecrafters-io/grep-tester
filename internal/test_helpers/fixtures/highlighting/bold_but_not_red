@@ -8,5 +8,5 @@ Debug = true
 [33m[tester::#EQ0] [0m[91m[32mExpected:[0m "a[01;31m[K1[m[Kb[01;31m[K2[m[Kc[01;31m[K3[m[K"[0m
 [33m[tester::#EQ0] [0m[91m[31mReceived:[0m "a[01m[K1[m[Kb[01m[K2[m[Kc[01m[K3[m[K"[0m
 [33m[tester::#EQ0] [0m[91m            ↑[0m
-[33m[tester::#EQ0] [0m[91m⨯ Expected color to be red (color code 31), got white (no color code)[0m
+[33m[tester::#EQ0] [0m[91m⨯ Expected char ("1") to be red (color code 31), got white (no color code)[0m
 [33m[tester::#EQ0] [0m[91mTest failed[0m
