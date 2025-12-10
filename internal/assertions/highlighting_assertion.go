@@ -105,6 +105,8 @@ func (a *HighlightingAssertion) assertHighlighting(expectedScreenState, actualSc
 
 		if err != nil {
 			// We trim the (\r)\n character from the output so error message can be built
+			// We arrive only if there is one row in the output
+			// Checks in assertTextContents guarantees this
 			expectedOutputLineWithoutCRLF := utils.ProgramOutputToLines(a.ExpectedOutput)[0]
 			actualOutputLineWithoutCRLF := utils.ProgramOutputToLines(string(result.Stdout))[0]
 

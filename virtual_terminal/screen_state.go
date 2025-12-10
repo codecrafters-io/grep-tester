@@ -59,6 +59,7 @@ func (s *ScreenState) GetLinesOfTextUptoCursor() []string {
 	result := []string{}
 
 	for i := range s.cursorPosition.RowIndex + 1 {
+		// cursor position does not exceed rows count in vt
 		currentRowContent := s.GetRowAtIndex(i).GetContents()
 		result = append(result, currentRowContent)
 	}
