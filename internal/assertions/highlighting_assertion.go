@@ -30,7 +30,8 @@ func (a *HighlightingAssertion) Run(result executable.ExecutableResult, logger *
 	}()
 
 	// The dimensions for the VT will be the value that is maximum among the expected and actual output's width and height
-	maxTerminalWidth := max(
+	// 1 more than the max length because even in the case of empty input,
+	maxTerminalWidth := 1 + max(
 		len(a.ExpectedOutput),
 		len(result.Stdout),
 	)
@@ -38,7 +39,6 @@ func (a *HighlightingAssertion) Run(result executable.ExecutableResult, logger *
 	expectedLines := utils.ProgramOutputToLines(a.ExpectedOutput)
 	actualLines := utils.ProgramOutputToLines(string(result.Stdout))
 
-	// 1 more than the max length because even in the case of empty input,
 	// we still need a virtual terminal with a single row
 	maxTerminalHeight := 1 + max(
 		len(expectedLines),
