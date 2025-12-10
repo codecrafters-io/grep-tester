@@ -9,6 +9,6 @@ Debug = true
 [33m[tester::#EQ0] [0m[91m[31mReceived:[0m "a[01;32m[K1[m[Kb[01;32m[K2[m[Kc[01;32m[K3[m[K"[0m
 [33m[tester::#EQ0] [0m[91m            ↑[0m
 [33m[tester::#EQ0] [0m[91m⨯ Expected color to be red (color code 31), got green (color code 32)[0m
-[33m[tester::#EQ0] [0m[91mExpected ANSI Sequence: "a\x1b[01;31m\x1b[K1\x1b[m\x1b[Kb\x1b[01;31m\x1b[K2\x1b[m\x1b[Kc\x1b[01;31m\x1b[K3\x1b[m\x1b[K\n"[0m
-[33m[tester::#EQ0] [0m[91mReceived ANSI Sequence: "a\x1b[01;32m1\x1b[mb\x1b[01;32m\x1b[K2\x1b[m\x1b[Kc\x1b[01;32m\x1b[K3\x1b[m\x1b[K\n"[0m
+[33m[tester::#EQ0] [0m[91mExpected ANSI Sequence: "a\x1b[01;31m1\x1b[mb\x1b[01;31m2\x1b[mc\x1b[01;31m3\x1b[m\n"[0m
+[33m[tester::#EQ0] [0m[91mReceived ANSI Sequence: "a\x1b[01;32m1\x1b[mb\x1b[01;32m2\x1b[mc\x1b[01;32m3\x1b[m\n"[0m
 [33m[tester::#EQ0] [0m[91mTest failed[0m
