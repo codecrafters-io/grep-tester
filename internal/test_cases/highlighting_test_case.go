@@ -3,6 +3,7 @@ package test_cases
 import (
 	"fmt"
 	"path"
+	"strings"
 
 	"github.com/codecrafters-io/grep-tester/internal/assertions"
 	"github.com/codecrafters-io/grep-tester/internal/grep"
@@ -13,7 +14,7 @@ import (
 
 type HighlightingTestCase struct {
 	Pattern          string
-	Stdin            string
+	InputLines       []string
 	ExpectedExitCode int
 	RunInsideTty     bool
 	ColorMode        utils.ColorMode
@@ -46,7 +47,8 @@ func (c HighlightingTestCaseCollection) Run(stageHarness *test_case_harness.Test
 			logger.Infof("Running grep inside TTY")
 		}
 
-		logger.Infof("echo '%s' | $ ./%s %s -E '%s'", testCase.Stdin,
+		allInputLines := strings.Join(testCase.InputLines, "\n")
+		logger.Infof("echo -ne %q | $ ./%s %s -E '%s'", allInputLines,
 			path.Base(grepExecutable.Path),
 			colorArgument,
 			testCase.Pattern,
@@ -54,7 +56,7 @@ func (c HighlightingTestCaseCollection) Run(stageHarness *test_case_harness.Test
 
 		// Emulate grep
 		emulatedResult := grep.EmulateGrep(allArguments, grep.EmulationOptions{
-			Stdin:        []byte(testCase.Stdin),
+			Stdin:        []byte(allInputLines),
 			EmulateInTTY: testCase.RunInsideTty,
 		})
 
@@ -68,7 +70,7 @@ func (c HighlightingTestCaseCollection) Run(stageHarness *test_case_harness.Test
 
 		grepExecutable.ShouldUsePty = testCase.RunInsideTty
 
-		actualResult, err = grepExecutable.RunWithStdin([]byte(testCase.Stdin), allArguments...)
+		actualResult, err = grepExecutable.RunWithStdin([]byte(allInputLines), allArguments...)
 
 		if err != nil {
 			return err
@@ -82,15 +84,8 @@ func (c HighlightingTestCaseCollection) Run(stageHarness *test_case_harness.Test
 			return err
 		}
 
-		// Emulate grep to gather matched strings. This will be useful for logging
-		matchesOutput := grep.EmulateGrep([]string{"-o", "-E", testCase.Pattern}, grep.EmulationOptions{
-			Stdin: []byte(testCase.Stdin),
-		})
-		matches := utils.ProgramOutputToLines(string(matchesOutput.Stdout))
-
 		highlightingAssertion := assertions.HighlightingAssertion{
-			ExpectedOutput:  string(emulatedResult.Stdout),
-			ExpectedMatches: matches,
+			ExpectedOutput: string(emulatedResult.Stdout),
 		}
 
 		if err := highlightingAssertion.Run(actualResult, logger); err != nil {

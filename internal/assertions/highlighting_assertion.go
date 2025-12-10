@@ -17,8 +17,7 @@ import (
 // and highlighting color (bold-red: default color) against the expected sequence
 // using a virtual terminal
 type HighlightingAssertion struct {
-	ExpectedOutput  string
-	ExpectedMatches []string
+	ExpectedOutput string
 
 	// This is computed based on expected screen state
 	matchesShouldbeHighlighted bool
@@ -212,8 +211,8 @@ func (a *HighlightingAssertion) buildError(errorMessage error) error {
 	)
 
 	// Print success messages
-	for _, successMsg := range ctx.successLogs {
-		a.logger.Successln(successMsg)
+	for _, successLog := range ctx.successLogs {
+		a.logger.Successln(successLog)
 	}
 
 	// Print error message
@@ -221,9 +220,9 @@ func (a *HighlightingAssertion) buildError(errorMessage error) error {
 
 	// Print ANSI sequence comparison
 	a.logger.Plainln(
-		buildAnsiComplaint(
-			a.getExpectedOutputAtLineIdx(ctx.cellRowIdx),
-			a.getActualOutputAtLineIdx(ctx.cellRowIdx),
+		buildAnsiCodeMismatchComplaint(
+			ctx.expectedCell.Style.String(),
+			ctx.actualCell.Style.String(),
 		),
 	)
 

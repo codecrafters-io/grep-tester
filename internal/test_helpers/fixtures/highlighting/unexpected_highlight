@@ -1,7 +1,7 @@
 Debug = true
 
 [33m[tester::#JK4] [0m[94mRunning tests for Stage #JK4 (jk4)[0m
-[33m[tester::#JK4] [0m[94mecho '1tiger' | $ ./your_grep.sh --color=never -E '\d'[0m
+[33m[tester::#JK4] [0m[94mecho -ne "1tiger" | $ ./your_grep.sh --color=never -E '\d'[0m
 [33m[your_program] [0m[01;31m[K1[m[Ktiger
 [33m[tester::#JK4] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#JK4] [0m[92m✓ Found line "1tiger"[0m
@@ -10,8 +10,8 @@ Debug = true
 [33m[tester::#JK4] [0m[91mReceived:[0m "[01;31m[K1[m[Ktiger"
 [33m[tester::#JK4] [0m           ↑
 [33m[tester::#JK4] [0m[91m⨯ Expected no color, got red (ANSI code 31)[0m
-[33m[tester::#JK4] [0m[92mExpected ANSI code: "1tiger"
-[33m[tester::#JK4] [0m[0m[91mReceived ANSI code: "\x1b[01;31m\x1b[K1\x1b[m\x1b[Ktiger"
+[33m[tester::#JK4] [0m[92mExpected ANSI code: "\x1b[m"
+[33m[tester::#JK4] [0m[0m[91mReceived ANSI code: "\x1b[1;31m"
 [33m[tester::#JK4] [0m[0m
 [33m[tester::#JK4] [0m[91mWrong highlighting pattern[0m
 [33m[tester::#JK4] [0m[91mTest failed[0m

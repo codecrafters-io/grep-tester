@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	uv "github.com/charmbracelet/ultraviolet"
+	"github.com/dustin/go-humanize/english"
 )
 
 // vtCellComparisonContext holds cell information for comparison
@@ -98,7 +99,8 @@ func (ctx *vtCellComparisonContext) checkInvalidStylingAndAttributes() error {
 		attributesWithoutBold := ctx.actualCell.Style.Attrs &^ uv.AttrBold
 		attributeNames := attributesToNames(attributesWithoutBold)
 		return fmt.Errorf(
-			"Expected no extra attributes, got attributes: %s",
+			"Expected no extra attributes, got %s: %s",
+			english.PluralWord(len(attributeNames), "attribute", "attributes"),
 			strings.Join(attributeNames, ", "),
 		)
 	}

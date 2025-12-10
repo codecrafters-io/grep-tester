@@ -21,7 +21,7 @@ func buildComparisonErrorMessageWithCursor(expectedOutput string, actualOutput s
 	return errorMsg
 }
 
-func buildAnsiComplaint(expectedPattern string, actualPattern string) string {
+func buildAnsiCodeMismatchComplaint(expectedPattern string, actualPattern string) string {
 	complaint := colorizeString(fatihColor.FgHiGreen, fmt.Sprintf("Expected ANSI code: %q\n", expectedPattern))
 	complaint += colorizeString(fatihColor.FgHiRed, fmt.Sprintf("Received ANSI code: %q\n", actualPattern))
 	return complaint
@@ -76,7 +76,7 @@ func colorCodeTocolorName(colorCode string) string {
 	if name, ok := ansiColorNames[colorCode]; ok {
 		return name + " (ANSI code " + colorCode + ")"
 	}
-	return "color with ANSI code " + colorCode
+	return fmt.Sprintf("color with ANSI code %q", colorCode)
 }
 
 func getFgColorName(c color.Color) string {
