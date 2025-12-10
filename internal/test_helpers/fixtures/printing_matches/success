@@ -3,7 +3,6 @@
 [33m[your_program] [0mbanana123
 [33m[tester::#KU5] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#KU5] [0m[92m✓ Found line "banana123"[0m
-[33m[tester::#KU5] [0m[92m✓ Stdout contains 1 expected line in order[0m
 [33m[tester::#KU5] [0m[94m$ echo -ne "cherry" | ./your_grep.sh -E '\d'[0m
 [33m[tester::#KU5] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#KU5] [0m[92m✓ No output found[0m
@@ -11,7 +10,6 @@
 [33m[your_program] [0mapple_suffix
 [33m[tester::#KU5] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#KU5] [0m[92m✓ Found line "apple_suffix"[0m
-[33m[tester::#KU5] [0m[92m✓ Stdout contains 1 expected line in order[0m
 [33m[tester::#KU5] [0m[94m$ echo -ne "prefix_apple" | ./your_grep.sh -E '^apple'[0m
 [33m[tester::#KU5] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#KU5] [0m[92m✓ No output found[0m
@@ -19,12 +17,10 @@
 [33m[your_program] [0mcat
 [33m[tester::#KU5] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#KU5] [0m[92m✓ Found line "cat"[0m
-[33m[tester::#KU5] [0m[92m✓ Stdout contains 1 expected line in order[0m
 [33m[tester::#KU5] [0m[94m$ echo -ne "ptest" | ./your_grep.sh -E '[pineapple]'[0m
 [33m[your_program] [0mptest
 [33m[tester::#KU5] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#KU5] [0m[92m✓ Found line "ptest"[0m
-[33m[tester::#KU5] [0m[92m✓ Stdout contains 1 expected line in order[0m
 [33m[tester::#KU5] [0m[92mTest passed.[0m
 
 [33m[tester::#PZ6] [0m[94mRunning tests for Stage #PZ6 (pz6)[0m
