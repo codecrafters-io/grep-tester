@@ -14,10 +14,10 @@ build:
 	go build -o dist/main.out ./cmd/tester
 
 test:
-	TESTER_DIR=$(shell pwd) go test -v ./internal/
+	TESTER_DIR=$(shell pwd) go test -v ./...
 
 test_and_watch:
-	onchange '**/*' -- go test -v ./internal/
+	onchange '**/*' -- go test -v ./...
 
 test_base_with_grep: build
 	CODECRAFTERS_REPOSITORY_DIR=$(shell pwd)/internal/test_helpers/pass_all \
