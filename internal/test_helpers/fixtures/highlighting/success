@@ -120,7 +120,7 @@
 [33m[tester::#NA5] [0m[92m✓ Found line "The panda runs fast"[0m
 [33m[tester::#NA5] [0m[92m✓ All matches in the line "The panda runs fast" are highlighted[0m
 [33m[tester::#NA5] [0m[94mRunning grep inside TTY[0m
-[33m[tester::#NA5] [0m[94mecho -ne "no numbers here" | $ ./your_grep.sh --color=auto -E '\d{5}'[0m
+[33m[tester::#NA5] [0m[94mecho -ne "no numbers here" | $ ./your_grep.sh --color=auto -E '\d'[0m
 [33m[tester::#NA5] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#NA5] [0m[92m✓ No output found[0m
 [33m[tester::#NA5] [0m[92mTest passed.[0m
