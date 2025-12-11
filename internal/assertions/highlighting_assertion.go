@@ -121,7 +121,6 @@ func (a *HighlightingAssertion) assertHighlighting(expectedScreenState, actualSc
 	for rowIdx, expectedRow := range expectedScreenState.GetAllRows() {
 		// Update context: row index
 		a.vtCellComparisonContext.updateRowIndex(rowIdx)
-		a.matchesShouldbeHighlighted = false
 
 		// Only assert up to the row in which cursor is present
 		if rowIdx >= rowsCount {
@@ -129,13 +128,12 @@ func (a *HighlightingAssertion) assertHighlighting(expectedScreenState, actualSc
 		}
 
 		actualRow := actualScreenState.GetRowAtIndex(rowIdx)
-
 		if err := a.compareRows(expectedRow, actualRow); err != nil {
 			return err
 		}
 
 		if a.matchesShouldbeHighlighted {
-			a.logger.Successf("✓ All matches in the Line %q are highlighted", actualLines[rowIdx])
+			a.logger.Successf("✓ All matches in the line %q are highlighted", actualLines[rowIdx])
 		} else {
 			a.logger.Successf("✓ Line %q is not highlighted", actualLines[rowIdx])
 		}
@@ -169,7 +167,7 @@ func (a *HighlightingAssertion) compareCells() error {
 	// Reset for each comparison
 	ctx.resetSuccessLogs()
 
-	// If a single cell is found which should be highlighted, which means highlighting is turned on
+	// If a single cell is found which should be highlighted, which means highlighting is turned on for this run
 	if ctx.expectedCell.Style.Fg == ansi.Red && ctx.expectedCell.Style.Attrs == uv.AttrBold {
 		a.matchesShouldbeHighlighted = true
 	}

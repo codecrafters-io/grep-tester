@@ -126,11 +126,15 @@
 [33m[tester::#JK4] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#JK4] [0m[92m✓ Found line "doooog"[0m
 [33m[tester::#JK4] [0m[92m✓ Line "doooog" is not highlighted[0m
-[33m[tester::#JK4] [0m[94mecho -ne "It's raining cats and dogs" | $ ./your_grep.sh --color=never -E 'cats and dogs'[0m
-[33m[your_program] [0mIt's raining cats and dogs
+[33m[tester::#JK4] [0m[94mecho -ne "It's raining elephant and tiger\nIt's not raining tiger and elephant" | $ ./your_grep.sh --color=never -E '(elephant|tiger)'[0m
+[33m[your_program] [0mIt's raining elephant and tiger
+[33m[your_program] [0mIt's not raining tiger and elephant
 [33m[tester::#JK4] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#JK4] [0m[92m✓ Found line "It's raining cats and dogs"[0m
-[33m[tester::#JK4] [0m[92m✓ Line "It's raining cats and dogs" is not highlighted[0m
+[33m[tester::#JK4] [0m[92m✓ Found line "It's raining elephant and tiger"[0m
+[33m[tester::#JK4] [0m[92m✓ Found line "It's not raining tiger and elephant"[0m
+[33m[tester::#JK4] [0m[92m✓ Stdout contains 2 expected lines in order[0m
+[33m[tester::#JK4] [0m[92m✓ Line "It's raining elephant and tiger" is not highlighted[0m
+[33m[tester::#JK4] [0m[92m✓ Line "It's not raining tiger and elephant" is not highlighted[0m
 [33m[tester::#JK4] [0m[92mTest passed.[0m
 
 [33m[tester::#NA5] [0m[94mRunning tests for Stage #NA5 (na5)[0m
@@ -140,11 +144,15 @@
 [33m[tester::#NA5] [0m[92m✓ Found line "grape"[0m
 [33m[tester::#NA5] [0m[92m✓ All matches in the Line "grape" are highlighted[0m
 [33m[tester::#NA5] [0m[94mRunning grep inside TTY[0m
-[33m[tester::#NA5] [0m[94mecho -ne "zebra in the wild" | $ ./your_grep.sh --color=always -E 'zebra'[0m
+[33m[tester::#NA5] [0m[94mecho -ne "zebra in the wild\nhorsein the air" | $ ./your_grep.sh --color=always -E '(zebra|horse)'[0m
 [33m[your_program] [0m[01;31m[Kzebra[m[K in the wild
+[33m[your_program] [0m[01;31m[Khorse[m[Kin the air
 [33m[tester::#NA5] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#NA5] [0m[92m✓ Found line "zebra in the wild"[0m
+[33m[tester::#NA5] [0m[92m✓ Found line "horsein the air"[0m
+[33m[tester::#NA5] [0m[92m✓ Stdout contains 2 expected lines in order[0m
 [33m[tester::#NA5] [0m[92m✓ All matches in the Line "zebra in the wild" are highlighted[0m
+[33m[tester::#NA5] [0m[92m✓ All matches in the Line "horsein the air" are highlighted[0m
 [33m[tester::#NA5] [0m[94mecho -ne "123mango" | $ ./your_grep.sh --color=never -E '\d+'[0m
 [33m[your_program] [0m123mango
 [33m[tester::#NA5] [0m[92m✓ Received exit code 0.[0m

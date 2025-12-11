@@ -47,8 +47,11 @@ func testHighlightingNeverOption(stageHarness *test_case_harness.TestCaseHarness
 			ColorMode:        utils.ColorNever,
 		},
 		{
-			Pattern:          `cats and dogs`,
-			InputLines:       []string{"It's raining cats and dogs"},
+			Pattern: fmt.Sprintf(`(%s|%s)`, animals[0], animals[1]),
+			InputLines: []string{
+				fmt.Sprintf("It's raining %s and %s", animals[0], animals[1]),
+				fmt.Sprintf("It's not raining %s and %s", animals[1], animals[0]),
+			},
 			ExpectedExitCode: 0,
 			ColorMode:        utils.ColorNever,
 		},
