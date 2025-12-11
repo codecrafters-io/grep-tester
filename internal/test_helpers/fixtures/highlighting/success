@@ -1,0 +1,126 @@
+[33m[tester::#BM2] [0m[94mRunning tests for Stage #BM2 (bm2)[0m
+[33m[tester::#BM2] [0m[94mecho -ne "only1digit" | $ ./your_grep.sh --color=always -E '\d'[0m
+[33m[your_program] [0monly[01;31m[K1[m[Kdigit
+[33m[tester::#BM2] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#BM2] [0m[92m✓ Found line "only1digit"[0m
+[33m[tester::#BM2] [0m[92m✓ All matches in the line "only1digit" are highlighted[0m
+[33m[tester::#BM2] [0m[94mecho -ne "orange" | $ ./your_grep.sh --color=always -E '\d'[0m
+[33m[tester::#BM2] [0m[92m✓ Received exit code 1.[0m
+[33m[tester::#BM2] [0m[92m✓ No output found[0m
+[33m[tester::#BM2] [0m[94mecho -ne "apple_suffix" | $ ./your_grep.sh --color=always -E '^apple'[0m
+[33m[your_program] [0m[01;31m[Kapple[m[K_suffix
+[33m[tester::#BM2] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#BM2] [0m[92m✓ Found line "apple_suffix"[0m
+[33m[tester::#BM2] [0m[92m✓ All matches in the line "apple_suffix" are highlighted[0m
+[33m[tester::#BM2] [0m[94mecho -ne "prefix_blueberry" | $ ./your_grep.sh --color=always -E '^blueberry'[0m
+[33m[tester::#BM2] [0m[92m✓ Received exit code 1.[0m
+[33m[tester::#BM2] [0m[92m✓ No output found[0m
+[33m[tester::#BM2] [0m[94mecho -ne "caaaat" | $ ./your_grep.sh --color=always -E 'ca+t'[0m
+[33m[your_program] [0m[01;31m[Kcaaaat[m[K
+[33m[tester::#BM2] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#BM2] [0m[92m✓ Found line "caaaat"[0m
+[33m[tester::#BM2] [0m[92m✓ All matches in the line "caaaat" are highlighted[0m
+[33m[tester::#BM2] [0m[94mecho -ne "I see 42 dogs" | $ ./your_grep.sh --color=always -E '^I see \d+ (cat|dog)s?$'[0m
+[33m[your_program] [0m[01;31m[KI see 42 dogs[m[K
+[33m[tester::#BM2] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#BM2] [0m[92m✓ Found line "I see 42 dogs"[0m
+[33m[tester::#BM2] [0m[92m✓ All matches in the line "I see 42 dogs" are highlighted[0m
+[33m[tester::#BM2] [0m[92mTest passed.[0m
+
+[33m[tester::#EQ0] [0m[94mRunning tests for Stage #EQ0 (eq0)[0m
+[33m[tester::#EQ0] [0m[94mecho -ne "a1b2c3" | $ ./your_grep.sh --color=always -E '\d'[0m
+[33m[your_program] [0ma[01;31m[K1[m[Kb[01;31m[K2[m[Kc[01;31m[K3[m[K
+[33m[tester::#EQ0] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#EQ0] [0m[92m✓ Found line "a1b2c3"[0m
+[33m[tester::#EQ0] [0m[92m✓ All matches in the line "a1b2c3" are highlighted[0m
+[33m[tester::#EQ0] [0m[94mecho -ne "fox_giraffe_horse" | $ ./your_grep.sh --color=always -E '(giraffe|horse|fox)'[0m
+[33m[your_program] [0m[01;31m[Kfox[m[K_[01;31m[Kgiraffe[m[K_[01;31m[Khorse[m[K
+[33m[tester::#EQ0] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#EQ0] [0m[92m✓ Found line "fox_giraffe_horse"[0m
+[33m[tester::#EQ0] [0m[92m✓ All matches in the line "fox_giraffe_horse" are highlighted[0m
+[33m[tester::#EQ0] [0m[94mecho -ne "cherry" | $ ./your_grep.sh --color=always -E '\d'[0m
+[33m[tester::#EQ0] [0m[92m✓ Received exit code 1.[0m
+[33m[tester::#EQ0] [0m[92m✓ No output found[0m
+[33m[tester::#EQ0] [0m[94mecho -ne "xxyyzz" | $ ./your_grep.sh --color=always -E '\w\w'[0m
+[33m[your_program] [0m[01;31m[Kxx[m[K[01;31m[Kyy[m[K[01;31m[Kzz[m[K
+[33m[tester::#EQ0] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#EQ0] [0m[92m✓ Found line "xxyyzz"[0m
+[33m[tester::#EQ0] [0m[92m✓ All matches in the line "xxyyzz" are highlighted[0m
+[33m[tester::#EQ0] [0m[94mecho -ne "$$##@@" | $ ./your_grep.sh --color=always -E '\\w'[0m
+[33m[tester::#EQ0] [0m[92m✓ Received exit code 1.[0m
+[33m[tester::#EQ0] [0m[92m✓ No output found[0m
+[33m[tester::#EQ0] [0m[94mecho -ne "I see 3 onions. Also, I see 4 spinachs." | $ ./your_grep.sh --color=always -E 'I see \d+ (spinach|onion)s?'[0m
+[33m[your_program] [0m[01;31m[KI see 3 onions[m[K. Also, [01;31m[KI see 4 spinachs[m[K.
+[33m[tester::#EQ0] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#EQ0] [0m[92m✓ Found line "I see 3 onions. Also, I see 4 spinachs."[0m
+[33m[tester::#EQ0] [0m[92m✓ All matches in the line "I see 3 onions. Also, I see 4 spinachs." are highlighted[0m
+[33m[tester::#EQ0] [0m[92mTest passed.[0m
+
+[33m[tester::#JK4] [0m[94mRunning tests for Stage #JK4 (jk4)[0m
+[33m[tester::#JK4] [0m[94mecho -ne "1elephant" | $ ./your_grep.sh --color=never -E '\d'[0m
+[33m[your_program] [0m1elephant
+[33m[tester::#JK4] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#JK4] [0m[92m✓ Found line "1elephant"[0m
+[33m[tester::#JK4] [0m[92m✓ Line "1elephant" is not highlighted[0m
+[33m[tester::#JK4] [0m[94mecho -ne "rabbit" | $ ./your_grep.sh --color=never -E '\d'[0m
+[33m[tester::#JK4] [0m[92m✓ Received exit code 1.[0m
+[33m[tester::#JK4] [0m[92m✓ No output found[0m
+[33m[tester::#JK4] [0m[94mecho -ne "pear_suffix" | $ ./your_grep.sh --color=never -E '^pear'[0m
+[33m[your_program] [0mpear_suffix
+[33m[tester::#JK4] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#JK4] [0m[92m✓ Found line "pear_suffix"[0m
+[33m[tester::#JK4] [0m[92m✓ Line "pear_suffix" is not highlighted[0m
+[33m[tester::#JK4] [0m[94mecho -ne "prefix_strawberry" | $ ./your_grep.sh --color=never -E '^strawberry'[0m
+[33m[tester::#JK4] [0m[92m✓ Received exit code 1.[0m
+[33m[tester::#JK4] [0m[92m✓ No output found[0m
+[33m[tester::#JK4] [0m[94mecho -ne "doooog" | $ ./your_grep.sh --color=never -E 'do+g'[0m
+[33m[your_program] [0mdoooog
+[33m[tester::#JK4] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#JK4] [0m[92m✓ Found line "doooog"[0m
+[33m[tester::#JK4] [0m[92m✓ Line "doooog" is not highlighted[0m
+[33m[tester::#JK4] [0m[94mecho -ne "It's raining cats and dogs" | $ ./your_grep.sh --color=never -E 'cats and dogs'[0m
+[33m[your_program] [0mIt's raining cats and dogs
+[33m[tester::#JK4] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#JK4] [0m[92m✓ Found line "It's raining cats and dogs"[0m
+[33m[tester::#JK4] [0m[92m✓ Line "It's raining cats and dogs" is not highlighted[0m
+[33m[tester::#JK4] [0m[92mTest passed.[0m
+
+[33m[tester::#NA5] [0m[94mRunning tests for Stage #NA5 (na5)[0m
+[33m[tester::#NA5] [0m[94mecho -ne "banana" | $ ./your_grep.sh --color=always -E '\w+'[0m
+[33m[your_program] [0m[01;31m[Kbanana[m[K
+[33m[tester::#NA5] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#NA5] [0m[92m✓ Found line "banana"[0m
+[33m[tester::#NA5] [0m[92m✓ All matches in the line "banana" are highlighted[0m
+[33m[tester::#NA5] [0m[94mRunning grep inside TTY[0m
+[33m[tester::#NA5] [0m[94mecho -ne "giraffe in the wild" | $ ./your_grep.sh --color=always -E 'giraffe'[0m
+[33m[your_program] [0m[01;31m[Kgiraffe[m[K in the wild
+[33m[tester::#NA5] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#NA5] [0m[92m✓ Found line "giraffe in the wild"[0m
+[33m[tester::#NA5] [0m[92m✓ All matches in the line "giraffe in the wild" are highlighted[0m
+[33m[tester::#NA5] [0m[94mecho -ne "123pear" | $ ./your_grep.sh --color=never -E '\d+'[0m
+[33m[your_program] [0m123pear
+[33m[tester::#NA5] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#NA5] [0m[92m✓ Found line "123pear"[0m
+[33m[tester::#NA5] [0m[92m✓ Line "123pear" is not highlighted[0m
+[33m[tester::#NA5] [0m[94mRunning grep inside TTY[0m
+[33m[tester::#NA5] [0m[94mecho -ne "I love banana" | $ ./your_grep.sh --color=never -E 'banana'[0m
+[33m[your_program] [0mI love banana
+[33m[tester::#NA5] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#NA5] [0m[92m✓ Found line "I love banana"[0m
+[33m[tester::#NA5] [0m[92m✓ Line "I love banana" is not highlighted[0m
+[33m[tester::#NA5] [0m[94mecho -ne "prefix_raspberry" | $ ./your_grep.sh --color=auto -E 'raspberry$'[0m
+[33m[your_program] [0mprefix_raspberry
+[33m[tester::#NA5] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#NA5] [0m[92m✓ Found line "prefix_raspberry"[0m
+[33m[tester::#NA5] [0m[92m✓ Line "prefix_raspberry" is not highlighted[0m
+[33m[tester::#NA5] [0m[94mRunning grep inside TTY[0m
+[33m[tester::#NA5] [0m[94mecho -ne "The panda runs fast" | $ ./your_grep.sh --color=auto -E 'panda'[0m
+[33m[your_program] [0mThe [01;31m[Kpanda[m[K runs fast
+[33m[tester::#NA5] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#NA5] [0m[92m✓ Found line "The panda runs fast"[0m
+[33m[tester::#NA5] [0m[92m✓ All matches in the line "The panda runs fast" are highlighted[0m
+[33m[tester::#NA5] [0m[94mRunning grep inside TTY[0m
+[33m[tester::#NA5] [0m[94mecho -ne "no numbers here" | $ ./your_grep.sh --color=auto -E '\d{5}'[0m
+[33m[tester::#NA5] [0m[92m✓ Received exit code 1.[0m
+[33m[tester::#NA5] [0m[92m✓ No output found[0m
+[33m[tester::#NA5] [0m[92mTest passed.[0m
