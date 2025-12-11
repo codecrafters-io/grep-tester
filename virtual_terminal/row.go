@@ -15,17 +15,6 @@ func (r *row) hasCursor() bool {
 	return r.cursorCellIndex != -1
 }
 
-// GetCells returns a copy of all the cells in the row
-func (r *row) getCellsArray() []*uv.Cell {
-	cells := make([]*uv.Cell, len(r.cells))
-
-	for i, cell := range r.cells {
-		cells[i] = cell.Clone()
-	}
-
-	return cells
-}
-
 func (r *row) GetCellsCount() int {
 	return len(r.cells)
 }

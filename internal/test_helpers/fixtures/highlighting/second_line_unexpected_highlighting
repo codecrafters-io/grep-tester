@@ -30,13 +30,13 @@
 [33m[tester::#JK4] [0m[92m✓ Found line "It's not raining panda and tiger"[0m
 [33m[tester::#JK4] [0m[92m✓ Stdout contains 2 expected lines in order[0m
 [33m[tester::#JK4] [0m[92m✓ Line "It's raining tiger and panda" is not highlighted[0m
-[33m[tester::#JK4] [0m[92m
-[33m[tester::#JK4] [0mExpected:[0m "It's not raining panda and tiger"
-[33m[tester::#JK4] [0m[91mReceived:[0m "It's not raining [01;31m[Kpanda[m[K and [01;31m[Ktiger[m[K"
-[33m[tester::#JK4] [0m                            ↑
-[33m[tester::#JK4] [0m[91m⨯ Expected no color, got red (ANSI code 31)[0m
-[33m[tester::#JK4] [0m[92mExpected ANSI code: "\x1b[m"
-[33m[tester::#JK4] [0m[0m[91mReceived ANSI code: "\x1b[1;31m"
-[33m[tester::#JK4] [0m[0m
-[33m[tester::#JK4] [0m[91mWrong highlighting pattern[0m
+[33m[tester::#JK4] [0m[91m[92m[0m
+[33m[tester::#JK4] [0m[91mExpected:[0m "It's not raining panda and tiger"[0m
+[33m[tester::#JK4] [0m[91m[91mReceived:[0m "It's not raining [01;31m[Kpanda[m[K and [01;31m[Ktiger[m[K"[0m
+[33m[tester::#JK4] [0m[91m                            ↑[0m
+[33m[tester::#JK4] [0m[91m[91m⨯ Expected default color (No ANSI code), got red (ANSI code 31)[0m
+[33m[tester::#JK4] [0m[91m[0m[92mExpected ANSI code: "\x1b[m"[0m
+[33m[tester::#JK4] [0m[91m[0m[91mReceived ANSI code: "\x1b[1;31m"[0m
+[33m[tester::#JK4] [0m[91m[0m[91m[0m
+[33m[tester::#JK4] [0m[91mWrong highlighting pattern[0m[0m
 [33m[tester::#JK4] [0m[91mTest failed[0m

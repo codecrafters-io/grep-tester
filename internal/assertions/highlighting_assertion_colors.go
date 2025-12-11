@@ -81,7 +81,11 @@ func colorCodeTocolorName(colorCode string) string {
 
 func getFgColorName(c color.Color) string {
 	if c == nil {
-		return "no color"
+		// TODO: I'll remove this after PR review
+		// Not sure what to name this:
+		// white is already a 'highlighting' color -> see above map (color code 37)
+		// no color? plain? default color?
+		return "default color (No ANSI code)"
 	}
 
 	var colorCode ansi.Style

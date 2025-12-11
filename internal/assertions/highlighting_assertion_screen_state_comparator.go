@@ -32,29 +32,35 @@ func newScreenStateComparator() *screenStateComparator {
 	return &screenStateComparator{}
 }
 
-func (ctx *screenStateComparator) resetSuccessLogs() {
-	ctx.successLogs = []string{}
+func (c *screenStateComparator) resetSuccessLogs() {
+	c.successLogs = []string{}
 }
 
-func (ctx *screenStateComparator) addSuccessLog(successLog string) {
-	ctx.successLogs = append(ctx.successLogs, successLog)
+func (c *screenStateComparator) addSuccessLog(successLog string) {
+	c.successLogs = append(c.successLogs, successLog)
 }
 
-func (ctx *screenStateComparator) CompareHighlightingForNRows(expected, actual *virtual_terminal.ScreenState, rowsCount int) *ComparisonError {
-	if rowsCount >= actual.GetRowsCount() {
-		panic(fmt.Sprintf("Codecrafters Internal Error - Cannot compare up to %d rows in a screen with %d rows", rowsCount, actual.GetRowsCount()))
-	}
+func (c *screenStateComparator) CompareHighlighting(expected, actual *virtual_terminal.ScreenState) *ComparisonError {
+	cursorPosition := expected.GetCursorPosition()
 
-	for rowIdx := range rowsCount {
-		ctx.cellRowIdx = rowIdx
+	// Compare upto the row in which the cursor is present
+	for rowIdx := range cursorPosition.RowIndex + 1 {
+		c.cellRowIdx = rowIdx
 
-		for columnIdx := range expected.GetColumnsCount() {
-			ctx.cellColumnIdx = columnIdx
+		// Compare upto the column before in which the cursor is present
+		columnsCount := expected.GetColumnsCount()
+		if cursorPosition.RowIndex == rowIdx {
+			columnsCount = cursorPosition.ColumnIndex
+		}
+
+		// Compare cells
+		for columnIdx := range columnsCount {
+			c.cellColumnIdx = columnIdx
 
 			expectedCell := expected.MustGetCellAtPosition(rowIdx, columnIdx)
 			actualCell := actual.MustGetCellAtPosition(rowIdx, columnIdx)
 
-			if err := ctx.compareCells(expectedCell, actualCell); err != nil {
+			if err := c.compareCells(expectedCell, actualCell); err != nil {
 				return err
 			}
 		}
@@ -63,58 +69,57 @@ func (ctx *screenStateComparator) CompareHighlightingForNRows(expected, actual *
 	return nil
 }
 
-func (ctx *screenStateComparator) compareCells(expected, actual *uv.Cell) *ComparisonError {
+func (c *screenStateComparator) compareCells(expected, actual *uv.Cell) *ComparisonError {
 	// Reset for each comparison
-	ctx.resetSuccessLogs()
+	c.resetSuccessLogs()
 
 	// If a single cell is found which should be highlighted, which means highlighting is turned on for this run
 	if expected.Style.Fg == ansi.Red && expected.Style.Attrs == uv.AttrBold {
-		ctx.matchesShouldbeHighlighted = true
+		c.matchesShouldbeHighlighted = true
 	}
 
 	var firstError error
 
 	// 1. Check foreground color
-	if err := ctx.checkFgColor(expected, actual); err != nil {
+	if err := c.checkFgColor(expected, actual); err != nil {
 		firstError = err
 	}
 
 	// 2. Check bold attribute
-	if err := ctx.checkBoldAttr(expected, actual); err != nil && firstError == nil {
+	if err := c.checkBoldAttr(expected, actual); err != nil && firstError == nil {
 		firstError = err
 	}
 
 	// 3. Reject extra attributes
-	if err := ctx.checkInvalidStyleAndAttrs(expected, actual); err != nil && firstError == nil {
+	if err := c.checkInvalidStyleAndAttrs(expected, actual); err != nil && firstError == nil {
 		firstError = err
 	}
 
 	// Return comparison error if there was an issue
 	if firstError != nil {
 		return &ComparisonError{
-			RowIdx:       ctx.cellRowIdx,
-			ColumnIdx:    ctx.cellColumnIdx,
+			RowIdx:       c.cellRowIdx,
+			ColumnIdx:    c.cellColumnIdx,
 			ExpectedCell: expected,
 			ActualCell:   actual,
 			Message:      firstError,
-			SuccessLogs:  ctx.successLogs,
+			SuccessLogs:  c.successLogs,
 		}
 	}
 
 	return nil
 }
 
-func (ctx *screenStateComparator) checkFgColor(expectedCell, actualCell *uv.Cell) error {
+func (c *screenStateComparator) checkFgColor(expectedCell, actualCell *uv.Cell) error {
 	if expectedCell.Style.Fg != actualCell.Style.Fg {
-		// No color expected, use a different wording
 		return fmt.Errorf("Expected %s, got %s", getFgColorName(expectedCell.Style.Fg), getFgColorName(actualCell.Style.Fg))
 	}
 
-	ctx.addSuccessLog(fmt.Sprintf("✓ Color is %s", getFgColorName(expectedCell.Style.Fg)))
+	c.addSuccessLog(fmt.Sprintf("✓ Color is %s", getFgColorName(expectedCell.Style.Fg)))
 	return nil
 }
 
-func (ctx *screenStateComparator) checkBoldAttr(expectedCell, actualCell *uv.Cell) error {
+func (c *screenStateComparator) checkBoldAttr(expectedCell, actualCell *uv.Cell) error {
 	expectedBold := expectedCell.Style.Attrs&uv.AttrBold != 0
 	actualBold := actualCell.Style.Attrs&uv.AttrBold != 0
 
@@ -127,15 +132,15 @@ func (ctx *screenStateComparator) checkBoldAttr(expectedCell, actualCell *uv.Cel
 	}
 
 	if expectedBold {
-		ctx.addSuccessLog("✓ Bold attribute is present")
+		c.addSuccessLog("✓ Bold attribute is present")
 	} else {
-		ctx.addSuccessLog("✓ Bold attribute is not present")
+		c.addSuccessLog("✓ Bold attribute is not present")
 	}
 
 	return nil
 }
 
-func (ctx *screenStateComparator) checkInvalidStyleAndAttrs(expectedCell, actualCell *uv.Cell) error {
+func (c *screenStateComparator) checkInvalidStyleAndAttrs(expectedCell, actualCell *uv.Cell) error {
 	// Intentionally don't add success messages for extra attributes
 
 	if actualCell.Style.Attrs != expectedCell.Style.Attrs {

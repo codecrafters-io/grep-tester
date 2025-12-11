@@ -43,6 +43,14 @@ func (s *ScreenState) GetColumnsCount() int {
 	return s.rows[0].GetCellsCount()
 }
 
+// GetCursorPosition returns the cursor position in the screen state
+func (s *ScreenState) GetCursorPosition() CursorPosition {
+	return CursorPosition{
+		RowIndex:    s.cursorPosition.RowIndex,
+		ColumnIndex: s.cursorPosition.ColumnIndex,
+	}
+}
+
 // MustGetCellAtPosition returns a copy of the cell at (rowIdx, colIdx)
 func (s *ScreenState) MustGetCellAtPosition(rowIdx int, colIdx int) *uv.Cell {
 	row := s.mustGetRowAtIndex(rowIdx)
@@ -60,12 +68,11 @@ func (s *ScreenState) GetLinesOfTextUptoCursor() []string {
 	result := []string{}
 
 	for i := range s.cursorPosition.RowIndex + 1 {
-		// cursor position does not exceed rows count in vt
 		currentRowContent := s.mustGetRowAtIndex(i).getTextContents()
 		result = append(result, currentRowContent)
 	}
 
-	// Exclude the row in which cursor is present if it is empty
+	// Exclude the row if the cursor is present in the beginning of the line
 	if len(result) > 0 && result[len(result)-1] == "" {
 		result = result[:len(result)-1]
 	}
