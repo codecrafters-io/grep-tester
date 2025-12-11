@@ -1,3 +1,5 @@
+Debug = true
+
 [33m[tester::#JK4] [0m[94mRunning tests for Stage #JK4 (jk4)[0m
 [33m[tester::#JK4] [0m[94mecho -ne "1tiger" | $ ./your_grep.sh --color=never -E '\d'[0m
 [33m[your_program] [0m[K1[Ktiger
