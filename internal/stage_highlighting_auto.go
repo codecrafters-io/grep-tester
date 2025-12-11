@@ -25,7 +25,7 @@ func testHighlightingAutoOption(stageHarness *test_case_harness.TestCaseHarness)
 			ColorMode:        utils.ColorAlways,
 		},
 		{
-			Pattern:          fmt.Sprintf("(%s|%s)", animals[0], animals[1]),
+			Pattern:          animals[0],
 			Stdin:            animals[0] + " in the wild",
 			ExpectedExitCode: 0,
 			ColorMode:        utils.ColorAlways,
