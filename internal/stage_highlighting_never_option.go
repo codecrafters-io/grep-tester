@@ -18,40 +18,37 @@ func testHighlightingNeverOption(stageHarness *test_case_harness.TestCaseHarness
 	testCaseCollection := test_cases.HighlightingTestCaseCollection{
 		{
 			Pattern:          `\d`,
-			InputLines:       []string{"1" + animals[0]},
+			Stdin:            "1" + animals[0],
 			ExpectedExitCode: 0,
 			ColorMode:        utils.ColorNever,
 		},
 		{
 			Pattern:          `\d`,
-			InputLines:       []string{animals[1]},
+			Stdin:            animals[1],
 			ExpectedExitCode: 1,
 			ColorMode:        utils.ColorNever,
 		},
 		{
 			Pattern:          fmt.Sprintf("^%s", words[0]),
-			InputLines:       []string{words[0] + "_suffix"},
+			Stdin:            words[0] + "_suffix",
 			ExpectedExitCode: 0,
 			ColorMode:        utils.ColorNever,
 		},
 		{
 			Pattern:          fmt.Sprintf("^%s", words[1]),
-			InputLines:       []string{"prefix_" + words[1]},
+			Stdin:            "prefix_" + words[1],
 			ExpectedExitCode: 1,
 			ColorMode:        utils.ColorNever,
 		},
 		{
 			Pattern:          "do+g",
-			InputLines:       []string{"doooog"},
+			Stdin:            "doooog",
 			ExpectedExitCode: 0,
 			ColorMode:        utils.ColorNever,
 		},
 		{
-			Pattern: fmt.Sprintf(`(%s|%s)`, animals[0], animals[1]),
-			InputLines: []string{
-				fmt.Sprintf("It's raining %s and %s", animals[0], animals[1]),
-				fmt.Sprintf("It's not raining %s and %s", animals[1], animals[0]),
-			},
+			Pattern:          fmt.Sprintf(`(%s|%s)`, animals[0], animals[1]),
+			Stdin:            fmt.Sprintf("It's raining %s and %s", animals[0], animals[1]),
 			ExpectedExitCode: 0,
 			ColorMode:        utils.ColorNever,
 		},

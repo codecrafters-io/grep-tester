@@ -20,16 +20,13 @@ func testHighlightingAutoOption(stageHarness *test_case_harness.TestCaseHarness)
 		// Two always option tests
 		{
 			Pattern:          `\w+`,
-			InputLines:       []string{fruit},
+			Stdin:            fruit,
 			ExpectedExitCode: 0,
 			ColorMode:        utils.ColorAlways,
 		},
 		{
-			Pattern: fmt.Sprintf("(%s|%s)", animals[0], animals[1]),
-			InputLines: []string{
-				animals[0] + " in the wild",
-				animals[1] + " in the air",
-			},
+			Pattern:          fmt.Sprintf("(%s|%s)", animals[0], animals[1]),
+			Stdin:            animals[0] + " in the wild",
 			ExpectedExitCode: 0,
 			ColorMode:        utils.ColorAlways,
 			RunInsideTty:     true,
@@ -38,13 +35,13 @@ func testHighlightingAutoOption(stageHarness *test_case_harness.TestCaseHarness)
 		// Two never option tests
 		{
 			Pattern:          `\d+`,
-			InputLines:       []string{"123" + words[1]},
+			Stdin:            "123" + words[1],
 			ExpectedExitCode: 0,
 			ColorMode:        utils.ColorNever,
 		},
 		{
 			Pattern:          fruit,
-			InputLines:       []string{"I love " + fruit},
+			Stdin:            "I love " + fruit,
 			ExpectedExitCode: 0,
 			ColorMode:        utils.ColorNever,
 			RunInsideTty:     true,
@@ -53,13 +50,13 @@ func testHighlightingAutoOption(stageHarness *test_case_harness.TestCaseHarness)
 		// Two auto option tests (matching)
 		{
 			Pattern:          fmt.Sprintf("%s$", words[2]),
-			InputLines:       []string{"prefix_" + words[2]},
+			Stdin:            "prefix_" + words[2],
 			ExpectedExitCode: 0,
 			ColorMode:        utils.ColorAuto,
 		},
 		{
 			Pattern:          animals[1],
-			InputLines:       []string{"The " + animals[1] + " runs fast"},
+			Stdin:            "The " + animals[1] + " runs fast",
 			ExpectedExitCode: 0,
 			ColorMode:        utils.ColorAuto,
 			RunInsideTty:     true,
@@ -67,7 +64,7 @@ func testHighlightingAutoOption(stageHarness *test_case_harness.TestCaseHarness)
 		// One non-matching test case as well
 		{
 			Pattern:          `\d{5}`,
-			InputLines:       []string{"no numbers here"},
+			Stdin:            "no numbers here",
 			ExpectedExitCode: 1,
 			ColorMode:        utils.ColorAuto,
 			RunInsideTty:     true,

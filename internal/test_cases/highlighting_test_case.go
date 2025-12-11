@@ -3,7 +3,6 @@ package test_cases
 import (
 	"fmt"
 	"path"
-	"strings"
 
 	"github.com/codecrafters-io/grep-tester/internal/assertions"
 	"github.com/codecrafters-io/grep-tester/internal/grep"
@@ -14,7 +13,7 @@ import (
 
 type HighlightingTestCase struct {
 	Pattern          string
-	InputLines       []string
+	Stdin            string
 	ExpectedExitCode int
 	RunInsideTty     bool
 	ColorMode        utils.ColorMode
@@ -47,8 +46,7 @@ func (c HighlightingTestCaseCollection) Run(stageHarness *test_case_harness.Test
 			logger.Infof("Running grep inside TTY")
 		}
 
-		allInputLines := strings.Join(testCase.InputLines, "\n")
-		logger.Infof("echo -ne %q | $ ./%s %s -E '%s'", allInputLines,
+		logger.Infof("echo -ne %q | $ ./%s %s -E '%s'", testCase.Stdin,
 			path.Base(grepExecutable.Path),
 			colorArgument,
 			testCase.Pattern,
@@ -56,7 +54,7 @@ func (c HighlightingTestCaseCollection) Run(stageHarness *test_case_harness.Test
 
 		// Emulate grep
 		emulatedResult := grep.EmulateGrep(allArguments, grep.EmulationOptions{
-			Stdin:        []byte(allInputLines),
+			Stdin:        []byte(testCase.Stdin),
 			EmulateInTTY: testCase.RunInsideTty,
 		})
 
@@ -70,7 +68,7 @@ func (c HighlightingTestCaseCollection) Run(stageHarness *test_case_harness.Test
 
 		grepExecutable.ShouldUsePty = testCase.RunInsideTty
 
-		actualResult, err = grepExecutable.RunWithStdin([]byte(allInputLines), allArguments...)
+		actualResult, err = grepExecutable.RunWithStdin([]byte(testCase.Stdin), allArguments...)
 
 		if err != nil {
 			return err

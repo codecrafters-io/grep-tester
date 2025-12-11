@@ -142,7 +142,7 @@ func TestStages(t *testing.T) {
 			NormalizeOutputFunc: normalizeTesterOutput,
 		},
 		"highlighting_pass": {
-			StageSlugs:          []string{"bm2", "eq0", "wg2", "jk4", "na5"},
+			StageSlugs:          []string{"bm2", "eq0", "jk4", "na5"},
 			CodePath:            "./test_helpers/pass_all",
 			ExpectedExitCode:    0,
 			StdoutFixturePath:   "./test_helpers/fixtures/highlighting/success",
@@ -202,20 +202,6 @@ func TestStages(t *testing.T) {
 			CodePath:            "./test_helpers/scenarios/highlighting/unexpected_highlight",
 			ExpectedExitCode:    1,
 			StdoutFixturePath:   "./test_helpers/fixtures/highlighting/unexpected_highlight",
-			NormalizeOutputFunc: normalizeTesterOutput,
-		},
-		"highlighting_second_line_missing_highlighting": {
-			StageSlugs:          []string{"wg2"},
-			CodePath:            "./test_helpers/scenarios/highlighting/second_line_missing_highlighting",
-			ExpectedExitCode:    1,
-			StdoutFixturePath:   "./test_helpers/fixtures/highlighting/second_line_missing_highlighting",
-			NormalizeOutputFunc: normalizeTesterOutput,
-		},
-		"highlighting_second_line_unexpected_highlighting": {
-			StageSlugs:          []string{"jk4"},
-			CodePath:            "./test_helpers/scenarios/highlighting/second_line_unexpected_highlighting",
-			ExpectedExitCode:    1,
-			StdoutFixturePath:   "./test_helpers/fixtures/highlighting/second_line_unexpected_highlighting",
 			NormalizeOutputFunc: normalizeTesterOutput,
 		},
 	}
