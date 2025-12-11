@@ -6,17 +6,17 @@ import (
 	uv "github.com/charmbracelet/ultraviolet"
 )
 
-type Row struct {
+type row struct {
 	cells           []*uv.Cell
 	cursorCellIndex int // cursorCellIndex will be -1 if the cursor is not on the line
 }
 
-func (r *Row) hasCursor() bool {
+func (r *row) hasCursor() bool {
 	return r.cursorCellIndex != -1
 }
 
 // GetCells returns a copy of all the cells in the row
-func (r *Row) GetCellsArray() []*uv.Cell {
+func (r *row) getCellsArray() []*uv.Cell {
 	cells := make([]*uv.Cell, len(r.cells))
 
 	for i, cell := range r.cells {
@@ -26,22 +26,13 @@ func (r *Row) GetCellsArray() []*uv.Cell {
 	return cells
 }
 
-func (r *Row) Clone() *Row {
-	return &Row{
-		cursorCellIndex: r.cursorCellIndex,
-		cells:           r.GetCellsArray(),
-	}
-}
-
-func (r *Row) GetCellsCount() int {
+func (r *row) GetCellsCount() int {
 	return len(r.cells)
 }
 
-// GetContents returns the contents present in given row
-// If cursor is not present in the row, the spaces are trimmed from the right
-// If the row has a cursor, the spaces before the cursor is preserved,
-// and spaces are trimmed from the right
-func (r *Row) GetContents() string {
+// getTextContents returns the contents present in given row
+// Spaces on the right are not preserved
+func (r *row) getTextContents() string {
 	rawCellContents := ""
 
 	for _, cell := range r.cells {

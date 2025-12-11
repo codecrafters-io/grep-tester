@@ -5,8 +5,6 @@ import (
 	"fmt"
 	"strings"
 
-	uv "github.com/charmbracelet/ultraviolet"
-	"github.com/charmbracelet/x/ansi"
 	"github.com/codecrafters-io/grep-tester/internal/utils"
 	"github.com/codecrafters-io/grep-tester/virtual_terminal"
 	"github.com/codecrafters-io/tester-utils/executable"
@@ -23,7 +21,17 @@ type HighlightingAssertion struct {
 	matchesShouldbeHighlighted bool
 	originalResult             executable.ExecutableResult
 	logger                     *logger.Logger
-	vtCellComparisonContext    *vtCellComparisonContext
+	screenStateComparator      *screenStateComparator
+}
+
+func (a *HighlightingAssertion) getExpectedOutputOnRowIdx(lineIdx int) string {
+	lines := utils.ProgramOutputToLines(a.ExpectedOutput)
+	return lines[lineIdx]
+}
+
+func (a *HighlightingAssertion) getActualOutputOnLineIdx(lineIdx int) string {
+	lines := utils.ProgramOutputToLines(string(a.originalResult.Stdout))
+	return lines[lineIdx]
 }
 
 func (a *HighlightingAssertion) Run(result executable.ExecutableResult, logger *logger.Logger) error {
@@ -32,7 +40,7 @@ func (a *HighlightingAssertion) Run(result executable.ExecutableResult, logger *
 		a.matchesShouldbeHighlighted = false
 		a.originalResult = executable.ExecutableResult{}
 		a.logger = nil
-		a.vtCellComparisonContext = nil
+		a.screenStateComparator = nil
 	}()
 
 	a.originalResult = result
@@ -81,16 +89,6 @@ func (a *HighlightingAssertion) Run(result executable.ExecutableResult, logger *
 	return a.assertHighlighting(expectedScreenState, actualScreenState)
 }
 
-func (a *HighlightingAssertion) getExpectedOutputAtLineIdx(lineIdx int) string {
-	lines := utils.ProgramOutputToLines(a.ExpectedOutput)
-	return lines[lineIdx]
-}
-
-func (a *HighlightingAssertion) getActualOutputAtLineIdx(lineIdx int) string {
-	lines := utils.ProgramOutputToLines(string(a.originalResult.Stdout))
-	return lines[lineIdx]
-}
-
 func (a *HighlightingAssertion) assertTextContents(expectedScreenState, actualScreenState *virtual_terminal.ScreenState) error {
 	expectedLines := expectedScreenState.GetLinesOfTextUptoCursor()
 	actualLines := actualScreenState.GetLinesOfTextUptoCursor()
@@ -111,117 +109,61 @@ func (a *HighlightingAssertion) assertTextContents(expectedScreenState, actualSc
 
 func (a *HighlightingAssertion) assertHighlighting(expectedScreenState, actualScreenState *virtual_terminal.ScreenState) error {
 	// Initialize comparison context
-	a.vtCellComparisonContext = newEmptVtCellComparisonContext()
+	a.screenStateComparator = newScreenStateComparator()
 
 	expectedLines := expectedScreenState.GetLinesOfTextUptoCursor()
 	actualLines := actualScreenState.GetLinesOfTextUptoCursor()
 
 	rowsCount := len(expectedLines)
 
-	for rowIdx, expectedRow := range expectedScreenState.GetAllRows() {
-		// Update context: row index
-		a.vtCellComparisonContext.updateRowIndex(rowIdx)
+	// Hand off to comparator
+	comparisonError := a.screenStateComparator.CompareHighlightingForNRows(expectedScreenState, actualScreenState, rowsCount)
 
-		// Only assert up to the row in which cursor is present
-		if rowIdx >= rowsCount {
-			break
-		}
+	lastSuccessFulRowIndex := rowsCount - 1
+	if comparisonError != nil {
+		lastSuccessFulRowIndex = comparisonError.RowIdx - 1
+	}
 
-		actualRow := actualScreenState.GetRowAtIndex(rowIdx)
-		if err := a.compareRows(expectedRow, actualRow); err != nil {
-			return err
-		}
-
-		if a.matchesShouldbeHighlighted {
+	// Log success messages for each row
+	for rowIdx := 0; rowIdx <= lastSuccessFulRowIndex; rowIdx++ {
+		if a.screenStateComparator.matchesShouldbeHighlighted {
 			a.logger.Successf("✓ All matches in the line %q are highlighted", actualLines[rowIdx])
 		} else {
 			a.logger.Successf("✓ Line %q is not highlighted", actualLines[rowIdx])
 		}
 	}
 
-	return nil
-}
-
-func (a *HighlightingAssertion) compareRows(expected *virtual_terminal.Row, actual *virtual_terminal.Row) error {
-	expectedCells := expected.GetCellsArray()
-	actualCells := actual.GetCellsArray()
-
-	for cellIdx, expectedCell := range expectedCells {
-		actualCell := actualCells[cellIdx]
-
-		// Update context, column idx, expected, and actual cells
-		a.vtCellComparisonContext.updateColumnIndex(cellIdx)
-		a.vtCellComparisonContext.updateExpectedCell(expectedCell)
-		a.vtCellComparisonContext.updateActualCell(actualCell)
-
-		if err := a.compareCells(); err != nil {
-			return err
-		}
+	if comparisonError != nil {
+		// Build error using the information from context
+		return a.wrapComparisonError(comparisonError)
 	}
 
 	return nil
 }
 
-func (a *HighlightingAssertion) compareCells() error {
-	ctx := a.vtCellComparisonContext
-	// Reset for each comparison
-	ctx.resetSuccessLogs()
-
-	// If a single cell is found which should be highlighted, which means highlighting is turned on for this run
-	if ctx.expectedCell.Style.Fg == ansi.Red && ctx.expectedCell.Style.Attrs == uv.AttrBold {
-		a.matchesShouldbeHighlighted = true
-	}
-
-	var firstError error
-
-	// 1. Check foreground color
-	if err := ctx.checkCellForegroundColor(); err != nil {
-		firstError = err
-	}
-
-	// 2. Check bold attribute
-	if err := ctx.checkCellBoldAttribute(); err != nil && firstError == nil {
-		firstError = err
-	}
-
-	// 3. Reject extra attributes
-	if err := ctx.checkInvalidStylingAndAttributes(); err != nil && firstError == nil {
-		firstError = err
-	}
-
-	// Only build the error from the first error
-	// This is because we still want to display success logs from later checks
-	if firstError != nil {
-		return a.buildError(firstError)
-	}
-
-	return nil
-}
-
-func (a *HighlightingAssertion) buildError(errorMessage error) error {
-	ctx := a.vtCellComparisonContext
+func (a *HighlightingAssertion) wrapComparisonError(compErr *ComparisonError) error {
 	// Print comparison with cursor
 	a.logger.Plainln(
 		buildComparisonErrorMessageWithCursor(
-			a.getExpectedOutputAtLineIdx(ctx.cellRowIdx),
-			a.getActualOutputAtLineIdx(ctx.cellRowIdx),
-			ctx.cellColumnIdx,
+			a.getExpectedOutputOnRowIdx(compErr.RowIdx),
+			a.getActualOutputOnLineIdx(compErr.RowIdx),
+			compErr.ColumnIdx,
 		),
 	)
 
 	// Print success messages
-	for _, successLog := range ctx.successLogs {
+	for _, successLog := range compErr.SuccessLogs {
 		a.logger.Successln(successLog)
 	}
 
 	// Print error message
-	a.logger.Errorln(fmt.Sprintf("⨯ %s", errorMessage))
+	a.logger.Errorln(fmt.Sprintf("⨯ %s", compErr.Message))
 
 	// Print ANSI sequence comparison
 	a.logger.Plainln(
 		buildAnsiCodeMismatchComplaint(
-			ctx.expectedCell.Style.String(),
-			ctx.actualCell.Style.String(),
+			compErr.ExpectedCell.Style.String(),
+			compErr.ActualCell.Style.String(),
 		),
 	)
 

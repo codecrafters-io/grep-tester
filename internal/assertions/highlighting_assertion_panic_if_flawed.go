@@ -11,7 +11,7 @@ import (
 )
 
 // panicIfExpectedScreenStateisFlawed will panic if:
-// the screenstate has more than one line of output, or
+// the screenstate has more than expected number of lines in the output, or
 // if any of the cells are flawed
 // See panicIfExpectedCellIsFlawed() for the checks
 func (a HighlightingAssertion) panicIfExpectedScreenStateisFlawed(expectedScreenState *virtual_terminal.ScreenState) {
@@ -31,9 +31,9 @@ func (a HighlightingAssertion) panicIfExpectedScreenStateisFlawed(expectedScreen
 		))
 	}
 
-	for _, expectedRow := range expectedScreenState.GetAllRows() {
-		for _, expectedCell := range expectedRow.GetCellsArray() {
-			a.panicIfExpectedCellIsFlawed(expectedCell)
+	for rowIdx := range expectedScreenState.GetRowsCount() {
+		for colIdx := range expectedScreenState.GetColumnsCount() {
+			a.panicIfExpectedCellIsFlawed(expectedScreenState.MustGetCellAtPosition(rowIdx, colIdx))
 		}
 	}
 

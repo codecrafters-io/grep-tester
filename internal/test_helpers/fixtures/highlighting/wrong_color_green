@@ -10,7 +10,7 @@ Debug = true
 [33m[tester::#BM2] [0m[91mReceived:[0m "only[01;32m[K1[m[Kdigit"
 [33m[tester::#BM2] [0m               ↑
 [33m[tester::#BM2] [0m[92m✓ Bold attribute is present[0m
-[33m[tester::#BM2] [0m[91m⨯ Expected color to be red (ANSI code 31), got green (ANSI code 32)[0m
+[33m[tester::#BM2] [0m[91m⨯ Expected red (ANSI code 31), got green (ANSI code 32)[0m
 [33m[tester::#BM2] [0m[92mExpected ANSI code: "\x1b[1;31m"
 [33m[tester::#BM2] [0m[0m[91mReceived ANSI code: "\x1b[1;32m"
 [33m[tester::#BM2] [0m[0m

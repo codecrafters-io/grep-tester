@@ -81,7 +81,7 @@ func colorCodeTocolorName(colorCode string) string {
 
 func getFgColorName(c color.Color) string {
 	if c == nil {
-		return "white"
+		return "no color"
 	}
 
 	var colorCode ansi.Style

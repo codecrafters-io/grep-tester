@@ -13,7 +13,7 @@ Debug = true
 [33m[tester::#WG2] [0mExpected:[0m "[01;31m4[m[01;31m5[m[01;31m6[mdef"
 [33m[tester::#WG2] [0m[91mReceived:[0m "[K4[K[K5[K[K6[Kdef"
 [33m[tester::#WG2] [0m           ↑
-[33m[tester::#WG2] [0m[91m⨯ Expected color to be red (ANSI code 31), got no color[0m
+[33m[tester::#WG2] [0m[91m⨯ Expected red (ANSI code 31), got no color[0m
 [33m[tester::#WG2] [0m[92mExpected ANSI code: "\x1b[1;31m"
 [33m[tester::#WG2] [0m[0m[91mReceived ANSI code: "\x1b[m"
 [33m[tester::#WG2] [0m[0m

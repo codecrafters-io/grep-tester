@@ -31,22 +31,25 @@ func (vt *VirtualTerminal) WriteWithCRLFTranslation(p []byte) (n int, err error)
 }
 
 func (vt *VirtualTerminal) GetScreenState() *ScreenState {
-	rows := make([]*Row, vt.rows)
+	rows := make([]*row, vt.rows)
 	cursorRowIndex := vt.vt.CursorPosition().Y
 	cursorColumnIndex := vt.vt.CursorPosition().X
 
 	for i := 0; i < vt.rows; i++ {
-		rows[i] = &Row{
+		// Initialize row
+		rows[i] = &row{
 			cells:           make([]*uv.Cell, vt.cols),
 			cursorCellIndex: -1,
 		}
 
-		if cursorRowIndex == i {
-			rows[i].cursorCellIndex = cursorColumnIndex
-		}
-
+		// Initialize cells
 		for j := 0; j < vt.cols; j++ {
 			rows[i].cells[j] = vt.vt.CellAt(j, i)
+		}
+
+		// Assign cursor index if cursor is present
+		if cursorRowIndex == i {
+			rows[i].cursorCellIndex = cursorColumnIndex
 		}
 	}
 
@@ -59,6 +62,7 @@ func (vt *VirtualTerminal) GetScreenState() *ScreenState {
 // crlfTranslation duplicates the input, replaces \n by \r\n and returns the new byte slice
 // existing \r\n sequences in the input are not modified
 // This is needed because the vt package doesn't provide us a method to enable ONLCR mode
+// on the virtual terminal
 func crlfTranslation(input []byte) (translated []byte) {
 	translated = make([]byte, 0, len(input))
 
