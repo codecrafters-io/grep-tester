@@ -144,15 +144,15 @@
 [33m[tester::#NA5] [0m[92m✓ Found line "grape"[0m
 [33m[tester::#NA5] [0m[92m✓ All matches in the line "grape" are highlighted[0m
 [33m[tester::#NA5] [0m[94mRunning grep inside TTY[0m
-[33m[tester::#NA5] [0m[94mecho -ne "zebra in the wild\nhorsein the air" | $ ./your_grep.sh --color=always -E '(zebra|horse)'[0m
+[33m[tester::#NA5] [0m[94mecho -ne "zebra in the wild\nhorse in the air" | $ ./your_grep.sh --color=always -E '(zebra|horse)'[0m
 [33m[your_program] [0m[01;31m[Kzebra[m[K in the wild
-[33m[your_program] [0m[01;31m[Khorse[m[Kin the air
+[33m[your_program] [0m[01;31m[Khorse[m[K in the air
 [33m[tester::#NA5] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#NA5] [0m[92m✓ Found line "zebra in the wild"[0m
-[33m[tester::#NA5] [0m[92m✓ Found line "horsein the air"[0m
+[33m[tester::#NA5] [0m[92m✓ Found line "horse in the air"[0m
 [33m[tester::#NA5] [0m[92m✓ Stdout contains 2 expected lines in order[0m
 [33m[tester::#NA5] [0m[92m✓ All matches in the line "zebra in the wild" are highlighted[0m
-[33m[tester::#NA5] [0m[92m✓ All matches in the line "horsein the air" are highlighted[0m
+[33m[tester::#NA5] [0m[92m✓ All matches in the line "horse in the air" are highlighted[0m
 [33m[tester::#NA5] [0m[94mecho -ne "123mango" | $ ./your_grep.sh --color=never -E '\d+'[0m
 [33m[your_program] [0m123mango
 [33m[tester::#NA5] [0m[92m✓ Received exit code 0.[0m
