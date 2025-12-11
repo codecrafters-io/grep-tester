@@ -3,7 +3,7 @@
 [33m[your_program] [0monly[01;31m[K1[m[Kdigit
 [33m[tester::#BM2] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#BM2] [0m[92m✓ Found line "only1digit"[0m
-[33m[tester::#BM2] [0m[92m✓ All matches in the Line "only1digit" are highlighted[0m
+[33m[tester::#BM2] [0m[92m✓ All matches in the line "only1digit" are highlighted[0m
 [33m[tester::#BM2] [0m[94mecho -ne "orange" | $ ./your_grep.sh --color=always -E '\d'[0m
 [33m[tester::#BM2] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#BM2] [0m[92m✓ No output found[0m
@@ -11,7 +11,7 @@
 [33m[your_program] [0m[01;31m[Kapple[m[K_suffix
 [33m[tester::#BM2] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#BM2] [0m[92m✓ Found line "apple_suffix"[0m
-[33m[tester::#BM2] [0m[92m✓ All matches in the Line "apple_suffix" are highlighted[0m
+[33m[tester::#BM2] [0m[92m✓ All matches in the line "apple_suffix" are highlighted[0m
 [33m[tester::#BM2] [0m[94mecho -ne "prefix_blueberry" | $ ./your_grep.sh --color=always -E '^blueberry'[0m
 [33m[tester::#BM2] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#BM2] [0m[92m✓ No output found[0m
@@ -19,12 +19,12 @@
 [33m[your_program] [0m[01;31m[Kcaaaat[m[K
 [33m[tester::#BM2] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#BM2] [0m[92m✓ Found line "caaaat"[0m
-[33m[tester::#BM2] [0m[92m✓ All matches in the Line "caaaat" are highlighted[0m
+[33m[tester::#BM2] [0m[92m✓ All matches in the line "caaaat" are highlighted[0m
 [33m[tester::#BM2] [0m[94mecho -ne "I see 42 dogs" | $ ./your_grep.sh --color=always -E '^I see \d+ (cat|dog)s?$'[0m
 [33m[your_program] [0m[01;31m[KI see 42 dogs[m[K
 [33m[tester::#BM2] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#BM2] [0m[92m✓ Found line "I see 42 dogs"[0m
-[33m[tester::#BM2] [0m[92m✓ All matches in the Line "I see 42 dogs" are highlighted[0m
+[33m[tester::#BM2] [0m[92m✓ All matches in the line "I see 42 dogs" are highlighted[0m
 [33m[tester::#BM2] [0m[92mTest passed.[0m
 
 [33m[tester::#EQ0] [0m[94mRunning tests for Stage #EQ0 (eq0)[0m
@@ -32,12 +32,12 @@
 [33m[your_program] [0ma[01;31m[K1[m[Kb[01;31m[K2[m[Kc[01;31m[K3[m[K
 [33m[tester::#EQ0] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#EQ0] [0m[92m✓ Found line "a1b2c3"[0m
-[33m[tester::#EQ0] [0m[92m✓ All matches in the Line "a1b2c3" are highlighted[0m
+[33m[tester::#EQ0] [0m[92m✓ All matches in the line "a1b2c3" are highlighted[0m
 [33m[tester::#EQ0] [0m[94mecho -ne "fox_giraffe_horse" | $ ./your_grep.sh --color=always -E '(giraffe|horse|fox)'[0m
 [33m[your_program] [0m[01;31m[Kfox[m[K_[01;31m[Kgiraffe[m[K_[01;31m[Khorse[m[K
 [33m[tester::#EQ0] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#EQ0] [0m[92m✓ Found line "fox_giraffe_horse"[0m
-[33m[tester::#EQ0] [0m[92m✓ All matches in the Line "fox_giraffe_horse" are highlighted[0m
+[33m[tester::#EQ0] [0m[92m✓ All matches in the line "fox_giraffe_horse" are highlighted[0m
 [33m[tester::#EQ0] [0m[94mecho -ne "cherry" | $ ./your_grep.sh --color=always -E '\d'[0m
 [33m[tester::#EQ0] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#EQ0] [0m[92m✓ No output found[0m
@@ -45,7 +45,7 @@
 [33m[your_program] [0m[01;31m[Kxx[m[K[01;31m[Kyy[m[K[01;31m[Kzz[m[K
 [33m[tester::#EQ0] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#EQ0] [0m[92m✓ Found line "xxyyzz"[0m
-[33m[tester::#EQ0] [0m[92m✓ All matches in the Line "xxyyzz" are highlighted[0m
+[33m[tester::#EQ0] [0m[92m✓ All matches in the line "xxyyzz" are highlighted[0m
 [33m[tester::#EQ0] [0m[94mecho -ne "$$##@@" | $ ./your_grep.sh --color=always -E '\\w'[0m
 [33m[tester::#EQ0] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#EQ0] [0m[92m✓ No output found[0m
@@ -53,7 +53,7 @@
 [33m[your_program] [0m[01;31m[KI see 3 onions[m[K. Also, [01;31m[KI see 4 spinachs[m[K.
 [33m[tester::#EQ0] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#EQ0] [0m[92m✓ Found line "I see 3 onions. Also, I see 4 spinachs."[0m
-[33m[tester::#EQ0] [0m[92m✓ All matches in the Line "I see 3 onions. Also, I see 4 spinachs." are highlighted[0m
+[33m[tester::#EQ0] [0m[92m✓ All matches in the line "I see 3 onions. Also, I see 4 spinachs." are highlighted[0m
 [33m[tester::#EQ0] [0m[92mTest passed.[0m
 
 [33m[tester::#WG2] [0m[94mRunning tests for Stage #WG2 (wg2)[0m
@@ -64,8 +64,8 @@
 [33m[tester::#WG2] [0m[92m✓ Found line "a1b2c3"[0m
 [33m[tester::#WG2] [0m[92m✓ Found line "456def"[0m
 [33m[tester::#WG2] [0m[92m✓ Stdout contains 2 expected lines in order[0m
-[33m[tester::#WG2] [0m[92m✓ All matches in the Line "a1b2c3" are highlighted[0m
-[33m[tester::#WG2] [0m[92m✓ All matches in the Line "456def" are highlighted[0m
+[33m[tester::#WG2] [0m[92m✓ All matches in the line "a1b2c3" are highlighted[0m
+[33m[tester::#WG2] [0m[92m✓ All matches in the line "456def" are highlighted[0m
 [33m[tester::#WG2] [0m[94mecho -ne "horse_tiger_monkey\nno_animal_here\ntiger and monkey" | $ ./your_grep.sh --color=always -E '(tiger|monkey|horse)'[0m
 [33m[your_program] [0m[01;31m[Khorse[m[K_[01;31m[Ktiger[m[K_[01;31m[Kmonkey[m[K
 [33m[your_program] [0m[01;31m[Ktiger[m[K and [01;31m[Kmonkey[m[K
@@ -73,8 +73,8 @@
 [33m[tester::#WG2] [0m[92m✓ Found line "horse_tiger_monkey"[0m
 [33m[tester::#WG2] [0m[92m✓ Found line "tiger and monkey"[0m
 [33m[tester::#WG2] [0m[92m✓ Stdout contains 2 expected lines in order[0m
-[33m[tester::#WG2] [0m[92m✓ All matches in the Line "horse_tiger_monkey" are highlighted[0m
-[33m[tester::#WG2] [0m[92m✓ All matches in the Line "tiger and monkey" are highlighted[0m
+[33m[tester::#WG2] [0m[92m✓ All matches in the line "horse_tiger_monkey" are highlighted[0m
+[33m[tester::#WG2] [0m[92m✓ All matches in the line "tiger and monkey" are highlighted[0m
 [33m[tester::#WG2] [0m[94mecho -ne "blueberry\nanother line\nno numbers" | $ ./your_grep.sh --color=always -E '\d'[0m
 [33m[tester::#WG2] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#WG2] [0m[92m✓ No output found[0m
@@ -87,9 +87,9 @@
 [33m[tester::#WG2] [0m[92m✓ Found line "ab cd ef"[0m
 [33m[tester::#WG2] [0m[92m✓ Found line "mango"[0m
 [33m[tester::#WG2] [0m[92m✓ Stdout contains 3 expected lines in order[0m
-[33m[tester::#WG2] [0m[92m✓ All matches in the Line "xxyyzz" are highlighted[0m
-[33m[tester::#WG2] [0m[92m✓ All matches in the Line "ab cd ef" are highlighted[0m
-[33m[tester::#WG2] [0m[92m✓ All matches in the Line "mango" are highlighted[0m
+[33m[tester::#WG2] [0m[92m✓ All matches in the line "xxyyzz" are highlighted[0m
+[33m[tester::#WG2] [0m[92m✓ All matches in the line "ab cd ef" are highlighted[0m
+[33m[tester::#WG2] [0m[92m✓ All matches in the line "mango" are highlighted[0m
 [33m[tester::#WG2] [0m[94mecho -ne "$$##@@\n!@#$%^\n+++---" | $ ./your_grep.sh --color=always -E '\w'[0m
 [33m[tester::#WG2] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#WG2] [0m[92m✓ No output found[0m
@@ -100,8 +100,8 @@
 [33m[tester::#WG2] [0m[92m✓ Found line "I see 3 corns. Also, I see 4 spinachs."[0m
 [33m[tester::#WG2] [0m[92m✓ Found line "I see 10 spinach today"[0m
 [33m[tester::#WG2] [0m[92m✓ Stdout contains 2 expected lines in order[0m
-[33m[tester::#WG2] [0m[92m✓ All matches in the Line "I see 3 corns. Also, I see 4 spinachs." are highlighted[0m
-[33m[tester::#WG2] [0m[92m✓ All matches in the Line "I see 10 spinach today" are highlighted[0m
+[33m[tester::#WG2] [0m[92m✓ All matches in the line "I see 3 corns. Also, I see 4 spinachs." are highlighted[0m
+[33m[tester::#WG2] [0m[92m✓ All matches in the line "I see 10 spinach today" are highlighted[0m
 [33m[tester::#WG2] [0m[92mTest passed.[0m
 
 [33m[tester::#JK4] [0m[94mRunning tests for Stage #JK4 (jk4)[0m
@@ -142,7 +142,7 @@
 [33m[your_program] [0m[01;31m[Kgrape[m[K
 [33m[tester::#NA5] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#NA5] [0m[92m✓ Found line "grape"[0m
-[33m[tester::#NA5] [0m[92m✓ All matches in the Line "grape" are highlighted[0m
+[33m[tester::#NA5] [0m[92m✓ All matches in the line "grape" are highlighted[0m
 [33m[tester::#NA5] [0m[94mRunning grep inside TTY[0m
 [33m[tester::#NA5] [0m[94mecho -ne "zebra in the wild\nhorsein the air" | $ ./your_grep.sh --color=always -E '(zebra|horse)'[0m
 [33m[your_program] [0m[01;31m[Kzebra[m[K in the wild
@@ -151,8 +151,8 @@
 [33m[tester::#NA5] [0m[92m✓ Found line "zebra in the wild"[0m
 [33m[tester::#NA5] [0m[92m✓ Found line "horsein the air"[0m
 [33m[tester::#NA5] [0m[92m✓ Stdout contains 2 expected lines in order[0m
-[33m[tester::#NA5] [0m[92m✓ All matches in the Line "zebra in the wild" are highlighted[0m
-[33m[tester::#NA5] [0m[92m✓ All matches in the Line "horsein the air" are highlighted[0m
+[33m[tester::#NA5] [0m[92m✓ All matches in the line "zebra in the wild" are highlighted[0m
+[33m[tester::#NA5] [0m[92m✓ All matches in the line "horsein the air" are highlighted[0m
 [33m[tester::#NA5] [0m[94mecho -ne "123mango" | $ ./your_grep.sh --color=never -E '\d+'[0m
 [33m[your_program] [0m123mango
 [33m[tester::#NA5] [0m[92m✓ Received exit code 0.[0m
@@ -174,7 +174,7 @@
 [33m[your_program] [0mThe [01;31m[Khorse[m[K runs fast
 [33m[tester::#NA5] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#NA5] [0m[92m✓ Found line "The horse runs fast"[0m
-[33m[tester::#NA5] [0m[92m✓ All matches in the Line "The horse runs fast" are highlighted[0m
+[33m[tester::#NA5] [0m[92m✓ All matches in the line "The horse runs fast" are highlighted[0m
 [33m[tester::#NA5] [0m[94mRunning grep inside TTY[0m
 [33m[tester::#NA5] [0m[94mecho -ne "no numbers here" | $ ./your_grep.sh --color=auto -E '\d{5}'[0m
 [33m[tester::#NA5] [0m[92m✓ Received exit code 1.[0m

@@ -8,7 +8,7 @@ Debug = true
 [33m[tester::#WG2] [0m[92m✓ Found line "a1b2c3"[0m
 [33m[tester::#WG2] [0m[92m✓ Found line "456def"[0m
 [33m[tester::#WG2] [0m[92m✓ Stdout contains 2 expected lines in order[0m
-[33m[tester::#WG2] [0m[92m✓ All matches in the Line "a1b2c3" are highlighted[0m
+[33m[tester::#WG2] [0m[92m✓ All matches in the line "a1b2c3" are highlighted[0m
 [33m[tester::#WG2] [0m[92m
 [33m[tester::#WG2] [0mExpected:[0m "[01;31m4[m[01;31m5[m[01;31m6[mdef"
 [33m[tester::#WG2] [0m[91mReceived:[0m "[K4[K[K5[K[K6[Kdef"
