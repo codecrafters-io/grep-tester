@@ -48,7 +48,7 @@ func testHighlightingNeverOption(stageHarness *test_case_harness.TestCaseHarness
 		},
 		{
 			Pattern:          `cats and dogs`,
-			Stdin:            "It's raining cats and dogs here",
+			Stdin:            "It's raining cats and dogs",
 			ExpectedExitCode: 0,
 			ColorMode:        utils.ColorNever,
 		},
