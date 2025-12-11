@@ -78,11 +78,11 @@
 [33m[tester::#JK4] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#JK4] [0m[92m✓ Found line "doooog"[0m
 [33m[tester::#JK4] [0m[92m✓ Line "doooog" is not highlighted[0m
-[33m[tester::#JK4] [0m[94mecho -ne "It's raining elephant and rabbit" | $ ./your_grep.sh --color=never -E '(elephant|rabbit)'[0m
-[33m[your_program] [0mIt's raining elephant and rabbit
+[33m[tester::#JK4] [0m[94mecho -ne "It's raining cats and dogs" | $ ./your_grep.sh --color=never -E 'cats and dogs'[0m
+[33m[your_program] [0mIt's raining cats and dogs
 [33m[tester::#JK4] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#JK4] [0m[92m✓ Found line "It's raining elephant and rabbit"[0m
-[33m[tester::#JK4] [0m[92m✓ Line "It's raining elephant and rabbit" is not highlighted[0m
+[33m[tester::#JK4] [0m[92m✓ Found line "It's raining cats and dogs"[0m
+[33m[tester::#JK4] [0m[92m✓ Line "It's raining cats and dogs" is not highlighted[0m
 [33m[tester::#JK4] [0m[92mTest passed.[0m
 
 [33m[tester::#NA5] [0m[94mRunning tests for Stage #NA5 (na5)[0m
@@ -92,7 +92,7 @@
 [33m[tester::#NA5] [0m[92m✓ Found line "banana"[0m
 [33m[tester::#NA5] [0m[92m✓ All matches in the line "banana" are highlighted[0m
 [33m[tester::#NA5] [0m[94mRunning grep inside TTY[0m
-[33m[tester::#NA5] [0m[94mecho -ne "giraffe in the wild" | $ ./your_grep.sh --color=always -E '(giraffe|panda)'[0m
+[33m[tester::#NA5] [0m[94mecho -ne "giraffe in the wild" | $ ./your_grep.sh --color=always -E 'giraffe'[0m
 [33m[your_program] [0m[01;31m[Kgiraffe[m[K in the wild
 [33m[tester::#NA5] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#NA5] [0m[92m✓ Found line "giraffe in the wild"[0m
