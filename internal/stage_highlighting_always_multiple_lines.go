@@ -72,7 +72,6 @@ func testHighlightingAlwaysMultipleLines(stageHarness *test_case_harness.TestCas
 			Pattern: fmt.Sprintf("I see \\d+ (%s|%s)s?", vegetables[0], vegetables[1]),
 			InputLines: []string{
 				fmt.Sprintf("I see 3 %ss. Also, I see 4 %ss.", vegetables[1], vegetables[0]),
-				"No vegetables here",
 				fmt.Sprintf("I see 10 %s today", vegetables[0]),
 			},
 			ExpectedExitCode: 0,

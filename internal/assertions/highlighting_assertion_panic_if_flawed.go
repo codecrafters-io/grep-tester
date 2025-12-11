@@ -6,6 +6,7 @@ import (
 
 	uv "github.com/charmbracelet/ultraviolet"
 	"github.com/charmbracelet/x/ansi"
+	"github.com/codecrafters-io/grep-tester/internal/utils"
 	"github.com/codecrafters-io/grep-tester/virtual_terminal"
 )
 
@@ -16,8 +17,10 @@ import (
 func (a HighlightingAssertion) panicIfExpectedScreenStateisFlawed(expectedScreenState *virtual_terminal.ScreenState) {
 	linesUptoCursor := expectedScreenState.GetLinesOfTextUptoCursor()
 
+	expectedLinesCount := len(utils.ProgramOutputToLines(a.ExpectedOutput))
+
 	// Assert that expected screen state only has one line in the output
-	if len(linesUptoCursor) > 1 {
+	if len(linesUptoCursor) > expectedLinesCount {
 
 		outputLines := strings.Join(linesUptoCursor, "\n")
 

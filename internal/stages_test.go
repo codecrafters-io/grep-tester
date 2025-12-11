@@ -142,7 +142,7 @@ func TestStages(t *testing.T) {
 			NormalizeOutputFunc: normalizeTesterOutput,
 		},
 		"highlighting_pass": {
-			StageSlugs:          []string{"bm2", "eq0", "jk4", "na5"},
+			StageSlugs:          []string{"bm2", "eq0", "wg2", "jk4", "na5"},
 			CodePath:            "./test_helpers/pass_all",
 			ExpectedExitCode:    0,
 			StdoutFixturePath:   "./test_helpers/fixtures/highlighting/success",
