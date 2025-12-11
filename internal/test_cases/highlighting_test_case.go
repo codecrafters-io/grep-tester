@@ -48,7 +48,7 @@ func (c HighlightingTestCaseCollection) Run(stageHarness *test_case_harness.Test
 			logger.Infof("Running grep inside TTY")
 		}
 
-		logger.Infof("echo -ne %q | $ ./%s %s -E '%s'", testCase.InputLines,
+		logger.Infof("echo -ne %q | $ ./%s %s -E '%s'", allInputLines,
 			path.Base(grepExecutable.Path),
 			colorArgument,
 			testCase.Pattern,
