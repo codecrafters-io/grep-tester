@@ -14,6 +14,5 @@ Debug = true
 [33m[tester::#BM2] [0m[91m[91m⨯ Expected no extra attributes, got attribute: Italic(3)[0m
 [33m[tester::#BM2] [0m[91m[0m[92mExpected ANSI code: "\x1b[1;31m"[0m
 [33m[tester::#BM2] [0m[91m[0m[91mReceived ANSI code: "\x1b[1;3;31m"[0m
-[33m[tester::#BM2] [0m[91m[0m[91m[0m
-[33m[tester::#BM2] [0m[91mWrong highlighting pattern[0m[0m
+[33m[tester::#BM2] [0m[91m[0m[0m
 [33m[tester::#BM2] [0m[91mTest failed[0m
