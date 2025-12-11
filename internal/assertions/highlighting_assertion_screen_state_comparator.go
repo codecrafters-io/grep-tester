@@ -12,10 +12,10 @@ import (
 
 // screenStateComparator holds cell information for comparison
 type screenStateComparator struct {
-	cellRowIdx                 int
-	cellColumnIdx              int
-	successLogs                []string
-	matchesShouldbeHighlighted bool
+	cellRowIdx             int
+	cellColumnIdx          int
+	successLogs            []string
+	highlightingIsTurnedOn bool
 }
 
 // ComparisonError represents an error found during screen state comparison
@@ -75,7 +75,7 @@ func (c *screenStateComparator) compareCells(expected, actual *uv.Cell) *Compari
 
 	// If a single cell is found which should be highlighted, which means highlighting is turned on for this run
 	if expected.Style.Fg == ansi.Red && expected.Style.Attrs == uv.AttrBold {
-		c.matchesShouldbeHighlighted = true
+		c.highlightingIsTurnedOn = true
 	}
 
 	var firstError error

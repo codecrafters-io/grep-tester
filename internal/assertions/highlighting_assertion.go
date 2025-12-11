@@ -19,9 +19,8 @@ type HighlightingAssertion struct {
 	ExpectedOutput string
 
 	// These are temporary values calculated and reset in each run
-	highlightingIsTurnedOn bool
-	actualResult           executable.ExecutableResult
-	logger                 *logger.Logger
+	actualResult executable.ExecutableResult
+	logger       *logger.Logger
 }
 
 func (a *HighlightingAssertion) getExpectedOutputOnRowIdx(lineIdx int) string {
@@ -37,7 +36,6 @@ func (a *HighlightingAssertion) getActualOutputOnLineIdx(lineIdx int) string {
 func (a *HighlightingAssertion) Run(result executable.ExecutableResult, logger *logger.Logger) error {
 	defer func() {
 		// Reset the computed value(s) after the execution is over
-		a.highlightingIsTurnedOn = false
 		a.actualResult = executable.ExecutableResult{}
 		a.logger = nil
 	}()
@@ -121,7 +119,7 @@ func (a *HighlightingAssertion) assertHighlighting(expectedScreenState, actualSc
 	// Log success messages for each row
 	actualLines := actualScreenState.GetLinesOfTextUptoCursor()
 	for rowIdx := 0; rowIdx <= lastSuccessFulRowIndex; rowIdx++ {
-		if screenStateComparator.matchesShouldbeHighlighted {
+		if screenStateComparator.highlightingIsTurnedOn {
 			a.logger.Successf("✓ All matches in the line %q are highlighted", actualLines[rowIdx])
 		} else {
 			a.logger.Successf("✓ Line %q is not highlighted", actualLines[rowIdx])
