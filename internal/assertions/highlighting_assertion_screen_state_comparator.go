@@ -12,8 +12,6 @@ import (
 
 // screenStateComparator holds cell information for comparison
 type screenStateComparator struct {
-	cellRowIdx             int
-	cellColumnIdx          int
 	successLogs            []string
 	highlightingIsTurnedOn bool
 }
@@ -24,7 +22,7 @@ type ComparisonError struct {
 	ColumnIdx    int
 	ExpectedCell *uv.Cell
 	ActualCell   *uv.Cell
-	Message      error
+	ErrorString  error
 	SuccessLogs  []string
 }
 
@@ -45,7 +43,6 @@ func (c *screenStateComparator) CompareHighlighting(expected, actual *virtual_te
 
 	// Compare upto the row in which the cursor is present
 	for rowIdx := range cursorPosition.RowIndex + 1 {
-		c.cellRowIdx = rowIdx
 
 		// Compare upto the column before in which the cursor is present
 		columnsCount := expected.GetColumnsCount()
@@ -55,13 +52,19 @@ func (c *screenStateComparator) CompareHighlighting(expected, actual *virtual_te
 
 		// Compare cells
 		for columnIdx := range columnsCount {
-			c.cellColumnIdx = columnIdx
 
 			expectedCell := expected.MustGetCellAtPosition(rowIdx, columnIdx)
 			actualCell := actual.MustGetCellAtPosition(rowIdx, columnIdx)
 
 			if err := c.compareCells(expectedCell, actualCell); err != nil {
-				return err
+				return &ComparisonError{
+					RowIdx:       rowIdx,
+					ColumnIdx:    columnIdx,
+					ExpectedCell: expectedCell,
+					ActualCell:   actualCell,
+					ErrorString:  err,
+					SuccessLogs:  c.successLogs,
+				}
 			}
 		}
 	}
@@ -69,7 +72,7 @@ func (c *screenStateComparator) CompareHighlighting(expected, actual *virtual_te
 	return nil
 }
 
-func (c *screenStateComparator) compareCells(expected, actual *uv.Cell) *ComparisonError {
+func (c *screenStateComparator) compareCells(expected, actual *uv.Cell) error {
 	// Reset for each comparison
 	c.resetSuccessLogs()
 
@@ -95,19 +98,7 @@ func (c *screenStateComparator) compareCells(expected, actual *uv.Cell) *Compari
 		firstError = err
 	}
 
-	// Return comparison error if there was an issue
-	if firstError != nil {
-		return &ComparisonError{
-			RowIdx:       c.cellRowIdx,
-			ColumnIdx:    c.cellColumnIdx,
-			ExpectedCell: expected,
-			ActualCell:   actual,
-			Message:      firstError,
-			SuccessLogs:  c.successLogs,
-		}
-	}
-
-	return nil
+	return firstError
 }
 
 func (c *screenStateComparator) checkFgColor(expectedCell, actualCell *uv.Cell) error {

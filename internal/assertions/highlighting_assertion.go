@@ -154,7 +154,7 @@ func (a *HighlightingAssertion) buildError(compErr *ComparisonError) error {
 	}
 
 	// Print error message
-	b.WriteString(colorizeString(color.FgHiRed, fmt.Sprintf("⨯ %s\n", compErr.Message)))
+	b.WriteString(colorizeString(color.FgHiRed, fmt.Sprintf("⨯ %s\n", compErr.ErrorString)))
 
 	// Print ANSI sequence comparison
 	b.WriteString(
