@@ -63,7 +63,7 @@ func testHighlightingAutoOption(stageHarness *test_case_harness.TestCaseHarness)
 		},
 		// One non-matching test case as well
 		{
-			Pattern:          `\d{5}`,
+			Pattern:          `\d`,
 			Stdin:            "no numbers here",
 			ExpectedExitCode: 1,
 			ColorMode:        utils.ColorAuto,
