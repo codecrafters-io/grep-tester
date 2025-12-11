@@ -11,6 +11,12 @@ import (
 )
 
 // screenStateComparator holds cell information for comparison
+// TODO: I'll remove this comment later
+// Was in a dilemma between whether or not to create this struct separately that handles
+// comparison between screen states
+// Decided to create this one for separation of concerns
+// This one is involved only with error detection and propagation
+// Highlighting assertion is responsible for using this and building proper error
 type screenStateComparator struct {
 	successLogs            []string
 	highlightingIsTurnedOn bool
