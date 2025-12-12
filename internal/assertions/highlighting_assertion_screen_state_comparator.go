@@ -9,40 +9,30 @@ import (
 	"github.com/dustin/go-humanize/english"
 )
 
+// comparisonMismatchError represents an mismatch found during screen state comparison
+type comparisonMismatchError struct {
+	RowIdx             int
+	ColumnIdx          int
+	errorMessage       string
+	PartialSuccessLogs []string
+}
+
+func (e *comparisonMismatchError) Error() string {
+	return e.errorMessage
+}
+
 // screenStateComparator holds cell information for comparison
 // TODO: I'll remove this comment later
 // Was in a dilemma between whether or not to create this struct separately that handles
 // comparison between screen states
 // Decided to create this one for separation of concerns
-// This one is involved only with error detection and propagation
-// Highlighting assertion is responsible for using this and building proper error
+// This one is involved only with reporting differences in comparison
+// Highlighting assertion is responsible for logging, and using result from here to build proper error
 type screenStateComparator struct {
 	partialSuccessLogs []string
 }
 
-// ComparisonError represents an error found during screen state comparison
-type ComparisonError struct {
-	RowIdx             int
-	ColumnIdx          int
-	ExpectedANSICode   string
-	ACtualANSICode     string
-	ErrorString        error
-	PartialSuccessLogs []string
-}
-
-func newScreenStateComparator() *screenStateComparator {
-	return &screenStateComparator{}
-}
-
-func (c *screenStateComparator) resetPartialSuccessLogs() {
-	c.partialSuccessLogs = []string{}
-}
-
-func (c *screenStateComparator) addPartialSuccessLog(successLog string) {
-	c.partialSuccessLogs = append(c.partialSuccessLogs, successLog)
-}
-
-func (c *screenStateComparator) CompareHighlighting(expected, actual *virtual_terminal.ScreenState) *ComparisonError {
+func (c *screenStateComparator) CompareHighlighting(expected, actual *virtual_terminal.ScreenState) *comparisonMismatchError {
 	cursorPosition := expected.GetCursorPosition()
 
 	// Compare upto the row in which the cursor is present
@@ -61,19 +51,29 @@ func (c *screenStateComparator) CompareHighlighting(expected, actual *virtual_te
 			actualCell := actual.MustGetCellAtPosition(rowIdx, columnIdx)
 
 			if err := c.compareCells(expectedCell, actualCell); err != nil {
-				return &ComparisonError{
+				return &comparisonMismatchError{
 					RowIdx:             rowIdx,
 					ColumnIdx:          columnIdx,
-					ErrorString:        err,
+					errorMessage:       err.Error(),
 					PartialSuccessLogs: c.partialSuccessLogs,
-					ExpectedANSICode:   expectedCell.Style.String(),
-					ACtualANSICode:     actualCell.Style.String(),
 				}
 			}
 		}
 	}
 
 	return nil
+}
+
+func newScreenStateComparator() *screenStateComparator {
+	return &screenStateComparator{}
+}
+
+func (c *screenStateComparator) resetPartialSuccessLogs() {
+	c.partialSuccessLogs = []string{}
+}
+
+func (c *screenStateComparator) addPartialSuccessLog(successLog string) {
+	c.partialSuccessLogs = append(c.partialSuccessLogs, successLog)
 }
 
 func (c *screenStateComparator) compareCells(expected, actual *uv.Cell) error {
