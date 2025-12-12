@@ -132,10 +132,11 @@ func (c *screenStateComparator) checkBoldAttr(expectedCell, actualCell *uv.Cell)
 
 func (c *screenStateComparator) checkInvalidStyleAndAttrs(expectedCell, actualCell *uv.Cell) error {
 	// Intentionally don't add success messages for extra attributes
+	expectedCellAttributesWithoutBold := expectedCell.Style.Attrs &^ uv.AttrBold
+	actualCellAttributesWithoutBold := actualCell.Style.Attrs &^ uv.AttrBold
 
-	if actualCell.Style.Attrs != expectedCell.Style.Attrs {
-		attributesWithoutBold := actualCell.Style.Attrs &^ uv.AttrBold
-		attributeNames := attributesToNames(attributesWithoutBold)
+	if expectedCellAttributesWithoutBold != actualCellAttributesWithoutBold {
+		attributeNames := attributesToNames(actualCellAttributesWithoutBold)
 		return fmt.Errorf(
 			"Expected no extra attributes, got %s: %s",
 			english.PluralWord(len(attributeNames), "attribute", "attributes"),
