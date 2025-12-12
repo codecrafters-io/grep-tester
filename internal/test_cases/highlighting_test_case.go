@@ -46,7 +46,7 @@ func (c HighlightingTestCaseCollection) Run(stageHarness *test_case_harness.Test
 			logger.Infof("Running grep inside TTY")
 		}
 
-		logger.Infof("echo '%s' | $ ./%s %s -E '%s'", testCase.Stdin,
+		logger.Infof("echo -ne %q | $ ./%s %s -E '%s'", testCase.Stdin,
 			path.Base(grepExecutable.Path),
 			colorArgument,
 			testCase.Pattern,
@@ -82,7 +82,13 @@ func (c HighlightingTestCaseCollection) Run(stageHarness *test_case_harness.Test
 			return err
 		}
 
-		// Assert stdout contents here
+		highlightingAssertion := assertions.HighlightingAssertion{
+			ExpectedOutput: string(emulatedResult.Stdout),
+		}
+
+		if err := highlightingAssertion.Run(actualResult, logger); err != nil {
+			return err
+		}
 	}
 
 	return nil
