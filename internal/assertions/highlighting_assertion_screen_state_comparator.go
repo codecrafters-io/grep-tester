@@ -5,7 +5,6 @@ import (
 	"strings"
 
 	uv "github.com/charmbracelet/ultraviolet"
-	"github.com/charmbracelet/x/ansi"
 	"github.com/codecrafters-io/grep-tester/virtual_terminal"
 	"github.com/dustin/go-humanize/english"
 )
@@ -18,30 +17,29 @@ import (
 // This one is involved only with error detection and propagation
 // Highlighting assertion is responsible for using this and building proper error
 type screenStateComparator struct {
-	successLogs            []string
-	highlightingIsTurnedOn bool
+	partialSuccessLogs []string
 }
 
 // ComparisonError represents an error found during screen state comparison
 type ComparisonError struct {
-	RowIdx       int
-	ColumnIdx    int
-	ExpectedCell *uv.Cell
-	ActualCell   *uv.Cell
-	ErrorString  error
-	SuccessLogs  []string
+	RowIdx             int
+	ColumnIdx          int
+	ExpectedANSICode   string
+	ACtualANSICode     string
+	ErrorString        error
+	PartialSuccessLogs []string
 }
 
 func newScreenStateComparator() *screenStateComparator {
 	return &screenStateComparator{}
 }
 
-func (c *screenStateComparator) resetSuccessLogs() {
-	c.successLogs = []string{}
+func (c *screenStateComparator) resetPartialSuccessLogs() {
+	c.partialSuccessLogs = []string{}
 }
 
-func (c *screenStateComparator) addSuccessLog(successLog string) {
-	c.successLogs = append(c.successLogs, successLog)
+func (c *screenStateComparator) addPartialSuccessLog(successLog string) {
+	c.partialSuccessLogs = append(c.partialSuccessLogs, successLog)
 }
 
 func (c *screenStateComparator) CompareHighlighting(expected, actual *virtual_terminal.ScreenState) *ComparisonError {
@@ -51,25 +49,25 @@ func (c *screenStateComparator) CompareHighlighting(expected, actual *virtual_te
 	for rowIdx := range cursorPosition.RowIndex + 1 {
 
 		// Compare upto the column before in which the cursor is present
-		columnsCount := expected.GetColumnsCount()
+		maxColumnsCount := expected.GetColumnsCount()
 		if cursorPosition.RowIndex == rowIdx {
-			columnsCount = cursorPosition.ColumnIndex
+			maxColumnsCount = cursorPosition.ColumnIndex
 		}
 
 		// Compare cells
-		for columnIdx := range columnsCount {
+		for columnIdx := range maxColumnsCount {
 
 			expectedCell := expected.MustGetCellAtPosition(rowIdx, columnIdx)
 			actualCell := actual.MustGetCellAtPosition(rowIdx, columnIdx)
 
 			if err := c.compareCells(expectedCell, actualCell); err != nil {
 				return &ComparisonError{
-					RowIdx:       rowIdx,
-					ColumnIdx:    columnIdx,
-					ExpectedCell: expectedCell,
-					ActualCell:   actualCell,
-					ErrorString:  err,
-					SuccessLogs:  c.successLogs,
+					RowIdx:             rowIdx,
+					ColumnIdx:          columnIdx,
+					ErrorString:        err,
+					PartialSuccessLogs: c.partialSuccessLogs,
+					ExpectedANSICode:   expectedCell.Style.String(),
+					ACtualANSICode:     actualCell.Style.String(),
 				}
 			}
 		}
@@ -79,13 +77,8 @@ func (c *screenStateComparator) CompareHighlighting(expected, actual *virtual_te
 }
 
 func (c *screenStateComparator) compareCells(expected, actual *uv.Cell) error {
-	// Reset for each comparison
-	c.resetSuccessLogs()
-
-	// If a single cell is found which should be highlighted, which means highlighting is turned on for this run
-	if expected.Style.Fg == ansi.Red && expected.Style.Attrs == uv.AttrBold {
-		c.highlightingIsTurnedOn = true
-	}
+	// Reset for each cell
+	c.resetPartialSuccessLogs()
 
 	var firstError error
 
@@ -112,7 +105,7 @@ func (c *screenStateComparator) checkFgColor(expectedCell, actualCell *uv.Cell) 
 		return fmt.Errorf("Expected %s, got %s", getFgColorName(expectedCell.Style.Fg), getFgColorName(actualCell.Style.Fg))
 	}
 
-	c.addSuccessLog(fmt.Sprintf("✓ Color is %s", getFgColorName(expectedCell.Style.Fg)))
+	c.addPartialSuccessLog(fmt.Sprintf("✓ Color is %s", getFgColorName(expectedCell.Style.Fg)))
 	return nil
 }
 
@@ -124,14 +117,14 @@ func (c *screenStateComparator) checkBoldAttr(expectedCell, actualCell *uv.Cell)
 		if expectedBold {
 			return fmt.Errorf("Expected character to be bold (ANSI code 01), was not bold")
 		} else {
-			return fmt.Errorf("Expected character to not be bold, was bold")
+			return fmt.Errorf("Expected character to not be bold, was bold (ANSI code 01)")
 		}
 	}
 
 	if expectedBold {
-		c.addSuccessLog("✓ Bold attribute is present")
+		c.addPartialSuccessLog("✓ Bold attribute is present")
 	} else {
-		c.addSuccessLog("✓ Bold attribute is not present")
+		c.addPartialSuccessLog("✓ Bold attribute is not present")
 	}
 
 	return nil

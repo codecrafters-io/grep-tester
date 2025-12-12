@@ -19,13 +19,14 @@ func (a HighlightingAssertion) panicIfExpectedScreenStateisFlawed(expectedScreen
 
 	expectedLinesCount := len(utils.ProgramOutputToLines(a.ExpectedOutput))
 
-	// Assert that expected screen state only has one line in the output
-	if len(linesUptoCursor) > expectedLinesCount {
+	// Assert that expected screen state has exact expected number of line in the output
+	if len(linesUptoCursor) != expectedLinesCount {
 
 		outputLines := strings.Join(linesUptoCursor, "\n")
 
 		panic(fmt.Sprintf(
-			"Codecrafters Internal Error - Expected one line in output, grep returned %d:\n%s",
+			"Codecrafters Internal Error - Expected %d line in output, grep returned %d:\n%s",
+			expectedLinesCount,
 			len(linesUptoCursor),
 			outputLines,
 		))

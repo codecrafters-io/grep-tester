@@ -1,6 +1,7 @@
 package assertions
 
 import (
+	"bytes"
 	"errors"
 	"fmt"
 	"strings"
@@ -19,8 +20,9 @@ type HighlightingAssertion struct {
 	ExpectedOutput string
 
 	// These are temporary values calculated and reset in each run
-	actualResult executable.ExecutableResult
-	logger       *logger.Logger
+	actualResult               executable.ExecutableResult
+	matchesShouldbeHighlighted bool
+	logger                     *logger.Logger
 }
 
 func (a *HighlightingAssertion) getExpectedOutputOnRowIdx(lineIdx int) string {
@@ -40,8 +42,10 @@ func (a *HighlightingAssertion) Run(result executable.ExecutableResult, logger *
 		a.logger = nil
 	}()
 
-	a.actualResult = result
+	// Presence of ANSI coloring sequence implies that matches should be highlighted
+	a.matchesShouldbeHighlighted = bytes.Contains(result.Stdout, []byte("\033[01;31m"))
 	a.logger = logger.Clone()
+	a.actualResult = result
 
 	expectedLines := utils.ProgramOutputToLines(a.ExpectedOutput)
 	actualLines := utils.ProgramOutputToLines(string(result.Stdout))
@@ -119,7 +123,7 @@ func (a *HighlightingAssertion) assertHighlighting(expectedScreenState, actualSc
 	// Log success messages for each row
 	actualLines := actualScreenState.GetLinesOfTextUptoCursor()
 	for rowIdx := 0; rowIdx <= lastSuccessFulRowIndex; rowIdx++ {
-		if screenStateComparator.highlightingIsTurnedOn {
+		if a.matchesShouldbeHighlighted {
 			a.logger.Successf("✓ All matches in the line %q are highlighted", actualLines[rowIdx])
 		} else {
 			a.logger.Successf("✓ Line %q is not highlighted", actualLines[rowIdx])
@@ -134,33 +138,33 @@ func (a *HighlightingAssertion) assertHighlighting(expectedScreenState, actualSc
 	return nil
 }
 
-func (a *HighlightingAssertion) buildError(compErr *ComparisonError) error {
+func (a *HighlightingAssertion) buildError(comparisonError *ComparisonError) error {
 	var b strings.Builder
 
 	// Comparison error message first
 	b.WriteString(
 		buildComparisonErrorMessageWithCursor(
-			a.getExpectedOutputOnRowIdx(compErr.RowIdx),
-			a.getActualOutputOnLineIdx(compErr.RowIdx),
-			compErr.ColumnIdx,
+			a.getExpectedOutputOnRowIdx(comparisonError.RowIdx),
+			a.getActualOutputOnLineIdx(comparisonError.RowIdx),
+			comparisonError.ColumnIdx,
 		),
 	)
 	b.WriteString("\n")
 
 	// Print success messages
-	for _, successLog := range compErr.SuccessLogs {
+	for _, successLog := range comparisonError.PartialSuccessLogs {
 		b.WriteString(colorizeString(color.FgHiGreen, successLog))
 		b.WriteString("\n")
 	}
 
 	// Print error message
-	b.WriteString(colorizeString(color.FgHiRed, fmt.Sprintf("⨯ %s\n", compErr.ErrorString)))
+	b.WriteString(colorizeString(color.FgHiRed, fmt.Sprintf("⨯ %s\n", comparisonError.ErrorString)))
 
-	// Print ANSI sequence comparison
+	// Print ANSI code comparison
 	b.WriteString(
 		buildAnsiCodeMismatchComplaint(
-			compErr.ExpectedCell.Style.String(),
-			compErr.ActualCell.Style.String(),
+			comparisonError.ExpectedANSICode,
+			comparisonError.ACtualANSICode,
 		),
 	)
 
