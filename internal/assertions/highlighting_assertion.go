@@ -1,7 +1,6 @@
 package assertions
 
 import (
-	"bytes"
 	"errors"
 	"fmt"
 	"strings"
@@ -33,7 +32,7 @@ func (a *HighlightingAssertion) Run(result executable.ExecutableResult, logger *
 	}()
 
 	// Presence of ANSI coloring sequence implies that matches should be highlighted
-	a.matchesShouldbeHighlighted = bytes.Contains(result.Stdout, []byte("\033[01;31m"))
+	a.matchesShouldbeHighlighted = strings.Contains(a.ExpectedOutput, "\033[01;31m")
 	a.logger = logger.Clone()
 	a.actualResult = result
 
