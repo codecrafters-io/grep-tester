@@ -42,7 +42,7 @@ func testHighlightingAlwaysMultipleMatches(stageHarness *test_case_harness.TestC
 			ColorMode:        utils.ColorAlways,
 		},
 		{
-			Pattern:          `\\w`,
+			Pattern:          `\w`,
 			InputLines:       []string{"$$##@@"},
 			ExpectedExitCode: 1,
 			ColorMode:        utils.ColorAlways,

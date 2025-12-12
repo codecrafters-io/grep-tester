@@ -46,7 +46,7 @@
 [33m[tester::#EQ0] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#EQ0] [0m[92m✓ Found line "xxyyzz"[0m
 [33m[tester::#EQ0] [0m[92m✓ All matches in the line "xxyyzz" are highlighted[0m
-[33m[tester::#EQ0] [0m[94mecho -ne "$$##@@" | $ ./your_grep.sh --color=always -E '\\w'[0m
+[33m[tester::#EQ0] [0m[94mecho -ne "$$##@@" | $ ./your_grep.sh --color=always -E '\w'[0m
 [33m[tester::#EQ0] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#EQ0] [0m[92m✓ No output found[0m
 [33m[tester::#EQ0] [0m[94mecho -ne "I see 3 onions. Also, I see 4 spinachs." | $ ./your_grep.sh --color=always -E 'I see \d+ (spinach|onion)s?'[0m
@@ -75,7 +75,7 @@
 [33m[tester::#WG2] [0m[92m✓ Stdout contains 2 expected lines in order[0m
 [33m[tester::#WG2] [0m[92m✓ All matches in the line "horse_tiger_monkey" are highlighted[0m
 [33m[tester::#WG2] [0m[92m✓ All matches in the line "tiger and monkey" are highlighted[0m
-[33m[tester::#WG2] [0m[94mecho -ne "blueberry\nanother line\nno numbers" | $ ./your_grep.sh --color=always -E '\d'[0m
+[33m[tester::#WG2] [0m[94mecho -ne "blueberry\ntiger\nspinach" | $ ./your_grep.sh --color=always -E '\d'[0m
 [33m[tester::#WG2] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#WG2] [0m[92m✓ No output found[0m
 [33m[tester::#WG2] [0m[94mecho -ne "xxyyzz\nab cd ef\nmango" | $ ./your_grep.sh --color=always -E '\w\w'[0m
@@ -93,15 +93,11 @@
 [33m[tester::#WG2] [0m[94mecho -ne "$$##@@\n!@#$%^\n+++---" | $ ./your_grep.sh --color=always -E '\w'[0m
 [33m[tester::#WG2] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#WG2] [0m[92m✓ No output found[0m
-[33m[tester::#WG2] [0m[94mecho -ne "I see 3 corns. Also, I see 4 spinachs.\nI see 10 spinach today" | $ ./your_grep.sh --color=always -E 'I see \d+ (spinach|corn)s?'[0m
+[33m[tester::#WG2] [0m[94mecho -ne "I see 3 corns. Also, I see 4 spinachs.\nI ate 10 spinach today" | $ ./your_grep.sh --color=always -E 'I see \d+ (spinach|corn)s?'[0m
 [33m[your_program] [0m[01;31m[KI see 3 corns[m[K. Also, [01;31m[KI see 4 spinachs[m[K.
-[33m[your_program] [0m[01;31m[KI see 10 spinach[m[K today
 [33m[tester::#WG2] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#WG2] [0m[92m✓ Found line "I see 3 corns. Also, I see 4 spinachs."[0m
-[33m[tester::#WG2] [0m[92m✓ Found line "I see 10 spinach today"[0m
-[33m[tester::#WG2] [0m[92m✓ Stdout contains 2 expected lines in order[0m
 [33m[tester::#WG2] [0m[92m✓ All matches in the line "I see 3 corns. Also, I see 4 spinachs." are highlighted[0m
-[33m[tester::#WG2] [0m[92m✓ All matches in the line "I see 10 spinach today" are highlighted[0m
 [33m[tester::#WG2] [0m[92mTest passed.[0m
 
 [33m[tester::#JK4] [0m[94mRunning tests for Stage #JK4 (jk4)[0m
