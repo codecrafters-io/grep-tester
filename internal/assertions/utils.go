@@ -107,7 +107,7 @@ func getBgColorName(c color.Color) string {
 	return colorCodeTocolorName(colorCodeString)
 }
 
-var attrMap = []struct {
+var attributesMap = []struct {
 	flag uint8
 	name string
 }{
@@ -129,7 +129,7 @@ func attributesToNames(attributes uint8) []string {
 
 	var names []string
 
-	for _, attr := range attrMap {
+	for _, attr := range attributesMap {
 		if attributes&attr.flag != 0 {
 			names = append(names, attr.name)
 		}
