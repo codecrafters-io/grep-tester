@@ -25,16 +25,6 @@ type HighlightingAssertion struct {
 	logger                     *logger.Logger
 }
 
-func (a *HighlightingAssertion) getExpectedOutputOnRowIdx(lineIdx int) string {
-	lines := utils.ProgramOutputToLines(a.ExpectedOutput)
-	return lines[lineIdx]
-}
-
-func (a *HighlightingAssertion) getActualOutputOnLineIdx(lineIdx int) string {
-	lines := utils.ProgramOutputToLines(string(a.actualResult.Stdout))
-	return lines[lineIdx]
-}
-
 func (a *HighlightingAssertion) Run(result executable.ExecutableResult, logger *logger.Logger) error {
 	defer func() {
 		// Reset the computed value(s) after the execution is over
@@ -132,20 +122,28 @@ func (a *HighlightingAssertion) assertHighlighting(expectedScreenState, actualSc
 
 	if comparisonError != nil {
 		// Build error using the information from context
-		return a.buildError(comparisonError)
+		return a.buildError(comparisonError, expectedScreenState, actualScreenState)
 	}
 
 	return nil
 }
 
-func (a *HighlightingAssertion) buildError(comparisonError *ComparisonError) error {
+func (a *HighlightingAssertion) buildError(
+	comparisonError *comparisonMismatchError,
+	expectedScreenState,
+	actualScreenState *virtual_terminal.ScreenState,
+) error {
 	var b strings.Builder
+
+	// Print the actual raw output, not the text content from the expected and actual screen states
+	expectedLine := utils.ProgramOutputToLines(a.ExpectedOutput)[comparisonError.RowIdx]
+	actualLine := utils.ProgramOutputToLines(string(a.actualResult.Stdout))[comparisonError.RowIdx]
 
 	// Comparison error message first
 	b.WriteString(
 		buildComparisonErrorMessageWithCursor(
-			a.getExpectedOutputOnRowIdx(comparisonError.RowIdx),
-			a.getActualOutputOnLineIdx(comparisonError.RowIdx),
+			expectedLine,
+			actualLine,
 			comparisonError.ColumnIdx,
 		),
 	)
@@ -158,13 +156,16 @@ func (a *HighlightingAssertion) buildError(comparisonError *ComparisonError) err
 	}
 
 	// Print error message
-	b.WriteString(colorizeString(color.FgHiRed, fmt.Sprintf("⨯ %s\n", comparisonError.ErrorString)))
+	b.WriteString(colorizeString(color.FgHiRed, fmt.Sprintf("⨯ %s\n", comparisonError.Error())))
 
 	// Print ANSI code comparison
+	expectedCell := expectedScreenState.MustGetCellAtPosition(comparisonError.RowIdx, comparisonError.ColumnIdx)
+	actualCell := actualScreenState.MustGetCellAtPosition(comparisonError.RowIdx, comparisonError.ColumnIdx)
+
 	b.WriteString(
 		buildAnsiCodeMismatchComplaint(
-			comparisonError.ExpectedANSICode,
-			comparisonError.ACtualANSICode,
+			expectedCell.Style.String(),
+			actualCell.Style.String(),
 		),
 	)
 
