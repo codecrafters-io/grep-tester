@@ -18,37 +18,37 @@ func testHighlightingAlwaysSingleMatch(stageHarness *test_case_harness.TestCaseH
 	testCaseCollection := test_cases.HighlightingTestCaseCollection{
 		{
 			Pattern:          `\d`,
-			Stdin:            "only1digit",
+			InputLines:       []string{"only1digit"},
 			ExpectedExitCode: 0,
 			ColorMode:        utils.ColorAlways,
 		},
 		{
 			Pattern:          `\d`,
-			Stdin:            fruits[1],
+			InputLines:       []string{fruits[1]},
 			ExpectedExitCode: 1,
 			ColorMode:        utils.ColorAlways,
 		},
 		{
 			Pattern:          fmt.Sprintf("^%s", words[0]),
-			Stdin:            words[0] + "_suffix",
+			InputLines:       []string{words[0] + "_suffix"},
 			ExpectedExitCode: 0,
 			ColorMode:        utils.ColorAlways,
 		},
 		{
 			Pattern:          fmt.Sprintf("^%s", words[1]),
-			Stdin:            "prefix_" + words[1],
+			InputLines:       []string{"prefix_" + words[1]},
 			ExpectedExitCode: 1,
 			ColorMode:        utils.ColorAlways,
 		},
 		{
 			Pattern:          "ca+t",
-			Stdin:            "caaaat",
+			InputLines:       []string{"caaaat"},
 			ExpectedExitCode: 0,
 			ColorMode:        utils.ColorAlways,
 		},
 		{
 			Pattern:          `^I see \d+ (cat|dog)s?$`,
-			Stdin:            "I see 42 dogs",
+			InputLines:       []string{"I see 42 dogs"},
 			ExpectedExitCode: 0,
 			ColorMode:        utils.ColorAlways,
 		},
