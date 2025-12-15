@@ -148,6 +148,10 @@ var testerDefinition = tester_definition.TesterDefinition{
 			TestFunc: testHighlightingAlwaysMultipleMatches,
 		},
 		{
+			Slug:     "wg2",
+			TestFunc: testHighlightingAlwaysMultipleLines,
+		},
+		{
 			Slug:     "jk4",
 			TestFunc: testHighlightingNeverOption,
 		},
