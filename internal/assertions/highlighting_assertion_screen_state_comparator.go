@@ -21,13 +21,6 @@ func (e *comparisonMismatchError) Error() string {
 	return e.errorMessage
 }
 
-// screenStateComparator holds cell information for comparison
-// TODO: I'll remove this comment later
-// Was in a dilemma between whether or not to create this struct separately that handles
-// comparison between screen states
-// Decided to create this one for separation of concerns
-// This one is involved only with reporting differences in comparison
-// Highlighting assertion is responsible for logging, and using result from here to build proper error
 type screenStateComparator struct {
 	partialSuccessLogs []string
 }
