@@ -91,7 +91,7 @@ func TestSearchStdin(t *testing.T) {
 			name:     "literal character match",
 			pattern:  "d",
 			input:    "dog",
-			expected: Result{ExitCode: 0, Stdout: []byte("dog")},
+			expected: Result{ExitCode: 0, Stdout: []byte("dog\n")},
 		},
 		{
 			name:     "literal character no match",
@@ -103,7 +103,7 @@ func TestSearchStdin(t *testing.T) {
 			name:     "digit match",
 			pattern:  "\\d",
 			input:    "123",
-			expected: Result{ExitCode: 0, Stdout: []byte("123")},
+			expected: Result{ExitCode: 0, Stdout: []byte("123\n")},
 		},
 		{
 			name:     "digit no match",
@@ -115,7 +115,7 @@ func TestSearchStdin(t *testing.T) {
 			name:     "alphanumeric match",
 			pattern:  "\\w",
 			input:    "apple",
-			expected: Result{ExitCode: 0, Stdout: []byte("apple")},
+			expected: Result{ExitCode: 0, Stdout: []byte("apple\n")},
 		},
 		{
 			name:     "alphanumeric no match",
@@ -129,7 +129,7 @@ func TestSearchStdin(t *testing.T) {
 			name:     "positive character group match",
 			pattern:  "[pineapple]",
 			input:    "n",
-			expected: Result{ExitCode: 0, Stdout: []byte("n")},
+			expected: Result{ExitCode: 0, Stdout: []byte("n\n")},
 		},
 		{
 			name:     "positive character group no match",
@@ -141,7 +141,7 @@ func TestSearchStdin(t *testing.T) {
 			name:     "negative character group match",
 			pattern:  "[^xyz]",
 			input:    "apple",
-			expected: Result{ExitCode: 0, Stdout: []byte("apple")},
+			expected: Result{ExitCode: 0, Stdout: []byte("apple\n")},
 		},
 		{
 			name:     "negative character group no match",
@@ -155,7 +155,7 @@ func TestSearchStdin(t *testing.T) {
 			name:     "start anchor match",
 			pattern:  "^log",
 			input:    "log",
-			expected: Result{ExitCode: 0, Stdout: []byte("log")},
+			expected: Result{ExitCode: 0, Stdout: []byte("log\n")},
 		},
 		{
 			name:     "start anchor no match",
@@ -167,7 +167,7 @@ func TestSearchStdin(t *testing.T) {
 			name:     "end anchor match",
 			pattern:  "cat$",
 			input:    "cat",
-			expected: Result{ExitCode: 0, Stdout: []byte("cat")},
+			expected: Result{ExitCode: 0, Stdout: []byte("cat\n")},
 		},
 		{
 			name:     "end anchor no match",
@@ -181,7 +181,7 @@ func TestSearchStdin(t *testing.T) {
 			name:     "one or more match",
 			pattern:  "ca+t",
 			input:    "cat",
-			expected: Result{ExitCode: 0, Stdout: []byte("cat")},
+			expected: Result{ExitCode: 0, Stdout: []byte("cat\n")},
 		},
 		{
 			name:     "one or more no match",
@@ -193,13 +193,13 @@ func TestSearchStdin(t *testing.T) {
 			name:     "zero or one match",
 			pattern:  "ca?t",
 			input:    "cat",
-			expected: Result{ExitCode: 0, Stdout: []byte("cat")},
+			expected: Result{ExitCode: 0, Stdout: []byte("cat\n")},
 		},
 		{
 			name:     "zero or one alternate match",
 			pattern:  "ca?t",
 			input:    "act",
-			expected: Result{ExitCode: 0, Stdout: []byte("act")},
+			expected: Result{ExitCode: 0, Stdout: []byte("act\n")},
 		},
 		{
 			name:     "zero or one no match",
@@ -213,7 +213,7 @@ func TestSearchStdin(t *testing.T) {
 			name:     "wildcard match",
 			pattern:  "c.t",
 			input:    "cat",
-			expected: Result{ExitCode: 0, Stdout: []byte("cat")},
+			expected: Result{ExitCode: 0, Stdout: []byte("cat\n")},
 		},
 		{
 			name:     "wildcard no match",
@@ -225,7 +225,7 @@ func TestSearchStdin(t *testing.T) {
 			name:     "wildcard with quantifier match",
 			pattern:  "g.+gol",
 			input:    "goøö0Ogol",
-			expected: Result{ExitCode: 0, Stdout: []byte("goøö0Ogol")},
+			expected: Result{ExitCode: 0, Stdout: []byte("goøö0Ogol\n")},
 		},
 		{
 			name:     "wildcard with quantifier no match",
@@ -239,7 +239,7 @@ func TestSearchStdin(t *testing.T) {
 			name:     "alternation match",
 			pattern:  "a (cat|dog)",
 			input:    "a cat",
-			expected: Result{ExitCode: 0, Stdout: []byte("a cat")},
+			expected: Result{ExitCode: 0, Stdout: []byte("a cat\n")},
 		},
 		{
 			name:     "alternation no match",
@@ -253,7 +253,7 @@ func TestSearchStdin(t *testing.T) {
 			name:     "basic backreference match",
 			pattern:  "(cat) and \\1",
 			input:    "cat and cat",
-			expected: Result{ExitCode: 0, Stdout: []byte("cat and cat")},
+			expected: Result{ExitCode: 0, Stdout: []byte("cat and cat\n")},
 		},
 		{
 			name:     "basic backreference no match",
@@ -265,7 +265,7 @@ func TestSearchStdin(t *testing.T) {
 			name:     "complex backreference match",
 			pattern:  "([abcd]+) is \\1, not [^xyz]+",
 			input:    "abcd is abcd, not efg",
-			expected: Result{ExitCode: 0, Stdout: []byte("abcd is abcd, not efg")},
+			expected: Result{ExitCode: 0, Stdout: []byte("abcd is abcd, not efg\n")},
 		},
 		{
 			name:     "complex backreference no match",
@@ -277,7 +277,7 @@ func TestSearchStdin(t *testing.T) {
 			name:     "anchored backreference match",
 			pattern:  "^(\\w+) starts and ends with \\1$",
 			input:    "this starts and ends with this",
-			expected: Result{ExitCode: 0, Stdout: []byte("this starts and ends with this")},
+			expected: Result{ExitCode: 0, Stdout: []byte("this starts and ends with this\n")},
 		},
 		{
 			name:     "anchored backreference no match",
@@ -291,7 +291,7 @@ func TestSearchStdin(t *testing.T) {
 			name:     "multiple backreferences match",
 			pattern:  "(\\d+) (\\w+) squares and \\1 \\2 circles",
 			input:    "3 red squares and 3 red circles",
-			expected: Result{ExitCode: 0, Stdout: []byte("3 red squares and 3 red circles")},
+			expected: Result{ExitCode: 0, Stdout: []byte("3 red squares and 3 red circles\n")},
 		},
 		{
 			name:     "multiple backreferences no match",
@@ -305,7 +305,7 @@ func TestSearchStdin(t *testing.T) {
 			name:     "nested backreferences match",
 			pattern:  "('(cat) and \\2') is the same as \\1",
 			input:    "'cat and cat' is the same as 'cat and cat'",
-			expected: Result{ExitCode: 0, Stdout: []byte("'cat and cat' is the same as 'cat and cat'")},
+			expected: Result{ExitCode: 0, Stdout: []byte("'cat and cat' is the same as 'cat and cat'\n")},
 		},
 		{
 			name:     "nested backreferences no match",
@@ -318,13 +318,13 @@ func TestSearchStdin(t *testing.T) {
 			name:     "multiple backreferences with nesting_pass_1",
 			pattern:  "('(cat) and \\2') or ('(dog) and \\4') is the same as \\3",
 			input:    "'cat and cat' or 'dog and dog' is the same as 'dog and dog'",
-			expected: Result{ExitCode: 0, Stdout: []byte("'cat and cat' or 'dog and dog' is the same as 'dog and dog'")},
+			expected: Result{ExitCode: 0, Stdout: []byte("'cat and cat' or 'dog and dog' is the same as 'dog and dog'\n")},
 		},
 		{
 			name:     "multiple backreferences with nesting_pass_2",
 			pattern:  "('(cat) and \\2') or ('(cat) and \\4') is the same as \\3",
 			input:    "'cat and cat' or 'cat and cat' is the same as 'cat and cat'",
-			expected: Result{ExitCode: 0, Stdout: []byte("'cat and cat' or 'cat and cat' is the same as 'cat and cat'")},
+			expected: Result{ExitCode: 0, Stdout: []byte("'cat and cat' or 'cat and cat' is the same as 'cat and cat'\n")},
 		},
 		{
 			name:     "multiple backreferences with nesting_fail",
@@ -338,21 +338,21 @@ func TestSearchStdin(t *testing.T) {
 			pattern:     "\\d",
 			input:       "a1b",
 			onlyMatches: true,
-			expected:    Result{ExitCode: 0, Stdout: []byte("1")},
+			expected:    Result{ExitCode: 0, Stdout: []byte("1\n")},
 		},
 		{
 			name:        "multiple_matches_single_line",
 			pattern:     "\\d",
 			input:       "a1b2c3d4",
 			onlyMatches: true,
-			expected:    Result{ExitCode: 0, Stdout: []byte("1\n2\n3\n4")},
+			expected:    Result{ExitCode: 0, Stdout: []byte("1\n2\n3\n4\n")},
 		},
 		{
 			name:        "multiple_matches_multiple_lines",
 			pattern:     "\\d\\d",
 			input:       "a1b22c3d4\n\n234\n2255\n",
 			onlyMatches: true,
-			expected:    Result{ExitCode: 0, Stdout: []byte("22\n23\n22\n55")},
+			expected:    Result{ExitCode: 0, Stdout: []byte("22\n23\n22\n55\n")},
 		},
 		{
 			name:      "Highlight always without TTY",
@@ -501,7 +501,7 @@ func TestSearchFiles(t *testing.T) {
 			name:     "single file match",
 			pattern:  "le.*",
 			files:    []string{testFile},
-			expected: Result{ExitCode: 0, Stdout: []byte("lemon")},
+			expected: Result{ExitCode: 0, Stdout: []byte("lemon\n")},
 		},
 		{
 			name:     "single file no match",
@@ -518,7 +518,7 @@ func TestSearchFiles(t *testing.T) {
 			expected: Result{ExitCode: 0, Stdout: []byte(
 				fruitsFile + ":banana" + "\n" +
 					fruitsFile + ":blueberry" + "\n" +
-					vegetablesFile + ":broccoli",
+					vegetablesFile + ":broccoli\n",
 			)},
 		},
 		{
@@ -531,7 +531,7 @@ func TestSearchFiles(t *testing.T) {
 			name:     "specific file match",
 			pattern:  "carrot",
 			files:    []string{fruitsFile, vegetablesFile},
-			expected: Result{ExitCode: 0, Stdout: []byte(vegetablesFile + ":carrot")},
+			expected: Result{ExitCode: 0, Stdout: []byte(vegetablesFile + ":carrot\n")},
 		},
 
 		// Recursive search
@@ -542,7 +542,7 @@ func TestSearchFiles(t *testing.T) {
 			expected: Result{ExitCode: 0, Stdout: []byte(
 				dirFruitsFile + ":strawberry" + "\n" +
 					subdirVegetablesFile + ":celery" + "\n" +
-					dirVegetablesFile + ":cucumber",
+					dirVegetablesFile + ":cucumber\n",
 			)},
 			recursive: true,
 		},
