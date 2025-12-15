@@ -10,9 +10,9 @@ Debug = true
 [33m[tester::#BM2] [0m[91m[91mReceived:[0m "only[01;03;31m[K1[m[Kdigit"[0m
 [33m[tester::#BM2] [0m[91m               ↑[0m
 [33m[tester::#BM2] [0m[91m[92m✓ Color is red (ANSI code 31)[0m[0m
-[33m[tester::#BM2] [0m[91m[92m✓ Bold attribute is present[0m[0m
-[33m[tester::#BM2] [0m[91m[91m⨯ Expected no extra attributes, got attribute: Italic(3)[0m
-[33m[tester::#BM2] [0m[91m[0m[92mExpected ANSI code: "\x1b[1;31m"[0m
-[33m[tester::#BM2] [0m[91m[0m[91mReceived ANSI code: "\x1b[1;3;31m"[0m
+[33m[tester::#BM2] [0m[91m[92m✓ Character is bold[0m[0m
+[33m[tester::#BM2] [0m[91m[91m⨯ Found extra attribute: Italic(3)[0m
 [33m[tester::#BM2] [0m[91m[0m[0m
+[33m[tester::#BM2] [0m[91m[92mExpected ANSI sequence: [0m"\x1b[1;31m"[0m
+[33m[tester::#BM2] [0m[91m[91mReceived ANSI sequence: [0m"\x1b[1;3;31m"[0m
 [33m[tester::#BM2] [0m[91mTest failed[0m
