@@ -76,3 +76,18 @@ func FormatLineForLogging(line string) string {
 
 	return fmt.Sprintf("%q", line)
 }
+
+// HighlightString highlights a text by wrapping it in ascii code corresponding to grep's default
+// highlighting color
+func HighlightString(text string) string {
+	return "\033[01;31m" + text + "\033[m"
+}
+
+// ColorMode represents the color output mode
+type ColorMode string
+
+const (
+	ColorAlways ColorMode = "always"
+	ColorNever  ColorMode = "never"
+	ColorAuto   ColorMode = "auto"
+)

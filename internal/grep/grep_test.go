@@ -1,6 +1,7 @@
 package grep
 
 import (
+	"fmt"
 	"os"
 	"path/filepath"
 	"testing"
@@ -12,6 +13,8 @@ type StdinTestCase struct {
 	input       string
 	expected    Result
 	onlyMatches bool
+	colorMode   string
+	runInTTY    bool
 }
 
 type FileTestCase struct {
@@ -31,9 +34,16 @@ func runStdinTests(t *testing.T, tests []StdinTestCase) {
 				arguments = append(arguments, "-o")
 			}
 
+			if tt.colorMode != "" {
+				arguments = append(arguments, fmt.Sprintf("--color=%s", tt.colorMode))
+			}
+
 			arguments = append(arguments, tt.pattern)
 
-			result := EmulateGrep(arguments, []byte(tt.input))
+			result := EmulateGrep(arguments, EmulationOptions{
+				Stdin:        []byte(tt.input),
+				EmulateInTTY: tt.runInTTY,
+			})
 
 			if result.ExitCode != tt.expected.ExitCode {
 				t.Errorf("Expected exit code %d, got %d", tt.expected.ExitCode, result.ExitCode)
@@ -58,7 +68,7 @@ func runFileTests(t *testing.T, tests []FileTestCase) {
 			}
 			args = append(args, tt.pattern)
 			args = append(args, tt.files...)
-			result := EmulateGrep(args, []byte{})
+			result := EmulateGrep(args, EmulationOptions{})
 
 			if result.ExitCode != tt.expected.ExitCode {
 				t.Errorf("Expected exit code %d, got %d", tt.expected.ExitCode, result.ExitCode)
@@ -343,6 +353,90 @@ func TestSearchStdin(t *testing.T) {
 			input:       "a1b22c3d4\n\n234\n2255\n",
 			onlyMatches: true,
 			expected:    Result{ExitCode: 0, Stdout: []byte("22\n23\n22\n55\n")},
+		},
+		{
+			name:      "Highlight always without TTY",
+			pattern:   "\\d",
+			input:     "a1b",
+			colorMode: "always",
+			expected:  Result{ExitCode: 0, Stdout: []byte("a" + "\033[01;31m1\033[m" + "b\n")},
+		},
+		{
+			name:      "Highlight always inside TTY",
+			pattern:   "\\d",
+			input:     "a1b",
+			colorMode: "always",
+			runInTTY:  true,
+			expected:  Result{ExitCode: 0, Stdout: []byte("a" + "\033[01;31m1\033[m" + "b\n")},
+		},
+		{
+			name:      "Highlight auto without TTY",
+			pattern:   "[^xyz]",
+			input:     "apple",
+			colorMode: "auto",
+			expected:  Result{ExitCode: 0, Stdout: []byte("apple\n")},
+		},
+		{
+			name:      "Highlight auto inside TTY",
+			pattern:   "[^xyz]",
+			input:     "apple",
+			colorMode: "auto",
+			runInTTY:  true,
+			expected: Result{ExitCode: 0, Stdout: []byte(
+				"\033[01;31ma\033[m" +
+					"\033[01;31mp\033[m" +
+					"\033[01;31mp\033[m" +
+					"\033[01;31ml\033[m" +
+					"\033[01;31me\033[m" +
+					"\n",
+			)},
+		},
+		{
+			name:      "Highlight never without TTY",
+			pattern:   "a (cat|dog)",
+			input:     "a cat",
+			colorMode: "never",
+			expected:  Result{ExitCode: 0, Stdout: []byte("a cat\n")},
+		},
+		{
+			name:      "Highlight never inside TTY",
+			pattern:   "a (cat|dog)",
+			input:     "a dog",
+			colorMode: "never",
+			runInTTY:  true,
+			expected:  Result{ExitCode: 0, Stdout: []byte("a dog\n")},
+		},
+		// We actually won't use highlighting with backreferences.
+		// This is to test the robustness of our emulated grep's module
+		{
+			name:      "Highlighting with Backreferences",
+			pattern:   "('(cat) and \\2') or ('(dog) and \\4') is the same as \\3",
+			input:     "'cat and cat' or 'dog and dog' is the same as 'dog and dog'",
+			colorMode: "always",
+			expected:  Result{ExitCode: 0, Stdout: []byte("\033[01;31m'cat and cat' or 'dog and dog' is the same as 'dog and dog'\033[m\n")},
+		},
+		{
+			name:      "Highlight with digit pair",
+			pattern:   "\\d\\d",
+			input:     "a11bc23d4",
+			colorMode: "always",
+			runInTTY:  true,
+			expected: Result{ExitCode: 0, Stdout: []byte(
+				"a" +
+					"\033[01;31m11\033[m" +
+					"bc" +
+					"\033[01;31m23\033[m" +
+					"d4" +
+					"\n",
+			)},
+		},
+		{
+			name:      "Highlight with digit pair",
+			pattern:   "\\d\\d",
+			input:     "a1ine_with_9o_digit_pa1r",
+			colorMode: "always",
+			runInTTY:  true,
+			expected:  Result{ExitCode: 1},
 		},
 	}
 

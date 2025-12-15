@@ -4,6 +4,8 @@ import (
 	"flag"
 	"fmt"
 	"io"
+
+	"github.com/codecrafters-io/grep-tester/internal/utils"
 )
 
 // Result represents the result of a grep operation
@@ -13,28 +15,33 @@ type Result struct {
 	Stderr   []byte
 }
 
+type EmulationOptions struct {
+	Stdin        []byte
+	EmulateInTTY bool
+}
+
 // EmulateGrep provides a simplified interface that mimics grep command behavior
-func EmulateGrep(args []string, stdin []byte) Result {
-	// Define the flag set
-	// Use flagset instead of iterating through args because
-	// args can appear in any order, eg
-	// "grep -o -E 'abc'" is the same as "grep -E 'abc' -o"
+func EmulateGrep(args []string, launchOptions EmulationOptions) Result {
 	flagset := flag.NewFlagSet("grep", flag.ContinueOnError)
 
-	// we aren't using this as a command line tool, disable help messages
+	// Discard error and output messages, because this isn't being used in the command line
 	flagset.SetOutput(io.Discard)
 
 	recursive := flagset.Bool("r", false, "recursive search")
 	onlyMatches := flagset.Bool("o", false, "print only matching parts")
+	color := flagset.String("color", "never", "colorize output (always|never|auto)")
 
-	// emulated grep always assumes -E flag by default
+	// emulated grep always assumes -E flag no matter what (ignored, but accepted)
 	_ = flagset.Bool("E", false, "extended regex")
 
-	// Parse flags
-	err := flagset.Parse(args)
-
-	if err != nil {
+	if err := flagset.Parse(args); err != nil {
 		panic(fmt.Sprintf("Codecrafters Internal Error - Failed to launch grep: %s", err))
+	}
+
+	// Validate color option
+	colorMode := utils.ColorMode(*color)
+	if colorMode != utils.ColorAlways && colorMode != utils.ColorNever && colorMode != utils.ColorAuto {
+		panic(fmt.Sprintf("Codecrafters Internal Error - Invalid color mode: %s", *color))
 	}
 
 	// After parsing flags, remaining args are pattern + files...
@@ -48,8 +55,13 @@ func EmulateGrep(args []string, stdin []byte) Result {
 	useStdin := len(files) == 0
 
 	if useStdin {
-		return searchStdin(pattern, string(stdin), searchOptions{
-			onlyMatches: *onlyMatches,
+		shouldEnableHighlighting :=
+			(colorMode == utils.ColorAlways) ||
+				(colorMode == utils.ColorAuto && launchOptions.EmulateInTTY)
+
+		return searchStdin(pattern, string(launchOptions.Stdin), searchOptions{
+			onlyMatches:        *onlyMatches,
+			enableHighlighting: shouldEnableHighlighting,
 		})
 	}
 
