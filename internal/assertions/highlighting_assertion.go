@@ -41,10 +41,7 @@ func (a *HighlightingAssertion) Run(result executable.ExecutableResult, logger *
 
 	// The dimensions for the VT will be the maximum of the expected and actual output's width and height.
 	// Add 1 to the maximum length because, even in the case of empty input, we need to spawn a VT.
-	maxTerminalWidth := 1 + max(
-		len(a.ExpectedOutput),
-		len(result.Stdout),
-	)
+	maxTerminalWidth := 1 + max(maxLineLength(expectedLines), maxLineLength(actualLines))
 
 	maxTerminalHeight := 1 + max(
 		len(expectedLines),
@@ -66,7 +63,7 @@ func (a *HighlightingAssertion) Run(result executable.ExecutableResult, logger *
 	}
 
 	expectedScreenState := virtualTerminal1.GetScreenState()
-	a.panicIfExpectedScreenStateisFlawed(expectedScreenState)
+	a.validateExpectedScreenState(expectedScreenState)
 	actualScreenState := virtualTerminal2.GetScreenState()
 
 	// Assert text contents first
@@ -104,14 +101,14 @@ func (a *HighlightingAssertion) assertHighlighting(expectedScreenState, actualSc
 	screenStateComparator := newScreenStateComparator()
 	comparisonError := screenStateComparator.CompareHighlighting(expectedScreenState, actualScreenState)
 
-	lastSuccessFulRowIndex := outputLinesCount - 1
+	lastSuccessfulRowIndex := outputLinesCount - 1
 	if comparisonError != nil {
-		lastSuccessFulRowIndex = comparisonError.RowIdx - 1
+		lastSuccessfulRowIndex = comparisonError.RowIdx - 1
 	}
 
 	// Log success messages for each row
 	actualLines := actualScreenState.GetLinesOfTextUptoCursor()
-	for rowIdx := 0; rowIdx <= lastSuccessFulRowIndex; rowIdx++ {
+	for rowIdx := 0; rowIdx <= lastSuccessfulRowIndex; rowIdx++ {
 		if a.matchesShouldbeHighlighted {
 			a.logger.Successf("✓ All matches in the line %q are highlighted", actualLines[rowIdx])
 		} else {
@@ -163,7 +160,7 @@ func (a *HighlightingAssertion) buildError(
 	actualCell := actualScreenState.MustGetCellAtPosition(comparisonError.RowIdx, comparisonError.ColumnIdx)
 
 	b.WriteString(
-		buildAnsiCodeMismatchComplaint(
+		buildAnsiCodeMismatchErrorMessage(
 			expectedCell.Style.String(),
 			actualCell.Style.String(),
 		),

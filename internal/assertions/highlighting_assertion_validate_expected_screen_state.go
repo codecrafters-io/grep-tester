@@ -10,11 +10,11 @@ import (
 	"github.com/codecrafters-io/grep-tester/virtual_terminal"
 )
 
-// panicIfExpectedScreenStateisFlawed will panic if:
+// validateExpectedScreenState will panic if:
 // the screenstate has more than expected number of lines in the output, or
 // if any of the cells are flawed
-// See panicIfExpectedCellIsFlawed() for the checks
-func (a HighlightingAssertion) panicIfExpectedScreenStateisFlawed(expectedScreenState *virtual_terminal.ScreenState) {
+// See validateExpectedCell() for the checks
+func (a HighlightingAssertion) validateExpectedScreenState(expectedScreenState *virtual_terminal.ScreenState) {
 	linesUptoCursor := expectedScreenState.GetLinesOfTextUptoCursor()
 
 	expectedLinesCount := len(utils.ProgramOutputToLines(a.ExpectedOutput))
@@ -34,19 +34,19 @@ func (a HighlightingAssertion) panicIfExpectedScreenStateisFlawed(expectedScreen
 
 	for rowIdx := range expectedScreenState.GetRowsCount() {
 		for colIdx := range expectedScreenState.GetColumnsCount() {
-			a.panicIfExpectedCellIsFlawed(expectedScreenState.MustGetCellAtPosition(rowIdx, colIdx))
+			a.validateExpectedCell(expectedScreenState.MustGetCellAtPosition(rowIdx, colIdx))
 		}
 	}
 
 }
 
-// panicIfExpectedCellIsFlawed panics if the expected cell has any of the following properties
+// validateExpectedCell panics if the expected cell has any of the following properties
 // contains hyperlink
 // is not of mono-width
 // contains underline
 // has non-empty background color
 // has foreground styling other than empty or bold-red (used for highlighting)
-func (a HighlightingAssertion) panicIfExpectedCellIsFlawed(expectedCell *uv.Cell) {
+func (a HighlightingAssertion) validateExpectedCell(expectedCell *uv.Cell) {
 	emptyCell := uv.EmptyCell
 
 	// Expected cell should have no link

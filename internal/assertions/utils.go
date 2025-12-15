@@ -21,7 +21,7 @@ func buildComparisonErrorMessageWithCursor(expectedOutput string, actualOutput s
 	return errorMsg
 }
 
-func buildAnsiCodeMismatchComplaint(expectedPattern string, actualPattern string) string {
+func buildAnsiCodeMismatchErrorMessage(expectedPattern string, actualPattern string) string {
 	complaint := colorizeString(fatihColor.FgHiGreen, "Expected ANSI sequence: ")
 	complaint += fmt.Sprintf("%q", expectedPattern)
 	complaint += "\n"
@@ -73,9 +73,9 @@ var ansiColorNames = map[string]string{
 	"107": "bright white",
 }
 
-// colorCodeTocolorName returns the name of a color if it's a standard ANSI color,
+// colorCodeToColorName returns the name of a color if it's a standard ANSI color,
 // otherwise returns the raw color code
-func colorCodeTocolorName(colorCode string) string {
+func colorCodeToColorName(colorCode string) string {
 	if name, ok := ansiColorNames[colorCode]; ok {
 		return name + " (ANSI code " + colorCode + ")"
 	}
@@ -91,7 +91,7 @@ func getFgColorName(c color.Color) string {
 	colorCode = colorCode.ForegroundColor(c)
 	colorCodeString := strings.TrimPrefix(colorCode.String(), "\x1b[")
 	colorCodeString = strings.TrimSuffix(colorCodeString, "m")
-	return colorCodeTocolorName(colorCodeString)
+	return colorCodeToColorName(colorCodeString)
 }
 
 func getBgColorName(c color.Color) string {
@@ -103,7 +103,7 @@ func getBgColorName(c color.Color) string {
 	colorCode = colorCode.BackgroundColor(c)
 	colorCodeString := strings.TrimPrefix(colorCode.String(), "\x1b[")
 	colorCodeString = strings.TrimSuffix(colorCodeString, "m")
-	return colorCodeTocolorName(colorCodeString)
+	return colorCodeToColorName(colorCodeString)
 }
 
 var attributesMap = []struct {
@@ -135,4 +135,15 @@ func attributesToNames(attributes uint8) []string {
 	}
 
 	return names
+}
+
+// maxLineLength returns the length of the longest line in the given slice of strings
+func maxLineLength(lines []string) int {
+	maxLen := 0
+	for _, line := range lines {
+		if len(line) > maxLen {
+			maxLen = len(line)
+		}
+	}
+	return maxLen
 }
