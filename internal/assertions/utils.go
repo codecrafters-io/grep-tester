@@ -22,8 +22,11 @@ func buildComparisonErrorMessageWithCursor(expectedOutput string, actualOutput s
 }
 
 func buildAnsiCodeMismatchErrorMessage(expectedPattern string, actualPattern string) string {
-	complaint := colorizeString(fatihColor.FgHiGreen, fmt.Sprintf("Expected ANSI code: %q\n", expectedPattern))
-	complaint += colorizeString(fatihColor.FgHiRed, fmt.Sprintf("Received ANSI code: %q\n", actualPattern))
+	complaint := colorizeString(fatihColor.FgHiGreen, "Expected ANSI sequence: ")
+	complaint += fmt.Sprintf("%q", expectedPattern)
+	complaint += "\n"
+	complaint += colorizeString(fatihColor.FgHiRed, "Received ANSI sequence: ")
+	complaint += fmt.Sprintf("%q", actualPattern)
 	return complaint
 }
 

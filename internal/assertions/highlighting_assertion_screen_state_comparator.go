@@ -95,7 +95,7 @@ func (c *screenStateComparator) compareCells(expected, actual *uv.Cell) error {
 
 func (c *screenStateComparator) checkFgColor(expectedCell, actualCell *uv.Cell) error {
 	if expectedCell.Style.Fg != actualCell.Style.Fg {
-		return fmt.Errorf("Expected %s, got %s", getFgColorName(expectedCell.Style.Fg), getFgColorName(actualCell.Style.Fg))
+		return fmt.Errorf("Expected color to be %s, got %s", getFgColorName(expectedCell.Style.Fg), getFgColorName(actualCell.Style.Fg))
 	}
 
 	c.addPartialSuccessLog(fmt.Sprintf("✓ Color is %s", getFgColorName(expectedCell.Style.Fg)))
@@ -115,9 +115,9 @@ func (c *screenStateComparator) checkBoldAttr(expectedCell, actualCell *uv.Cell)
 	}
 
 	if expectedBold {
-		c.addPartialSuccessLog("✓ Bold attribute is present")
+		c.addPartialSuccessLog("✓ Character is bold")
 	} else {
-		c.addPartialSuccessLog("✓ Bold attribute is not present")
+		c.addPartialSuccessLog("✓ Character is not bold")
 	}
 
 	return nil
@@ -131,7 +131,7 @@ func (c *screenStateComparator) checkInvalidStyleAndAttrs(expectedCell, actualCe
 	if expectedCellAttributesWithoutBold != actualCellAttributesWithoutBold {
 		attributeNames := attributesToNames(actualCellAttributesWithoutBold)
 		return fmt.Errorf(
-			"Expected no extra attributes, got %s: %s",
+			"Found extra %s: %s",
 			english.PluralWord(len(attributeNames), "attribute", "attributes"),
 			strings.Join(attributeNames, ", "),
 		)
@@ -139,7 +139,7 @@ func (c *screenStateComparator) checkInvalidStyleAndAttrs(expectedCell, actualCe
 
 	if actualCell.Style.Bg != expectedCell.Style.Bg {
 		return fmt.Errorf(
-			"Expected %s in background, found %s",
+			"Expected background color to be %s, found %s",
 			getBgColorName(expectedCell.Style.Bg),
 			getBgColorName(actualCell.Style.Bg),
 		)

@@ -153,6 +153,7 @@ func (a *HighlightingAssertion) buildError(
 
 	// Print error message
 	b.WriteString(colorizeString(color.FgHiRed, fmt.Sprintf("⨯ %s\n", comparisonError.Error())))
+	b.WriteString("\n")
 
 	// Print ANSI code comparison
 	expectedCell := expectedScreenState.MustGetCellAtPosition(comparisonError.RowIdx, comparisonError.ColumnIdx)
