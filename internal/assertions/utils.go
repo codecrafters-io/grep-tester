@@ -22,8 +22,11 @@ func buildComparisonErrorMessageWithCursor(expectedOutput string, actualOutput s
 }
 
 func buildAnsiCodeMismatchComplaint(expectedPattern string, actualPattern string) string {
-	complaint := colorizeString(fatihColor.FgHiGreen, fmt.Sprintf("Expected ANSI code: %q\n", expectedPattern))
-	complaint += colorizeString(fatihColor.FgHiRed, fmt.Sprintf("Received ANSI code: %q\n", actualPattern))
+	complaint := colorizeString(fatihColor.FgHiGreen, "Expected ANSI sequence: ")
+	complaint += fmt.Sprintf("%q", expectedPattern)
+	complaint += "\n"
+	complaint += colorizeString(fatihColor.FgHiRed, "Received ANSI sequence: ")
+	complaint += fmt.Sprintf("%q", actualPattern)
 	return complaint
 }
 
@@ -81,11 +84,7 @@ func colorCodeTocolorName(colorCode string) string {
 
 func getFgColorName(c color.Color) string {
 	if c == nil {
-		// TODO: I'll remove this after PR review
-		// Not sure what to name this:
-		// white is already a 'highlighting' color -> see above map (color code 37)
-		// no color? plain? default color?
-		return "default color (No ANSI code)"
+		return "plain (no color)"
 	}
 
 	var colorCode ansi.Style

@@ -9,9 +9,9 @@ Debug = true
 [33m[tester::#BM2] [0m[91mExpected:[0m "only[01;31m1[mdigit"[0m
 [33m[tester::#BM2] [0m[91m[91mReceived:[0m "only[01;32m[K1[m[Kdigit"[0m
 [33m[tester::#BM2] [0m[91m               ↑[0m
-[33m[tester::#BM2] [0m[91m[92m✓ Bold attribute is present[0m[0m
-[33m[tester::#BM2] [0m[91m[91m⨯ Expected red (ANSI code 31), got green (ANSI code 32)[0m
-[33m[tester::#BM2] [0m[91m[0m[92mExpected ANSI code: "\x1b[1;31m"[0m
-[33m[tester::#BM2] [0m[91m[0m[91mReceived ANSI code: "\x1b[1;32m"[0m
+[33m[tester::#BM2] [0m[91m[92m✓ Character is bold[0m[0m
+[33m[tester::#BM2] [0m[91m[91m⨯ Expected color to be red (ANSI code 31), got green (ANSI code 32)[0m
 [33m[tester::#BM2] [0m[91m[0m[0m
+[33m[tester::#BM2] [0m[91m[92mExpected ANSI sequence: [0m"\x1b[1;31m"[0m
+[33m[tester::#BM2] [0m[91m[91mReceived ANSI sequence: [0m"\x1b[1;32m"[0m
 [33m[tester::#BM2] [0m[91mTest failed[0m
