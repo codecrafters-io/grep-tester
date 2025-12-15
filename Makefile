@@ -49,6 +49,11 @@ test_multiple_matches_with_grep: build
 	CODECRAFTERS_TEST_CASES_JSON="[{\"slug\":\"cj0\",\"tester_log_prefix\":\"stage-40\",\"title\":\"Stage #40: Print single match\"},{\"slug\":\"ss2\",\"tester_log_prefix\":\"stage-41\",\"title\":\"Stage #41: Print multiple matches\"}, {\"slug\":\"bo4\",\"tester_log_prefix\":\"stage-42\",\"title\":\"Stage #42: Print multiple input lines\"}]" \
 	dist/main.out
 
+test_highlighting_with_grep: build
+	CODECRAFTERS_REPOSITORY_DIR=$(shell pwd)/internal/test_helpers/pass_all \
+	CODECRAFTERS_TEST_CASES_JSON="[{\"slug\":\"bm2\",\"tester_log_prefix\":\"stage-50\",\"title\":\"Stage #50: Highlight a single match\"},{\"slug\":\"eq0\",\"tester_log_prefix\":\"stage-51\",\"title\":\"Stage #51: Highlight multiple matches\"},{\"slug\":\"wg2\",\"tester_log_prefix\":\"stage-52\",\"title\":\"Stage #52: Highlighting in multiple lines\"}, {\"slug\":\"jk4\",\"tester_log_prefix\":\"stage-53\",\"title\":\"Stage #53: Disable highlighting\"}, {\"slug\":\"na5\",\"tester_log_prefix\":\"stage-54\",\"title\":\"Stage #54: Auto highlighting option\"}]" \
+	dist/main.out
+
 test_all: build
 	make test_base_with_grep || true
 	make test_backreferences_with_grep || true
@@ -56,6 +61,7 @@ test_all: build
 	make test_quantifiers_with_grep || true
 	make test_printing_matches_with_grep || true
 	make test_multiple_matches_with_grep || true
+	make test_highlighting_with_grep || true
 
 copy_course_file:
 	hub api \

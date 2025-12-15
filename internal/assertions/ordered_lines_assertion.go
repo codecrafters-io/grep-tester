@@ -28,7 +28,7 @@ func (a OrderedLinesAssertion) Run(result executable.ExecutableResult, logger *l
 				missingLinesErrorMessages = append(missingLinesErrorMessages, fmt.Sprintf("⨯ %s", utils.FormatLineForLogging(missingLine)))
 			}
 
-			return fmt.Errorf("Expected %s in total, missing %s:\n%s",
+			return fmt.Errorf("Expected %s, missing %s:\n%s",
 				english.Plural(len(a.ExpectedOutputLines), "line", "lines"),
 				english.Plural(len(a.ExpectedOutputLines)-i, "line", "lines"),
 				strings.Join(missingLinesErrorMessages, "\n"))

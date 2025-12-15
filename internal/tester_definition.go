@@ -138,5 +138,26 @@ var testerDefinition = tester_definition.TesterDefinition{
 			Slug:     "bo4",
 			TestFunc: testMultipleMatchesMultipleLines,
 		},
+		// Highlighting
+		{
+			Slug:     "bm2",
+			TestFunc: testHighlightingAlwaysSingleMatch,
+		},
+		{
+			Slug:     "eq0",
+			TestFunc: testHighlightingAlwaysMultipleMatches,
+		},
+		{
+			Slug:     "wg2",
+			TestFunc: testHighlightingAlwaysMultipleLines,
+		},
+		{
+			Slug:     "jk4",
+			TestFunc: testHighlightingNeverOption,
+		},
+		{
+			Slug:     "na5",
+			TestFunc: testHighlightingAutoOption,
+		},
 	},
 }

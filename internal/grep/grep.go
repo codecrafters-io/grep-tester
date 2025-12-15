@@ -4,6 +4,8 @@ import (
 	"flag"
 	"fmt"
 	"io"
+
+	"github.com/codecrafters-io/grep-tester/internal/utils"
 )
 
 // Result represents the result of a grep operation
@@ -12,15 +14,6 @@ type Result struct {
 	Stdout   []byte
 	Stderr   []byte
 }
-
-// colorMode represents the color output mode
-type colorMode string
-
-const (
-	colorAlways colorMode = "always"
-	colorNever  colorMode = "never"
-	colorAuto   colorMode = "auto"
-)
 
 type EmulationOptions struct {
 	Stdin        []byte
@@ -46,8 +39,8 @@ func EmulateGrep(args []string, launchOptions EmulationOptions) Result {
 	}
 
 	// Validate color option
-	colorMode := colorMode(*color)
-	if colorMode != colorAlways && colorMode != colorNever && colorMode != colorAuto {
+	colorMode := utils.ColorMode(*color)
+	if colorMode != utils.ColorAlways && colorMode != utils.ColorNever && colorMode != utils.ColorAuto {
 		panic(fmt.Sprintf("Codecrafters Internal Error - Invalid color mode: %s", *color))
 	}
 
@@ -62,7 +55,9 @@ func EmulateGrep(args []string, launchOptions EmulationOptions) Result {
 	useStdin := len(files) == 0
 
 	if useStdin {
-		shouldEnableHighlighting := (colorMode == colorAlways) || (colorMode == colorAuto && launchOptions.EmulateInTTY)
+		shouldEnableHighlighting :=
+			(colorMode == utils.ColorAlways) ||
+				(colorMode == utils.ColorAuto && launchOptions.EmulateInTTY)
 
 		return searchStdin(pattern, string(launchOptions.Stdin), searchOptions{
 			onlyMatches:        *onlyMatches,
