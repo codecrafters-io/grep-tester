@@ -359,7 +359,7 @@ func TestSearchStdin(t *testing.T) {
 			pattern:   "\\d",
 			input:     "a1b",
 			colorMode: "always",
-			expected:  Result{ExitCode: 0, Stdout: []byte("a" + "\033[01;31m\033[K1\033[m\033[K" + "b")},
+			expected:  Result{ExitCode: 0, Stdout: []byte("a" + "\033[01;31m1\033[m" + "b\n")},
 		},
 		{
 			name:      "Highlight always inside TTY",
@@ -367,14 +367,14 @@ func TestSearchStdin(t *testing.T) {
 			input:     "a1b",
 			colorMode: "always",
 			runInTTY:  true,
-			expected:  Result{ExitCode: 0, Stdout: []byte("a" + "\033[01;31m\033[K1\033[m\033[K" + "b")},
+			expected:  Result{ExitCode: 0, Stdout: []byte("a" + "\033[01;31m1\033[m" + "b\n")},
 		},
 		{
 			name:      "Highlight auto without TTY",
 			pattern:   "[^xyz]",
 			input:     "apple",
 			colorMode: "auto",
-			expected:  Result{ExitCode: 0, Stdout: []byte("apple")},
+			expected:  Result{ExitCode: 0, Stdout: []byte("apple\n")},
 		},
 		{
 			name:      "Highlight auto inside TTY",
@@ -383,11 +383,12 @@ func TestSearchStdin(t *testing.T) {
 			colorMode: "auto",
 			runInTTY:  true,
 			expected: Result{ExitCode: 0, Stdout: []byte(
-				"\033[01;31m\033[Ka\033[m\033[K" +
-					"\033[01;31m\033[Kp\033[m\033[K" +
-					"\033[01;31m\033[Kp\033[m\033[K" +
-					"\033[01;31m\033[Kl\033[m\033[K" +
-					"\033[01;31m\033[Ke\033[m\033[K",
+				"\033[01;31ma\033[m" +
+					"\033[01;31mp\033[m" +
+					"\033[01;31mp\033[m" +
+					"\033[01;31ml\033[m" +
+					"\033[01;31me\033[m" +
+					"\n",
 			)},
 		},
 		{
@@ -395,7 +396,7 @@ func TestSearchStdin(t *testing.T) {
 			pattern:   "a (cat|dog)",
 			input:     "a cat",
 			colorMode: "never",
-			expected:  Result{ExitCode: 0, Stdout: []byte("a cat")},
+			expected:  Result{ExitCode: 0, Stdout: []byte("a cat\n")},
 		},
 		{
 			name:      "Highlight never inside TTY",
@@ -403,7 +404,7 @@ func TestSearchStdin(t *testing.T) {
 			input:     "a dog",
 			colorMode: "never",
 			runInTTY:  true,
-			expected:  Result{ExitCode: 0, Stdout: []byte("a dog")},
+			expected:  Result{ExitCode: 0, Stdout: []byte("a dog\n")},
 		},
 		// We actually won't use highlighting with backreferences.
 		// This is to test the robustness of our emulated grep's module
@@ -412,7 +413,7 @@ func TestSearchStdin(t *testing.T) {
 			pattern:   "('(cat) and \\2') or ('(dog) and \\4') is the same as \\3",
 			input:     "'cat and cat' or 'dog and dog' is the same as 'dog and dog'",
 			colorMode: "always",
-			expected:  Result{ExitCode: 0, Stdout: []byte("\033[01;31m\033[K'cat and cat' or 'dog and dog' is the same as 'dog and dog'\033[m\033[K")},
+			expected:  Result{ExitCode: 0, Stdout: []byte("\033[01;31m'cat and cat' or 'dog and dog' is the same as 'dog and dog'\033[m\n")},
 		},
 		{
 			name:      "Highlight with digit pair",
@@ -422,10 +423,11 @@ func TestSearchStdin(t *testing.T) {
 			runInTTY:  true,
 			expected: Result{ExitCode: 0, Stdout: []byte(
 				"a" +
-					"\033[01;31m\033[K11\033[m\033[K" +
+					"\033[01;31m11\033[m" +
 					"bc" +
-					"\033[01;31m\033[K23\033[m\033[K" +
-					"d4",
+					"\033[01;31m23\033[m" +
+					"d4" +
+					"\n",
 			)},
 		},
 		{
