@@ -1,4 +1,4 @@
-FROM golang:1.24
+FROM golang:1.25.5
 
 # Install required packages including Python
 RUN apt-get update && apt-get install -y \

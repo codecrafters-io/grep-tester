@@ -1,6 +1,6 @@
 module github.com/codecrafters-io/grep-tester
 
-go 1.24.2
+go 1.25.5
 
 require (
 	github.com/charmbracelet/ultraviolet v0.0.0-20251202162030-ecc8c1ae4b2b
