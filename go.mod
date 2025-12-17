@@ -6,7 +6,7 @@ require (
 	github.com/charmbracelet/ultraviolet v0.0.0-20251202162030-ecc8c1ae4b2b
 	github.com/charmbracelet/x/ansi v0.11.2
 	github.com/charmbracelet/x/vt v0.0.0-20251201173703-9f73bfd934ff
-	github.com/codecrafters-io/tester-utils v0.4.11-0.20251205083414-a5217bc93bfb
+	github.com/codecrafters-io/tester-utils v0.4.11
 	github.com/dustin/go-humanize v1.0.1
 	github.com/fatih/color v1.18.0
 )
