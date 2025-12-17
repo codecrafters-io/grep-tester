@@ -1,7 +1,7 @@
 Debug = true
 
 [33m[tester::#BM2] [0m[94mRunning tests for Stage #BM2 (bm2)[0m
-[33m[tester::#BM2] [0m[94mecho -ne "only1digit" | $ ./your_grep.sh --color=always -E '\d'[0m
+[33m[tester::#BM2] [0m[94m$ echo -ne "only1digit" | ./your_grep.sh --color=always -E '\d' | cat[0m
 [33m[tester::#BM2] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#BM2] [0m[91mExpected 1 line, missing 1 line:[0m
 [33m[tester::#BM2] [0m[91m⨯ "only1digit"[0m

@@ -1,7 +1,7 @@
 Debug = true
 
 [33m[tester::#EQ0] [0m[94mRunning tests for Stage #EQ0 (eq0)[0m
-[33m[tester::#EQ0] [0m[94mecho -ne "a1b2c3" | $ ./your_grep.sh --color=always -E '\d'[0m
+[33m[tester::#EQ0] [0m[94m$ echo -ne "a1b2c3" | ./your_grep.sh --color=always -E '\d' | cat[0m
 [33m[your_program] [0ma[01;31m[K1[m[Kb2c3
 [33m[tester::#EQ0] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#EQ0] [0m[92m✓ Found line "a1b2c3"[0m
