@@ -1,94 +1,94 @@
-[33m[tester::#AI9] [0m[94mRunning tests for Stage #AI9 (ai9)[0m[m
-[33m[tester::#AI9] [0m[94m$ echo -n 'apple' | ./your_grep.sh -E 'apple*'[0m[m
-[33m[your_program] [0mapple[m
-[33m[tester::#AI9] [0m[92m✓ Received exit code 0.[0m[m
-[33m[tester::#AI9] [0m[94m$ echo -n 'appl' | ./your_grep.sh -E 'apple*'[0m[m
-[33m[your_program] [0mappl[m
-[33m[tester::#AI9] [0m[92m✓ Received exit code 0.[0m[m
-[33m[tester::#AI9] [0m[94m$ echo -n 'cat25tiger' | ./your_grep.sh -E 'cat\d*tiger'[0m[m
-[33m[your_program] [0mcat25tiger[m
-[33m[tester::#AI9] [0m[92m✓ Received exit code 0.[0m[m
-[33m[tester::#AI9] [0m[94m$ echo -n 'asparagus,_fresh' | ./your_grep.sh -E 'asparagus,\w*'[0m[m
-[33m[your_program] [0masparagus,_fresh[m
-[33m[tester::#AI9] [0m[92m✓ Received exit code 0.[0m[m
-[33m[tester::#AI9] [0m[94m$ echo -n 'tigercatcattiger' | ./your_grep.sh -E '(cat|tiger)*'[0m[m
-[33m[your_program] [0mtigercatcattiger[m
-[33m[tester::#AI9] [0m[92m✓ Received exit code 0.[0m[m
-[33m[tester::#AI9] [0m[94m$ echo -n 'LOG INFO 41 apple' | ./your_grep.sh -E '^LOG [FION]* \d+ (apple|asparagus)$'[0m[m
-[33m[your_program] [0mLOG INFO 41 apple[m
-[33m[tester::#AI9] [0m[92m✓ Received exit code 0.[0m[m
-[33m[tester::#AI9] [0m[94m$ echo -n 'LOG info 65 apple' | ./your_grep.sh -E '^LOG [FION]* \d+ (apple|asparagus)$'[0m[m
-[33m[tester::#AI9] [0m[92m✓ Received exit code 1.[0m[m
-[33m[tester::#AI9] [0m[92mTest passed.[0m[m
+[33m[tester::#AI9] [0m[94mRunning tests for Stage #AI9 (ai9)[0m
+[33m[tester::#AI9] [0m[94m$ echo -n 'apple' | ./your_grep.sh -E 'apple*'[0m
+[33m[your_program] [0mapple
+[33m[tester::#AI9] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#AI9] [0m[94m$ echo -n 'appl' | ./your_grep.sh -E 'apple*'[0m
+[33m[your_program] [0mappl
+[33m[tester::#AI9] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#AI9] [0m[94m$ echo -n 'cat25tiger' | ./your_grep.sh -E 'cat\d*tiger'[0m
+[33m[your_program] [0mcat25tiger
+[33m[tester::#AI9] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#AI9] [0m[94m$ echo -n 'asparagus,_fresh' | ./your_grep.sh -E 'asparagus,\w*'[0m
+[33m[your_program] [0masparagus,_fresh
+[33m[tester::#AI9] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#AI9] [0m[94m$ echo -n 'tigercatcattiger' | ./your_grep.sh -E '(cat|tiger)*'[0m
+[33m[your_program] [0mtigercatcattiger
+[33m[tester::#AI9] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#AI9] [0m[94m$ echo -n 'LOG INFO 41 apple' | ./your_grep.sh -E '^LOG [FION]* \d+ (apple|asparagus)$'[0m
+[33m[your_program] [0mLOG INFO 41 apple
+[33m[tester::#AI9] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#AI9] [0m[94m$ echo -n 'LOG info 65 apple' | ./your_grep.sh -E '^LOG [FION]* \d+ (apple|asparagus)$'[0m
+[33m[tester::#AI9] [0m[92m✓ Received exit code 1.[0m
+[33m[tester::#AI9] [0m[92mTest passed.[0m
 
-[33m[tester::#WY9] [0m[94mRunning tests for Stage #WY9 (wy9)[0m[m
-[33m[tester::#WY9] [0m[94m$ echo -n 'blueberryyy' | ./your_grep.sh -E 'blueberryy{2}'[0m[m
-[33m[your_program] [0mblueberryyy[m
-[33m[tester::#WY9] [0m[92m✓ Received exit code 0.[0m[m
-[33m[tester::#WY9] [0m[94m$ echo -n 'horse928' | ./your_grep.sh -E 'horse\d{3}'[0m[m
-[33m[your_program] [0mhorse928[m
-[33m[tester::#WY9] [0m[92m✓ Received exit code 0.[0m[m
-[33m[tester::#WY9] [0m[94m$ echo -n 'potato,_hi' | ./your_grep.sh -E 'potato,\w{4}'[0m[m
-[33m[tester::#WY9] [0m[92m✓ Received exit code 1.[0m[m
-[33m[tester::#WY9] [0m[94m$ echo -n 'pandahorse' | ./your_grep.sh -E '(horse|panda){2}'[0m[m
-[33m[your_program] [0mpandahorse[m
-[33m[tester::#WY9] [0m[92m✓ Received exit code 0.[0m[m
-[33m[tester::#WY9] [0m[94m$ echo -n 'blueberryuoi' | ./your_grep.sh -E 'blueberry[aeiou]{3}'[0m[m
-[33m[your_program] [0mblueberryuoi[m
-[33m[tester::#WY9] [0m[92m✓ Received exit code 0.[0m[m
-[33m[tester::#WY9] [0m[94m$ echo -n '2022-02-24 11:15 blueberry' | ./your_grep.sh -E '^\d{4}-\d{2}-\d{2} \d{2}:\d{2} (blueberry|potato)$'[0m[m
-[33m[your_program] [0m2022-02-24 11:15 blueberry[m
-[33m[tester::#WY9] [0m[92m✓ Received exit code 0.[0m[m
-[33m[tester::#WY9] [0m[94m$ echo -n '2024-9-8 17:17 blueberry' | ./your_grep.sh -E '^\d{4}-\d{2}-\d{2} \d{2}:\d{2} (blueberry|potato)$'[0m[m
-[33m[tester::#WY9] [0m[92m✓ Received exit code 1.[0m[m
-[33m[tester::#WY9] [0m[92mTest passed.[0m[m
+[33m[tester::#WY9] [0m[94mRunning tests for Stage #WY9 (wy9)[0m
+[33m[tester::#WY9] [0m[94m$ echo -n 'blueberryyy' | ./your_grep.sh -E 'blueberryy{2}'[0m
+[33m[your_program] [0mblueberryyy
+[33m[tester::#WY9] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#WY9] [0m[94m$ echo -n 'horse928' | ./your_grep.sh -E 'horse\d{3}'[0m
+[33m[your_program] [0mhorse928
+[33m[tester::#WY9] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#WY9] [0m[94m$ echo -n 'potato,_hi' | ./your_grep.sh -E 'potato,\w{4}'[0m
+[33m[tester::#WY9] [0m[92m✓ Received exit code 1.[0m
+[33m[tester::#WY9] [0m[94m$ echo -n 'pandahorse' | ./your_grep.sh -E '(horse|panda){2}'[0m
+[33m[your_program] [0mpandahorse
+[33m[tester::#WY9] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#WY9] [0m[94m$ echo -n 'blueberryuoi' | ./your_grep.sh -E 'blueberry[aeiou]{3}'[0m
+[33m[your_program] [0mblueberryuoi
+[33m[tester::#WY9] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#WY9] [0m[94m$ echo -n '2022-02-24 11:15 blueberry' | ./your_grep.sh -E '^\d{4}-\d{2}-\d{2} \d{2}:\d{2} (blueberry|potato)$'[0m
+[33m[your_program] [0m2022-02-24 11:15 blueberry
+[33m[tester::#WY9] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#WY9] [0m[94m$ echo -n '2024-9-8 17:17 blueberry' | ./your_grep.sh -E '^\d{4}-\d{2}-\d{2} \d{2}:\d{2} (blueberry|potato)$'[0m
+[33m[tester::#WY9] [0m[92m✓ Received exit code 1.[0m
+[33m[tester::#WY9] [0m[92mTest passed.[0m
 
-[33m[tester::#HK3] [0m[94mRunning tests for Stage #HK3 (hk3)[0m[m
-[33m[tester::#HK3] [0m[94m$ echo -n 'lemonnn' | ./your_grep.sh -E 'lemonn{2,}'[0m[m
-[33m[your_program] [0mlemonnn[m
-[33m[tester::#HK3] [0m[92m✓ Received exit code 0.[0m[m
-[33m[tester::#HK3] [0m[94m$ echo -n 'lemonnnn' | ./your_grep.sh -E 'lemonn{2,}'[0m[m
-[33m[your_program] [0mlemonnnn[m
-[33m[tester::#HK3] [0m[92m✓ Received exit code 0.[0m[m
-[33m[tester::#HK3] [0m[94m$ echo -n 'wolf5493' | ./your_grep.sh -E 'wolf\d{3,}'[0m[m
-[33m[your_program] [0mwolf5493[m
-[33m[tester::#HK3] [0m[92m✓ Received exit code 0.[0m[m
-[33m[tester::#HK3] [0m[94m$ echo -n 'onion,_tag' | ./your_grep.sh -E 'onion,\w{2,}'[0m[m
-[33m[your_program] [0monion,_tag[m
-[33m[tester::#HK3] [0m[92m✓ Received exit code 0.[0m[m
-[33m[tester::#HK3] [0m[94m$ echo -n 'lettuceonioncauliflowerlettuce' | ./your_grep.sh -E '(onion|cauliflower|lettuce){3,}'[0m[m
-[33m[your_program] [0mlettuceonioncauliflowerlettuce[m
-[33m[tester::#HK3] [0m[92m✓ Received exit code 0.[0m[m
-[33m[tester::#HK3] [0m[94m$ echo -n '18:43 LOG DEBUG device_registered' | ./your_grep.sh -E '^\d{2}:\d{2} LOG \w{3,} \w+$'[0m[m
-[33m[your_program] [0m18:43 LOG DEBUG device_registered[m
-[33m[tester::#HK3] [0m[92m✓ Received exit code 0.[0m[m
-[33m[tester::#HK3] [0m[94m$ echo -n '03:29 LOG OK device_registered' | ./your_grep.sh -E '^\d{2}:\d{2} LOG \w{3,} \w+$'[0m[m
-[33m[tester::#HK3] [0m[92m✓ Received exit code 1.[0m[m
-[33m[tester::#HK3] [0m[92mTest passed.[0m[m
+[33m[tester::#HK3] [0m[94mRunning tests for Stage #HK3 (hk3)[0m
+[33m[tester::#HK3] [0m[94m$ echo -n 'lemonnn' | ./your_grep.sh -E 'lemonn{2,}'[0m
+[33m[your_program] [0mlemonnn
+[33m[tester::#HK3] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#HK3] [0m[94m$ echo -n 'lemonnnn' | ./your_grep.sh -E 'lemonn{2,}'[0m
+[33m[your_program] [0mlemonnnn
+[33m[tester::#HK3] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#HK3] [0m[94m$ echo -n 'wolf5493' | ./your_grep.sh -E 'wolf\d{3,}'[0m
+[33m[your_program] [0mwolf5493
+[33m[tester::#HK3] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#HK3] [0m[94m$ echo -n 'onion,_tag' | ./your_grep.sh -E 'onion,\w{2,}'[0m
+[33m[your_program] [0monion,_tag
+[33m[tester::#HK3] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#HK3] [0m[94m$ echo -n 'lettuceonioncauliflowerlettuce' | ./your_grep.sh -E '(onion|cauliflower|lettuce){3,}'[0m
+[33m[your_program] [0mlettuceonioncauliflowerlettuce
+[33m[tester::#HK3] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#HK3] [0m[94m$ echo -n '18:43 LOG DEBUG device_registered' | ./your_grep.sh -E '^\d{2}:\d{2} LOG \w{3,} \w+$'[0m
+[33m[your_program] [0m18:43 LOG DEBUG device_registered
+[33m[tester::#HK3] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#HK3] [0m[94m$ echo -n '03:29 LOG OK device_registered' | ./your_grep.sh -E '^\d{2}:\d{2} LOG \w{3,} \w+$'[0m
+[33m[tester::#HK3] [0m[92m✓ Received exit code 1.[0m
+[33m[tester::#HK3] [0m[92mTest passed.[0m
 
-[33m[tester::#UG0] [0m[94mRunning tests for Stage #UG0 (ug0)[0m[m
-[33m[tester::#UG0] [0m[94m$ echo -n 'onionn_soup' | ./your_grep.sh -E 'onion{2,4}_soup'[0m[m
-[33m[your_program] [0monionn_soup[m
-[33m[tester::#UG0] [0m[92m✓ Received exit code 0.[0m[m
-[33m[tester::#UG0] [0m[94m$ echo -n 'onion_soup' | ./your_grep.sh -E 'onion{2,4}_soup'[0m[m
-[33m[tester::#UG0] [0m[92m✓ Received exit code 1.[0m[m
-[33m[tester::#UG0] [0m[94m$ echo -n 'onionnnnn_soup' | ./your_grep.sh -E 'onion{2,4}_soup'[0m[m
-[33m[tester::#UG0] [0m[92m✓ Received exit code 1.[0m[m
-[33m[tester::#UG0] [0m[94m$ echo -n 'giraffe440' | ./your_grep.sh -E 'giraffe\d{2,4}'[0m[m
-[33m[your_program] [0mgiraffe440[m
-[33m[tester::#UG0] [0m[92m✓ Received exit code 0.[0m[m
-[33m[tester::#UG0] [0m[94m$ echo -n 'banana,_ab' | ./your_grep.sh -E 'banana,\w{1,3}'[0m[m
-[33m[your_program] [0mbanana,_ab[m
-[33m[tester::#UG0] [0m[92m✓ Received exit code 0.[0m[m
-[33m[tester::#UG0] [0m[94m$ echo -n 'catgiraffehorse' | ./your_grep.sh -E '(giraffe|horse|cat){2,3}'[0m[m
-[33m[your_program] [0mcatgiraffehorse[m
-[33m[tester::#UG0] [0m[92m✓ Received exit code 0.[0m[m
-[33m[tester::#UG0] [0m[94m$ echo -n 'cherryaei' | ./your_grep.sh -E 'cherry[aeiou]{2,4}'[0m[m
-[33m[your_program] [0mcherryaei[m
-[33m[tester::#UG0] [0m[92m✓ Received exit code 0.[0m[m
-[33m[tester::#UG0] [0m[94m$ echo -n '2024-5-23 13:35 LOG DEBUG session_validated' | ./your_grep.sh -E '^\d{4}-\d{1,2}-\d{1,2} \d{1,2}:\d{1,2} LOG (INFO|DEBUG) \w+$'[0m[m
-[33m[your_program] [0m2024-5-23 13:35 LOG DEBUG session_validated[m
-[33m[tester::#UG0] [0m[92m✓ Received exit code 0.[0m[m
-[33m[tester::#UG0] [0m[94m$ echo -n '1:41:12:1 WARN INFO session_validated' | ./your_grep.sh -E '^\d{1,2}:\d{1,2}:\d{1,2}:\d{2,3} LOG (INFO|DEBUG) \w+$'[0m[m
-[33m[tester::#UG0] [0m[92m✓ Received exit code 1.[0m[m
-[33m[tester::#UG0] [0m[92mTest passed.[0m[m
+[33m[tester::#UG0] [0m[94mRunning tests for Stage #UG0 (ug0)[0m
+[33m[tester::#UG0] [0m[94m$ echo -n 'onionn_soup' | ./your_grep.sh -E 'onion{2,4}_soup'[0m
+[33m[your_program] [0monionn_soup
+[33m[tester::#UG0] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#UG0] [0m[94m$ echo -n 'onion_soup' | ./your_grep.sh -E 'onion{2,4}_soup'[0m
+[33m[tester::#UG0] [0m[92m✓ Received exit code 1.[0m
+[33m[tester::#UG0] [0m[94m$ echo -n 'onionnnnn_soup' | ./your_grep.sh -E 'onion{2,4}_soup'[0m
+[33m[tester::#UG0] [0m[92m✓ Received exit code 1.[0m
+[33m[tester::#UG0] [0m[94m$ echo -n 'giraffe440' | ./your_grep.sh -E 'giraffe\d{2,4}'[0m
+[33m[your_program] [0mgiraffe440
+[33m[tester::#UG0] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#UG0] [0m[94m$ echo -n 'banana,_ab' | ./your_grep.sh -E 'banana,\w{1,3}'[0m
+[33m[your_program] [0mbanana,_ab
+[33m[tester::#UG0] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#UG0] [0m[94m$ echo -n 'catgiraffehorse' | ./your_grep.sh -E '(giraffe|horse|cat){2,3}'[0m
+[33m[your_program] [0mcatgiraffehorse
+[33m[tester::#UG0] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#UG0] [0m[94m$ echo -n 'cherryaei' | ./your_grep.sh -E 'cherry[aeiou]{2,4}'[0m
+[33m[your_program] [0mcherryaei
+[33m[tester::#UG0] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#UG0] [0m[94m$ echo -n '2024-5-23 13:35 LOG DEBUG session_validated' | ./your_grep.sh -E '^\d{4}-\d{1,2}-\d{1,2} \d{1,2}:\d{1,2} LOG (INFO|DEBUG) \w+$'[0m
+[33m[your_program] [0m2024-5-23 13:35 LOG DEBUG session_validated
+[33m[tester::#UG0] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#UG0] [0m[94m$ echo -n '1:41:12:1 WARN INFO session_validated' | ./your_grep.sh -E '^\d{1,2}:\d{1,2}:\d{1,2}:\d{2,3} LOG (INFO|DEBUG) \w+$'[0m
+[33m[tester::#UG0] [0m[92m✓ Received exit code 1.[0m
+[33m[tester::#UG0] [0m[92mTest passed.[0m

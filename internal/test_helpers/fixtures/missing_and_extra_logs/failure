@@ -1,19 +1,19 @@
-[33m[tester::#YX6] [0m[94mRunning tests for Stage #YX6 (yx6)[0m[m
-[33m[tester::#YX6] [setup] [0m[94mecho "pear" > "dir/fruits-8623.txt"[0m[m
-[33m[tester::#YX6] [setup] [0m[94mecho "pear" >> "dir/fruits-8623.txt"[0m[m
-[33m[tester::#YX6] [setup] [0m[94mecho "lettuce" > "dir/subdir/vegetables-5461.txt"[0m[m
-[33m[tester::#YX6] [setup] [0m[94mecho "celery" >> "dir/subdir/vegetables-5461.txt"[0m[m
-[33m[tester::#YX6] [setup] [0m[94mecho "cauliflower" >> "dir/subdir/vegetables-5461.txt"[0m[m
-[33m[tester::#YX6] [setup] [0m[94mecho "spinach" > "dir/vegetables-6698.txt"[0m[m
-[33m[tester::#YX6] [setup] [0m[94mecho "pumpkin" >> "dir/vegetables-6698.txt"[0m[m
-[33m[tester::#YX6] [setup] [0m[94mecho "cucumber" >> "dir/vegetables-6698.txt"[0m[m
-[33m[tester::#YX6] [0m[94m$ ./your_grep.sh -r -E .+er dir/[0m[m
-[33m[your_program] [0m[DEBUB] extra log line-1[m
-[33m[your_program] [0mdir/vegetables-6698.txt:cucumber[m
-[33m[your_program] [0m[DEBUB] extra log line-2[m
-[33m[tester::#YX6] [0m[92m✓ Received exit code 0.[0m[m
-[33m[tester::#YX6] [0m[92m✓ Found line "dir/vegetables-6698.txt:cucumber"[0m[m
-[33m[tester::#YX6] [0m[91mExpected 3 lines in output, only found 1 matching line. Missing matches:[0m[m
-[33m[tester::#YX6] [0m[91m⨯ "dir/subdir/vegetables-5461.txt:celery"[0m[m
-[33m[tester::#YX6] [0m[91m⨯ "dir/subdir/vegetables-5461.txt:cauliflower"[0m[m
-[33m[tester::#YX6] [0m[91mTest failed[0m[m
+[33m[tester::#YX6] [0m[94mRunning tests for Stage #YX6 (yx6)[0m
+[33m[tester::#YX6] [setup] [0m[94mecho "pear" > "dir/fruits-8623.txt"[0m
+[33m[tester::#YX6] [setup] [0m[94mecho "pear" >> "dir/fruits-8623.txt"[0m
+[33m[tester::#YX6] [setup] [0m[94mecho "lettuce" > "dir/subdir/vegetables-5461.txt"[0m
+[33m[tester::#YX6] [setup] [0m[94mecho "celery" >> "dir/subdir/vegetables-5461.txt"[0m
+[33m[tester::#YX6] [setup] [0m[94mecho "cauliflower" >> "dir/subdir/vegetables-5461.txt"[0m
+[33m[tester::#YX6] [setup] [0m[94mecho "spinach" > "dir/vegetables-6698.txt"[0m
+[33m[tester::#YX6] [setup] [0m[94mecho "pumpkin" >> "dir/vegetables-6698.txt"[0m
+[33m[tester::#YX6] [setup] [0m[94mecho "cucumber" >> "dir/vegetables-6698.txt"[0m
+[33m[tester::#YX6] [0m[94m$ ./your_grep.sh -r -E .+er dir/[0m
+[33m[your_program] [0m[DEBUB] extra log line-1
+[33m[your_program] [0mdir/vegetables-6698.txt:cucumber
+[33m[your_program] [0m[DEBUB] extra log line-2
+[33m[tester::#YX6] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#YX6] [0m[92m✓ Found line "dir/vegetables-6698.txt:cucumber"[0m
+[33m[tester::#YX6] [0m[91mExpected 3 lines in output, only found 1 matching line. Missing matches:[0m
+[33m[tester::#YX6] [0m[91m⨯ "dir/subdir/vegetables-5461.txt:celery"[0m
+[33m[tester::#YX6] [0m[91m⨯ "dir/subdir/vegetables-5461.txt:cauliflower"[0m
+[33m[tester::#YX6] [0m[91mTest failed[0m

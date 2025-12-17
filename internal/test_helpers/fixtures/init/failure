@@ -1,7 +1,7 @@
-[33m[tester::#CQ2] [0m[94mRunning tests for Stage #CQ2 (cq2)[0m[m
-[33m[tester::#CQ2] [0m[94m$ echo -n 'dog' | ./your_grep.sh -E 'd'[0m[m
-[33m[tester::#CQ2] [0m[92m✓ Received exit code 0.[0m[m
-[33m[tester::#CQ2] [0m[94m$ echo -n 'dog' | ./your_grep.sh -E 'f'[0m[m
-[33m[tester::#CQ2] [0m[91mExpected exit code 1, got 0.[0m[m
-[33m[tester::#CQ2] [0m[91mHint: https://regex101.com/?regex=f&testString=dog[0m[m
-[33m[tester::#CQ2] [0m[91mTest failed[0m[m
+[33m[tester::#CQ2] [0m[94mRunning tests for Stage #CQ2 (cq2)[0m
+[33m[tester::#CQ2] [0m[94m$ echo -n 'dog' | ./your_grep.sh -E 'd'[0m
+[33m[tester::#CQ2] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#CQ2] [0m[94m$ echo -n 'dog' | ./your_grep.sh -E 'f'[0m
+[33m[tester::#CQ2] [0m[91mExpected exit code 1, got 0.[0m
+[33m[tester::#CQ2] [0m[91mHint: https://regex101.com/?regex=f&testString=dog[0m
+[33m[tester::#CQ2] [0m[91mTest failed[0m

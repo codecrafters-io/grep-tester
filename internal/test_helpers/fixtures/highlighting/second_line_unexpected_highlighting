@@ -1,43 +1,43 @@
 Debug = true
 
-[33m[tester::#JK4] [0m[94mRunning tests for Stage #JK4 (jk4)[0m[m
-[33m[tester::#JK4] [0m[94m$ echo -ne "1tiger" | ./your_grep.sh --color=never -E '\d' | cat[0m[m
-[33m[your_program] [0m[K1[Ktiger[m
-[33m[tester::#JK4] [0m[92m✓ Received exit code 0.[0m[m
-[33m[tester::#JK4] [0m[92m✓ Found line "1tiger"[0m[m
-[33m[tester::#JK4] [0m[92m✓ Line "1tiger" is not highlighted[0m[m
-[33m[tester::#JK4] [0m[94m$ echo -ne "panda" | ./your_grep.sh --color=never -E '\d' | cat[0m[m
-[33m[your_program] [0m[m
-[33m[tester::#JK4] [0m[92m✓ Received exit code 1.[0m[m
-[33m[tester::#JK4] [0m[92m✓ No output found[0m[m
-[33m[tester::#JK4] [0m[94m$ echo -ne "apple_suffix" | ./your_grep.sh --color=never -E '^apple' | cat[0m[m
-[33m[your_program] [0m[Kapple[K_suffix[m
-[33m[tester::#JK4] [0m[92m✓ Received exit code 0.[0m[m
-[33m[tester::#JK4] [0m[92m✓ Found line "apple_suffix"[0m[m
-[33m[tester::#JK4] [0m[92m✓ Line "apple_suffix" is not highlighted[0m[m
-[33m[tester::#JK4] [0m[94m$ echo -ne "prefix_blueberry" | ./your_grep.sh --color=never -E '^blueberry' | cat[0m[m
-[33m[your_program] [0m[m
-[33m[tester::#JK4] [0m[92m✓ Received exit code 1.[0m[m
-[33m[tester::#JK4] [0m[92m✓ No output found[0m[m
-[33m[tester::#JK4] [0m[94m$ echo -ne "doooog" | ./your_grep.sh --color=never -E 'do+g' | cat[0m[m
-[33m[your_program] [0m[Kdoooog[K[m
-[33m[tester::#JK4] [0m[92m✓ Received exit code 0.[0m[m
-[33m[tester::#JK4] [0m[92m✓ Found line "doooog"[0m[m
-[33m[tester::#JK4] [0m[92m✓ Line "doooog" is not highlighted[0m[m
-[33m[tester::#JK4] [0m[94m$ echo -ne "It's raining tiger and panda\nIt's raining panda and tiger" | ./your_grep.sh --color=never -E '(tiger|panda)' | cat[0m[m
-[33m[your_program] [0mIt's raining [Ktiger[K and [Kpanda[K[m
-[33m[your_program] [0mIt's raining [01;31m[Kpanda[m[K and [01;31m[Ktiger[m[K[m
-[33m[tester::#JK4] [0m[92m✓ Received exit code 0.[0m[m
-[33m[tester::#JK4] [0m[92m✓ Found line "It's raining tiger and panda"[0m[m
-[33m[tester::#JK4] [0m[92m✓ Found line "It's raining panda and tiger"[0m[m
-[33m[tester::#JK4] [0m[92m✓ Stdout contains 2 expected lines in order[0m[m
-[33m[tester::#JK4] [0m[92m✓ Line "It's raining tiger and panda" is not highlighted[0m[m
-[33m[tester::#JK4] [0m[91m[92m[0m[m
-[33m[tester::#JK4] [0m[91mExpected:[0m "It's raining panda and tiger"[0m[m
-[33m[tester::#JK4] [0m[91m[91mReceived:[0m "It's raining [01;31m[Kpanda[m[K and [01;31m[Ktiger[m[K[m"[0m[m
-[33m[tester::#JK4] [0m[91m                        ↑[0m[m
-[33m[tester::#JK4] [0m[91m[91m⨯ Expected color to be plain (no color), got red (ANSI code 31)[0m[m
-[33m[tester::#JK4] [0m[91m[0m[0m[m
-[33m[tester::#JK4] [0m[91m[92mExpected ANSI sequence: [0m"\x1b[m"[0m[m
-[33m[tester::#JK4] [0m[91m[91mReceived ANSI sequence: [0m"\x1b[1;31m"[0m[m
-[33m[tester::#JK4] [0m[91mTest failed[0m[m
+[33m[tester::#JK4] [0m[94mRunning tests for Stage #JK4 (jk4)[0m
+[33m[tester::#JK4] [0m[94m$ echo -ne "1tiger" | ./your_grep.sh --color=never -E '\d' | cat[0m
+[33m[your_program] [0m[K1[Ktiger
+[33m[tester::#JK4] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#JK4] [0m[92m✓ Found line "1tiger"[0m
+[33m[tester::#JK4] [0m[92m✓ Line "1tiger" is not highlighted[0m
+[33m[tester::#JK4] [0m[94m$ echo -ne "panda" | ./your_grep.sh --color=never -E '\d' | cat[0m
+[33m[your_program] [0m
+[33m[tester::#JK4] [0m[92m✓ Received exit code 1.[0m
+[33m[tester::#JK4] [0m[92m✓ No output found[0m
+[33m[tester::#JK4] [0m[94m$ echo -ne "apple_suffix" | ./your_grep.sh --color=never -E '^apple' | cat[0m
+[33m[your_program] [0m[Kapple[K_suffix
+[33m[tester::#JK4] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#JK4] [0m[92m✓ Found line "apple_suffix"[0m
+[33m[tester::#JK4] [0m[92m✓ Line "apple_suffix" is not highlighted[0m
+[33m[tester::#JK4] [0m[94m$ echo -ne "prefix_blueberry" | ./your_grep.sh --color=never -E '^blueberry' | cat[0m
+[33m[your_program] [0m
+[33m[tester::#JK4] [0m[92m✓ Received exit code 1.[0m
+[33m[tester::#JK4] [0m[92m✓ No output found[0m
+[33m[tester::#JK4] [0m[94m$ echo -ne "doooog" | ./your_grep.sh --color=never -E 'do+g' | cat[0m
+[33m[your_program] [0m[Kdoooog[K
+[33m[tester::#JK4] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#JK4] [0m[92m✓ Found line "doooog"[0m
+[33m[tester::#JK4] [0m[92m✓ Line "doooog" is not highlighted[0m
+[33m[tester::#JK4] [0m[94m$ echo -ne "It's raining tiger and panda\nIt's raining panda and tiger" | ./your_grep.sh --color=never -E '(tiger|panda)' | cat[0m
+[33m[your_program] [0mIt's raining [Ktiger[K and [Kpanda[K
+[33m[your_program] [0mIt's raining [01;31m[Kpanda[m[K and [01;31m[Ktiger[m[K
+[33m[tester::#JK4] [0m[92m✓ Received exit code 0.[0m
+[33m[tester::#JK4] [0m[92m✓ Found line "It's raining tiger and panda"[0m
+[33m[tester::#JK4] [0m[92m✓ Found line "It's raining panda and tiger"[0m
+[33m[tester::#JK4] [0m[92m✓ Stdout contains 2 expected lines in order[0m
+[33m[tester::#JK4] [0m[92m✓ Line "It's raining tiger and panda" is not highlighted[0m
+[33m[tester::#JK4] [0m[91m[92m[0m
+[33m[tester::#JK4] [0m[91mExpected:[0m "It's raining panda and tiger"[0m
+[33m[tester::#JK4] [0m[91m[91mReceived:[0m "It's raining [01;31m[Kpanda[m[K and [01;31m[Ktiger[m[K[m"[0m
+[33m[tester::#JK4] [0m[91m                        ↑[0m
+[33m[tester::#JK4] [0m[91m[91m⨯ Expected color to be plain (no color), got red (ANSI code 31)[0m
+[33m[tester::#JK4] [0m[91m[0m[0m
+[33m[tester::#JK4] [0m[91m[92mExpected ANSI sequence: [0m"\x1b[m"[0m
+[33m[tester::#JK4] [0m[91m[91mReceived ANSI sequence: [0m"\x1b[1;31m"[0m
+[33m[tester::#JK4] [0m[91mTest failed[0m

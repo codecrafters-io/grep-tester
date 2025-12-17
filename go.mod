@@ -6,6 +6,7 @@ require (
 	github.com/charmbracelet/ultraviolet v0.0.0-20251202162030-ecc8c1ae4b2b
 	github.com/charmbracelet/x/ansi v0.11.2
 	github.com/charmbracelet/x/vt v0.0.0-20251201173703-9f73bfd934ff
+	github.com/codecrafters-io/tester-utils v0.4.11
 	github.com/dustin/go-humanize v1.0.1
 	github.com/fatih/color v1.18.0
 )
@@ -19,7 +20,6 @@ require (
 	github.com/clipperhouse/displaywidth v0.6.0 // indirect
 	github.com/clipperhouse/stringish v0.1.1 // indirect
 	github.com/clipperhouse/uax29/v2 v2.3.0 // indirect
-	github.com/codecrafters-io/tester-utils v0.4.12-0.20251217153504-798b587a1a53 // indirect
 	github.com/creack/pty v1.1.24 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/lucasb-eyer/go-colorful v1.3.0 // indirect
