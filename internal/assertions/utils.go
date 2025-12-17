@@ -15,7 +15,9 @@ func buildComparisonErrorMessageWithCursor(expectedOutput string, actualOutput s
 	errorMsg += " \"" + expectedOutput + "\""
 	errorMsg += "\n"
 	errorMsg += colorizeString(fatihColor.FgHiRed, "Received:")
-	errorMsg += " \"" + actualOutput + "\""
+	// Reset the ANSI sequence after printing output (Because the actual output could not have resetted the highlighting)
+	// The resetting sequence isn't printed so it doesn't affect the offset either
+	errorMsg += " \"" + actualOutput + "\033[m" + "\""
 	offset := 11
 	errorMsg += "\n" + strings.Repeat(" ", cursorIndex+offset) + "↑"
 	return errorMsg
