@@ -1,9 +1,9 @@
 Debug = true
 
-[33m[tester::#PZ6] [0m[94mRunning tests for Stage #PZ6 (pz6)[0m
-[33m[tester::#PZ6] [0m[94m$ echo -ne "apple\nbanana123\ncherry\ndog456\nelephant" | ./your_grep.sh -E '\d'[0m
-[33m[your_program] [0mdog456
-[33m[your_program] [0mbanana123
-[33m[tester::#PZ6] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#PZ6] [0m[91mExpected line #1 to be "banana123", got "dog456"[0m
-[33m[tester::#PZ6] [0m[91mTest failed[0m
+[33m[tester::#PZ6] [0m[94mRunning tests for Stage #PZ6 (pz6)[0m[m
+[33m[tester::#PZ6] [0m[94m$ echo -ne "apple\nbanana123\ncherry\ndog456\nelephant" | ./your_grep.sh -E '\d'[0m[m
+[33m[your_program] [0mdog456[m
+[33m[your_program] [0mbanana123[m
+[33m[tester::#PZ6] [0m[92m✓ Received exit code 0.[0m[m
+[33m[tester::#PZ6] [0m[91mExpected line #1 to be "banana123", got "dog456"[0m[m
+[33m[tester::#PZ6] [0m[91mTest failed[0m[m

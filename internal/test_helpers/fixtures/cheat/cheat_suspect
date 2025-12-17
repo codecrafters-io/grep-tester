@@ -1,9 +1,9 @@
-[33m[tester::#CQ2] [0m[94mRunning tests for Stage #CQ2 (cq2)[0m
-[33m[tester::#CQ2] [0m[94m$ echo -n 'dog' | ./your_grep.sh -E 'd'[0m
-[33m[your_program] [0mdog
-[33m[tester::#CQ2] [0m[92m✓ Received exit code 0.[0m
-[33m[tester::#CQ2] [0m[94m$ echo -n 'dog' | ./your_grep.sh -E 'f'[0m
-[33m[tester::#CQ2] [0m[92m✓ Received exit code 1.[0m
-[33m[tester::#CQ2] [0m[92mTest passed.[0m
-[33m[0m[91manti-cheat (ac1) failed.[0m
-[33m[0m[91mPlease contact us at hello@codecrafters.io if you think this is a mistake.[0m
+[33m[tester::#CQ2] [0m[94mRunning tests for Stage #CQ2 (cq2)[0m[m
+[33m[tester::#CQ2] [0m[94m$ echo -n 'dog' | ./your_grep.sh -E 'd'[0m[m
+[33m[your_program] [0mdog[m
+[33m[tester::#CQ2] [0m[92m✓ Received exit code 0.[0m[m
+[33m[tester::#CQ2] [0m[94m$ echo -n 'dog' | ./your_grep.sh -E 'f'[0m[m
+[33m[tester::#CQ2] [0m[92m✓ Received exit code 1.[0m[m
+[33m[tester::#CQ2] [0m[92mTest passed.[0m[m
+[33m[0m[91manti-cheat (ac1) failed.[0m[m
+[33m[0m[91mPlease contact us at hello@codecrafters.io if you think this is a mistake.[0m[m
