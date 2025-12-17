@@ -73,6 +73,17 @@ func (c *screenStateComparator) compareCells(expected, actual *uv.Cell) error {
 	// Reset for each cell
 	c.resetPartialSuccessLogs()
 
+	// We've already asserted the text content previously, so if the contents do not match, panic
+	if expected.Content != actual.Content {
+		panic(
+			fmt.Sprintf(
+				"Codecrafters Internal Error - compareCells expected cell content %q got %q",
+				expected.Content,
+				actual.Content,
+			),
+		)
+	}
+
 	var firstError error
 
 	// 1. Check foreground color
@@ -94,6 +105,11 @@ func (c *screenStateComparator) compareCells(expected, actual *uv.Cell) error {
 }
 
 func (c *screenStateComparator) checkFgColor(expectedCell, actualCell *uv.Cell) error {
+	// Skip foreground color check on white-space cells
+	if isWhiteSpaceCell(actualCell) {
+		return nil
+	}
+
 	if expectedCell.Style.Fg != actualCell.Style.Fg {
 		return fmt.Errorf("Expected color to be %s, got %s", getFgColorName(expectedCell.Style.Fg), getFgColorName(actualCell.Style.Fg))
 	}
@@ -103,6 +119,11 @@ func (c *screenStateComparator) checkFgColor(expectedCell, actualCell *uv.Cell) 
 }
 
 func (c *screenStateComparator) checkBoldAttr(expectedCell, actualCell *uv.Cell) error {
+	// Skip bold attribute check on white-space cells
+	if isWhiteSpaceCell(actualCell) {
+		return nil
+	}
+
 	expectedBold := expectedCell.Style.Attrs&uv.AttrBold != 0
 	actualBold := actualCell.Style.Attrs&uv.AttrBold != 0
 
@@ -125,11 +146,11 @@ func (c *screenStateComparator) checkBoldAttr(expectedCell, actualCell *uv.Cell)
 
 func (c *screenStateComparator) checkInvalidStyleAndAttrs(expectedCell, actualCell *uv.Cell) error {
 	// Intentionally don't add success messages for extra attributes
-	expectedCellAttributesWithoutBold := expectedCell.Style.Attrs &^ uv.AttrBold
-	actualCellAttributesWithoutBold := actualCell.Style.Attrs &^ uv.AttrBold
+	expectedVisibleAttrs := getVisibleAttributesExceptBold(expectedCell)
+	actualVisibleAttrs := getVisibleAttributesExceptBold(actualCell)
 
-	if expectedCellAttributesWithoutBold != actualCellAttributesWithoutBold {
-		attributeNames := attributesToNames(actualCellAttributesWithoutBold)
+	if expectedVisibleAttrs != actualVisibleAttrs {
+		attributeNames := attributesToNames(actualVisibleAttrs)
 		return fmt.Errorf(
 			"Found extra %s: %s",
 			english.PluralWord(len(attributeNames), "attribute", "attributes"),
@@ -150,4 +171,22 @@ func (c *screenStateComparator) checkInvalidStyleAndAttrs(expectedCell, actualCe
 	}
 
 	return nil
+}
+
+// getVisibleAttributesExceptBold returns the attributes that should be checked for a given cell.
+// For whitespace cells, only AttrReverse (which inverts bg and fg color) and AttrStrikethrough (crossed out text) are visible.
+// For non-whitespace cells, all attributes are visible
+func getVisibleAttributesExceptBold(cell *uv.Cell) uint8 {
+	attributesWithoutBold := cell.Style.Attrs &^ uv.AttrBold
+
+	if isWhiteSpaceCell(cell) {
+		return attributesWithoutBold & (uv.AttrReverse | uv.AttrStrikethrough)
+	}
+
+	return attributesWithoutBold
+}
+
+// isWhiteSpaceCell returns true if the cell's content is a whitespace character
+func isWhiteSpaceCell(cell *uv.Cell) bool {
+	return strings.TrimSpace(cell.Content) == ""
 }
