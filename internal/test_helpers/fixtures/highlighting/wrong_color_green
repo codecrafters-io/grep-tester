@@ -13,5 +13,6 @@ Debug = true
 [33m[tester::#BM2] [0m[91m[91m⨯ Expected color to be red (ANSI code 31), got green (ANSI code 32)[0m
 [33m[tester::#BM2] [0m[91m[0m[0m
 [33m[tester::#BM2] [0m[91m[92mExpected ANSI sequence: [0m"\x1b[1;31m"[0m
-[33m[tester::#BM2] [0m[91m[91mReceived ANSI sequence: [0m"\x1b[1;32m"[0m
+[33m[tester::#BM2] [0m[91m[91mRendered ANSI sequence: [0m"\x1b[1;32m"[0m
+[33m[tester::#BM2] [0m[91mHint: https://ansi101.com/?q=only%1B%5B01%3B32m%1B%5BK1%1B%5Bm%1B%5BKdigit[0m
 [33m[tester::#BM2] [0m[91mTest failed[0m

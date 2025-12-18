@@ -27,7 +27,9 @@ func buildAnsiCodeMismatchErrorMessage(expectedPattern string, actualPattern str
 	complaint := colorizeString(fatihColor.FgHiGreen, "Expected ANSI sequence: ")
 	complaint += fmt.Sprintf("%q", expectedPattern)
 	complaint += "\n"
-	complaint += colorizeString(fatihColor.FgHiRed, "Received ANSI sequence: ")
+	// Let's call it rendered instead of received, because this ANSI sequence is extracted from the
+	// virtual terminal (what is actually rendered) rather than received
+	complaint += colorizeString(fatihColor.FgHiRed, "Rendered ANSI sequence: ")
 	complaint += fmt.Sprintf("%q", actualPattern)
 	return complaint
 }
