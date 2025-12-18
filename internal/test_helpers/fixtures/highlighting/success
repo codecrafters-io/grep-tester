@@ -139,7 +139,6 @@
 [33m[tester::#NA5] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#NA5] [0m[92m✓ Found line "grape"[0m
 [33m[tester::#NA5] [0m[92m✓ All matches in the line "grape" are highlighted[0m
-[33m[tester::#NA5] [0m[94mRunning grep inside TTY[0m
 [33m[tester::#NA5] [0m[94m$ echo -ne "zebra in the wild\nhorse in the air" | ./your_grep.sh --color=always -E '(zebra|horse)' [0m
 [33m[your_program] [0m[0m[01;31m[Kzebra[m[K in the wild[0m
 [33m[your_program] [0m[0m[01;31m[Khorse[m[K in the air[0m
@@ -154,7 +153,6 @@
 [33m[tester::#NA5] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#NA5] [0m[92m✓ Found line "123mango"[0m
 [33m[tester::#NA5] [0m[92m✓ Line "123mango" is not highlighted[0m
-[33m[tester::#NA5] [0m[94mRunning grep inside TTY[0m
 [33m[tester::#NA5] [0m[94m$ echo -ne "I love grape" | ./your_grep.sh --color=never -E 'grape' [0m
 [33m[your_program] [0m[0mI love grape[0m
 [33m[tester::#NA5] [0m[92m✓ Received exit code 0.[0m
@@ -165,13 +163,11 @@
 [33m[tester::#NA5] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#NA5] [0m[92m✓ Found line "prefix_grape"[0m
 [33m[tester::#NA5] [0m[92m✓ Line "prefix_grape" is not highlighted[0m
-[33m[tester::#NA5] [0m[94mRunning grep inside TTY[0m
 [33m[tester::#NA5] [0m[94m$ echo -ne "The horse runs fast" | ./your_grep.sh --color=auto -E 'horse' [0m
 [33m[your_program] [0m[0mThe [01;31m[Khorse[m[K runs fast[0m
 [33m[tester::#NA5] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#NA5] [0m[92m✓ Found line "The horse runs fast"[0m
 [33m[tester::#NA5] [0m[92m✓ All matches in the line "The horse runs fast" are highlighted[0m
-[33m[tester::#NA5] [0m[94mRunning grep inside TTY[0m
 [33m[tester::#NA5] [0m[94m$ echo -ne "no numbers here" | ./your_grep.sh --color=auto -E '\d' [0m
 [33m[tester::#NA5] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#NA5] [0m[92m✓ No output found[0m

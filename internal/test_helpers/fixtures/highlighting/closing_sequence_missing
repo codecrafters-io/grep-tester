@@ -6,7 +6,6 @@ Debug = true
 [33m[tester::#NA5] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#NA5] [0m[92m✓ Found line "watermelon"[0m
 [33m[tester::#NA5] [0m[92m✓ All matches in the line "watermelon" are highlighted[0m
-[33m[tester::#NA5] [0m[94mRunning grep inside TTY[0m
 [33m[tester::#NA5] [0m[94m$ echo -ne "tiger in the wild\npanda in the air" | ./your_grep.sh --color=always -E '(tiger|panda)' [0m
 [33m[your_program] [0m[0m[01;31m[Ktiger in the wild[0m
 [33m[your_program] [0m[0m[01;31m[Kpanda in the air[0m

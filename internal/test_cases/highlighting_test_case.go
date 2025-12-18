@@ -45,9 +45,7 @@ func (c HighlightingTestCaseCollection) Run(stageHarness *test_case_harness.Test
 		allArguments = append(allArguments, []string{"-E", testCase.Pattern}...)
 		pipeToCat := ""
 
-		if testCase.RunInsideTty {
-			logger.Infof("Running grep inside TTY")
-		} else {
+		if !testCase.RunInsideTty {
 			pipeToCat = "| cat"
 		}
 
