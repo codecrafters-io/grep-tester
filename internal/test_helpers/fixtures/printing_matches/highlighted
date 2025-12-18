@@ -2,7 +2,7 @@ Debug = true
 
 [33m[tester::#KU5] [0m[94mRunning tests for Stage #KU5 (ku5)[0m
 [33m[tester::#KU5] [0m[94m$ echo -ne "banana123" | ./your_grep.sh -E '\d'[0m
-[33m[your_program] [0mbanana[01;31m[K1[m[K[01;31m[K2[m[K[01;31m[K3[m[K
+[33m[your_program] [0m[0mbanana[01;31m[K1[m[K[01;31m[K2[m[K[01;31m[K3[m[K[0m
 [33m[tester::#KU5] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#KU5] [0m[91mExpected line #1 to be "banana123", got "banana\x1b[01;31m\x1b[K1\x1b[m\x1b[K\x1b[01;31m\x1b[K2\x1b[m\x1b[K\x1b[01;31m\x1b[K3\x1b[m\x1b[K"[0m
 [33m[tester::#KU5] [0m[91mTest failed[0m

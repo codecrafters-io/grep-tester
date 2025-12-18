@@ -43,15 +43,17 @@ func (c HighlightingTestCaseCollection) Run(stageHarness *test_case_harness.Test
 
 		// Add pattern
 		allArguments = append(allArguments, []string{"-E", testCase.Pattern}...)
+		pipeToCat := ""
 
-		if testCase.RunInsideTty {
-			logger.Infof("Running grep inside TTY")
+		if !testCase.RunInsideTty {
+			pipeToCat = "| cat"
 		}
 
-		logger.Infof("echo -ne %q | $ ./%s %s -E '%s'", allInputLines,
+		logger.Infof("$ echo -ne %q | ./%s %s -E '%s' %s", allInputLines,
 			path.Base(grepExecutable.Path),
 			colorArgument,
 			testCase.Pattern,
+			pipeToCat,
 		)
 
 		// Emulate grep

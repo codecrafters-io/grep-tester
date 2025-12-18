@@ -1,16 +1,16 @@
 [33m[tester::#SB5] [0m[94mRunning tests for Stage #SB5 (sb5)[0m
 [33m[tester::#SB5] [0m[94m$ echo -n 'cat and cat' | ./your_grep.sh -E '(cat) and \1'[0m
-[33m[your_program] [0mcat and cat
+[33m[your_program] [0m[0mcat and cat[0m
 [33m[tester::#SB5] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#SB5] [0m[94m$ echo -n 'cat and dog' | ./your_grep.sh -E '(cat) and \1'[0m
 [33m[tester::#SB5] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#SB5] [0m[94m$ echo -n 'cat and cat' | ./your_grep.sh -E '(\w+) and \1'[0m
-[33m[your_program] [0mcat and cat
+[33m[your_program] [0m[0mcat and cat[0m
 [33m[tester::#SB5] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#SB5] [0m[94m$ echo -n 'cat and dog' | ./your_grep.sh -E '(\w+) and \1'[0m
 [33m[tester::#SB5] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#SB5] [0m[94m$ echo -n 'cat is cat, not dog' | ./your_grep.sh -E '^([act]+) is \1, not [^xyz]+$'[0m
-[33m[your_program] [0mcat is cat, not dog
+[33m[your_program] [0m[0mcat is cat, not dog[0m
 [33m[tester::#SB5] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#SB5] [0m[94m$ echo -n 'cat is c@t, not d0g' | ./your_grep.sh -E '^([act]+) is \1, not [^xyz]+$'[0m
 [33m[tester::#SB5] [0m[92m✓ Received exit code 1.[0m
@@ -18,40 +18,40 @@
 
 [33m[tester::#TG1] [0m[94mRunning tests for Stage #TG1 (tg1)[0m
 [33m[tester::#TG1] [0m[94m$ echo -n '3 red squares and 3 red circles' | ./your_grep.sh -E '(\d+) (\w+) squares and \1 \2 circles'[0m
-[33m[your_program] [0m3 red squares and 3 red circles
+[33m[your_program] [0m[0m3 red squares and 3 red circles[0m
 [33m[tester::#TG1] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#TG1] [0m[94m$ echo -n '3 red squares and 4 red circles' | ./your_grep.sh -E '(\d+) (\w+) squares and \1 \2 circles'[0m
 [33m[tester::#TG1] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#TG1] [0m[94m$ echo -n 'grep 101 is doing grep 101 times' | ./your_grep.sh -E '(\w\w\w\w) (\d\d\d) is doing \1 \2 times'[0m
-[33m[your_program] [0mgrep 101 is doing grep 101 times
+[33m[your_program] [0m[0mgrep 101 is doing grep 101 times[0m
 [33m[tester::#TG1] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#TG1] [0m[94m$ echo -n '$?! 101 is doing $?! 101 times' | ./your_grep.sh -E '(\w\w\w) (\d\d\d) is doing \1 \2 times'[0m
 [33m[tester::#TG1] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#TG1] [0m[94m$ echo -n 'grep yes is doing grep yes times' | ./your_grep.sh -E '(\w\w\w\w) (\d\d\d) is doing \1 \2 times'[0m
 [33m[tester::#TG1] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#TG1] [0m[94m$ echo -n 'abc-def is abc-def, not efg' | ./your_grep.sh -E '([abc]+)-([def]+) is \1-\2, not [^xyz]+'[0m
-[33m[your_program] [0mabc-def is abc-def, not efg
+[33m[your_program] [0m[0mabc-def is abc-def, not efg[0m
 [33m[tester::#TG1] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#TG1] [0m[94m$ echo -n 'efg-hij is efg-hij, not efg' | ./your_grep.sh -E '([abc]+)-([def]+) is \1-\2, not [^xyz]+'[0m
 [33m[tester::#TG1] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#TG1] [0m[94m$ echo -n 'abc-def is abc-def, not xyz' | ./your_grep.sh -E '([abc]+)-([def]+) is \1-\2, not [^xyz]+'[0m
 [33m[tester::#TG1] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#TG1] [0m[94m$ echo -n 'apple pie, apple and pie' | ./your_grep.sh -E '^(\w+) (\w+), \1 and \2$'[0m
-[33m[your_program] [0mapple pie, apple and pie
+[33m[your_program] [0m[0mapple pie, apple and pie[0m
 [33m[tester::#TG1] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#TG1] [0m[94m$ echo -n 'pineapple pie, pineapple and pie' | ./your_grep.sh -E '^(apple) (\w+), \1 and \2$'[0m
 [33m[tester::#TG1] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#TG1] [0m[94m$ echo -n 'apple pie, apple and pies' | ./your_grep.sh -E '^(\w+) (pie), \1 and \2$'[0m
 [33m[tester::#TG1] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#TG1] [0m[94m$ echo -n 'howwdy hey there, howwdy hey' | ./your_grep.sh -E '(how+dy) (he?y) there, \1 \2'[0m
-[33m[your_program] [0mhowwdy hey there, howwdy hey
+[33m[your_program] [0m[0mhowwdy hey there, howwdy hey[0m
 [33m[tester::#TG1] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#TG1] [0m[94m$ echo -n 'hody hey there, howwdy hey' | ./your_grep.sh -E '(how+dy) (he?y) there, \1 \2'[0m
 [33m[tester::#TG1] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#TG1] [0m[94m$ echo -n 'howwdy heeey there, howwdy heeey' | ./your_grep.sh -E '(how+dy) (he?y) there, \1 \2'[0m
 [33m[tester::#TG1] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#TG1] [0m[94m$ echo -n 'cat and fish, cat with fish' | ./your_grep.sh -E '(c.t|d.g) and (f..h|b..d), \1 with \2'[0m
-[33m[your_program] [0mcat and fish, cat with fish
+[33m[your_program] [0m[0mcat and fish, cat with fish[0m
 [33m[tester::#TG1] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#TG1] [0m[94m$ echo -n 'bat and fish, cat with fish' | ./your_grep.sh -E '(c.t|d.g) and (f..h|b..d), \1 with \2'[0m
 [33m[tester::#TG1] [0m[92m✓ Received exit code 1.[0m
@@ -59,40 +59,40 @@
 
 [33m[tester::#XE5] [0m[94mRunning tests for Stage #XE5 (xe5)[0m
 [33m[tester::#XE5] [0m[94m$ echo -n '"cat and cat" is the same as "cat and cat"' | ./your_grep.sh -E '("(cat) and \2") is the same as \1'[0m
-[33m[your_program] [0m"cat and cat" is the same as "cat and cat"
+[33m[your_program] [0m[0m"cat and cat" is the same as "cat and cat"[0m
 [33m[tester::#XE5] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#XE5] [0m[94m$ echo -n '"cat and cat" is the same as "cat and dog"' | ./your_grep.sh -E '("(cat) and \2") is the same as \1'[0m
 [33m[tester::#XE5] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#XE5] [0m[94m$ echo -n 'grep 101 is doing grep 101 times, and again grep 101 times' | ./your_grep.sh -E '((\w\w\w\w) (\d\d\d)) is doing \2 \3 times, and again \1 times'[0m
-[33m[your_program] [0mgrep 101 is doing grep 101 times, and again grep 101 times
+[33m[your_program] [0m[0mgrep 101 is doing grep 101 times, and again grep 101 times[0m
 [33m[tester::#XE5] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#XE5] [0m[94m$ echo -n '$?! 101 is doing $?! 101 times, and again $?! 101 times' | ./your_grep.sh -E '((\w\w\w) (\d\d\d)) is doing \2 \3 times, and again \1 times'[0m
 [33m[tester::#XE5] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#XE5] [0m[94m$ echo -n 'grep yes is doing grep yes times, and again grep yes times' | ./your_grep.sh -E '((\w\w\w\w) (\d\d\d)) is doing \2 \3 times, and again \1 times'[0m
 [33m[tester::#XE5] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#XE5] [0m[94m$ echo -n 'abc-def is abc-def, not efg, abc, or def' | ./your_grep.sh -E '(([abc]+)-([def]+)) is \1, not ([^xyz]+), \2, or \3'[0m
-[33m[your_program] [0mabc-def is abc-def, not efg, abc, or def
+[33m[your_program] [0m[0mabc-def is abc-def, not efg, abc, or def[0m
 [33m[tester::#XE5] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#XE5] [0m[94m$ echo -n 'efg-hij is efg-hij, not klm, efg, or hij' | ./your_grep.sh -E '(([abc]+)-([def]+)) is \1, not ([^xyz]+), \2, or \3'[0m
 [33m[tester::#XE5] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#XE5] [0m[94m$ echo -n 'abc-def is abc-def, not xyz, abc, or def' | ./your_grep.sh -E '(([abc]+)-([def]+)) is \1, not ([^xyz]+), \2, or \3'[0m
 [33m[tester::#XE5] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#XE5] [0m[94m$ echo -n 'apple pie is made of apple and pie. love apple pie' | ./your_grep.sh -E '^((\w+) (\w+)) is made of \2 and \3. love \1$'[0m
-[33m[your_program] [0mapple pie is made of apple and pie. love apple pie
+[33m[your_program] [0m[0mapple pie is made of apple and pie. love apple pie[0m
 [33m[tester::#XE5] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#XE5] [0m[94m$ echo -n 'pineapple pie is made of apple and pie. love apple pie' | ./your_grep.sh -E '^((apple) (\w+)) is made of \2 and \3. love \1$'[0m
 [33m[tester::#XE5] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#XE5] [0m[94m$ echo -n 'apple pie is made of apple and pie. love apple pies' | ./your_grep.sh -E '^((\w+) (pie)) is made of \2 and \3. love \1$'[0m
 [33m[tester::#XE5] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#XE5] [0m[94m$ echo -n '"howwdy hey there" is made up of "howwdy" and "hey". howwdy hey there' | ./your_grep.sh -E '"((how+dy) (he?y) there)" is made up of "\2" and "\3". \1'[0m
-[33m[your_program] [0m"howwdy hey there" is made up of "howwdy" and "hey". howwdy hey there
+[33m[your_program] [0m[0m"howwdy hey there" is made up of "howwdy" and "hey". howwdy hey there[0m
 [33m[tester::#XE5] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#XE5] [0m[94m$ echo -n '"hody hey there" is made up of "hody" and "hey". hody hey there' | ./your_grep.sh -E '"((how+dy) (he?y) there)" is made up of "\2" and "\3". \1'[0m
 [33m[tester::#XE5] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#XE5] [0m[94m$ echo -n '"howwdy heeey there" is made up of "howwdy" and "heeey". howwdy heeey there' | ./your_grep.sh -E '"((how+dy) (he?y) there)" is made up of "\2" and "\3". \1'[0m
 [33m[tester::#XE5] [0m[92m✓ Received exit code 1.[0m
 [33m[tester::#XE5] [0m[94m$ echo -n 'cat and fish, cat with fish, cat and fish' | ./your_grep.sh -E '((c.t|d.g) and (f..h|b..d)), \2 with \3, \1'[0m
-[33m[your_program] [0mcat and fish, cat with fish, cat and fish
+[33m[your_program] [0m[0mcat and fish, cat with fish, cat and fish[0m
 [33m[tester::#XE5] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#XE5] [0m[94m$ echo -n 'bat and fish, bat with fish, bat and fish' | ./your_grep.sh -E '((c.t|d.g) and (f..h|b..d)), \2 with \3, \1'[0m
 [33m[tester::#XE5] [0m[92m✓ Received exit code 1.[0m

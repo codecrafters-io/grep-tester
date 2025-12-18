@@ -1,18 +1,19 @@
 Debug = true
 
 [33m[tester::#BM2] [0m[94mRunning tests for Stage #BM2 (bm2)[0m
-[33m[tester::#BM2] [0m[94mecho -ne "only1digit" | $ ./your_grep.sh --color=always -E '\d'[0m
-[33m[your_program] [0monly[01;03;31m[K1[m[Kdigit
+[33m[tester::#BM2] [0m[94m$ echo -ne "only1digit" | ./your_grep.sh --color=always -E '\d' | cat[0m
+[33m[your_program] [0m[0monly[01;03;31m[K1[m[Kdigit[0m
 [33m[tester::#BM2] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#BM2] [0m[92m✓ Found line "only1digit"[0m
 [33m[tester::#BM2] [0m[91m[92m[0m
 [33m[tester::#BM2] [0m[91mExpected:[0m "only[01;31m1[mdigit"[0m
-[33m[tester::#BM2] [0m[91m[91mReceived:[0m "only[01;03;31m[K1[m[Kdigit"[0m
+[33m[tester::#BM2] [0m[91m[91mReceived:[0m "only[01;03;31m[K1[m[Kdigit[m"[0m
 [33m[tester::#BM2] [0m[91m               ↑[0m
 [33m[tester::#BM2] [0m[91m[92m✓ Color is red (ANSI code 31)[0m[0m
 [33m[tester::#BM2] [0m[91m[92m✓ Character is bold[0m[0m
 [33m[tester::#BM2] [0m[91m[91m⨯ Found extra attribute: Italic(3)[0m
 [33m[tester::#BM2] [0m[91m[0m[0m
 [33m[tester::#BM2] [0m[91m[92mExpected ANSI sequence: [0m"\x1b[1;31m"[0m
-[33m[tester::#BM2] [0m[91m[91mReceived ANSI sequence: [0m"\x1b[1;3;31m"[0m
+[33m[tester::#BM2] [0m[91m[91mRendered ANSI sequence: [0m"\x1b[1;3;31m"[0m
+[33m[tester::#BM2] [0m[91mHint: https://ansi101.com/?q=only%1B%5B01%3B03%3B31m%1B%5BK1%1B%5Bm%1B%5BKdigit[0m
 [33m[tester::#BM2] [0m[91mTest failed[0m

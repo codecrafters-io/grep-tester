@@ -15,7 +15,9 @@ func buildComparisonErrorMessageWithCursor(expectedOutput string, actualOutput s
 	errorMsg += " \"" + expectedOutput + "\""
 	errorMsg += "\n"
 	errorMsg += colorizeString(fatihColor.FgHiRed, "Received:")
-	errorMsg += " \"" + actualOutput + "\""
+	// Reset the ANSI sequence after printing output (Because the actual output could not have resetted the highlighting)
+	// The resetting sequence isn't printed so it doesn't affect the offset either
+	errorMsg += " \"" + actualOutput + "\033[m" + "\""
 	offset := 11
 	errorMsg += "\n" + strings.Repeat(" ", cursorIndex+offset) + "↑"
 	return errorMsg
@@ -25,7 +27,9 @@ func buildAnsiCodeMismatchErrorMessage(expectedPattern string, actualPattern str
 	complaint := colorizeString(fatihColor.FgHiGreen, "Expected ANSI sequence: ")
 	complaint += fmt.Sprintf("%q", expectedPattern)
 	complaint += "\n"
-	complaint += colorizeString(fatihColor.FgHiRed, "Received ANSI sequence: ")
+	// Let's call it rendered instead of received, because this ANSI sequence is extracted from the
+	// virtual terminal (what is actually rendered) rather than received
+	complaint += colorizeString(fatihColor.FgHiRed, "Rendered ANSI sequence: ")
 	complaint += fmt.Sprintf("%q", actualPattern)
 	return complaint
 }
