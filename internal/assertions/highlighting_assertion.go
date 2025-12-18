@@ -166,5 +166,9 @@ func (a *HighlightingAssertion) buildError(
 		),
 	)
 
+	b.WriteString(
+		fmt.Sprintf("\nHint: %s", utils.GetAnsi101Link(actualLine)),
+	)
+
 	return errors.New(b.String())
 }

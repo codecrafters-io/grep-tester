@@ -91,3 +91,7 @@ const (
 	ColorNever  ColorMode = "never"
 	ColorAuto   ColorMode = "auto"
 )
+
+func GetAnsi101Link(outputLine string) string {
+	return fmt.Sprintf("https://ansi101.com/?q=%s", url.QueryEscape(outputLine))
+}

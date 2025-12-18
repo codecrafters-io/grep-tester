@@ -1,6 +1,6 @@
 [33m[tester::#CQ2] [0m[94mRunning tests for Stage #CQ2 (cq2)[0m
 [33m[tester::#CQ2] [0m[94m$ echo -n 'dog' | ./your_grep.sh -E 'd'[0m
-[33m[your_program] [0mdog
+[33m[your_program] [0m[0mdog[0m
 [33m[tester::#CQ2] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#CQ2] [0m[94m$ echo -n 'dog' | ./your_grep.sh -E 'f'[0m
 [33m[tester::#CQ2] [0m[92m✓ Received exit code 1.[0m

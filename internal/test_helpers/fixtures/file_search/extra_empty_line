@@ -6,8 +6,8 @@ Debug = true
 [33m[tester::#IS6] [setup] [0m[94mecho "carrot" > "vegetables-5461.txt"[0m
 [33m[tester::#IS6] [setup] [0m[94mecho "potato" >> "vegetables-5461.txt"[0m
 [33m[tester::#IS6] [0m[94m$ ./your_grep.sh -E pe.+$ fruits-8623.txt vegetables-5461.txt[0m
-[33m[your_program] [0mfruits-8623.txt:pear
-[33m[your_program] [0m
+[33m[your_program] [0m[0mfruits-8623.txt:pear[0m
+[33m[your_program] [0m[0m[0m
 [33m[tester::#IS6] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#IS6] [0m[92m✓ Found line "fruits-8623.txt:pear"[0m
 [33m[tester::#IS6] [0m[91mExpected 1 line in output, found 2. Unexpected line:[0m

@@ -2,15 +2,16 @@ Debug = true
 
 [33m[tester::#JK4] [0m[94mRunning tests for Stage #JK4 (jk4)[0m
 [33m[tester::#JK4] [0m[94m$ echo -ne "1tiger" | ./your_grep.sh --color=never -E '\d' | cat[0m
-[33m[your_program] [0m[01;31m[K1[m[Ktiger
+[33m[your_program] [0m[0m[01;31m[K1[m[Ktiger[0m
 [33m[tester::#JK4] [0m[92m✓ Received exit code 0.[0m
 [33m[tester::#JK4] [0m[92m✓ Found line "1tiger"[0m
 [33m[tester::#JK4] [0m[91m[92m[0m
 [33m[tester::#JK4] [0m[91mExpected:[0m "1tiger"[0m
-[33m[tester::#JK4] [0m[91m[91mReceived:[0m "[01;31m[K1[m[Ktiger"[0m
+[33m[tester::#JK4] [0m[91m[91mReceived:[0m "[01;31m[K1[m[Ktiger[m"[0m
 [33m[tester::#JK4] [0m[91m           ↑[0m
 [33m[tester::#JK4] [0m[91m[91m⨯ Expected color to be plain (no color), got red (ANSI code 31)[0m
 [33m[tester::#JK4] [0m[91m[0m[0m
 [33m[tester::#JK4] [0m[91m[92mExpected ANSI sequence: [0m"\x1b[m"[0m
-[33m[tester::#JK4] [0m[91m[91mReceived ANSI sequence: [0m"\x1b[1;31m"[0m
+[33m[tester::#JK4] [0m[91m[91mRendered ANSI sequence: [0m"\x1b[1;31m"[0m
+[33m[tester::#JK4] [0m[91mHint: https://ansi101.com/?q=%1B%5B01%3B31m%1B%5BK1%1B%5Bm%1B%5BKtiger[0m
 [33m[tester::#JK4] [0m[91mTest failed[0m
