@@ -6,7 +6,7 @@ require (
 	github.com/charmbracelet/ultraviolet v0.0.0-20251202162030-ecc8c1ae4b2b
 	github.com/charmbracelet/x/ansi v0.11.2
 	github.com/charmbracelet/x/vt v0.0.0-20251201173703-9f73bfd934ff
-	github.com/codecrafters-io/tester-utils v0.4.13
+	github.com/codecrafters-io/tester-utils v0.4.15
 	github.com/dustin/go-humanize v1.0.1
 	github.com/fatih/color v1.18.0
 )
@@ -33,7 +33,7 @@ require (
 	github.com/stretchr/testify v1.11.1 // indirect
 	github.com/xo/terminfo v0.0.0-20220910002029-abceb7e1c41e // indirect
 	golang.org/x/sync v0.18.0 // indirect
-	golang.org/x/sys v0.38.0 // indirect
+	golang.org/x/sys v0.40.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
