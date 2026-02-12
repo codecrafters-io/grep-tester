@@ -30,9 +30,9 @@ func testHighlightingAutoOption(stageHarness *test_case_harness.TestCaseHarness)
 				animals[0] + " in the wild",
 				animals[1] + " in the air",
 			},
-			ExpectedExitCode: 0,
-			ColorMode:        utils.ColorAlways,
-			RunInsideTty:     true,
+			ExpectedExitCode:        0,
+			ColorMode:               utils.ColorAlways,
+			UseTtyBasedOutputStream: true,
 		},
 
 		// Two never option tests
@@ -43,11 +43,11 @@ func testHighlightingAutoOption(stageHarness *test_case_harness.TestCaseHarness)
 			ColorMode:        utils.ColorNever,
 		},
 		{
-			Pattern:          fruit,
-			InputLines:       []string{"I love " + fruit},
-			ExpectedExitCode: 0,
-			ColorMode:        utils.ColorNever,
-			RunInsideTty:     true,
+			Pattern:                 fruit,
+			InputLines:              []string{"I love " + fruit},
+			ExpectedExitCode:        0,
+			ColorMode:               utils.ColorNever,
+			UseTtyBasedOutputStream: true,
 		},
 
 		// Two auto option tests (matching)
@@ -58,11 +58,11 @@ func testHighlightingAutoOption(stageHarness *test_case_harness.TestCaseHarness)
 			ColorMode:        utils.ColorAuto,
 		},
 		{
-			Pattern:          animals[1],
-			InputLines:       []string{"The " + animals[1] + " runs fast"},
-			ExpectedExitCode: 0,
-			ColorMode:        utils.ColorAuto,
-			RunInsideTty:     true,
+			Pattern:                 animals[1],
+			InputLines:              []string{"The " + animals[1] + " runs fast"},
+			ExpectedExitCode:        0,
+			ColorMode:               utils.ColorAuto,
+			UseTtyBasedOutputStream: true,
 		},
 		// One non-matching test case as well
 		{
@@ -70,9 +70,9 @@ func testHighlightingAutoOption(stageHarness *test_case_harness.TestCaseHarness)
 			InputLines: []string{
 				"no numbers here",
 			},
-			ExpectedExitCode: 1,
-			ColorMode:        utils.ColorAuto,
-			RunInsideTty:     true,
+			ExpectedExitCode:        1,
+			ColorMode:               utils.ColorAuto,
+			UseTtyBasedOutputStream: true,
 		},
 	}
 

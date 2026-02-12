@@ -13,11 +13,11 @@ import (
 )
 
 type HighlightingTestCase struct {
-	Pattern          string
-	InputLines       []string
-	ExpectedExitCode int
-	RunInsideTty     bool
-	ColorMode        utils.ColorMode
+	Pattern                 string
+	InputLines              []string
+	ExpectedExitCode        int
+	UseTtyBasedOutputStream bool
+	ColorMode               utils.ColorMode
 }
 
 type HighlightingTestCaseCollection []HighlightingTestCase
@@ -45,7 +45,7 @@ func (c HighlightingTestCaseCollection) Run(stageHarness *test_case_harness.Test
 		allArguments = append(allArguments, []string{"-E", testCase.Pattern}...)
 		pipeToCat := ""
 
-		if !testCase.RunInsideTty {
+		if !testCase.UseTtyBasedOutputStream {
 			pipeToCat = "| cat"
 		}
 
@@ -59,7 +59,7 @@ func (c HighlightingTestCaseCollection) Run(stageHarness *test_case_harness.Test
 		// Emulate grep
 		emulatedResult := grep.EmulateGrep(allArguments, grep.EmulationOptions{
 			Stdin:        []byte(allInputLines),
-			EmulateInTTY: testCase.RunInsideTty,
+			EmulateInTTY: testCase.UseTtyBasedOutputStream,
 		})
 
 		// Verify expected code against emulated result
@@ -70,7 +70,7 @@ func (c HighlightingTestCaseCollection) Run(stageHarness *test_case_harness.Test
 		var actualResult executable.ExecutableResult
 		var err error
 
-		grepExecutable.ShouldUsePtyOutputStreams = testCase.RunInsideTty
+		grepExecutable.ShouldUsePtyOutputStreams = testCase.UseTtyBasedOutputStream
 
 		actualResult, err = grepExecutable.RunWithStdin([]byte(allInputLines), allArguments...)
 
