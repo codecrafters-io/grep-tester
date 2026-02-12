@@ -70,7 +70,7 @@ func (c HighlightingTestCaseCollection) Run(stageHarness *test_case_harness.Test
 		var actualResult executable.ExecutableResult
 		var err error
 
-		grepExecutable.ShouldUsePty = testCase.RunInsideTty
+		grepExecutable.ShouldUsePtyOutputStreams = testCase.RunInsideTty
 
 		actualResult, err = grepExecutable.RunWithStdin([]byte(allInputLines), allArguments...)
 
